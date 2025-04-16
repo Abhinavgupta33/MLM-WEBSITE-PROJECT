@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Premium Dashboard - NiceAdmin</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon" />
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+
+    <style>
+      :root {
+        --primary-color: #6366f1;
+        --primary-light: #a5b4fc;
+        --secondary-color: #8b5cf6;
+        --accent-color: #ec4899;
+        --success-color: #10b981;
+        --info-color: #3b82f6;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --dark-color: #1e293b;
+        --light-color: #f8fafc;
+        --sidebar-width: 280px;
+        --header-height: 70px;
+        --card-radius: 16px;
+        --transition-speed: 0.3s;
+      }
+      
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Main Layout Structure */
+      #main {
+        display: flex;
+        flex: 1;
+        padding-top: var(--header-height);
+      }
+      
+      /* Sidebar Styles */
+      .sidebar-container {
+        width: var(--sidebar-width);
+        min-height: 100vh;
+        position: fixed;
+        left: 0;
+        top: var(--header-height);
+        background: #ffffff;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+        z-index: 100;
+        overflow-y: auto;
+      }
+      
+      .sidebar-content {
+        padding: 20px 15px;
+      }
+      
+      /* Main Content Area */
+      .main-content {
+        flex: 1;
+        padding: 20px;
+        background-color: #f8f9fa;
+        min-height: calc(100vh - var(--header-height));
+        margin-left: var(--sidebar-width);
+      }
+      
+      /* Dashboard Cards */
+      .dashboard-card {
+        border: none;
+        border-radius: var(--card-radius);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: all var(--transition-speed) ease;
+        background: white;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .dashboard-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+      }
+      
+      .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Card Icon */
+      .card-icon-container {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        font-size: 1.75rem;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+      
+      /* Enhanced Quick Actions */
+      .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+      
+      .quick-action-card {
+        background: white;
+        border-radius: var(--card-radius);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: all var(--transition-speed) ease;
+        border: none;
+        overflow: hidden;
+        text-align: center;
+        padding: 25px 15px;
+        position: relative;
+        border-top: 4px solid var(--primary-color);
+      }
+      
+      .quick-action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .quick-action-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 15px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        color: white;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+      
+      .quick-action-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: var(--dark-color);
+      }
+      
+      .quick-action-desc {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-bottom: 15px;
+      }
+      
+      .quick-action-btn {
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        background: rgba(99, 102, 241, 0.1);
+        color: var(--primary-color);
+        border: none;
+        transition: all 0.3s ease;
+      }
+      
+      .quick-action-card:hover .quick-action-btn {
+        background: var(--primary-color);
+        color: white;
+      }
+      
+      /* Different color variations for cards */
+      .quick-action-card:nth-child(1) { border-top-color: var(--primary-color); }
+      .quick-action-card:nth-child(1) .quick-action-icon { 
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); 
+      }
+      
+      .quick-action-card:nth-child(2) { border-top-color: var(--success-color); }
+      .quick-action-card:nth-child(2) .quick-action-icon { 
+        background: linear-gradient(135deg, var(--success-color), #34d399); 
+      }
+      
+      .quick-action-card:nth-child(3) { border-top-color: var(--info-color); }
+      .quick-action-card:nth-child(3) .quick-action-icon { 
+        background: linear-gradient(135deg, var(--info-color), #60a5fa); 
+      }
+      
+      .quick-action-card:nth-child(4) { border-top-color: var(--warning-color); }
+      .quick-action-card:nth-child(4) .quick-action-icon { 
+        background: linear-gradient(135deg, var(--warning-color), #fbbf24); 
+      }
+      
+      .quick-action-card:nth-child(5) { border-top-color: var(--danger-color); }
+      .quick-action-card:nth-child(5) .quick-action-icon { 
+        background: linear-gradient(135deg, var(--danger-color), #f87171); 
+      }
+      
+      .quick-action-card:nth-child(6) { border-top-color: var(--accent-color); }
+      .quick-action-card:nth-child(6) .quick-action-icon { 
+        background: linear-gradient(135deg, var(--accent-color), #f472b6); 
+      }
+      
+      .quick-action-card:nth-child(7) { border-top-color: #8b5cf6; }
+      .quick-action-card:nth-child(7) .quick-action-icon { 
+        background: linear-gradient(135deg, #8b5cf6, #c4b5fd); 
+      }
+      
+      .quick-action-card:nth-child(8) { border-top-color: #10b981; }
+      .quick-action-card:nth-child(8) .quick-action-icon { 
+        background: linear-gradient(135deg, #10b981, #6ee7b7); 
+      }
+      
+      /* Recent Activity */
+      .recent-activity {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .recent-activity li {
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+      }
+      
+      .activity-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        color: white;
+        flex-shrink: 0;
+      }
+      
+      /* Leaderboard */
+      .leaderboard-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      
+      .rank {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-weight: bold;
+        color: white;
+      }
+      
+      /* Responsive Adjustments */
+      @media (max-width: 1200px) {
+        .quick-actions {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+      }
+      
+      @media (max-width: 992px) {
+        .sidebar-container {
+          position: fixed;
+          width: var(--sidebar-width);
+          min-height: 100vh;
+        }
+        
+        .main-content {
+          margin-left: var(--sidebar-width);
+        }
+        
+        .quick-actions {
+          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .quick-actions {
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <%- include("../utils/header") %>
+
+    <main id="main" class="main">
+      <!-- Sidebar Column -->
+      <div class="sidebar-container">
+        <div class="sidebar-content">
+          <div class="card dashboard-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title mb-0">Navigation</h5>
+                <span class="badge bg-warning text-dark">PRO</span>
+              </div>
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link active" href="/dashboard">
+                    <i class="bi bi-speedometer2 me-2"></i>
+                    Dashboard
+                  </a>
+                </li>
+                
+                <li class="nav-item mt-2">
+                  <a class="nav-link" data-bs-toggle="collapse" href="#userManagerCollapse">
+                    <i class="bi bi-people-fill me-2"></i>
+                    User Manager
+                    <i class="bi bi-chevron-down float-end"></i>
+                  </a>
+                  <div class="collapse" id="userManagerCollapse">
+                    <ul class="nav flex-column ps-4">
+                      <li class="nav-item">
+                        <a class="nav-link" href="/adduser">
+                          <i class="bi bi-plus-circle me-2"></i>
+                          Add User
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/userview">
+                          <i class="bi bi-eye-fill me-2"></i>
+                          View Users
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/updateuser">
+                          <i class="bi bi-pencil-square me-2"></i>
+                          Update User
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/deleteuser">
+                          <i class="bi bi-trash-fill me-2"></i>
+                          Delete User
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                
+                <li class="nav-item mt-2">
+                  <a class="nav-link" data-bs-toggle="collapse" href="#productManagerCollapse">
+                    <i class="bi bi-box-seam me-2"></i>
+                    Product Manager
+                    <i class="bi bi-chevron-down float-end"></i>
+                  </a>
+                  <div class="collapse" id="productManagerCollapse">
+                    <ul class="nav flex-column ps-4">
+                      <li class="nav-item">
+                        <a class="nav-link" href="/addproduct">
+                          <i class="bi bi-plus-circle me-2"></i>
+                          Add Product
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/viewproduct">
+                          <i class="bi bi-eye-fill me-2"></i>
+                          View Products
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/updateproduct">
+                          <i class="bi bi-pencil-square me-2"></i>
+                          Update Product
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/deleteproduct">
+                          <i class="bi bi-trash-fill me-2"></i>
+                          Delete Product
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                
+                <li class="nav-item mt-2">
+                  <a class="nav-link" href="/analytics">
+                    <i class="bi bi-graph-up me-2"></i>
+                    Analytics
+                  </a>
+                </li>
+                
+                <li class="nav-item mt-2">
+                  <a class="nav-link" href="#leaderboard">
+                    <i class="bi bi-trophy-fill me-2"></i>
+                    Leaderboard
+                  </a>
+                </li>
+                
+                <li class="nav-item mt-3 pt-2 border-top">
+                  <small class="text-muted">SETTINGS</small>
+                </li>
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="/admininfo">
+                    <i class="bi bi-person-circle me-2"></i>
+                    Profile
+                  </a>
+                </li>
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="/deposit">
+                    <i class="bi bi-cash-stack me-2"></i>
+                    Deposit
+                  </a>
+                </li>
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="/withdraw">
+                    <i class="bi bi-bank2 me-2"></i>
+                    Withdraw
+                  </a>
+                </li>
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="/balance">
+                    <i class="bi bi-wallet2 me-2"></i>
+                    Balance
+                  </a>
+                </li>
+                
+                <li class="nav-item position-relative">
+                  <a class="nav-link" href="/notifications">
+                    <i class="bi bi-bell-fill me-2"></i>
+                    Notifications
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      3
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="card dashboard-card mt-3">
+            <div class="card-body">
+              <h5 class="card-title">Quick Stats</h5>
+              <div class="list-group list-group-flush">
+                <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  <span>Active Users</span>
+                  <span class="fw-bold"><%=activeuser%></span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  <span>New Today</span>
+                  <span class="fw-bold text-success">+42</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  <span>Products</span>
+                  <span class="fw-bold"><%=totalproduct%></span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  <span>Transactions</span>
+                  <span class="fw-bold">3,456</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  <span>Revenue</span>
+                  <span class="fw-bold text-success">$24,589</span>
+                </div>
+              </div>
+              <div class="mt-3 d-flex justify-content-between align-items-center">
+                <small class="text-muted">Last updated: Just now</small>
+                <button class="btn btn-sm btn-outline-primary">Refresh</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Sidebar Column -->
+
+      <!-- Main Content Column -->
+      <div class="main-content">
+        <div class="container-fluid">
+          <div class="pagetitle">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h1>Premium Dashboard</h1>
+                <nav>
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                  </ol>
+                </nav>
+              </div>
+              <div>
+                <button class="btn btn-primary">
+                  <i class="bi bi-plus-circle me-2"></i>Create New
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- End Page Title -->
+
+          <section class="section dashboard">
+            <div class="row">
+              <!-- Total Users Card -->
+              <div class="col-xxl-4 col-md-6">
+                <div class="card dashboard-card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h5 class="card-title mb-0">Total Users</h5>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                          This Month
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">Today</a></li>
+                          <li><a class="dropdown-item" href="#">This Week</a></li>
+                          <li><a class="dropdown-item" href="#">This Month</a></li>
+                          <li><a class="dropdown-item" href="#">This Year</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon-container me-3">
+                        <i class="bi bi-people-fill"></i>
+                      </div>
+                      <div>
+                        <h2 class="mb-0">1,245</h2>
+                        <div class="d-flex align-items-center">
+                          <span class="text-success fw-bold me-2">+12.5%</span>
+                          <span class="text-muted small">vs last month</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="chart-container mt-3">
+                      <canvas id="usersChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Total Users Card -->
+
+              <!-- Revenue Card -->
+              <div class="col-xxl-4 col-md-6">
+                <div class="card dashboard-card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h5 class="card-title mb-0">Revenue</h5>
+                      <span class="badge bg-success">Live</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon-container me-3" style="background: linear-gradient(135deg, var(--success-color), #34d399);">
+                        <i class="bi bi-currency-dollar"></i>
+                      </div>
+                      <div>
+                        <h2 class="mb-0">$24,589</h2>
+                        <div class="d-flex align-items-center">
+                          <span class="text-success fw-bold me-2">+18.3%</span>
+                          <span class="text-muted small">vs last month</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="chart-container mt-3">
+                      <canvas id="revenueChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Revenue Card -->
+
+              <!-- Active Sessions Card -->
+              <div class="col-xxl-4 col-md-6">
+                <div class="card dashboard-card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h5 class="card-title mb-0">Active Sessions</h5>
+                      <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon-container me-3" style="background: linear-gradient(135deg, var(--info-color), #60a5fa);">
+                        <i class="bi bi-person-check-fill"></i>
+                      </div>
+                      <div>
+                        <h2 class="mb-0">89</h2>
+                        <div class="d-flex align-items-center">
+                          <span class="text-danger fw-bold me-2">-3.2%</span>
+                          <span class="text-muted small">vs last hour</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-3">
+                      <div class="d-flex justify-content-between mb-1">
+                        <span>Mobile</span>
+                        <span>62%</span>
+                      </div>
+                      <div class="progress progress-thin mb-3">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 62%"></div>
+                      </div>
+                      <div class="d-flex justify-content-between mb-1">
+                        <span>Desktop</span>
+                        <span>34%</span>
+                      </div>
+                      <div class="progress progress-thin mb-3">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 34%"></div>
+                      </div>
+                      <div class="d-flex justify-content-between mb-1">
+                        <span>Tablet</span>
+                        <span>4%</span>
+                      </div>
+                      <div class="progress progress-thin">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 4%"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Active Sessions Card -->
+            </div>
+
+            <div class="row mt-4">
+              <!-- Quick Actions -->
+              <div class="col-lg-12">
+                <div class="card dashboard-card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h5 class="card-title mb-0">Quick Actions</h5>
+                      <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                    </div>
+                    <div class="quick-actions">
+                      <div class="quick-action-card">
+                        <div class="quick-action-icon">
+                          <i class="bi bi-person-plus-fill"></i>
+                        </div>
+                        <h6 class="quick-action-title">Add User</h6>
+                        <p class="quick-action-desc">Create new user accounts</p>
+                        <button class="quick-action-btn">Action</button>
+                      </div>
+                      
+                      <div class="quick-action-card">
+                        <div class="quick-action-icon">
+                          <i class="bi bi-plus-square-fill"></i>
+                        </div>
+                        <h6 class="quick-action-title">Add Product</h6>
+                        <p class="quick-action-desc">Add new products to catalog</p>
+                        <button class="quick-action-btn">Action</button>
+                      </div>
+                      
+                      <div class="quick-action-card">
+                        <div class="quick-action-icon">
+                          <i class="bi bi-cash-stack"></i>
+                        </div>
+                        <h6 class="quick-action-title">Process Deposit</h6>
+                        <p class="quick-action-desc">Handle user deposits</p>
+                        <button class="quick-action-btn">Action</button>
+                      </div>
+                      
+                      <div class="quick-action-card">
+                        <div class="quick-action-icon">
+                          <i class="bi bi-currency-exchange"></i>
+                        </div>
+                        <h6 class="quick-action-title">Process Withdrawal</h6>
+                        <p class="quick-action-desc">Handle user withdrawals</p>
+                        <button class="quick-action-btn">Action</button>
+                      </div>
+                      
+                      <div class="quick-action-card">
+                        <div class="quick-action-icon">
+                          <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h6 class="quick-action-title">Verify User</h6>
+                        <p class="quick-action-desc">Verify user documents</p>
+                        <button class="quick-action-btn">Action</button>
+                      </div>
+                      
+                      <div class="quick-action-card">
+                        <div class="quick-action-icon">
+                          <i class="bi bi-gear-fill"></i>
+                        </div>
+                        <h6 class="quick-action-title">Settings</h6>
+                        <p class="quick-action-desc">System configuration</p>
+                        <button class="quick-action-btn">Action</button>
+                      </div>
+                      
+                      <div class="quick-action-card">
+                        <div class="quick-action-icon">
+                          <i class="bi bi-graph-up"></i>
+                        </div>
+                        <h6 class="quick-action-title">Reports</h6>
+                        <p class="quick-action-desc">Generate system reports</p>
+                        <button class="quick-action-btn">Action</button>
+                      </div>
+                      
+                      <a href="/mail-open" class="text-decoration-none">
+                        <div class="quick-action-card">
+                          <div class="quick-action-icon">
+                            <i class="bi bi-envelope-plus"></i>
+                          </div>
+                          <h6 class="quick-action-title">Send Email</h6>
+                          <p class="quick-action-desc">Compose new messages</p>
+                          <button class="quick-action-btn">Action</button>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Quick Actions -->
+            </div>
+
+            <div class="row mt-4">
+              <!-- Leaderboard -->
+              <div class="col-lg-4">
+                <div class="card dashboard-card" id="leaderboard">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h5 class="card-title mb-0">Top Users</h5>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                          This Month
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">Today</a></li>
+                          <li><a class="dropdown-item" href="#">This Week</a></li>
+                          <li><a class="dropdown-item" href="#">This Month</a></li>
+                          <li><a class="dropdown-item" href="#">All Time</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div class="leaderboard-list">
+                      <div class="leaderboard-item">
+                        <div class="rank bg-warning">1</div>
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle me-2" width="40" height="40">
+                        <div class="flex-grow-1">
+                          <h6 class="mb-0">John Smith</h6>
+                          <small class="text-muted">Sales: $12,450</small>
+                        </div>
+                        <span class="badge bg-success">+24%</span>
+                      </div>
+                      
+                      <div class="leaderboard-item">
+                        <div class="rank bg-secondary">2</div>
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle me-2" width="40" height="40">
+                        <div class="flex-grow-1">
+                          <h6 class="mb-0">Sarah Johnson</h6>
+                          <small class="text-muted">Sales: $10,890</small>
+                        </div>
+                        <span class="badge bg-success">+18%</span>
+                      </div>
+                      
+                      <div class="leaderboard-item">
+                        <div class="rank bg-danger">3</div>
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" class="rounded-circle me-2" width="40" height="40">
+                        <div class="flex-grow-1">
+                          <h6 class="mb-0">Michael Chen</h6>
+                          <small class="text-muted">Sales: $9,670</small>
+                        </div>
+                        <span class="badge bg-success">+12%</span>
+                      </div>
+                      
+                      <div class="leaderboard-item">
+                        <div class="rank bg-light text-dark">4</div>
+                        <img src="https://randomuser.me/api/portraits/women/63.jpg" class="rounded-circle me-2" width="40" height="40">
+                        <div class="flex-grow-1">
+                          <h6 class="mb-0">Emily Wilson</h6>
+                          <small class="text-muted">Sales: $8,920</small>
+                        </div>
+                        <span class="badge bg-success">+9%</span>
+                      </div>
+                      
+                      <div class="leaderboard-item">
+                        <div class="rank bg-light text-dark">5</div>
+                        <img src="https://randomuser.me/api/portraits/men/81.jpg" class="rounded-circle me-2" width="40" height="40">
+                        <div class="flex-grow-1">
+                          <h6 class="mb-0">David Kim</h6>
+                          <small class="text-muted">Sales: $7,840</small>
+                        </div>
+                        <span class="badge bg-danger">-2%</span>
+                      </div>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                      <a href="#" class="btn btn-sm btn-outline-primary">View Full Leaderboard</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Leaderboard -->
+
+              <!-- Recent Activity -->
+              <div class="col-lg-8">
+                <div class="card dashboard-card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h5 class="card-title mb-0">Recent Activity</h5>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                          Filter
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">Today</a></li>
+                          <li><a class="dropdown-item" href="#">This Week</a></li>
+                          <li><a class="dropdown-item" href="#">This Month</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <ul class="recent-activity">
+                      <li>
+                        <div class="activity-icon bg-success">
+                          <i class="bi bi-person-plus"></i>
+                        </div>
+                        <div>
+                          <strong>New user registered</strong>
+                          <div class="text-muted small">John Doe - 10 mins ago</div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="activity-icon bg-info">
+                          <i class="bi bi-box-seam"></i>
+                        </div>
+                        <div>
+                          <strong>New product added</strong>
+                          <div class="text-muted small">Premium Widget - 25 mins ago</div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="activity-icon bg-warning">
+                          <i class="bi bi-cash-coin"></i>
+                        </div>
+                        <div>
+                          <strong>Deposit processed</strong>
+                          <div class="text-muted small">$1,250.00 - 1 hour ago</div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="activity-icon bg-primary">
+                          <i class="bi bi-envelope"></i>
+                        </div>
+                        <div>
+                          <strong>User verification sent</strong>
+                          <div class="text-muted small">jane@example.com - 2 hours ago</div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="activity-icon bg-danger">
+                          <i class="bi bi-trash"></i>
+                        </div>
+                        <div>
+                          <strong>Product deleted</strong>
+                          <div class="text-muted small">Old Model X - 3 hours ago</div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- End Recent Activity -->
+            </div>
+          </section>
+        </div>
+      </div>
+      <!-- End Main Content Column -->
+    </main>
+    <!-- End #main -->
+
+    <%- include("../utils/footer") %>
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+      <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.min.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Custom Dashboard JS -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initialize charts
+        const usersCtx = document.getElementById('usersChart').getContext('2d');
+        new Chart(usersCtx, {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+              data: [850, 920, 1020, 1100, 1150, 1245],
+              borderColor: '#6366f1',
+              backgroundColor: 'rgba(99, 102, 241, 0.1)',
+              borderWidth: 2,
+              tension: 0.4,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: false, grid: { drawBorder: false } },
+              x: { grid: { display: false, drawBorder: false } }
+            }
+          }
+        });
+        
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+              data: [12000, 15000, 18000, 21000, 22000, 24589],
+              backgroundColor: 'rgba(16, 185, 129, 0.8)',
+              borderColor: 'rgba(16, 185, 129, 1)',
+              borderWidth: 0,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { 
+                beginAtZero: false,
+                ticks: { callback: value => '$' + value.toLocaleString() }
+              },
+              x: { grid: { display: false, drawBorder: false } }
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e90ff, #87ceeb);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            color: #1e90ff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"], input[type="email"], select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus, select:focus {
+            border-color: #1e90ff;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1c86ee;
+            transform: translateY(-2px);
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Update User Details</h2>
+        <form action="/updatehello" method="post" onsubmit="return validateForm()">
+            <label for="un">Your Name:</label>
+            <input type="text" id="un" name="un" placeholder="Enter your name" value="<%= data.your_name %>">
+            <div class="error" id="unError">Please enter your name.</div>
+
+            <label for="fn">Father's Name:</label>
+            <input type="text" id="fn" name="fn" placeholder="Enter father's name"value="<%= data.father_name %>">
+            <div class="error" id="fnError">Please enter father's name.</div>
+
+            <label for="mn">Mobile No:</label>
+            <input type="number" id="mn" name="mn" placeholder="Enter mobile number"value="<%= data.mobile_no %>">
+            <div class="error" id="mnError">Please enter a valid mobile number.</div>
+
+            <label for="em">Email:</label>
+            <input type="email" id="em" name="em" placeholder="Enter email"value="<%= data.email %>">
+            <div class="error" id="emError">Please enter a valid email address.</div>
+
+            <label for="ge">Gender:</label>
+            <select id="ge" name="ge">
+                <option value="" disabled selected>Select your gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            <div class="error" id="geError">Please select your gender.</div>
+
+            <label for="ad">Address:</label>
+            <input type="text" id="ad" name="ad" placeholder="Enter address"value="<%= data.address %>">
+            <div class="error" id="adError">Please enter your address.</div>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let isValid = true;
+
+            const fields = [
+                { id: 'un', errorId: 'unError', message: 'Please enter your name.' },
+                { id: 'fn', errorId: 'fnError', message: 'Please enter father\'s name.' },
+                { id: 'mn', errorId: 'mnError', message: 'Please enter a valid mobile number.' },
+                { id: 'em', errorId: 'emError', message: 'Please enter a valid email address.' },
+                { id: 'ge', errorId: 'geError', message: 'Please select your gender.' },
+                { id: 'ad', errorId: 'adError', message: 'Please enter your address.' },
+            ];
+
+            fields.forEach(field => {
+                const input = document.getElementById(field.id);
+                const error = document.getElementById(field.errorId);
+
+                if (field.id === 'ge' && input.value === "") {
+                    error.style.display = 'block';
+                    isValid = false;
+                } else if (input.value.trim() === "") {
+                    error.style.display = 'block';
+                    isValid = false;
+                } else {
+                    error.style.display = 'none';
+                }
+            });
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>

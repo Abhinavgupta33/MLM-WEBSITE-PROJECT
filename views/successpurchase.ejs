@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Successful</title>
+  <!-- Include Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .main-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    .header {
+      font-size: 28px;
+      font-weight: bold;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    .order-details {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .order-details p {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+    .btn-container {
+      margin-top: 20px;
+    }
+    .btn {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Success Message -->
+    <div class="header">
+      <h1>🎉 Purchase Successful!</h1>
+    </div>
+
+    <!-- Confirmation Message -->
+    <p>Thank you for your purchase. Your order has been successfully placed.</p>
+    <p>We have sent a confirmation email to your registered email address.</p>
+
+    <!-- Order Details -->
+    <% data1.forEach(item => { %>
+    <div class="order-details">
+      <h3>Order Summary</h3>
+      <p><strong>Order ID:</strong> <%= item._id %></p>
+      <p><strong>Items Purchased:</strong></p>
+      <ul>
+       
+          <li><%= item.product_name %> - Quantity: <%= item.product_quantity %> - Price: ₹<%= item.product_price %></li>
+       
+      </ul>
+     
+    </div>
+    <% }) %>
+    <h5><strong>Total Amount:₹</strong> <%= abhi %></h5>
+    <!-- Buttons -->
+    <div class="btn-container">
+      <a href="/dashboard" class="btn btn-primary">Go to Homepage</a>
+      <a href="/viewproduct" class="btn btn-secondary">Shop More Products</a>
+    </div>
+  </div>
+
+  <!-- Include Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

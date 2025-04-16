@@ -1,0 +1,17 @@
+const mongoose=require("mongoose");
+const table = mongoose.Schema({
+    user_id:{type:Number},
+    your_name:{type:String},
+    parent_id:{type:Number},
+    father_name:{type:String},
+    mobile_no:{type:Number},
+    date:{type:Date},
+    email:{type:String},
+    gender:{type:String},
+    address:{type:String},
+    password:{type:String},
+    amount:{type:Number},
+    blocked: { type: Boolean, default: false },
+    status:{type:String,enum:["active","deactive"],default:"deactive"}
+});
+module.exports = mongoose.model("hello",table);

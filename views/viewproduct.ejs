@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Products</title>
+    
+
+      <link href="../assets/img/favicon.png" rel="icon" />
+      <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+  
+      <link href="https://fonts.gstatic.com" rel="preconnect" />
+      <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet"
+      />
+  
+      <link
+        href="../assets/vendor/bootstrap/css/bootstrap.min.css"
+        rel="stylesheet"
+      />
+      <link
+        href="../assets/vendor/bootstrap-icons/bootstrap-icons.css"
+        rel="stylesheet"
+      />
+      <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+      <link href="../assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+      <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
+      <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+      <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet" />
+  
+      <link href="../assets/css/style.css" rel="stylesheet" />
+      <script
+        src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"
+      ></script>
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .rounded-circle {
+            margin-left: 90%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        /* Product Container */
+        .product-container {
+        margin-left: 20%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .product {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .product img {
+            width: 100%;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .product:hover img {
+            transform: scale(1.1);
+        }
+
+        .product h2 {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .product p {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .quantity-container input {
+            width: 50px;
+            padding: 5px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .button-group {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        /* Loading Spinner */
+        button .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid transparent;
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        button.loading .spinner {
+            display: inline-block;
+        }
+
+        button.loading span {
+            visibility: hidden;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Quick View Modal */
+       /* Ensure the modal is vertically and horizontally centered */
+.modal {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    z-index: 1000;
+    text-align: center;
+}
+
+/* Adjust overlay to block background interaction */
+.overlay.active {
+    display: block;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* Add some padding to modal body for a cleaner layout */
+.modal-body {
+    padding: 15px;
+}
+
+.modal-body img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+}
+.modal-header {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .modal-footer {
+            padding: 10px;
+            text-align: right;
+        }
+
+        .modal-footer button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal-footer button:hover {
+            background-color: #c82333;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .overlay.active,
+        .modal.active {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .product-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include("../utils/header")%> 
+    <%- include("side")%>
+
+    <h1>Our Products</h1>
+    <div class="product-container">
+        <% products.forEach(product => { %>
+            <div class="product">
+                <img src="<%= product.product_image %>" alt="<%= product.product_name %>">
+                <h2><%= product.product_name %></h2>
+                <p>₹<%= product.product_price.toFixed(2) %></p>
+                <p><%= product.product_description %></p>
+
+                <div class="quantity-container">
+                    <input type="number" id="quantity-<%= product.product_no %>" min="1" value="1">
+                    <label for="quantity-<%= product.product_no %>">Qty</label>
+                </div>
+
+                <div class="button-group">
+                    <button 
+                        type="button" 
+                        class="buy-now" 
+                        onclick="handleButtonClick(this, '/buynow?product_no=<%= product.product_no %>&quantity=' + document.getElementById('quantity-<%= product.product_no %>').value)">
+                        <span>Buy Now</span>
+                        <div class="spinner"></div>
+                    </button>
+                    <button 
+                        type="submit" 
+                        class="add-to-cart" 
+                        onclick="handleButtonClick(this, '/addtocart?product_no=<%= product.product_no %>&quantity=' + document.getElementById('quantity-<%= product.product_no %>').value)">
+                        <span>Add to Cart</span>
+                        <div class="spinner"></div>
+                    </button>
+                   <div class="quick-view">                    <button 
+                        type="button" 
+                        class="quick-view" 
+                        onclick= "openModal('<%= product.product_image %>', '<%= product.product_name %>', '<%= product.product_description %>')">
+                        Quick View
+                    </button>
+                </div>
+
+                </div>
+            </div>
+        <% }) %>
+    </div>
+
+    <!-- Quick View Modal -->
+    <div class="overlay"></div>
+    <div class="modal">
+        <div class="modal-header">Product Details</div>
+        <div class="modal-body">
+            <img id="modal-img" src="" alt="">
+            <h2 id="modal-name"></h2>
+            <p id="modal-description"></p>
+        </div>
+        <div class="modal-footer">
+            <button onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function handleButtonClick(button, url) {
+            button.classList.add('loading');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 1000);
+        }
+
+        function openModal(image, name, description) {
+            document.getElementById('modal-img').src = image;
+            document.getElementById('modal-name').textContent = name;
+            document.getElementById('modal-description').textContent = description;
+
+            document.querySelector('.overlay').classList.add('active');
+            document.querySelector('.modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.querySelector('.overlay').classList.remove('active');
+            document.querySelector('.modal').classList.remove('active');
+        }
+    </script>
+    
+    <%- include("../utils/footer")%>
+
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+    <script>
+      function confirmDelete() {
+        // Display a confirmation dialog
+        var result = confirm("Are you sure you want to delete this user?");
+
+        // If the user clicks OK, the form will be submitted. Otherwise, it won't.
+        return result;
+      }
+    </script>
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.min.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

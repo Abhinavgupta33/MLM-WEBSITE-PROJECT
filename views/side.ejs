@@ -1,0 +1,151 @@
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+    <!-- Dashboard Nav -->
+    <li class="nav-item">
+      <a class="nav-link active" href="/dashboard">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    <!-- End Dashboard Nav -->
+
+    <!-- User Manager Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#user-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="user-manager-nav">
+        <i class="bi bi-layout-text-window-reverse"></i>
+        <span>User Manager</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="user-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/adduser">
+            <i class="bi bi-circle"></i>
+            <span>Add User</span>
+          </a>
+        </li>
+        <li>
+          <a href="/userview">
+            <i class="bi bi-circle"></i>
+            <span>View User</span>
+          </a>
+        </li>
+        <li>
+          <a href="/updateuser">
+            <i class="bi bi-circle"></i>
+            <span>Update User</span>
+          </a>
+        </li>
+        <li>
+          <a href="/deleteuser">
+            <i class="bi bi-circle"></i>
+            <span>Delete User</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- End User Manager Nav -->
+
+    <!-- Product Manager Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#product-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="product-manager-nav">
+        <i class="bi bi-box-seam"></i>
+        <span>Product Manager</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="product-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/addproduct">
+            <i class="bi bi-circle"></i>
+            <span>Add Product</span>
+          </a>
+        </li>
+        <li>
+          <a href="/viewproduct">
+            <i class="bi bi-circle"></i>
+            <span>View Product</span>
+          </a>
+        </li>
+        <li>
+          <a href="/updateproduct">
+            <i class="bi bi-circle"></i>
+            <span>Update Product</span>
+          </a>
+        </li>
+        <li>
+          <a href="/deleteproduct">
+            <i class="bi bi-circle"></i>
+            <span>Delete Product</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- End Product Manager Nav -->
+
+    <!-- Mail Manager Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#mail-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="mail-manager-nav">
+        <i class="bi bi-envelope"></i>
+        <span>Mail Manager</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="mail-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/otp_genrate">
+            <i class="bi bi-circle"></i>
+            <span>Verify User</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- End Mail Manager Nav -->
+
+    <li class="nav-heading">Settings</li>
+
+    <!-- Settings Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="/admininfo">
+        <i class="bi bi-person"></i>
+        <span>Profile</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="/deposit">
+        <i class="bi bi-cash-coin"></i>
+        <span>Deposit</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="/withdraw">
+        <i class="bi bi-bank"></i>
+        <span>Withdraw</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="/balance">
+        <i class="bi bi-wallet"></i>
+        <span>Balance</span>
+      </a>
+    </li>
+    <!-- End Settings Nav -->
+  </ul>
+</aside>
+<!-- End Sidebar -->
+
+<!-- Additional Styles -->
+<style>
+  .sidebar .active {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+    font-weight: bold;
+  }
+
+  .sidebar .nav-link i {
+    margin-right: 8px;
+  }
+
+  .sidebar-nav .nav-item:hover > .nav-link {
+    background-color: #e9ecef;
+    color: #495057;
+  }
+</style>

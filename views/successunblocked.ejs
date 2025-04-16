@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Unblocked</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f8f9fa;
+    }
+    .unblocked-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 400px;
+    }
+    .unblocked-container h1 {
+      color: #28a745;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .unblocked-container p {
+      color: #555;
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+    .unblocked-container button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .unblocked-container button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="unblocked-container">
+    <h1>Account Unblocked</h1>
+    <p>Your account has been successfully unblocked. You can now log in and continue using our services.</p>
+    <button onclick="goToHome()">Go to Homepage</button>
+  </div>
+
+  <script>
+    function goToHome() {
+      // Redirect to the homepage or login page
+      window.location.href = '/dashboard';
+    }
+  </script>
+</body>
+</html>

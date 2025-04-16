@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Withdrawal Page</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #007bff, #6c757d);
+      color: #333;
+    }
+    .withdraw-container {
+      background: #ffffff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .withdraw-container h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+    .withdraw-container label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      text-align: left;
+      color: #555;
+    }
+    .withdraw-container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    .withdraw-container input:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+    .withdraw-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .withdraw-container button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+    .error {
+      color: #ff4d4d;
+      font-size: 14px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+    .success {
+      color: #28a745;
+      font-size: 16px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <form action="/withdraw1" method="post">
+  <div class="withdraw-container">
+    <h2>Withdraw Funds</h2>
+    <form id="withdrawForm">
+      <label for="amount">Withdrawal Amount:</label>
+      <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+      <span id="amountError" class="error"></span>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      <span id="passwordError" class="error"></span>
+      <p> Worng Password Entered  <%= passwordcheck %> No. Of Times  </p>
+
+      <button type="submit">Withdraw</button>
+      <p id="successMessage" class="success"></p>
+    </form>
+  </div>
+</form>
+  <script>
+    const form = document.getElementById('withdrawForm');
+    const amountInput = document.getElementById('amount');
+    const passwordInput = document.getElementById('password');
+    const amountError = document.getElementById('amountError');
+    const passwordError = document.getElementById('passwordError');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent form submission
+
+      let isValid = true;
+
+      // Clear previous messages
+      amountError.textContent = '';
+      passwordError.textContent = '';
+      successMessage.textContent = '';
+
+      // Validate amount
+      if (amountInput.value === '' || amountInput.value <= 0) {
+        amountError.textContent = 'Please enter a valid withdrawal amount.';
+        isValid = false;
+      }
+      // If valid, show success message
+      if (isValid) {
+        successMessage.textContent = 'Withdrawal request submitted successfully!';
+        form.reset(); // Reset the form
+      }
+    });
+  </script>
+</body>
+</html>

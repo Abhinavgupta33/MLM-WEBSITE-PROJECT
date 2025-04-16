@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Added Successfully</title>
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: linear-gradient(to bottom right, #f0f8ff, #add8e6);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .success-container {
+      text-align: center;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-in-out;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .success-container h1 {
+      font-size: 24px;
+      color: #4caf50;
+      margin-bottom: 20px;
+    }
+
+    .success-container p {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .success-container button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      max-width: 200px;
+    }
+
+    .success-container button:hover {
+      background-color: #45a049;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .success-container {
+        padding: 20px;
+      }
+
+      .success-container h1 {
+        font-size: 20px;
+      }
+
+      .success-container p {
+        font-size: 14px;
+      }
+
+      .success-container button {
+        font-size: 14px;
+        padding: 10px 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .success-container h1 {
+        font-size: 18px;
+      }
+
+      .success-container p {
+        font-size: 12px;
+      }
+
+      .success-container button {
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="success-container">
+    <h1>Item Added Successfully!</h1>
+    <p>Your product has been added to the inventory. You can now return to the dashboard.</p>
+    <button onclick="redirectToDashboard()">Go to Dashboard</button>
+  </div>
+
+  <script>
+    function redirectToDashboard() {
+      // Redirect to the dashboard route
+      window.location.href = '/dashboard';
+    }
+  </script>
+</body>
+</html>

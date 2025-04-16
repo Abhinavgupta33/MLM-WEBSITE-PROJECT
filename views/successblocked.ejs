@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Blocked</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f8f9fa;
+    }
+    .blocked-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 400px;
+    }
+    .blocked-container h1 {
+      color: #dc3545;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .blocked-container p {
+      color: #555;
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+    .blocked-container button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .blocked-container button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="blocked-container">
+    <h1>Account Blocked</h1>
+    <p>Your account has been successfully blocked. If this was a mistake, please contact support for assistance.</p>
+    <button onclick="goToHome()">Return to Homepage</button>
+  </div>
+
+  <script>
+    function goToHome() {
+      // Redirect to the homepage or another page
+      window.location.href = '/dashboard';
+    }
+  </script>
+</body>
+</html>

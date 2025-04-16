@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #007bff, #6c757d);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .container h2 {
+            text-align: center;
+            color: #007bff;
+            font-size: 28px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 16px;
+        }
+        .user-info:last-child {
+            border-bottom: none;
+        }
+        .user-info label {
+            font-weight: bold;
+            color: #555;
+        }
+        .user-info span {
+            color: #333;
+            font-size: 14px;
+            text-align: right;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .button-container button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        .button-container button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .button-container button:focus {
+            outline: 2px solid #0056b3;
+            outline-offset: 2px;
+        }
+        @media (max-width: 768px) {
+            .user-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .user-info span {
+                margin-top: 5px;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form action="/profileedit" method="get">
+        <div class="container">
+            <h2>User Information</h2>
+            <div class="user-info">
+                <label>User ID:</label> 
+                <span id="user_id"><%= data.user_id %></span>
+            </div>
+            <div class="user-info">
+                <label>Your Name:</label> 
+                <span id="your_name"><%= data.your_name %></span>
+            </div>
+            <div class="user-info">
+                <label>Father's Name:</label> 
+                <span id="father_name"><%= data.father_name %></span>
+            </div>
+            <div class="user-info">
+                <label>Mobile No:</label> 
+                <span id="mobile_no"><%= data.mobile_no %></span>
+            </div>
+            <div class="user-info">
+                <label>Date of Joined:</label> 
+                <span id="date_of_joined"><%= data.date %></span>
+            </div>
+            <div class="user-info">
+                <label>Email:</label> 
+                <span id="email"><%= data.email %></span>
+            </div>
+            <div class="user-info">
+                <label>Gender:</label> 
+                <span id="gender"><%= data.gender %></span>
+            </div>
+            <div class="user-info">
+                <label>Address:</label> 
+                <span id="address"><%= data.address %></span>
+            </div>
+            <div class="button-container">
+                <button type="button" onclick="location.href='/dashboard'">Go to Dashboard</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
