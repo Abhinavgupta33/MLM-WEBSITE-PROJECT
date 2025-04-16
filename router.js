@@ -2,7 +2,7 @@ let express=require("express");
 let router=express.Router();
 let my_auth=require("./my_auth");
 let{cont_deleteproduct,cont_mailopen,cont_updateproduct1,cont_updateproduct,cont_confirm_purchase1,cont_confirm_purchase,cont_removeproduct,cont_addtocart,cont_buynow,cont_shopping,cont_viewproduct,cont_addproduct,cont_balance,cont_viewprofile,cont_logout,cont_deposit1,cont_deposit,cont_withdraw1,cont_withdraw,cont_change_pass1,cont_admininfo,cont_update,cont_userupdate,cont_userunblock,cont_userblock,cont_filteruser,cont_loginrout,cont_viewuser,cont_userview,cont_register,cont_adduserdata,cont_login,cont_adduser,cont_registerr,cont_adminprofile,cont_dashboard,cont_otp,cont_changepass}=require("./controller");
-router.get("/login",cont_login);
+router.get("/",cont_login);
 router.get("/register",my_auth,cont_register);
 router.get("/loginrout",cont_loginrout);
 router.get("/registerr",my_auth,cont_registerr);
