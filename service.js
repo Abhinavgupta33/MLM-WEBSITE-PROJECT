@@ -72,7 +72,7 @@ exports.ser_dashboard = async (req,rep) => {
  exports.ser_login = async (req, rep) => {
   
     let a = req.body.email;
-  let b = body.pass;
+  let b = req.body.pass;
   try {
       let data = await tble.findOne({ email: a, password: b }); // Use findOne
         
