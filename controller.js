@@ -13,10 +13,10 @@ exports.cont_change_pass1=(req,rep)=>
     {
         ser_changepass(req,rep);
     }
-    exports.cont_login=(req,rep)=>
+    exports.cont_login=(req,res)=>
         {
             
-            rep.render("adminlogin");
+            res.render("login");
         }
         
     exports.cont_registerr=(req,rep)=>
