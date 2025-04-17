@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | Top Performers</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .leaderboard-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
+        }
+        
+        .leaderboard-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .leaderboard-item:hover {
+            transform: translateX(3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .rank {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 15px;
+            color: white;
+        }
+        
+        .rank-1 { background: #ffd700; }
+        .rank-2 { background: #c0c0c0; }
+        .rank-3 { background: #cd7f32; }
+        .rank-4, .rank-5 { background: var(--light-color); color: var(--dark-color); }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .badge-percentage {
+            padding: 5px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .time-filter .nav-link {
+            color: var(--dark-color);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .time-filter .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .trophy-icon {
+            color: #ffd700;
+            font-size: 1.5rem;
+        }
+        
+        .user-details {
+            flex: 1;
+            margin-left: 15px;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .user-score {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .view-more-btn {
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 500;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .podium {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 180px;
+            margin-bottom: 30px;
+        }
+        
+        .podium-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px;
+            width: 100px;
+        }
+        
+        .podium-rank {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .podium-1 { height: 140px; background: #ffd700; }
+        .podium-2 { height: 110px; background: #c0c0c0; }
+        .podium-3 { height: 80px; background: #cd7f32; }
+        
+        .podium-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: -25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="leaderboard-header p-4 mb-4 text-center">
+            <h1><i class="fas fa-trophy trophy-icon me-2"></i> Leaderboard</h1>
+            <p class="mb-0">Top performers this month</p>
+        </div>
+        
+        <!-- Podium -->
+        <div class="podium">
+            <!-- 2nd place -->
+            <div class="podium-item">
+                <div class="podium-rank podium-2">2</div>
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="podium-avatar" alt="Sarah Williams">
+                <div class="podium-name">Sarah Williams</div>
+                <div class="podium-score">Marketing: $10,890</div>
+            </div>
+            
+            <!-- 1

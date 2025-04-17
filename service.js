@@ -71,8 +71,8 @@ exports.ser_dashboard = async (req,rep) => {
 
  exports.ser_login = async (req, rep) => {
   
-    let a = req.query.email;
-  let b = req.query.pass;
+    let a = req.body.email;
+  let b = body.pass;
   try {
       let data = await tble.findOne({ email: a, password: b }); // Use findOne
         
@@ -968,12 +968,19 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
         let name = abhi.your_name;
         res.render("mail",{name});
 
+    }
 
+    exports.ser_leaderboard = async(req,res) => {
 
-
+        let uid = req.user.user_id;
+        let abhi = await tble.findOne({user_id:uid});
+        let name = abhi.your_name;
+        res.render("leaderboard",{name});
 
     }
 
+
+    
     // exports.ser_update = async (req, rep) => {
        
     //     try {
