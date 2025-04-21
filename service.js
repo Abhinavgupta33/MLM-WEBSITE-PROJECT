@@ -7,24 +7,23 @@ let jwt=require("jsonwebtoken");
 
 
 
- exports.ser_add = async (req, res) => {
+ exports.ser_signup = async (req, res) => {
     
     let a;
-     let b = req.query.Name;
-     let c = req.query.FatherName;
-     let d = req.query.MobileNo;
-     let e = req.query.Dob;
-     let f = req.query.Email;
-     let g = req.query.Gender;
-     let h = req.query.ResidentialAddress;
-     let i = req.query.Password;
-     let j = req.query.Amount;
+     let b = req.body.Name;
+     let c = req.body.FatherName;
+     let d = req.body.MobileNo;
+     let e = req.body.Dob;
+     let f = req.body.Email;
+     let g = req.body.Gender;
+     let h = req.body.ResidentialAddress;
+     let i = req.body.Password;
+     let j = req.body.Amount;
  
-     try {
-         let data = await tble.findOne().sort({ user_id: -1 });
+         let data1 = await tble.findOne().sort({ user_id: -1 });
  
-         if (data) {
-             a = Number(data.user_id) + 1;
+         if (data1) {
+             a = Number(data1.user_id) + 1;
          } else {
              a = 1;
          }
@@ -45,11 +44,27 @@ let jwt=require("jsonwebtoken");
          });
          await rec.save();
          let name = b;
-         res.render("dashboard",{name});
-     } catch (error) {
+
+         let data = await tble.findOne({ email: f, password: i }); // Use findOne
+        
+         //console.log(data.user_id);
+         let tok=jwt.sign(data.user_id,"aabb");
+        
+         //let wapas=jwt.verify(tok,"aabb");/
+         //console.log(wapas);
+
+   
+             res.cookie("mytoken",tok);
+         await tble.updateOne({your_name:name},{$set:{status:"active"}});
+   
+         let active_user = await tble.find({status:"active"});
+         let activeuser = active_user.length;
        
-         res.render("error");
-     }
+         let totalproducts = await tble2.find({});
+         let totalproduct = totalproducts.length;
+     
+         res.render("dashboard",{name,activeuser,totalproduct})
+     
  };
  
 

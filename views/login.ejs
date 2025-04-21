@@ -7,105 +7,163 @@
   
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Google OAuth Client Library -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   
   <style>
     :root {
       --primary: #4361ee;
+      --primary-light: #4cc9f0;
       --primary-dark: #3a56d4;
       --white: #ffffff;
       --gray: #6c757d;
       --light-gray: #e9ecef;
-      --border-radius: 8px;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: var(--white);
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4f2fe 100%);
       display: flex;
       align-items: center;
+      justify-content: center;
       min-height: 100vh;
-      margin: 0;
       padding: 20px;
     }
 
     .login-container {
       max-width: 450px;
       width: 100%;
-      margin: 0 auto;
-      padding: 2rem;
+      animation: fadeIn 0.6s ease-in-out;
     }
 
     .login-card {
       border-radius: var(--border-radius);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: var(--box-shadow);
       background: var(--white);
       overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .login-card:hover {
+      transform: translateY(-5px);
     }
 
     .login-header {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: var(--white);
-      padding: 1.5rem;
+      padding: 2rem;
       text-align: center;
-      margin-bottom: 1.5rem;
+    }
+
+    .login-header h2 {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 1.8rem;
+    }
+
+    .login-header p {
+      font-weight: 300;
+      opacity: 0.9;
     }
 
     .login-body {
-      padding: 0 2rem 2rem;
+      padding: 2rem;
     }
 
-    .form-control {
-      height: 48px;
-      border-radius: var(--border-radius);
-      border: 1px solid var(--light-gray);
-      padding: 0 15px;
+    .form-group {
+      margin-bottom: 1.5rem;
     }
 
-    .btn-login {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      height: 48px;
-      border-radius: var(--border-radius);
-      width: 100%;
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
       font-weight: 500;
-    }
-
-    .btn-login:hover {
-      background-color: var(--primary-dark);
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      margin: 1.5rem 0;
       color: var(--gray);
     }
 
-    .divider::before,
-    .divider::after {
-      content: "";
-      flex: 1;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .divider::before {
-      margin-right: 1rem;
-    }
-
-    .divider::after {
-      margin-left: 1rem;
-    }
-
-    #g_id_onload,
-    #g_id_signin {
+    .form-control {
       width: 100%;
+      height: 50px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
+      padding: 0 15px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
     }
 
-    .g_id_signin {
-      width: 100% !important;
+    .form-control:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+      outline: none;
+    }
+
+    .btn-login {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      height: 50px;
+      border-radius: var(--border-radius);
+      width: 100%;
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 0.5rem;
+    }
+
+    .btn-login:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--gray);
+    }
+
+    .signup-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .signup-link a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 10px;
+      }
+      
+      .login-header {
+        padding: 1.5rem;
+      }
+      
+      .login-body {
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
@@ -114,78 +172,29 @@
     <div class="login-card">
       <div class="login-header">
         <h2>Alumni Portal</h2>
-        <p>Sign in to your account</p>
+        <p>Welcome back! Please sign in to continue</p>
       </div>
 
       <div class="login-body">
         <form id="loginForm" action="/loginrout" method="post">
-          <div style="margin-bottom: 1rem;">
+          <div class="form-group">
             <label for="yourUsername">Email Address</label>
             <input type="email" id="yourUsername" name="email" class="form-control" required placeholder="your@email.com">
           </div>
 
-          <div style="margin-bottom: 1rem;">
+          <div class="form-group">
             <label for="yourPassword">Password</label>
             <input type="password" id="yourPassword" name="pass" class="form-control" required placeholder="••••••••">
           </div>
 
           <button type="submit" class="btn-login">Sign In</button>
 
-          <div class="divider">or continue with</div>
-
-          <!-- Google OAuth Button -->
-          <div id="g_id_onload"
-            data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-            data-callback="handleGoogleSignIn">
-          </div>
-          <div class="g_id_signin"
-            data-type="standard"
-            data-size="large"
-            data-theme="outline"
-            data-text="signin_with"
-            data-shape="rectangular">
+          <div class="signup-link">
+            Not signed up? <a href="/signup_page">Create an account</a>
           </div>
         </form>
       </div>
     </div>
   </div>
-
-  <script>
-    // Handle Google OAuth response
-    function handleGoogleSignIn(response) {
-      console.log('Google OAuth response:', response);
-      
-      // Send credential to your backend for verification
-      fetch('/api/google-auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ credential: response.credential })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          window.location.href = '/dashboard'; // Redirect on success
-        } else {
-          alert('Authentication failed: ' + (data.message || 'Unknown error'));
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Authentication failed. Please try again.');
-      });
-    }
-
-    // Form submission handler
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      const button = this.querySelector('button[type="submit"]');
-      button.disabled = true;
-      button.innerHTML = 'Signing in...';
-      
-      // Form will submit normally to /loginrout
-      // For demo purposes, we're not preventing default
-    });
-  </script>
 </body>
 </html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumni Portal | Sign Up</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4cc9f0;
+      --primary-dark: #3a56d4;
+      --white: #ffffff;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4f2fe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .signup-container {
+      max-width: 500px;
+      width: 100%;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .signup-card {
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      background: var(--white);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .signup-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .signup-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--white);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .signup-header h2 {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 1.8rem;
+    }
+
+    .signup-header p {
+      font-weight: 300;
+      opacity: 0.9;
+    }
+
+    .signup-body {
+      padding: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--gray);
+    }
+
+    .form-control {
+      width: 100%;
+      height: 50px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
+      padding: 0 15px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+      outline: none;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .btn-signup {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      height: 50px;
+      border-radius: var(--border-radius);
+      width: 100%;
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .btn-signup:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--gray);
+    }
+
+    .login-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .login-link a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .signup-container {
+        padding: 10px;
+      }
+      
+      .signup-header {
+        padding: 1.5rem;
+      }
+      
+      .signup-body {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <div class="signup-card">
+      <div class="signup-header">
+        <h2>Alumni Portal</h2>
+        <p>Create your account</p>
+      </div>
+
+      <div class="signup-body">
+        <form id="signupForm" action="/signup" method="post">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="yourName">Your Name</label>
+              <input type="text" id="yourName" name="Name" class="form-control" required placeholder="John Doe">
+            </div>
+            <div class="form-group">
+              <label for="fatherName">Father's Name</label>
+              <input type="text" id="fatherName" name="FatherName" class="form-control" required placeholder="Father's Name">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mobileNo">Mobile Number</label>
+              <input type="tel" id="mobileNo" name="MobileNo" class="form-control" required placeholder="+91 9876543210">
+            </div>
+            <div class="form-group">
+              <label for="dob">Date of Birth</label>
+              <input type="date" id="dob" name="Dob" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="Email" class="form-control" required placeholder="your@email.com">
+          </div>
+
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="Gender" class="form-control" required>
+              <option value="" disabled selected>Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Residential Address</label>
+            <textarea id="address" name="ResidentialAddress" class="form-control" rows="3" required placeholder="Your complete address"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="Password" class="form-control" required placeholder="••••••••">
+            </div>
+            <div class="form-group">
+              <label for="amount">Amount</label>
+              <input type="number" id="amount" name="Amount" class="form-control" required placeholder="0.00">
+            </div>
+          </div>
+
+          <button type="submit" class="btn-signup">Create Account</button>
+
+          <div class="login-link">
+            Already have an account? <a href="/">Sign in</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

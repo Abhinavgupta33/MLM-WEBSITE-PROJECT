@@ -20,7 +20,7 @@ async function my_auth(req, res, next) {
     
       }
     } else {
-      res.redirect("/login");
+      res.redirect("/");
       console.log("Please Login First");
     }
   } catch (err) {
