@@ -1,186 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumni Portal | Login</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google OAuth Client Library -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --white: #ffffff;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 8px;
+    }
 
-    <title>Pages / Login - NiceAdmin Bootstrap Template</title>
-    <meta content="" name="description" />
-    <meta content="" name="keywords" />
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--white);
+      display: flex;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
 
-    <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon" />
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+    .login-container {
+      max-width: 450px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem;
+    }
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet"
-    />
+    .login-card {
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      background: var(--white);
+      overflow: hidden;
+    }
 
-    <!-- Vendor CSS Files -->
-    <link
-      href="assets/vendor/bootstrap/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet" />
-    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
-    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
-    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet" />
+    .login-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--white);
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
 
-    <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet" />
+    .login-body {
+      padding: 0 2rem 2rem;
+    }
 
-    <!-- =======================================================
-  * Template Name: NiceAdmin - v2.2.0
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-  </head>
+    .form-control {
+      height: 48px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
+      padding: 0 15px;
+    }
 
-  <body>
-    <main>
-      <div class="container">
-        <section
-          class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4"
-        >
-          <div class="container">
-            <div class="row justify-content-center">
-              <div
-                class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center"
-              >
-                <div class="d-flex justify-content-center py-4">
-                  <a
-                    href="index.html"
-                    class="logo d-flex align-items-center w-auto"
-                  >
-             
-                    <span class="d-none d-lg-block">Alumni Login</span>
-                  </a>
-                </div>
-                <!-- End Logo -->
+    .btn-login {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      height: 48px;
+      border-radius: var(--border-radius);
+      width: 100%;
+      font-weight: 500;
+    }
 
-                <div class="card mb-3">
-                  <div class="card-body">
-                    <div class="pt-4 pb-2">
-                      <h5 class="card-title text-center pb-0 fs-4">
-                        Login to Your Account
-                      </h5>
-                      <p class="text-center small">
-                        Enter your username & password to login
-                      </p>
-                    </div>
+    .btn-login:hover {
+      background-color: var(--primary-dark);
+    }
 
-                    <form
-                      class="row g-3 needs-validation"
-                      novalidate
-                      action="/loginrout"
-                      method="post"
-                    >
-                      <div class="col-12">
-                        <label for="yourUsername" class="form-label">email</label>
-                        
-                          
-                        <div class="input-group has-validation">
-                          <span class="input-group-text" id="inputGroupPrepend"
-                            >@</span
-                          >
-                          <input
-                            type="text"
-                            name="email"
-                            class="form-control"
-                            id="yourUsername"
-                            required
-                          />
-                          <div class="invalid-feedback">
-                            Please enter your username.
-                          </div>
-                        </div>
-                      </div>
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 1.5rem 0;
+      color: var(--gray);
+    }
 
-                      <div class="col-12">
-                        <label for="yourPassword" class="form-label"
-                          >Password</label
-                        >
-                        <input
-                          type="password"
-                          name="pass"
-                          class="form-control"
-                          id="yourPassword"
-                          required
-                        />
-                        <div class="invalid-feedback">
-                          Please enter your password!
-                        </div>
-                      </div>
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid var(--light-gray);
+    }
 
-                      <div class="col-12">
-                        <div class="form-check">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            name="remember"
-                            value="true"
-                            id="rememberMe"
-                          />
-                          <label class="form-check-label" for="rememberMe"
-                            >Remember me</label
-                          >
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <button class="btn btn-primary w-100" type="submit">
-                          Login
-                        </button>
-                      </div>
-                      <!-- <div class="col-12">
-                        <p class="small mb-0">
-                          Don't have account?
-                          <a href="pages-register.html">Create an account</a>
-                        </p>
-                      </div> -->
-                    </form>
-                  </div>
-                </div>
+    .divider::before {
+      margin-right: 1rem;
+    }
 
-                <div class="credits">
-                  <!-- All the links in the footer should remain intact. -->
-                  <!-- You can delete the links only if you purchased the pro version. -->
-                  <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                  <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+    .divider::after {
+      margin-left: 1rem;
+    }
+
+    #g_id_onload,
+    #g_id_signin {
+      width: 100%;
+    }
+
+    .g_id_signin {
+      width: 100% !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <h2>Alumni Portal</h2>
+        <p>Sign in to your account</p>
       </div>
-    </main>
-    <!-- End #main -->
 
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
+      <div class="login-body">
+        <form id="loginForm" action="/loginrout" method="post">
+          <div style="margin-bottom: 1rem;">
+            <label for="yourUsername">Email Address</label>
+            <input type="email" id="yourUsername" name="email" class="form-control" required placeholder="your@email.com">
+          </div>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.min.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+          <div style="margin-bottom: 1rem;">
+            <label for="yourPassword">Password</label>
+            <input type="password" id="yourPassword" name="pass" class="form-control" required placeholder="••••••••">
+          </div>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-  </body>
+          <button type="submit" class="btn-login">Sign In</button>
+
+          <div class="divider">or continue with</div>
+
+          <!-- Google OAuth Button -->
+          <div id="g_id_onload"
+            data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+            data-callback="handleGoogleSignIn">
+          </div>
+          <div class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="outline"
+            data-text="signin_with"
+            data-shape="rectangular">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Handle Google OAuth response
+    function handleGoogleSignIn(response) {
+      console.log('Google OAuth response:', response);
+      
+      // Send credential to your backend for verification
+      fetch('/api/google-auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ credential: response.credential })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = '/dashboard'; // Redirect on success
+        } else {
+          alert('Authentication failed: ' + (data.message || 'Unknown error'));
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Authentication failed. Please try again.');
+      });
+    }
+
+    // Form submission handler
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      const button = this.querySelector('button[type="submit"]');
+      button.disabled = true;
+      button.innerHTML = 'Signing in...';
+      
+      // Form will submit normally to /loginrout
+      // For demo purposes, we're not preventing default
+    });
+  </script>
+</body>
 </html>

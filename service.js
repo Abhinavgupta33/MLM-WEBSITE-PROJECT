@@ -67,9 +67,7 @@ exports.ser_dashboard = async (req,rep) => {
     rep.render("dashboard",{name,activeuser,totalproduct})
 
 }
-
-
- exports.ser_login = async (req, rep) => {
+exports.ser_login = async (req, rep) => {
   
     let a = req.body.email;
   let b = req.body.pass;
@@ -105,8 +103,6 @@ exports.ser_dashboard = async (req,rep) => {
       rep.render("error");
   }
 };
-
-
 
 // exports.ser_adduserdata = async (req, res) => {
 //     let un = req.cookies.abhi;

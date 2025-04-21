@@ -12,6 +12,7 @@ const table = mongoose.Schema({
     password:{type:String},
     amount:{type:Number},
     blocked: { type: Boolean, default: false },
+    auth_method: { type: String, enum: ['email', 'google'], default: 'email' },
     status:{type:String,enum:["active","deactive"],default:"deactive"}
 });
 module.exports = mongoose.model("hello",table);
