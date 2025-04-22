@@ -211,6 +211,8 @@
   </style>
 </head>
 <body>
+  <%- include("../utils/header")%> 
+  <%- include("side")%>
   <div class="form-container">
     <h2>Add New Product</h2>
     <form action="/addproduct1" method="post" enctype="multipart/form-data" onsubmit="return validateProductForm()">
