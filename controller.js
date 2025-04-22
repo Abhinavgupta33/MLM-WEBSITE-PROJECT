@@ -1,15 +1,15 @@
 let { ser_signup,ser_leaderboard,ser_mailopen,ser_deleteproduct,ser_updateproduct,ser_confirm_purchase1,ser_confirm_purchase,ser_dashboard,ser_removeproduct,ser_buynow,ser_addtocart,ser_shopping,ser_viewproduct,ser_balance,ser_viewprofile,ser_deposit,ser_withdraw,ser_withdraw1,ser_deposit1,ser_logout,ser_changepass,ser_admininfo,ser_user,ser_update,ser_filter,ser_adduserdata,ser_userview,ser_login,ser_blockuser,ser_unblockuser}=require("./service");
 
-exports.cont_register=(req,rep)=>
+exports.cont_register=(req,res)=>
 
     {
-        rep.render("register");
+        res.render("register");
     }
     
-exports.cont_change_pass1=(req,rep)=>
+exports.cont_change_pass1=(req,res)=>
 
     {
-        ser_changepass(req,rep);
+        ser_changepass(req,res);
     }
     exports.cont_login=(req,res)=>
         {
@@ -28,199 +28,199 @@ exports.cont_change_pass1=(req,rep)=>
             ser_signup(req,res);
         }
         
-    exports.cont_dash=(req,rep)=>
+    exports.cont_dash=(req,res)=>
         {
-            rep.render("dashboard");
+            res.render("dashboard");
         }
         
-    exports.cont_adminprofile=(req,rep)=>
+    exports.cont_adminprofile=(req,res)=>
         {
-            ser_admininfo(req,rep);
-            rep.render("adminprofile");
+            ser_admininfo(req,res);
+            res.render("adminprofile");
         }
         
-    exports.cont_dashboard=(req,rep)=>
+    exports.cont_dashboard=(req,res)=>
         {
-            ser_dashboard(req,rep);
+            ser_dashboard(req,res);
            
         }
                
-    // exports.cont_userview=(req,rep)=>
+    // exports.cont_userview=(req,res)=>
     //     {
-    //         rep.render("viewuser");
+    //         res.render("viewuser");
     //     }
               
-    exports.cont_otp=(req,rep)=>
+    exports.cont_otp=(req,res)=>
         {
-            rep.render("success");
+            res.render("success");
         }
-        exports.cont_adduser=(req,rep)=>
+        exports.cont_adduser=(req,res)=>
             {
-                rep.render("register2");
+                res.render("register2");
             }
-        exports.cont_changepass=(req,rep)=>
+        exports.cont_changepass=(req,res)=>
             {
                
-                rep.render("changepass");
+                res.render("changepass");
             }
            
-                exports.cont_adduserdata=(req,rep)=>
+                exports.cont_adduserdata=(req,res)=>
                     {
                         let name ;
-                        ser_adduserdata(req,rep);
-                        rep.render("dashboard",{name});
+                        ser_adduserdata(req,res);
+                        res.render("dashboard",{name});
                     }
-                    exports.cont_userview=(req,rep)=>
+                    exports.cont_userview=(req,res)=>
                         {
-                            ser_userview(req,rep);
-                            //rep.render("viewuser");
+                            ser_userview(req,res);
+                            //res.render("viewuser");
                         }
-                        exports.cont_viewuser=(req,rep)=>
+                        exports.cont_viewuser=(req,res)=>
                             {
                               
                             }
                            
-                        exports.cont_loginrout=(req,rep)=>
+                        exports.cont_loginrout=(req,res)=>
                             {
-                              ser_login(req,rep);
-                             // rep.render("dashboard");
+                              ser_login(req,res);
+                             // res.render("dashboard");
                             }
                            
                             
-                        exports.cont_filteruser=(req,rep)=>
+                        exports.cont_filteruser=(req,res)=>
                             {
-                              ser_filter(req,rep);
+                              ser_filter(req,res);
                             }
                            
                                
-                        exports.cont_userblock=(req,rep)=>
+                        exports.cont_userblock=(req,res)=>
                             {
-                              ser_blockuser(req,rep);
+                              ser_blockuser(req,res);
                             }
-                            exports.cont_userunblock=(req,rep)=>
+                            exports.cont_userunblock=(req,res)=>
                                 {
-                                  ser_unblockuser(req,rep);
+                                  ser_unblockuser(req,res);
                                 }
-                                exports.cont_userupdate=(req,rep)=>
+                                exports.cont_userupdate=(req,res)=>
                                     {
-                                    // rep.render("update");
-                                     ser_user(req,rep);
+                                    // res.render("update");
+                                     ser_user(req,res);
                                      
                                     }
                                    
-                                exports.cont_update=(req,rep)=>
+                                exports.cont_update=(req,res)=>
                                     {
-                                        ser_update(req,rep);
+                                        ser_update(req,res);
                                     }
                                    
                                     
-                                exports.cont_admininfo=(req,rep)=>
+                                exports.cont_admininfo=(req,res)=>
                                     {
-                                        ser_admininfo(req,rep);
-                                       // rep.render("adminprofile");
+                                        ser_admininfo(req,res);
+                                       // res.render("adminprofile");
                                     }
                                    
                                      
-                                exports.cont_logout=(req,rep)=>
+                                exports.cont_logout=(req,res)=>
                                     {
-                                        ser_logout(req,rep);
-                                       // rep.render("adminprofile");
+                                        ser_logout(req,res);
+                                       // res.render("adminprofile");
                                     }
-                                    exports.cont_withdraw=(req,rep)=>
+                                    exports.cont_withdraw=(req,res)=>
                                         {
                         
-                                           ser_withdraw1(req,rep);
-                                        //    rep.render("withdraw");
+                                           ser_withdraw1(req,res);
+                                        //    res.render("withdraw");
                                         }
-                                        exports.cont_deposit=(req,rep)=>
+                                        exports.cont_deposit=(req,res)=>
                                             {
-                                                ser_deposit1(req,rep);
+                                                ser_deposit1(req,res);
 
-                                               // rep.render("adminprofile");
+                                               // res.render("adminprofile");
                                             }
                                                
-                                    exports.cont_withdraw1=(req,rep)=>
+                                    exports.cont_withdraw1=(req,res)=>
                                         {
-                                            ser_withdraw(req,rep);
+                                            ser_withdraw(req,res);
                                            
                                         }
-                                        exports.cont_deposit1=(req,rep)=>
+                                        exports.cont_deposit1=(req,res)=>
                                             {
-                                                ser_deposit(req,rep);
+                                                ser_deposit(req,res);
                                             }
                                                
-                                        exports.cont_viewprofile=(req,rep)=>
+                                        exports.cont_viewprofile=(req,res)=>
                                             {
-                                                ser_viewprofile(req,rep);
+                                                ser_viewprofile(req,res);
                                             }
                                                
-                                            exports.cont_balance=(req,rep)=>
+                                            exports.cont_balance=(req,res)=>
                                                 {
-                                                    ser_balance(req,rep);
+                                                    ser_balance(req,res);
                                                 }
                                                    
                                                 
-                                            exports.cont_addproduct= (req,rep)=>
+                                            exports.cont_addproduct= (req,res)=>
                                                 {
-                                                    rep.render("addproduct");
+                                                    res.render("addproduct");
                                                 }
                                                    
                                                 
-                                                exports.cont_viewproduct=(req,rep)=>
+                                                exports.cont_viewproduct=(req,res)=>
                                                     {
-                                                        ser_viewproduct(req,rep);
-                                                        //rep.render("viewproduct");
+                                                        ser_viewproduct(req,res);
+                                                        //res.render("viewproduct");
                                                     }
                                                        
                                                     
-                                                exports.cont_shopping=(req,rep)=>
+                                                exports.cont_shopping=(req,res)=>
                                                     {
-                                                        ser_shopping(req,rep);
-                                                        //rep.render("viewproduct");
+                                                        ser_shopping(req,res);
+                                                        //res.render("viewproduct");
                                                     }
                                                        
                                                     
                                                     
-                                                    exports.cont_buynow=(req,rep)=>
+                                                    exports.cont_buynow=(req,res)=>
                                                         {
-                                                            ser_buynow(req,rep);
-                                                            //rep.render("viewproduct");
+                                                            ser_buynow(req,res);
+                                                            //res.render("viewproduct");
                                                         }
                                                            
                                                         
                                                     
-                                                        exports.cont_addtocart=(req,rep)=>
+                                                        exports.cont_addtocart=(req,res)=>
                                                             {
-                                                                ser_addtocart(req,rep);
-                                                                //rep.render("viewproduct");
+                                                                ser_addtocart(req,res);
+                                                                //res.render("viewproduct");
                                                             }
                                                                
                                                             
-                                                            exports.cont_removeproduct=(req,rep)=>
+                                                            exports.cont_removeproduct=(req,res)=>
                                                                 {
-                                                                    ser_removeproduct(req,rep);
-                                                                    //rep.render("viewproduct");
+                                                                    ser_removeproduct(req,res);
+                                                                    //res.render("viewproduct");
                                                                 }
                                                                   
-                                                            exports.cont_confirm_purchase=(req,rep)=>
+                                                            exports.cont_confirm_purchase=(req,res)=>
                                                                 {
-                                                                    ser_confirm_purchase(req,rep);
-                                                                    //rep.render("viewproduct");
+                                                                    ser_confirm_purchase(req,res);
+                                                                    //res.render("viewproduct");
                                                                 }
                                                                    
                                                                   
-                                                            exports.cont_confirm_purchase1=(req,rep)=>
+                                                            exports.cont_confirm_purchase1=(req,res)=>
                                                                 {
-                                                                    ser_confirm_purchase1(req,rep);
-                                                                    //rep.render("viewproduct");
+                                                                    ser_confirm_purchase1(req,res);
+                                                                    //res.render("viewproduct");
                                                                 }
                                                                    
                                                  
-                                                                exports.cont_updateproduct=(req,rep)=>
+                                                                exports.cont_updateproduct=(req,res)=>
                                                                     {
-                                                                        rep.render("updateproduct");
+                                                                        res.render("updateproduct");
                                                                         
-                                                                        //rep.render("viewproduct");
+                                                                        //res.render("viewproduct");
                                                                     }
                                                                        
                                                    
@@ -229,20 +229,20 @@ exports.cont_change_pass1=(req,rep)=>
                                                                        
                                                                         
                                                                   
-                                                            exports.cont_deleteproduct=(req,rep)=>
+                                                            exports.cont_deleteproduct=(req,res)=>
                                                                 {   
-                                                                    rep.render("deleteproduct");
-                                                                    ser_deleteproduct(req,rep);
-                                                                    //rep.render("viewproduct");
+                                                                    res.render("deleteproduct");
+                                                                    ser_deleteproduct(req,res);
+                                                                    //res.render("viewproduct");
                                                                 }
                                                                    
 
                                                                 
-                                                                exports.cont_updateproduct1=(req,rep)=>
+                                                                exports.cont_updateproduct1=(req,res)=>
                                                                     {
-                                                                        ser_updateproduct(req,rep);
+                                                                        ser_updateproduct(req,res);
                                                                         
-                                                                        //rep.render("viewproduct");
+                                                                        //res.render("viewproduct");
                                                                     }
                                                                        
                                                    

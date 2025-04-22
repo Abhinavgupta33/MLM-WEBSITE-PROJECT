@@ -108,7 +108,7 @@ exports.ser_login = async (req, res) => {
 
           res.cookie("mytoken",tok);
           //const hello = req.cookies.loginuserid;ss
-       //rep.cookie("abhi",data.user_id)
+       //res.cookie("abhi",data.user_id)
        let name = data.your_name;
        await tble.updateOne({your_name:name},{$set:{status:"active"}});
    
@@ -158,7 +158,7 @@ exports.ser_login = async (req, res) => {
 
 //             console.log(`User ID ${userId} receives commission: ${commission}`);
             
-//             // Prepare for the next iteration
+//             // Presare for the next iteration
 //             commission = commission / 2;
 //             userId = user.parent_id; // Assuming each user has a `parent_id` linking to the next user
 
@@ -299,7 +299,7 @@ exports.ser_adduserdata = async (req, res) => {
 
 
 
-exports.ser_userview = async (req, rep) => {
+exports.ser_userview = async (req, res) => {
     
     try {
         let uid = req.user.user_id;
@@ -315,7 +315,7 @@ exports.ser_userview = async (req, rep) => {
   
       if (!users || users.length === 0) {
         console.log("No user data found.");
-        return rep.render("viewuser", { users: [] }); // Render empty list if no data
+        return res.render("viewuser", { users: [] }); // Render empty list if no data
       }
   
       console.log(`Found ${users.length} users`);
@@ -326,10 +326,10 @@ exports.ser_userview = async (req, rep) => {
       let user_image = image.picture;
   
       // Render the view with the array of users
-      rep.render("viewuser", { users,name,user_image });
+      res.render("viewuser", { users,name,user_image });
     } catch (err) {
       console.error("Error fetching user data: ", err);
-      rep.status(500).send("Internal Server Error");
+      res.status(500).send("Internal Server Error");
     }
   };
   
@@ -337,7 +337,7 @@ exports.ser_userview = async (req, rep) => {
 
 
 
-  exports.ser_filter = async (req, rep) => {
+  exports.ser_filter = async (req, res) => {
     let uid = req.user.user_id;
     let abhi = await tble.findOne({ user_id: uid });
     let name = abhi.your_name;
@@ -361,7 +361,7 @@ exports.ser_userview = async (req, rep) => {
 
     
   
-    rep.render("viewuser", { name, users,user_image });
+    res.render("viewuser", { name, users,user_image });
   };
   
 
@@ -369,11 +369,11 @@ exports.ser_userview = async (req, rep) => {
 
 
 
-    exports.ser_blockuser = async (req, rep) => {
+    exports.ser_blockuser = async (req, res) => {
 
         let userId = req.body.id;
             await tble.updateOne({ user_id: userId }, { $set: { blocked: true } });
-            rep.render("successblocked");
+            res.render("successblocked");
 
 
 
@@ -384,12 +384,11 @@ exports.ser_userview = async (req, rep) => {
     
 
 
-    exports.ser_unblockuser = async (req, rep) => {
+    exports.ser_unblockuser = async (req, res) => {
         
         let userId = req.body.id; 
-        let passwordcheck = 0;
         await tble.updateOne({ user_id: userId }, { $set: { blocked: false } }); 
-        rep.render("successunblocked");
+        res.render("successunblocked");
 
     };
 
@@ -402,8 +401,8 @@ exports.ser_userview = async (req, rep) => {
         
         try {
             let users = await tble.find({});
-           // rep.cookie("name",users.your_name);
-          //rep.render("dashboard", { result: data.user_id });
+           // res.cookie("name",users.your_name);
+          //res.render("dashboard", { result: data.user_id });
             
             if (!users || users.length === 0) {
                 console.log("No user data found.");
@@ -425,7 +424,7 @@ exports.ser_userview = async (req, rep) => {
 
 
 
-    exports.ser_user = async (req, rep) => {
+    exports.ser_user = async (req, res) => {
         let uid = req.user.user_id;
         let abhi = await tble.findOne({user_id:uid});
         let hello = abhi.your_name;
@@ -433,8 +432,8 @@ exports.ser_userview = async (req, rep) => {
         let userId = req.body.id; 
         console.log(userId);
         data = await tble.findOne({user_id:userId});
-        rep.cookie("abh",userId);
-        rep.render("update", {data});
+        res.cookie("abh",userId);
+        res.render("update", {data});
     };
 
 
@@ -494,7 +493,7 @@ exports.ser_userview = async (req, rep) => {
 
 
 
-    exports.ser_admininfo = async (req, rep) => {
+    exports.ser_admininfo = async (req, res) => {
         let uid = req.user.user_id;
         let abhi = await tble.findOne({user_id:uid});
         let name = abhi.your_name;
@@ -514,7 +513,7 @@ exports.ser_userview = async (req, rep) => {
             
      
 
-        rep.render("adminprofile", { a,b,c,name,user_image});
+        res.render("adminprofile", { a,b,c,name,user_image});
 
     };
 
@@ -523,7 +522,7 @@ exports.ser_userview = async (req, rep) => {
 
 
 
-    exports.ser_changepass = async (req, rep) => {
+    exports.ser_changepass = async (req, res) => {
         
         let un = req.user.user_id;
         console.log(un);
@@ -541,7 +540,7 @@ exports.ser_userview = async (req, rep) => {
         if(a==d){
             
             await tble.updateOne({ user_id:un}, { password:c});
-            rep.render("adminprofile");
+            res.render("adminprofile");
         }
         
 
@@ -561,12 +560,12 @@ else{
 
 
 
-    exports.ser_logout = async (req,rep) =>{
+    exports.ser_logout = async (req,res) =>{
 
         let un = req.user.user_id;
         let status = await tble.updateOne({user_id:un},{$set:{status:"deactive"}});
-       await rep.cookie("mytoken","");
-       await rep.render("logout");
+       await res.cookie("mytoken","");
+       await res.render("logout");
     
     }
 
@@ -578,12 +577,12 @@ else{
 
 
 
-    exports.ser_withdraw1 = async(req,rep) => {
+    exports.ser_withdraw1 = async(req,res) => {
 
         //  let email =req.body.id;
         // console.log("hello");
-        // rep.cookie("wa",email);
-        await rep.render("withdraw",{passwordcheck});
+        // res.cookie("wa",email);
+        await res.render("withdraw",{passwordcheck});
     
    
     }
@@ -592,12 +591,12 @@ else{
     
     
     
-    exports.ser_deposit1 = async(req,rep) => {
+    exports.ser_deposit1 = async(req,res) => {
 
     //     let email =req.body.id;
     //    console.log("hello");
-    //    rep.cookie("dp",email);
-       await rep.render("deposit",{passwordcheck});
+    //    res.cookie("dp",email);
+       await res.render("deposit",{passwordcheck});
    
   
    }
@@ -606,7 +605,7 @@ else{
 
 
 
-    exports.ser_withdraw = async(req,rep) => {
+    exports.ser_withdraw = async(req,res) => {
       
         let uid = req.user.user_id;
         // let uId = req.cookies.wa;
@@ -621,12 +620,12 @@ else{
         let new_amount =previous_amount-a;
         console.log(new_amount);
         if(data.blocked==true){
-            rep.render("blockeduser");
+            res.render("blockeduser");
         }
         else{
         if(previous_amount<a ){
 
-            rep.render("notbalance");
+            res.render("notbalance");
         } 
         else {
             
@@ -634,10 +633,10 @@ else{
                 if (data.password !== b) {
                      console.log("incorrect password"); 
                      passwordcheck++; 
-                 await  rep.render("withdraw",{passwordcheck});  
+                 await  res.render("withdraw",{passwordcheck});  
                 if (passwordcheck>=5) { 
                     await tble.updateOne({ user_id: uid }, { $set: {blocked: true } }); 
-                 await   rep.render("passblocked"); 
+                 await   res.render("passblocked"); 
                     return;
                  }
              }
@@ -645,7 +644,7 @@ else{
             else{
 
                 await tble.updateOne({ user_id: uid }, { $set: {amount:new_amount } }); 
-                await rep.render("successwithdraw");
+                await res.render("successwithdraw");
         
                 }
             }       
@@ -658,7 +657,7 @@ else{
 
 
 
-    exports.ser_deposit = async(req,rep) => {
+    exports.ser_deposit = async(req,res) => {
 
         let uId = req.user.user_id;
         console.log(uId); 
@@ -673,7 +672,7 @@ else{
         console.log(new_amount);
          
     if(data.blocked==true){
-        rep.render("blockeduser");
+        res.render("blockeduser");
     }
     else{
            
@@ -681,11 +680,11 @@ else{
                 if (data.password !== b) {
                      passwordcheck++; 
                      console.log(" passcheck incorrect password"); 
-                 await rep.render("deposit",{passwordcheck});
+                 await res.render("deposit",{passwordcheck});
                      
                 if (passwordcheck>=5) { 
                     await tble.updateOne({ user_id:uId }, { $set: {blocked: true } }); 
-                    await rep.render("passblocked"); 
+                    await res.render("passblocked"); 
                     return;
                  }
              }
@@ -693,7 +692,7 @@ else{
             else{
 
                 await tble.updateOne({ user_id: uId }, { $set: {amount:new_amount } }); 
-              await  rep.render("successdeposit");
+              await  res.render("successdeposit");
         
                 }
             }       
@@ -709,7 +708,7 @@ else{
 
 
     
-    exports.ser_viewprofile = async(req,rep) => {
+    exports.ser_viewprofile = async(req,res) => {
         let uid = req.user.user_id;
             let email =req.body.id;
           
@@ -722,7 +721,7 @@ else{
             let user_image = image.picture;
                 
           
-          await  rep.render("profileview", { data,user_image });
+          await  res.render("profileview", { data,user_image });
   
            
        
@@ -730,7 +729,7 @@ else{
           
        }
     
-       exports.ser_balance = async(req,rep) => {
+       exports.ser_balance = async(req,res) => {
 
         let uid = req.user.user_id;
       
@@ -738,7 +737,7 @@ else{
 
         let data = await tble.findOne({user_id:uid});
 
-      await  rep.render("balance", { data });
+      await  res.render("balance", { data });
 
        
    
@@ -748,7 +747,7 @@ else{
 
 
        
-   exports.ser_viewproduct = async(req,rep) => {
+   exports.ser_viewproduct = async(req,res) => {
 
     let uid = req.user.user_id;
   
@@ -760,7 +759,7 @@ console.log(name);
     let image = await tble.findOne({user_id:uid});
     let user_image = image.picture;
         
-    rep.render("viewproduct",{products,name,user_image});
+    res.render("viewproduct",{products,name,user_image});
 
 
    
@@ -771,14 +770,14 @@ console.log(name);
 
 
 
-exports.ser_shopping = async(req,rep) => {
+exports.ser_shopping = async(req,res) => {
 
     let uid = req.user.user_id;
   
 
     let cart = await tble3.find({addedby:uid});
     //console.log(data)
-    rep.render("addtocart",{cart});
+    res.render("addtocart",{cart});
 
 
    
@@ -791,7 +790,7 @@ exports.ser_shopping = async(req,rep) => {
 
 
 
-exports.ser_addtocart = async(req,rep) => {
+exports.ser_addtocart = async(req,res) => {
     let uid = req.user.user_id;
     let abhi = await tble.findOne({user_id:uid});
     let name = abhi.your_name;
@@ -816,10 +815,10 @@ exports.ser_addtocart = async(req,rep) => {
             let user_image = image.picture;
                 
         
-            rep.render("viewproduct",{products,name,user_image});
+            res.render("viewproduct",{products,name,user_image});
             }
             else{
-                rep.render("itemnotavailable");
+                res.render("itemnotavailable");
             }
         }
         else{
@@ -838,14 +837,14 @@ exports.ser_addtocart = async(req,rep) => {
     let image = await tble.findOne({user_id:uid});
     let user_image = image.picture;
         
-    await  rep.render("viewproduct",{products,name,user_image});
+    await  res.render("viewproduct",{products,name,user_image});
     }
 }
     
 
 else {
     console.log("not enough product");
-    rep.render("itemnotavailable")
+    res.render("itemnotavailable")
 }
 }
 
@@ -853,7 +852,7 @@ else {
 
 
 
-exports.ser_removeproduct = async(req,rep) => {
+exports.ser_removeproduct = async(req,res) => {
     let removequantity = req.query.yoyo;
     console.log(removequantity)
     let uid = req.user.user_id;
@@ -870,7 +869,7 @@ exports.ser_removeproduct = async(req,rep) => {
             await tble3.deleteOne({product_name:data});
             let cart = await tble3.find({addedby:uid});
             console.log(data)
-            rep.render("addtocart",{cart});
+            res.render("addtocart",{cart});
         }
         else{
         let data2 = await tble3.findOne({product_name:data});
@@ -879,7 +878,7 @@ exports.ser_removeproduct = async(req,rep) => {
         await tble3.updateOne({product_name:data},{product_quantity:newquantity});
        let cart = await tble3.find({addedby:uid});
         console.log(data)
-        rep.render("addtocart",{cart});
+        res.render("addtocart",{cart});
        
     }
 }
@@ -887,7 +886,7 @@ else{
 
     let cart = await tble3.find({addedby:uid});
     console.log(data)
-    rep.render("addtocart",{cart});
+    res.render("addtocart",{cart});
 
 }
     
@@ -899,7 +898,7 @@ else{
 
 
 
-exports.ser_buynow = async(req,rep) => {
+exports.ser_buynow = async(req,res) => {
     console.log("i am abhi");
     
     let uid = req.user.user_id;
@@ -912,15 +911,15 @@ exports.ser_buynow = async(req,rep) => {
 
     let cart = await tble2.findOne({product_no:product});
     let abhi1 = cart.product_quantity;
-    rep.cookie("buynowname",product);
-    rep.cookie("buynowquantity",quantity);
+    res.cookie("buynowname",product);
+    res.cookie("buynowquantity",quantity);
     console.log(abhi1);
     if(abhi1>quantity){
-    rep.render("buynow1",{quantity,cart});
+    res.render("buynow1",{quantity,cart});
 }
 
 else{
-    rep.render("itemnotavailable")
+    res.render("itemnotavailable")
 }
 }
 
@@ -930,7 +929,7 @@ else{
 
 
 
-exports.ser_confirm_purchase = async(req,rep) => {
+exports.ser_confirm_purchase = async(req,res) => {
     let abhi = req.body.totalAmount;
     let uid = req.user.user_id;
     
@@ -953,10 +952,10 @@ exports.ser_confirm_purchase = async(req,rep) => {
       
       await  tble3.deleteMany({addedby:uid})
     
-    rep.render("successpurchase",{data1,abhi});
+    res.render("successpurchase",{data1,abhi});
     }
     else{
-        rep.render("error")
+        res.render("error")
     }
 
 
@@ -970,7 +969,7 @@ exports.ser_confirm_purchase = async(req,rep) => {
 
 
     
-exports.ser_confirm_purchase1 = async(req,rep) => {
+exports.ser_confirm_purchase1 = async(req,res) => {
     let abhi = parseInt(req.body.totalAmount);
     let uid = req.user.user_id;
     console.log(abhi)
@@ -993,10 +992,10 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
         console.log(new_quantity)
         await tble2.updateOne({product_no:name},{product_quantity:new_quantity})
       let data2 = await tble2.findOne({product_no:name});
-    rep.render("successpurchase1",{data2,quantity1,abhi});
+    res.render("successpurchase1",{data2,quantity1,abhi});
     }
     else{
-        rep.render("error")
+        res.render("error")
     }
 
 
@@ -1007,7 +1006,7 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
 
 
 
-    exports.ser_updateproduct = async(req,rep) => {
+    exports.ser_updateproduct = async(req,res) => {
 
     let a = req.body.productNumber;
     let b = req.body.productName;
@@ -1030,7 +1029,7 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
         
 
     //console.log(req.file); // Cloudinary response
-   rep.render("successupdated");
+   res.render("successupdated");
  }
 
 
@@ -1059,7 +1058,7 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
 
     }
 
-    // exports.ser_update = async (req, rep) => {
+    // exports.ser_update = async (req, res) => {
        
     //     try {
     //         let userId = req.body.id; 
@@ -1067,16 +1066,16 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
         
     //         if (!users || users.length === 0) {
     //           console.log("No user data found.");
-    //           return rep.render("update", { users: [] }); // Render empty list if no data
+    //           return res.render("update", { users: [] }); // Render empty list if no data
     //         }
         
     //         console.log(`Found ${users.length} users`);
         
     //         // Render the view with the array of users
-    //         rep.render("update", { users });
+    //         res.render("update", { users });
     //       } catch (err) {
     //         console.error("Error fetching user data: ", err);
-    //         rep.status(500).send("Internal Server Error");
+    //         res.status(500).send("Internal Server Error");
     //       }
 
     //     let a=req.query.un;
@@ -1102,14 +1101,14 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
     //     if(j)filter.user_id = j;
        
     //     await tble.updateOne({   },{$set: { users:filter }});
-    //     rep.redirect('/viewuser');
+    //     res.redirect('/viewuser');
 
 
     // };
 
 
 
-// exports.ser_userview = async (req, rep) => {
+// exports.ser_userview = async (req, res) => {
 //   let un = req.cookies.abhi;
 
 //   console.log(un);
@@ -1131,8 +1130,8 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
  
 //  console.log("1 "+b);
 //  console.log("2 "+a);
-//  rep.render("viewuser",{user_name:a,your_name:b,parent_id:c,father_name:d,mobile_no:e,date:f,email:g,gender:h,address:i,password:j,amount:k});
-//  //rep.render("viewuser",{users:data});
+//  res.render("viewuser",{user_name:a,your_name:b,parent_id:c,father_name:d,mobile_no:e,date:f,email:g,gender:h,address:i,password:j,amount:k});
+//  //res.render("viewuser",{users:data});
 
 // };
 
@@ -1172,7 +1171,7 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
 
 
 
- // exports.ser_add = async (req,rep) => {
+ // exports.ser_add = async (req,res) => {
 //     let a ;
 //     let b = req.query.Name;
 //     let c = req.query.FatherName;
@@ -1195,14 +1194,14 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
 
 //     let rec = await new tble({user_id:a,parent_id:a,your_name:b,father_name:c, mobile_no:d,date:e, email:f,gender:g,address:h, password:i,amount:j});
 //     await rec.save();
-// rep.render("dashboard");
+// res.render("dashboard");
 // };
 
 
 
 
 
-// exports.ser_login = async (req,rep) => {
+// exports.ser_login = async (req,res) => {
 //   let a=req.query.email;
 //   let b=req.query.pass;
 //   console.log(a);
@@ -1211,16 +1210,16 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
 //   if(data){
 
 
-//     rep.cookie("abhi",data.user_id);
-//     rep.render("dashboard",{result:data.user_id});
+//     res.cookie("abhi",data.user_id);
+//     res.render("dashboard",{result:data.user_id});
   
 //   }
 //   else{
-//     rep.render("error");
+//     res.render("error");
 //   }
 
 // };
-// exports.ser_adduserdata = async (req, rep) => {
+// exports.ser_adduserdata = async (req, res) => {
 //     let un = req.cookies.abhi;
 //     console.log(un);
     
