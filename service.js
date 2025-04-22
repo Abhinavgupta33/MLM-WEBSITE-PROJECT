@@ -92,7 +92,7 @@ exports.ser_dashboard = async (req,res) => {
     res.render("dashboard",{name,activeuser,totalproduct,user_image})
 
 }
-exports.ser_login = async (req, rep) => {
+exports.ser_login = async (req, res) => {
   
     let a = req.body.email;
   let b = req.body.pass;
@@ -106,7 +106,7 @@ exports.ser_login = async (req, rep) => {
       //console.log(wapas);
       if (data.blocked==false) {
 
-          rep.cookie("mytoken",tok);
+          res.cookie("mytoken",tok);
           //const hello = req.cookies.loginuserid;ss
        //rep.cookie("abhi",data.user_id)
        let name = data.your_name;
@@ -124,11 +124,11 @@ exports.ser_login = async (req, rep) => {
 
       } else {
         
-          rep.render("loginblocked");
+          res.render("loginblocked");
       }
   } catch (error) {
       console.error("Error logging in:", error);
-      rep.render("error");
+      res.render("error");
   }
 };
 
