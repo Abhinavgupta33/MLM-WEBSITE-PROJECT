@@ -3,6 +3,7 @@ const tble3 = require("./module/user3.0");
 const tble2 = require("./module/user2.0");
 const tble = require("./module/user");
 let jwt=require("jsonwebtoken");
+const user = require("./module/user");
 
 
 
@@ -92,6 +93,8 @@ exports.ser_dashboard = async (req,res) => {
     res.render("dashboard",{name,activeuser,totalproduct,user_image})
 
 }
+
+
 exports.ser_login = async (req, res) => {
   
     let a = req.body.email;
@@ -372,8 +375,13 @@ exports.ser_userview = async (req, res) => {
     exports.ser_blockuser = async (req, res) => {
 
         let userId = req.body.id;
-            await tble.updateOne({ user_id: userId }, { $set: { blocked: true } });
-            res.render("successblocked");
+        let abhi = await tble.findOne({user_id:userId});
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:userId});
+        let user_image = image.picture;
+
+        await tble.updateOne({ user_id: userId }, { $set: { blocked: true } });
+            res.render("successblocked",{name,user_image});
 
 
 
@@ -387,8 +395,13 @@ exports.ser_userview = async (req, res) => {
     exports.ser_unblockuser = async (req, res) => {
         
         let userId = req.body.id; 
+        let abhi = await tble.findOne({user_id:userId});
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:userId});
+        let user_image = image.picture;
+
         await tble.updateOne({ user_id: userId }, { $set: { blocked: false } }); 
-        res.render("successunblocked");
+        res.render("successunblocked",{name,user_image});
 
     };
 
@@ -400,19 +413,25 @@ exports.ser_userview = async (req, res) => {
     exports.ser_view = async (req, res) => {
         
         try {
+            let uid = req.user.user_id;
+            let abhi = await tble.findOne({user_id:uid});
+            let name = abhi.your_name;
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
             let users = await tble.find({});
            // res.cookie("name",users.your_name);
           //res.render("dashboard", { result: data.user_id });
             
             if (!users || users.length === 0) {
                 console.log("No user data found.");
-                return res.render("viewuser", { users: [] });
+                return res.render("viewuser", { users: [],name,user_image });
             }
     
             console.log(`Found ${users.length} users`);
+           
     
             // Render the view with the array of users
-            res.render("update", { users });
+            res.render("update", { users,name,user_image });
         } catch (err) {
             console.error("Error fetching user data: ", err);
             res.status(500).send("Internal Server Error");
@@ -427,13 +446,15 @@ exports.ser_userview = async (req, res) => {
     exports.ser_user = async (req, res) => {
         let uid = req.user.user_id;
         let abhi = await tble.findOne({user_id:uid});
-        let hello = abhi.your_name;
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
      
         let userId = req.body.id; 
         console.log(userId);
         data = await tble.findOne({user_id:userId});
         res.cookie("abh",userId);
-        res.render("update", {data});
+        res.render("update", {data,name,user_image});
     };
 
 
@@ -445,6 +466,8 @@ exports.ser_userview = async (req, res) => {
         let uid = req.user.user_id;
         let abhi = await tble.findOne({user_id:uid});
         let name = abhi.your_name;
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
      
 
             let un = req.cookies.abh;
@@ -478,10 +501,6 @@ exports.ser_userview = async (req, res) => {
             let totalproducts = await tble2.find({});
             let totalproduct = totalproducts.length;
 
-          
-      
-            let image = await tble.findOne({user_id:uid});
-            let user_image = image.picture;
                 
             res.render("dashboard",{name,activeuser,totalproduct,user_image});
         
@@ -525,6 +544,10 @@ exports.ser_userview = async (req, res) => {
     exports.ser_changepass = async (req, res) => {
         
         let un = req.user.user_id;
+        let abhi = await tble.findOne({user_id:uid});
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
         console.log(un);
         let a = req.body.oldpass;
         console.log(a);
@@ -540,17 +563,20 @@ exports.ser_userview = async (req, res) => {
         if(a==d){
             
             await tble.updateOne({ user_id:un}, { password:c});
-            res.render("adminprofile");
+            res.render("adminprofile",{name,user_image});
         }
         
 
 else{
     console.log("password donot match");
+    res.render("error");
     }
 
         }
     else{
+
         console.log("pssword and confirm pass donot match");
+        res.render("error");
     }
     
     };
@@ -578,11 +604,15 @@ else{
 
 
     exports.ser_withdraw1 = async(req,res) => {
-
+        let uid = req.user.user_id;
+        let abhi = await tble.findOne({user_id:uid});
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
         //  let email =req.body.id;
         // console.log("hello");
         // res.cookie("wa",email);
-        await res.render("withdraw",{passwordcheck});
+        await res.render("withdraw",{passwordcheck,name,user_image});
     
    
     }
@@ -592,24 +622,59 @@ else{
     
     
     exports.ser_deposit1 = async(req,res) => {
-
+        
+        let uid = req.user.user_id;
+        let abhi = await tble.findOne({user_id:uid});
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
     //     let email =req.body.id;
     //    console.log("hello");
     //    res.cookie("dp",email);
-       await res.render("deposit",{passwordcheck});
+       await res.render("deposit",{passwordcheck,name,user_image});
    
   
    }
 
+    exports.ser_adduserview = async(req,res) =>{
+        let uid = req.user.user_id;
+        let abhi = await tble.findOne({user_id:uid});
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
+        res.render("register2",{name,user_image});
+    }
+
+    exports.ser_addproductview = async(req,res) =>{
+
+        let uid = req.user.user_id;
+        let abhi = await tble.findOne({user_id:uid});
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
+        res.render("addproduct",{name,user_image});
 
 
+    }
+    exports. ser_updateproductview = async(req,res) =>{
 
+        let uid = req.user.user_id;
+        let abhi = await tble.findOne({user_id:uid});
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
+       
+        res.render("updatdproduct",{name,user_image})
+
+    }
 
     exports.ser_withdraw = async(req,res) => {
       
         let uid = req.user.user_id;
-        // let uId = req.cookies.wa;
-        // console.log(uId); 
+        let abhi = await tble.findOne({user_id:uid});
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
         let a = req.body.amount;
         console.log(a);
         let b = req.body.password;
@@ -620,12 +685,12 @@ else{
         let new_amount =previous_amount-a;
         console.log(new_amount);
         if(data.blocked==true){
-            res.render("blockeduser");
+            res.render("blockeduser",{name,user_image});
         }
         else{
         if(previous_amount<a ){
 
-            res.render("notbalance");
+            res.render("notbalance",{name,user_image});
         } 
         else {
             
@@ -633,10 +698,10 @@ else{
                 if (data.password !== b) {
                      console.log("incorrect password"); 
                      passwordcheck++; 
-                 await  res.render("withdraw",{passwordcheck});  
+                 await  res.render("withdraw",{passwordcheck,name,user_image});  
                 if (passwordcheck>=5) { 
                     await tble.updateOne({ user_id: uid }, { $set: {blocked: true } }); 
-                 await   res.render("passblocked"); 
+                 await   res.render("passblocked",{name,user_image}); 
                     return;
                  }
              }
@@ -644,7 +709,7 @@ else{
             else{
 
                 await tble.updateOne({ user_id: uid }, { $set: {amount:new_amount } }); 
-                await res.render("successwithdraw");
+                await res.render("successwithdraw",{name,user_image});
         
                 }
             }       
@@ -660,6 +725,10 @@ else{
     exports.ser_deposit = async(req,res) => {
 
         let uId = req.user.user_id;
+        let abhi = await tble.findOne({user_id:uId});
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:uId});
+        let user_image = image.picture;
         console.log(uId); 
         let a = req.body.amount;
         console.log(a);
@@ -672,7 +741,7 @@ else{
         console.log(new_amount);
          
     if(data.blocked==true){
-        res.render("blockeduser");
+        res.render("blockeduser",{name,user_image});
     }
     else{
            
@@ -680,11 +749,11 @@ else{
                 if (data.password !== b) {
                      passwordcheck++; 
                      console.log(" passcheck incorrect password"); 
-                 await res.render("deposit",{passwordcheck});
+                 await res.render("deposit",{passwordcheck,name,user_image});
                      
                 if (passwordcheck>=5) { 
                     await tble.updateOne({ user_id:uId }, { $set: {blocked: true } }); 
-                    await res.render("passblocked"); 
+                    await res.render("passblocked",{name,user_image}); 
                     return;
                  }
              }
@@ -692,7 +761,7 @@ else{
             else{
 
                 await tble.updateOne({ user_id: uId }, { $set: {amount:new_amount } }); 
-              await  res.render("successdeposit");
+              await  res.render("successdeposit",{name,user_image});
         
                 }
             }       
@@ -709,11 +778,11 @@ else{
 
     
     exports.ser_viewprofile = async(req,res) => {
-        let uid = req.user.user_id;
+            
+        
+            let uid = req.user.user_id;
             let email =req.body.id;
           
-          
-
             let data = await tble.findOne({email:email});
             console.log(data);
       
@@ -732,12 +801,15 @@ else{
        exports.ser_balance = async(req,res) => {
 
         let uid = req.user.user_id;
-      
+        let abhi = await tble.findOne({user_id:uid});
+            let name = abhi.your_name;
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
       
 
         let data = await tble.findOne({user_id:uid});
 
-      await  res.render("balance", { data });
+      await  res.render("balance", { data,name,user_image });
 
        
    
@@ -750,6 +822,7 @@ else{
    exports.ser_viewproduct = async(req,res) => {
 
     let uid = req.user.user_id;
+
   
 let user = await tble.findOne({user_id:uid}); 
 let name = user.your_name;
@@ -1007,7 +1080,11 @@ exports.ser_confirm_purchase1 = async(req,res) => {
 
 
     exports.ser_updateproduct = async(req,res) => {
-
+            let uid = req.user.user_id;
+            let abhi = await tble.findOne({user_id:uid});
+            let name = abhi.your_name;
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
     let a = req.body.productNumber;
     let b = req.body.productName;
     console.log(b);
@@ -1029,7 +1106,7 @@ exports.ser_confirm_purchase1 = async(req,res) => {
         
 
     //console.log(req.file); // Cloudinary response
-   res.render("successupdated");
+   res.render("successupdated",{name,user_image});
  }
 
 
@@ -1043,9 +1120,11 @@ exports.ser_confirm_purchase1 = async(req,res) => {
     exports.ser_mailopen = async(req,res) => {
 
         let uid = req.user.user_id;
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
         let abhi = await tble.findOne({user_id:uid});
         let name = abhi.your_name;
-        res.render("mail",{name});
+        res.render("mail",{name,user_image});
 
     }
 

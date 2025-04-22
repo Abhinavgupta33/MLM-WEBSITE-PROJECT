@@ -78,7 +78,10 @@
     }
   </style>
 </head>
-<body><form action="/deposit1" method="post">
+<body>
+  <%- include("../utils/header")%> 
+  <%- include("side")%>
+  <form action="/deposit1" method="post">
   <div class="form-container">
     <h2>Enter Details</h2>
     <form id="detailsForm">
