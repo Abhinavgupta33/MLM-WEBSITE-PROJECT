@@ -13,6 +13,8 @@ const { v2: cloudinary } = require('cloudinary');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 de.config()
 
+const my_auth = require("./my_auth");
+
 app.use(express.json());
 cloudinary.config({
 
@@ -53,6 +55,10 @@ app.set('view engine', 'ejs');
 
 
 
+const cookieParser = require('cookie-parser');
+
+// Add this before your routes
+app.use(cookieParser());
 
 
 
@@ -67,7 +73,8 @@ app.set('view engine', 'ejs');
 
 
 
- 
+
+
 
 
 
@@ -234,6 +241,29 @@ app.post('/send-mail', async (req, res) => {
 
 
 
+app.post('/profile_edit',my_auth, upload.single('UserImage'),async (req, res) => {
+
+let uid = req.user.user_id;
+
+console.log(uid);
+
+  let name = req.body.name;
+
+  let phone = req.body.phone;
+
+  await tble.updateOne({user_id:uid},{your_name:name,mobile_no:phone,picture:req.file.path});
+
+  let data = await tble.findOne({user_id:uid});
+
+  let a = data.your_name;
+  let b = data.mobile_no;
+  let c = data.email;
+
+  res.render("adminprofile",{a,b,c});
+
+
+
+});
 
 
 
@@ -254,24 +284,14 @@ app.post('/addproduct1', upload.single('productImage'),async (req, res) => {
 
     let b = req.body.productName;
 
-    console.log(b);
-
     let c = req.body.productDescription;
-
-    console.log(c);
 
     let d = req.body.productPrice;
 
-    console.log(d);
-
     let e = req.body.productCategory;
-
-    console.log(e);
 
     let f = req.body.productStock;
 
-    console.log(f);
-    
         let data = await tble2.findOne().sort({ product_no: -1 });
 
         if (data) {
@@ -282,8 +302,6 @@ app.post('/addproduct1', upload.single('productImage'),async (req, res) => {
 
             a = 1;
         }
-
-        console.log(`Assigned product_no number: ${a}`);
 
         let rel = new tble2({
 
@@ -317,12 +335,10 @@ app.post('/addproduct1', upload.single('productImage'),async (req, res) => {
  
 
 app.use(bp.urlencoded({extended:true}));
-const cookieParser = require('cookie-parser'); 
-app.use(cookieParser());
 de.config();
 const path=require("path");
 let {conDB}=require("./dbconnection");
-const my_auth = require("./my_auth");
+
 conDB();
 app.set("view engine","ejs");
 app.use("",require("./router"));

@@ -45,6 +45,7 @@ router.post("/updateproductform",my_auth,cont_updateproduct1);
 router.post("/send-mail",my_auth);
 router.get("/mail-open",my_auth,cont_mailopen);
 router.get("/leaderboard",my_auth,cont_leaderboard);
+router.post("/profile_edit")
 
 
 

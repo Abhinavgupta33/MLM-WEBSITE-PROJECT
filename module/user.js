@@ -7,6 +7,7 @@ const table = mongoose.Schema({
     mobile_no:{type:Number},
     date:{type:Date},
     email:{type:String},
+    picture:{type:String,default:"D:\Project\MLM project\public\assets\img\profile-img.jpg" },
     gender:{type:String},
     address:{type:String},
     password:{type:String},

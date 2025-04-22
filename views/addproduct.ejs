@@ -4,152 +4,258 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Product</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Roboto', Arial, sans-serif;
-      background: linear-gradient(to bottom right, #f0f8ff, #add8e6);
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --success-color: #4cc9f0;
+      --text-color: #2b2d42;
+      --light-gray: #f8f9fa;
+      --border-color: #dee2e6;
+      --error-color: #ef233c;
+    }
+    
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f7fa;
+      color: var(--text-color);
+      line-height: 1.6;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      padding: 20px;
     }
-
+    
     .form-container {
-      background-color: #ffffff;
-      padding: 40px;
+      background: white;
       border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
       width: 100%;
-      max-width: 500px;
-      animation: fadeIn 1s ease-in-out;
+      max-width: 520px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
     }
-
+    
+    .form-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+    }
+    
     .form-container h2 {
       text-align: center;
-      color: #333;
-      margin-bottom: 20px;
-      font-size: 24px;
-      font-weight: bold;
+      margin-bottom: 1.75rem;
+      color: var(--text-color);
+      font-weight: 700;
+      font-size: 1.75rem;
     }
-
+    
+    .form-group {
+      margin-bottom: 1.25rem;
+      position: relative;
+    }
+    
     label {
       display: block;
-      margin: 10px 0 5px;
-      font-weight: bold;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-color);
+      font-size: 0.95rem;
     }
-
-    input[type="text"], input[type="number"], input[type="file"], textarea, select {
+    
+    .required::after {
+      content: ' *';
+      color: var(--error-color);
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    input[type="file"],
+    textarea,
+    select {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      font-size: 14px;
-      transition: border-color 0.3s ease;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      background-color: var(--light-gray);
     }
-
-    input[type="text"]:focus, input[type="number"]:focus, textarea:focus, select:focus {
-      border-color: #4caf50;
+    
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    textarea:focus,
+    select:focus {
       outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+      background-color: white;
     }
-
+    
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1rem;
+    }
+    
     .submit-btn {
       width: 100%;
-      padding: 12px;
-      background: linear-gradient(to right, #00c6ff, #0072ff);
-      color: #fff;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
       border: none;
-      border-radius: 25px;
-      font-size: 16px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s;
-      outline: none;
+      transition: all 0.3s ease;
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-
+    
     .submit-btn:hover {
-      background: linear-gradient(to right, #0072ff, #00c6ff);
+      background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
       transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
     }
-
+    
     .submit-btn:active {
       transform: translateY(0);
     }
-
-    .form-container p {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
-    .form-container p a {
-      color: #4caf50;
-      text-decoration: none;
-    }
-
-    .form-container p a:hover {
-      text-decoration: underline;
-    }
-
+    
     #imagePreview {
-      margin: 10px 0;
+      margin: 1rem 0;
       text-align: center;
+      border: 1px dashed var(--border-color);
+      border-radius: 8px;
+      padding: 1rem;
+      background-color: var(--light-gray);
     }
-
+    
     #imagePreview img {
       max-width: 100%;
+      max-height: 200px;
+      border-radius: 6px;
+      object-fit: contain;
+    }
+    
+    .file-input-container {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .file-input-container input[type="file"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+    
+    .file-input-label {
+      display: block;
+      padding: 0.75rem 1rem;
+      background-color: var(--light-gray);
+      border: 1px solid var(--border-color);
       border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    
+    .file-input-label:hover {
+      background-color: #e9ecef;
     }
-
-    @media (max-width: 768px) {
+    
+    .file-input-text {
+      display: block;
+      font-size: 0.85rem;
+      color: #6c757d;
+      margin-top: 0.5rem;
+    }
+    
+    @media (max-width: 576px) {
       .form-container {
-        padding: 20px;
+        padding: 1.75rem 1.5rem;
+      }
+      
+      .form-container h2 {
+        font-size: 1.5rem;
       }
     }
   </style>
 </head>
 <body>
   <div class="form-container">
-    <h2>Add Product</h2>
+    <h2>Add New Product</h2>
     <form action="/addproduct1" method="post" enctype="multipart/form-data" onsubmit="return validateProductForm()">
-      <label for="product-name">Product Name:</label>
-      <input type="text" id="productName" name="productName" placeholder="Enter product name" required>
-
-      <label for="product-description">Product Description:</label>
-      <textarea id="productDescription" name="productDescription" placeholder="Enter product description" rows="4" required></textarea>
-
-      <label for="product-price">Price:</label>
-      <input type="number" id="productPrice" name="productPrice" placeholder="Enter product price" min="0" required>
-
-      <label for="product-category">Category:</label>
-      <select id="productCategory" name="productCategory" required>
-        <option value="">Select a category</option>
-        <option value="electronics">Electronics</option>
-        <option value="fashion">Fashion</option>
-        <option value="home">Home</option>
-        <option value="beauty">Beauty</option>
-        <option value="sports">Sports</option>
-      </select>
-
-      <label for="product-stock">Stock Quantity:</label>
-      <input type="number" id="productStock" name="productStock" placeholder="Enter stock quantity" min="0" required>
-
-      <label for="product-image">Upload Image:</label>
-      <input type="file" id="productImage" name="productImage" accept="image/*" onchange="previewImage()">
-      <div id="imagePreview"></div>
-
+      <div class="form-group">
+        <label for="productName" class="required">Product Name</label>
+        <input type="text" id="productName" name="productName" placeholder="Enter product name">
+      </div>
+      
+      <div class="form-group">
+        <label for="productDescription" class="required">Product Description</label>
+        <textarea id="productDescription" name="productDescription" placeholder="Enter detailed product description"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="productPrice" class="required">Price</label>
+        <input type="number" id="productPrice" name="productPrice" placeholder="0.00" min="0" step="0.01">
+      </div>
+      
+      <div class="form-group">
+        <label for="productCategory" class="required">Category</label>
+        <select id="productCategory" name="productCategory">
+          <option value="" disabled selected>Select a category</option>
+          <option value="electronics">Electronics</option>
+          <option value="fashion">Fashion</option>
+          <option value="home">Home</option>
+          <option value="beauty">Beauty</option>
+          <option value="sports">Sports</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="productStock" class="required">Stock Quantity</label>
+        <input type="number" id="productStock" name="productStock" placeholder="0" min="0">
+      </div>
+      
+      <div class="form-group">
+        <label for="productImage">Product Image</label>
+        <div class="file-input-container">
+          <input type="file" id="productImage" name="productImage" accept="image/*" onchange="previewImage()">
+          <label for="productImage" class="file-input-label">Choose an image file</label>
+          <span class="file-input-text">JPEG, PNG or GIF (Max 5MB)</span>
+        </div>
+        <div id="imagePreview"></div>
+      </div>
+      
       <button type="submit" class="submit-btn">Add Product</button>
     </form>
   </div>
@@ -161,34 +267,68 @@
       const price = document.getElementById('productPrice').value;
       const category = document.getElementById('productCategory').value;
       const stock = document.getElementById('productStock').value;
-
-      if (!name || !description || !price || !category || !stock) {
-        alert("Please fill in all required fields.");
+      const fileInput = document.getElementById('productImage');
+      
+      // Basic validation
+      if (!name) {
+        alert("Please enter a product name.");
         return false;
       }
-
-      if (price <= 0 || stock < 0) {
-        alert("Price must be greater than 0 and stock must not be negative.");
+      
+      if (!description) {
+        alert("Please enter a product description.");
         return false;
       }
-
+      
+      if (!price || parseFloat(price) <= 0) {
+        alert("Please enter a valid price greater than 0.");
+        return false;
+      }
+      
+      if (!category) {
+        alert("Please select a product category.");
+        return false;
+      }
+      
+      if (!stock || parseInt(stock) < 0) {
+        alert("Please enter a valid stock quantity (0 or more).");
+        return false;
+      }
+      
+      // Optional file validation
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        
+        if (!validTypes.includes(file.type)) {
+          alert("Please upload a valid image file (JPEG, PNG, or GIF).");
+          return false;
+        }
+        
+        if (file.size > maxSize) {
+          alert("Image file size must be less than 5MB.");
+          return false;
+        }
+      }
+      
       return true;
     }
-
+    
     function previewImage() {
       const fileInput = document.getElementById('productImage');
       const previewContainer = document.getElementById('imagePreview');
-      previewContainer.innerHTML = '';
-
-      const file = fileInput.files[0];
-      if (file) {
+      
+      if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
-        reader.onload = function (e) {
-          const img = document.createElement('img');
-          img.src = e.target.result;
-          previewContainer.appendChild(img);
-        };
-        reader.readAsDataURL(file);
+        
+        reader.onload = function(e) {
+          previewContainer.innerHTML = `<img src="${e.target.result}" alt="Product Preview">`;
+        }
+        
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        previewContainer.innerHTML = '';
       }
     }
   </script>

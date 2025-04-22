@@ -62,13 +62,17 @@ let jwt=require("jsonwebtoken");
        
          let totalproducts = await tble2.find({});
          let totalproduct = totalproducts.length;
+
+         let image = await tble.findOne({user_id:a});
+
+         let user_image = image.picture;
      
-         res.render("dashboard",{name,activeuser,totalproduct})
+         res.render("dashboard",{name,activeuser,totalproduct,user_image})
      
  };
  
 
-exports.ser_dashboard = async (req,rep) => {
+exports.ser_dashboard = async (req,res) => {
     
     let uid = req.user.user_id;
     let abhi = await tble.findOne({user_id:uid});
@@ -79,7 +83,13 @@ exports.ser_dashboard = async (req,rep) => {
     let totalproducts = await tble2.find({});
     let totalproduct = totalproducts.length;
     
-    rep.render("dashboard",{name,activeuser,totalproduct})
+
+    
+    let image = await tble.findOne({user_id:a=uid});
+
+    let user_image = image.picture;
+
+    res.render("dashboard",{name,activeuser,totalproduct,user_image})
 
 }
 exports.ser_login = async (req, rep) => {
@@ -107,8 +117,11 @@ exports.ser_login = async (req, rep) => {
       
         let totalproducts = await tble2.find({});
         let totalproduct = totalproducts.length;
+
+        let user_image = data.picture;
     
-        rep.render("dashboard",{name,activeuser,totalproduct});
+        res.render("dashboard",{name,activeuser,totalproduct,user_image})
+
       } else {
         
           rep.render("loginblocked");
@@ -259,10 +272,23 @@ exports.ser_adduserdata = async (req, res) => {
 
            commission = commission / 2;
             parentId = user.parent_id; 
-           
+
+
+            let active_user = await tble.find({status:"active"});
+            let activeuser = active_user.length;
+      
+            let totalproducts = await tble2.find({});
+            let totalproduct = totalproducts.length;
+
+          
+      
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
+                
+            res.render("dashboard",{name,activeuser,totalproduct,user_image});
         }
 
-        res.render("dashboard",{name});
+       
     } catch (error) {
         console.error("Error adding user data:", error);
         res.render("error");
@@ -294,8 +320,13 @@ exports.ser_userview = async (req, rep) => {
   
       console.log(`Found ${users.length} users`);
   
+
+      
+    let image = await tble.findOne({user_id:uid});
+      let user_image = image.picture;
+  
       // Render the view with the array of users
-      rep.render("viewuser", { users,name });
+      rep.render("viewuser", { users,name,user_image });
     } catch (err) {
       console.error("Error fetching user data: ", err);
       rep.status(500).send("Internal Server Error");
@@ -323,8 +354,14 @@ exports.ser_userview = async (req, rep) => {
     if (d) filter.mobile_no = d;
   
     let users = await tble.find(filter);
+
+    
+    let image = await tble.findOne({user_id:uid});
+      let user_image = image.picture;
+
+    
   
-    rep.render("viewuser", { name, users });
+    rep.render("viewuser", { name, users,user_image });
   };
   
 
@@ -405,7 +442,7 @@ exports.ser_userview = async (req, rep) => {
 
 
 
-    exports.ser_update = async (req, rep) => {
+    exports.ser_update = async (req, res) => {
         let uid = req.user.user_id;
         let abhi = await tble.findOne({user_id:uid});
         let name = abhi.your_name;
@@ -434,7 +471,20 @@ exports.ser_userview = async (req, rep) => {
             await tble.updateOne({ user_id:un}, { your_name:a,father_name:b,mobile_no:c,email:e,gender:f,address:g});
     
             console.log("User updated successfully.");
-            rep.render("dashboard",{name});
+
+            
+            let active_user = await tble.find({status:"active"});
+            let activeuser = active_user.length;
+      
+            let totalproducts = await tble2.find({});
+            let totalproduct = totalproducts.length;
+
+          
+      
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
+                
+            res.render("dashboard",{name,activeuser,totalproduct,user_image});
         
     };
      
@@ -459,7 +509,12 @@ exports.ser_userview = async (req, rep) => {
         let c=data.email;
         console.log(c);
 
-        rep.render("adminprofile", { a,b,c,name});
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
+            
+     
+
+        rep.render("adminprofile", { a,b,c,name,user_image});
 
     };
 
@@ -655,15 +710,19 @@ else{
 
     
     exports.ser_viewprofile = async(req,rep) => {
-
+        let uid = req.user.user_id;
             let email =req.body.id;
           
           
 
             let data = await tble.findOne({email:email});
             console.log(data);
-
-          await  rep.render("profileview", { data });
+      
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
+                
+          
+          await  rep.render("profileview", { data,user_image });
   
            
        
@@ -698,7 +757,10 @@ let name = user.your_name;
 console.log(name);
    let products = await tble2.find({});
     //console.log(data)
-    rep.render("viewproduct",{products,name});
+    let image = await tble.findOne({user_id:uid});
+    let user_image = image.picture;
+        
+    rep.render("viewproduct",{products,name,user_image});
 
 
    
@@ -749,8 +811,12 @@ exports.ser_addtocart = async(req,rep) => {
             let total_quantity = (data1.product_quantity) + (quantity);
             await tble3.updateOne({product_no:product},{  product_no: cart1.product_no,product_name:cart1.product_name,product_description:cart1.product_description,product_price:cart1.product_price,product_category:cart1.product_category,product_quantity:total_quantity,product_image:cart1.product_image,addedby:uid})
             let products = await tble2.find({});
-            //console.log(data)
-            rep.render("viewproduct",{products,name});
+      
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
+                
+        
+            rep.render("viewproduct",{products,name,user_image});
             }
             else{
                 rep.render("itemnotavailable");
@@ -769,7 +835,10 @@ exports.ser_addtocart = async(req,rep) => {
         });
     let products = await tble2.find({});
     await rel.save();
-  await  rep.render("viewproduct",{products,name});
+    let image = await tble.findOne({user_id:uid});
+    let user_image = image.picture;
+        
+    await  rep.render("viewproduct",{products,name,user_image});
     }
 }
     
@@ -990,8 +1059,6 @@ exports.ser_confirm_purchase1 = async(req,rep) => {
 
     }
 
-
-    
     // exports.ser_update = async (req, rep) => {
        
     //     try {

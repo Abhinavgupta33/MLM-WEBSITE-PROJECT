@@ -39,8 +39,8 @@
 
 <body>
 
-  <%- include("../utils/header") %>
-  <%- include("side"); %>                                 
+  <%- include("../utils/header") %>
+  <%- include("side"); %>                                 
 
   <main id="main" class="main">
 
@@ -61,15 +61,17 @@
 
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-              <img src= alt="Profile" class="rounded-circle">
-              <h2></h2>
-              <h3>Admin</h3>
+              <div class="profile-img-wrapper">
+                <img src="<%=user_image %>" class="rounded-circle" alt="Profile" onerror="this.src='assets/img/profile-img.jpg'">
+                <div class="profile-badge">Admin</div>
+              </div>
+              <h2 class="mt-3"><%= a %></h2>
+              <h3>Administrator</h3>
               <div class="social-links mt-2">
-                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="twitter" data-bs-toggle="tooltip" title="Twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook" data-bs-toggle="tooltip" title="Facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram" data-bs-toggle="tooltip" title="Instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="linkedin" data-bs-toggle="tooltip" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
               </div>
             </div>
           </div>
@@ -82,113 +84,110 @@
             <div class="card-body pt-3">
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
-
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Profile</button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
                 </li>
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
                 </li>
-                
-
               </ul>
+              
               <div class="tab-content pt-2">
-
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                  
-  
-                  
-                  <h5 class="card-title">About</h5>
-                  <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
-
-                  <h5 class="card-title">Profile Details</h5>
-                  <form action="/admininfo">
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">Full Name:     <%= a %></div>
-                    <div class="col-lg-9 col-md-8"></div>
+                  <div class="profile-header">
+                    <h5 class="card-title">About</h5>
+                    <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
                   </div>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Phone:     <%= b %></div>
-                    <div class="col-lg-9 col-md-8"></div>
-                  </div>
+                  <div class="profile-details">
+                    <h5 class="card-title">Profile Details</h5>
+                    <form action="/admininfo">
+                      <div class="row detail-item">
+                        <div class="col-lg-3 col-md-4 label">Full Name:</div>
+                        <div class="col-lg-9 col-md-8 value"><%= a %></div>
+                      </div>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Email:     <%= c %></div>
-                    <div class="col-lg-9 col-md-8"></div>
-                  </div>
-                </form>
-                 
+                      <div class="row detail-item">
+                        <div class="col-lg-3 col-md-4 label">Phone:</div>
+                        <div class="col-lg-9 col-md-8 value"><%= b %></div>
+                      </div>
 
+                      <div class="row detail-item">
+                        <div class="col-lg-3 col-md-4 label">Email:</div>
+                        <div class="col-lg-9 col-md-8 value"><%= c %></div>
+                      </div>
+                    </form>
+                  </div>
                 </div>
 
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-
                   <!-- Profile Edit Form -->
-                  <form action="/profile" method="post" enctype="multipart/form-data">
+                  <form action="/profile_edit" method="post" enctype="multipart/form-data">
                     <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                       <div class="col-md-8 col-lg-9">
-                       
-                        <img src=alt="Profile">
-                        <div class="pt-2">
-                          
-                          <input class="btn btn-primary btn-sm" title="Upload new profile image" type="file" name="image">
+                        <div class="profile-edit-img">
+                          <img src="<%=user_image %>" alt="Profile" class="img-thumbnail">
+                          <div class="pt-2">
+                            <input class="btn btn-primary btn-sm" title="Upload new profile image" type="file" name="UserImage" id="profileImage">
+                            <button type="button" class="btn btn-danger btn-sm" title="Remove current image">
+                              <i class="bi bi-trash"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Name</label>
+                      <label for="name" class="col-md-4 col-lg-3 col-form-label">Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="name" type="text" class="form-control" id="fullName" value=>
+                        <input name="name" type="text" class="form-control" id="name" value="<%= a %>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                      <label for="phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="mobile" type="text" class="form-control" id="Phone" value=>
+                        <input name="mobile" type="text" class="form-control" id="phone" value="<%= b %>">
                       </div>
                     </div>
 
-                    
-
-
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                      <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i> Save Changes
+                      </button>
+                      <button type="reset" class="btn btn-secondary">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+                      </button>
                     </div>
                   </form><!-- End Profile Edit Form -->
-
                 </div>
 
                 <div class="tab-pane fade pt-3" id="profile-settings">
-
                   <!-- Settings Form -->
                   <form>
-
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
                       <div class="col-md-8 col-lg-9">
-                        <div class="form-check">
+                        <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" id="changesMade" checked>
                           <label class="form-check-label" for="changesMade">
                             Changes made to your account
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" id="newProducts" checked>
                           <label class="form-check-label" for="newProducts">
                             Information on new products and services
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" id="proOffers">
                           <label class="form-check-label" for="proOffers">
                             Marketing and promo offers
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
                           <label class="form-check-label" for="securityNotify">
                             Security alerts
@@ -201,31 +200,50 @@
                       <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                   </form><!-- End settings Form -->
-
                 </div>
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
                   <form action="/changepass">
-
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
+                        <div class="input-group">
+                          <input name="password" type="password" class="form-control" id="currentPassword">
+                          <button class="btn btn-outline-secondary toggle-password" type="button">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                        </div>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        <div class="input-group">
+                          <input name="newpassword" type="password" class="form-control" id="newPassword">
+                          <button class="btn btn-outline-secondary toggle-password" type="button">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                        </div>
+                        <div class="password-strength mt-2">
+                          <div class="progress" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                          </div>
+                          <small class="text-muted">Password strength</small>
+                        </div>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                        <div class="input-group">
+                          <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                          <button class="btn btn-outline-secondary toggle-password" type="button">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                        </div>
                       </div>
                     </div>
 
@@ -233,21 +251,16 @@
                       <button type="submit" class="btn btn-primary">Change Password</button>
                     </div>
                   </form><!-- End Change Password Form -->
-
                 </div>
-
               </div><!-- End Bordered Tabs -->
-
             </div>
           </div>
-
         </div>
       </div>
     </section>
-
   </main><!-- End #main -->
 
-  <%- include("../utils/footer"); %>  
+  <%- include("../utils/footer"); %>  
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -264,6 +277,113 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
-</body>
+  <style>
+    /* Additional CSS for enhancements */
+    .profile-img-wrapper {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin-bottom: 15px;
+    }
+    
+    .profile-badge {
+      position: absolute;
+      bottom: -10px;
+      right: -10px;
+      background: #4154f1;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .detail-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .detail-item:last-child {
+      border-bottom: none;
+    }
+    
+    .label {
+      font-weight: 600;
+      color: #4154f1;
+    }
+    
+    .value {
+      color: #6c757d;
+    }
+    
+    .profile-edit-img {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .profile-edit-img img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+    
+    .toggle-password {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    
+    .password-strength {
+      margin-top: 5px;
+    }
+    
+    .form-switch .form-check-input {
+      width: 3em;
+      height: 1.5em;
+    }
+  </style>
 
+  <script>
+    // Initialize tooltips
+    document.addEventListener('DOMContentLoaded', function() {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+      
+      // Toggle password visibility
+      document.querySelectorAll('.toggle-password').forEach(function(button) {
+        button.addEventListener('click', function() {
+          const input = this.parentNode.querySelector('input');
+          const icon = this.querySelector('i');
+          if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+          } else {
+            input.type = 'password';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+          }
+        });
+      });
+      
+      // Simple password strength indicator
+      document.getElementById('newPassword')?.addEventListener('input', function() {
+        const strengthBar = this.closest('.row').querySelector('.progress-bar');
+        if (strengthBar) {
+          const strength = Math.min(this.value.length * 10, 100);
+          strengthBar.style.width = strength + '%';
+          strengthBar.classList.remove('bg-danger', 'bg-warning', 'bg-success');
+          if (strength < 30) {
+            strengthBar.classList.add('bg-danger');
+          } else if (strength < 70) {
+            strengthBar.classList.add('bg-warning');
+          } else {
+            strengthBar.classList.add('bg-success');
+          }
+        }
+      });
+    });
+  </script>
+</body>
 </html>
