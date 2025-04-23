@@ -53,32 +53,31 @@
     </div><!-- End Page Title -->
 
     <section class="section profile">
-      <div class="row">
-        <div class="col-xl-4">
+      <div class="row justify-content-end">
+        <!-- Added justify-content-end to shift content right -->
+        <div class="col-xl-8 offset-xl-1">
+          <!-- Added offset to create space from sidebar -->
 
-          <div class="card">
-            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-              <div class="profile-img-wrapper">
-                <img src="<%=user_image %>" class="rounded-circle" alt="Profile" onerror="this.src='assets/img/profile-img.jpg'">
-                <div class="profile-badge">Admin</div>
-              </div>
-              <h2 class="mt-3"><%= a %></h2>
-              <h3>Administrator</h3>
-              <div class="social-links mt-2">
-                <a href="#" class="twitter" data-bs-toggle="tooltip" title="Twitter"><i class="bi bi-twitter"></i></a>
-                <a href="#" class="facebook" data-bs-toggle="tooltip" title="Facebook"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="instagram" data-bs-toggle="tooltip" title="Instagram"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="linkedin" data-bs-toggle="tooltip" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="col-xl-8">
-
-          <div class="card">
+          <div class="card profile-card-enhanced">
             <div class="card-body pt-3">
+              <!-- Enhanced header with gradient -->
+              <div class="profile-header-gradient">
+                <div class="profile-img-wrapper">
+                  <img src="<%=user_image %>" class="rounded-circle" alt="Profile" onerror="this.src='assets/img/profile-img.jpg'">
+                  <div class="profile-badge">Admin</div>
+                </div>
+                <div class="profile-header-content">
+                  <h2 class="profile-name"><%= a %></h2>
+                  <h3 class="profile-title">Administrator</h3>
+                  <div class="social-links">
+                    <a href="#" class="twitter" data-bs-toggle="tooltip" title="Twitter"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="facebook" data-bs-toggle="tooltip" title="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="instagram" data-bs-toggle="tooltip" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="linkedin" data-bs-toggle="tooltip" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
                 <li class="nav-item">
@@ -275,29 +274,89 @@
   <script src="assets/js/main.js"></script>
 
   <style>
-    /* Additional CSS for enhancements */
+    /* Enhanced Profile Styles */
+    .profile-card-enhanced {
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border: none;
+      overflow: hidden;
+    }
+    
+    .profile-header-gradient {
+      background: linear-gradient(135deg, #4154f1 0%, #6c757d 100%);
+      padding: 2rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: -1.5rem -1.5rem 2rem -1.5rem;
+    }
+    
     .profile-img-wrapper {
       position: relative;
       width: 120px;
       height: 120px;
-      margin-bottom: 15px;
+      margin-right: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .profile-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 3px solid white;
     }
     
     .profile-badge {
       position: absolute;
       bottom: -10px;
       right: -10px;
-      background: #4154f1;
-      color: white;
+      background: #ffc107;
+      color: #212529;
       padding: 5px 10px;
       border-radius: 20px;
       font-size: 12px;
       font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .profile-header-content {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .profile-name {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+    
+    .profile-title {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .social-links a {
+      color: white;
+      font-size: 1.2rem;
+      margin-right: 1rem;
+      transition: all 0.3s;
+    }
+    
+    .social-links a:hover {
+      transform: translateY(-3px);
+      opacity: 0.8;
     }
     
     .detail-item {
-      padding: 10px 0;
+      padding: 15px 0;
       border-bottom: 1px solid #eee;
+      transition: background-color 0.2s;
+    }
+    
+    .detail-item:hover {
+      background-color: #f8f9fa;
     }
     
     .detail-item:last-child {
@@ -310,7 +369,8 @@
     }
     
     .value {
-      color: #6c757d;
+      color: #495057;
+      font-weight: 500;
     }
     
     .profile-edit-img {
@@ -322,6 +382,7 @@
       width: 150px;
       height: 150px;
       object-fit: cover;
+      border: 3px solid #e9ecef;
     }
     
     .toggle-password {
@@ -336,6 +397,27 @@
     .form-switch .form-check-input {
       width: 3em;
       height: 1.5em;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .profile-header-gradient {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .profile-img-wrapper {
+        margin-right: 0;
+        margin-bottom: 1.5rem;
+      }
+      
+      .social-links {
+        justify-content: center;
+      }
+      
+      .label, .value {
+        text-align: left;
+      }
     }
   </style>
 
@@ -379,6 +461,12 @@
             strengthBar.classList.add('bg-success');
           }
         }
+      });
+      
+      // Remove image button functionality
+      document.querySelector('.btn-danger.btn-sm')?.addEventListener('click', function() {
+        const img = this.closest('.profile-edit-img').querySelector('img');
+        img.src = 'assets/img/profile-img.jpg'; // default image
       });
     });
   </script>

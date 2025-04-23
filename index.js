@@ -247,11 +247,16 @@ let uid = req.user.user_id;
 
 console.log(uid);
 
-  let name = req.body.name;
+  let new_name = req.body.name;
+
+    let abhi = await tble.findOne({user_id:uid});
+          let name = abhi.your_name;
+          let image = await tble.findOne({user_id:uid});
+          let user_image = image.picture;
 
   let phone = req.body.phone;
 
-  await tble.updateOne({user_id:uid},{your_name:name,mobile_no:phone,picture:req.file.path});
+  await tble.updateOne({user_id:uid},{your_name:new_name,mobile_no:phone,picture:req.file.path});
 
   let data = await tble.findOne({user_id:uid});
 
@@ -259,7 +264,7 @@ console.log(uid);
   let b = data.mobile_no;
   let c = data.email;
 
-  res.render("adminprofile",{a,b,c});
+  res.render("adminprofile",{a,b,c,name,user_image});
 
 
 
