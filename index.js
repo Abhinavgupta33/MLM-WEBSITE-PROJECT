@@ -60,118 +60,7 @@ const cookieParser = require('cookie-parser');
 // Add this before your routes
 app.use(cookieParser());
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const recentactivity = require("./module/recentactivity");
 
 
 const tble = require("./module/user");
@@ -179,15 +68,28 @@ const tble = require("./module/user");
 
 
 const nodemailer = require('nodemailer');
+
+
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true }));  // Parse URL-encoded form data
 
-app.post('/send-mail', async (req, res) => {
-  
 
+
+
+
+
+
+app.post('/send-mail',my_auth, async (req, res) => {
+  
+  let uid = req.user.user_id;
       
+    let abhi = await tble.findOne({user_id:uid});
+    let name = abhi.your_name;
+    let image = await tble.findOne({user_id:uid});
+    let user_image = image.picture;
+
   
   const { senderEmail, recipientEmail, subject, message } = req.body;
 
@@ -209,9 +111,16 @@ app.post('/send-mail', async (req, res) => {
   try {
     await transporter.sendMail(mailOptions);
   
-    res.render("mailsuccess");
+          let mailsenddetail = "Mail Send Successfully";
+          let rec = new recentactivity({
+            user_id:data.user_id,
+            activity:mailsenddetail
+  
+          });
+          await rec.save(); 
+    res.render("mailsuccess",{name,user_image});
   } catch (error) {
-    res.render("mailsendfail");
+    res.render("mailsendfail",{name,user_image});
   }
 });
 
@@ -264,6 +173,16 @@ console.log(uid);
   let b = data.mobile_no;
   let c = data.email;
 
+
+  
+          let profileeditdetail = "Profile Edited Successfully";
+          let rec = new recentactivity({
+            user_id:data.user_id,
+            activity:profileeditdetail
+  
+          });
+          await rec.save(); 
+
   res.render("adminprofile",{a,b,c,name,user_image});
 
 
@@ -283,9 +202,16 @@ console.log(uid);
 
 const tble2 = require("./module/user2.0");
 
-app.post('/addproduct1', upload.single('productImage'),async (req, res) => {
+app.post('/addproduct1',my_auth, upload.single('productImage'),async (req, res) => {
 
     let a;
+        let uid = req.user.user_id;
+    
+          let abhi = await tble.findOne({user_id:uid});
+          let name = abhi.your_name;
+          let image = await tble.findOne({user_id:uid});
+          let user_image = image.picture;
+
 
     let b = req.body.productName;
 
@@ -328,6 +254,13 @@ app.post('/addproduct1', upload.single('productImage'),async (req, res) => {
         
         await rel.save();
         
+                let productadddetail = "Product Added  Successfully";
+                let rec = new recentactivity({
+                  user_id:data.user_id,
+                  activity:productadddetail
+        
+                });
+                await rec.save(); 
         console.log("New product added successfully.");
 
 
@@ -335,7 +268,7 @@ app.post('/addproduct1', upload.single('productImage'),async (req, res) => {
         
 
     //console.log(req.file); // Cloudinary response
-   res.render("successadditem");
+   res.render("successadditem",{name,user_image});
  });
  
 

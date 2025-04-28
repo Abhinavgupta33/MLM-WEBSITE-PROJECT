@@ -16,4 +16,4 @@ const table = mongoose.Schema({
     auth_method: { type: String, enum: ['email', 'google'], default: 'email' },
     status:{type:String,enum:["active","deactive"],default:"deactive"}
 });
-module.exports = mongoose.model("hello",table);
+module.exports = mongoose.model("hellos",table);

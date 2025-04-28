@@ -2,6 +2,7 @@
 const tble3 = require("./module/user3.0");
 const tble2 = require("./module/user2.0");
 const tble = require("./module/user");
+const recentactivity = require("./module/recentactivity");
 let jwt=require("jsonwebtoken");
 const user = require("./module/user");
 
@@ -122,7 +123,16 @@ exports.ser_login = async (req, res) => {
         let totalproduct = totalproducts.length;
 
         let user_image = data.picture;
-    
+        
+        let logindetail = "User logged In Successfully";
+        let loginuser = (data.your_name,"Logged In Successfully");
+        let rec = new recentactivity({
+          user_id:data.user_id,
+          activity:logindetail,
+        activity_detail:loginuser
+        });
+        await rec.save();
+      
         res.render("dashboard",{name,activeuser,totalproduct,user_image})
 
       } else {
@@ -287,7 +297,19 @@ exports.ser_adduserdata = async (req, res) => {
       
             let image = await tble.findOne({user_id:uid});
             let user_image = image.picture;
-                
+
+
+            
+
+            let adduserdetail = "User Added Successfully";
+            let adduserdone = "You Added User Successfully";
+            let rec = await new recentactivity({
+              user_id:uid,
+              activity:adduserdetail,
+              activity_detail:adduserdone
+    
+            });
+            await rec.save(); 
             res.render("dashboard",{name,activeuser,totalproduct,user_image});
         }
 
@@ -308,7 +330,9 @@ exports.ser_userview = async (req, res) => {
         let uid = req.user.user_id;
         let abhi = await tble.findOne({user_id:uid});
         let name = abhi.your_name;
-     
+        let image = await tble.findOne({user_id:uid});
+      let user_image = image.picture;
+  
       let un = req.user.user_id;
   
       console.log("Parent ID from cookie:", un);
@@ -318,16 +342,14 @@ exports.ser_userview = async (req, res) => {
   
       if (!users || users.length === 0) {
         console.log("No user data found.");
-        return res.render("viewuser", { users: [] }); // Render empty list if no data
+        return res.render("viewuser", { users: [],name,user_image }); // Render empty list if no data
       }
   
       console.log(`Found ${users.length} users`);
   
 
       
-    let image = await tble.findOne({user_id:uid});
-      let user_image = image.picture;
-  
+ 
       // Render the view with the array of users
       res.render("viewuser", { users,name,user_image });
     } catch (err) {
@@ -373,13 +395,26 @@ exports.ser_userview = async (req, res) => {
 
 
     exports.ser_blockuser = async (req, res) => {
-
+        
+        
+        let uid = req.user.user_id;
         let userId = req.body.id;
-        let abhi = await tble.findOne({user_id:userId});
+        let abhi = await tble.findOne({user_id:uid});
         let name = abhi.your_name;
-        let image = await tble.findOne({user_id:userId});
+        let image = await tble.findOne({user_id:uid});
         let user_image = image.picture;
 
+        let blockeddetail = "User Blocked Successfully";
+        let userblockeddetail = "You Have Blocked User Successfully"
+        let rec =await new recentactivity({
+          user_id:userId,
+          activity:blockeddetail,
+          activity_detail:userblockeddetail
+
+
+        });
+        await rec.save(); 
+        
         await tble.updateOne({ user_id: userId }, { $set: { blocked: true } });
             res.render("successblocked",{name,user_image});
 
@@ -394,12 +429,23 @@ exports.ser_userview = async (req, res) => {
 
     exports.ser_unblockuser = async (req, res) => {
         
+        
+        let uid = req.user.user_id;
         let userId = req.body.id; 
-        let abhi = await tble.findOne({user_id:userId});
+        let abhi = await tble.findOne({user_id:uid});
         let name = abhi.your_name;
-        let image = await tble.findOne({user_id:userId});
+        let image = await tble.findOne({user_id:uid});
         let user_image = image.picture;
 
+        
+        let unblockeddetail = "User Unblocked Successfully";
+        let userunblock = "You Have Unblocked User Successfully"
+        let rec =await new recentactivity({
+          user_id:userId,
+          activity:unblockeddetail,
+          activity_detail:userunblock
+        });
+        await rec.save(); 
         await tble.updateOne({ user_id: userId }, { $set: { blocked: false } }); 
         res.render("successunblocked",{name,user_image});
 
@@ -501,6 +547,16 @@ exports.ser_userview = async (req, res) => {
             let totalproducts = await tble2.find({});
             let totalproduct = totalproducts.length;
 
+            
+            let updateuserdetail = "User Details Updated Successfully";
+            let userupdatedetail = "You Have Updated User Detail Successfully";
+            let rec =await new recentactivity({
+            user_id:uid,
+            activity:updateuserdetail,
+            activity_detail:userupdatedetail
+
+        });
+        await rec.save(); 
                 
             res.render("dashboard",{name,activeuser,totalproduct,user_image});
         
@@ -561,7 +617,17 @@ exports.ser_userview = async (req, res) => {
             let d = data.password;
         
         if(a==d){
+  
             
+        let passwordchangedetail = "User Password Changed Successfully";
+        let passwordchangessuccess = "You Have Successfully Changed Your Password"
+
+        let rec =await new recentactivity({
+          user_id:un,
+          activity:passwordchangedetail,
+          activity_detail:passwordchangessuccess
+        });
+        await rec.save(); 
             await tble.updateOne({ user_id:un}, { password:c});
             res.render("adminprofile",{name,user_image});
         }
@@ -589,8 +655,16 @@ else{
     exports.ser_logout = async (req,res) =>{
 
         let un = req.user.user_id;
-        let status = await tble.updateOne({user_id:un},{$set:{status:"deactive"}});
+      await tble.updateOne({user_id:un},{$set:{status:"deactive"}});
        await res.cookie("mytoken","");
+       let logoutuser = "You Have Logged Out Successfully";
+       let userlogout = "User Have Been Successfully Logged Out "
+       let rec =await new recentactivity({
+        user_id:un,
+        activity:logoutuser,
+        activity_detail:userlogout
+      });
+      await rec.save(); 
        await res.render("logout");
     
     }
@@ -612,6 +686,8 @@ else{
         //  let email =req.body.id;
         // console.log("hello");
         // res.cookie("wa",email);
+        
+    
         await res.render("withdraw",{passwordcheck,name,user_image});
     
    
@@ -631,7 +707,9 @@ else{
     //     let email =req.body.id;
     //    console.log("hello");
     //    res.cookie("dp",email);
-       await res.render("deposit",{passwordcheck,name,user_image});
+
+       
+    await res.render("deposit",{passwordcheck,name,user_image});
    
   
    }
@@ -642,8 +720,20 @@ else{
         let name = abhi.your_name;
         let image = await tble.findOne({user_id:uid});
         let user_image = image.picture;
+        
+        
+        let adduserdetail = "User Added Successfully";
+        let rec =await new recentactivity({
+          user_id:uid,
+          activity:adduserdetail
+
+        });
+        await rec.save(); 
         res.render("register2",{name,user_image});
     }
+
+
+
 
     exports.ser_addproductview = async(req,res) =>{
 
@@ -652,6 +742,17 @@ else{
         let name = abhi.your_name;
         let image = await tble.findOne({user_id:uid});
         let user_image = image.picture;
+
+        
+        let productaddeddetail = "Product Added Successfully";
+        let product_detail = "Product Is Added Successfully"
+        let rec =await new recentactivity({
+          user_id:uid,
+          activity:productaddeddetail,
+          activity_detail:product_detail
+
+        });
+        await rec.save(); 
         res.render("addproduct",{name,user_image});
 
 
@@ -664,9 +765,19 @@ else{
         let image = await tble.findOne({user_id:uid});
         let user_image = image.picture;
        
+        
+        let productupdatedetail = "Product Updated Successfully";
+        let rec = await new recentactivity({
+          user_id:uid,
+          activity:productupdatedetail
+
+        });
+        await rec.save(); 
         res.render("updatdproduct",{name,user_image})
 
     }
+
+
 
     exports.ser_withdraw = async(req,res) => {
       
@@ -708,6 +819,15 @@ else{
         
             else{
 
+                let withdrawdetail = "Withdrawal Successfully Done";
+                let withdrawdone = " User Have Successfully Withdrawn Amount "
+                let rec = await new recentactivity({
+                  user_id:uid,
+                  activity:withdrawdetail,
+                  activity_detail:withdrawdone
+        
+                });
+                await rec.save(); 
                 await tble.updateOne({ user_id: uid }, { $set: {amount:new_amount } }); 
                 await res.render("successwithdraw",{name,user_image});
         
@@ -759,6 +879,16 @@ else{
              }
         
             else{
+                
+            let depositdetail = "Deposited Successfully Done";
+            let depositdone = "User Have Successfully Deposited Amount"
+            let rec =await  new recentactivity({
+            user_id:uId,
+            activity:depositdetail,
+            activity_detail:depositdone
+
+        });
+        await rec.save(); 
 
                 await tble.updateOne({ user_id: uId }, { $set: {amount:new_amount } }); 
               await  res.render("successdeposit",{name,user_image});
@@ -867,7 +997,8 @@ exports.ser_addtocart = async(req,res) => {
     let uid = req.user.user_id;
     let abhi = await tble.findOne({user_id:uid});
     let name = abhi.your_name;
- 
+    let image = await tble.findOne({user_id:uid});
+    let user_image = image.picture;
     
     let quantity = await parseInt(req.query.quantity);
     let product = await req.query.product_no;
@@ -888,10 +1019,17 @@ exports.ser_addtocart = async(req,res) => {
             let user_image = image.picture;
                 
         
+            let addtocartdetail = "Product Added To Cart Successfully";
+            let rec =await new recentactivity({
+              user_id:uid,
+              activity:addtocartdetail
+    
+            });
+            await rec.save(); 
             res.render("viewproduct",{products,name,user_image});
             }
             else{
-                res.render("itemnotavailable");
+                res.render("itemnotavailable",{name,user_image});
             }
         }
         else{
@@ -907,9 +1045,16 @@ exports.ser_addtocart = async(req,res) => {
         });
     let products = await tble2.find({});
     await rel.save();
-    let image = await tble.findOne({user_id:uid});
-    let user_image = image.picture;
-        
+  
+    let addtocartdetail = "Item Added To Cart"
+    let addtocartdone = "User Added Item Successfully To Cart";
+    let rec =await  new recentactivity({
+        user_id:uid,
+        activity:addtocartdetail,
+        activity_detail:addtocartdone
+
+    });
+    await rec.save(); 
     await  res.render("viewproduct",{products,name,user_image});
     }
 }
@@ -917,7 +1062,7 @@ exports.ser_addtocart = async(req,res) => {
 
 else {
     console.log("not enough product");
-    res.render("itemnotavailable")
+    res.render("itemnotavailable",{name,user_image})
 }
 }
 
@@ -951,6 +1096,17 @@ exports.ser_removeproduct = async(req,res) => {
         await tble3.updateOne({product_name:data},{product_quantity:newquantity});
        let cart = await tble3.find({addedby:uid});
         console.log(data)
+
+            let removeitemdetail = "Item Removed Successfully"
+            let removeitemdone = "User Removed Item Successfully From Cart";
+        let rec =await  new recentactivity({
+            user_id:uid,
+            activity:removeitemdetail,
+            activity_detail:removeitemdone
+
+        });
+        await rec.save(); 
+
         res.render("addtocart",{cart});
        
     }
@@ -966,17 +1122,15 @@ else{
 }
 
 
-
-
-
-
-
 exports.ser_buynow = async(req,res) => {
     console.log("i am abhi");
     
     let uid = req.user.user_id;
     let abhi = await tble.findOne({user_id:uid});
     let name = abhi.your_name;
+    let image = await tble.findOne({user_id:uid});
+    let user_image = image.picture;
+        
     let quantity = await parseInt(req.query.quantity);
     let product = await req.query.product_no;
     console.log(quantity);
@@ -992,7 +1146,7 @@ exports.ser_buynow = async(req,res) => {
 }
 
 else{
-    res.render("itemnotavailable")
+    res.render("itemnotavailable",{name,user_image})
 }
 }
 
@@ -1024,7 +1178,15 @@ exports.ser_confirm_purchase = async(req,res) => {
       })
       
       await  tble3.deleteMany({addedby:uid})
-    
+      
+      
+      let rec =await  new recentactivity({
+        user_id:uId,
+        activity:depositdetail,
+        activity_detail:depositdone
+
+    });
+    await rec.save(); 
     res.render("successpurchase",{data1,abhi});
     }
     else{
@@ -1104,6 +1266,13 @@ exports.ser_confirm_purchase1 = async(req,res) => {
 
 
         
+        let productupdatedetail = "Product Updated Successfully";
+        let rec = await new recentactivity({
+          user_id:uid,
+          activity:productupdatedetail
+
+        });
+        await rec.save(); 
 
     //console.log(req.file); // Cloudinary response
    res.render("successupdated",{name,user_image});
@@ -1133,10 +1302,25 @@ exports.ser_confirm_purchase1 = async(req,res) => {
         let uid = req.user.user_id;
         let abhi = await tble.findOne({user_id:uid});
         let name = abhi.your_name;
-        res.render("leaderboard",{name});
+        res.render("leaderboard",{name,user_image});
 
     }
 
+
+
+
+    exports.ser_activity= async(req,res)=>
+        {
+            let uid = req.user.user_id;
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
+            let abhi = await tble.findOne({user_id:uid});
+            let name = abhi.your_name;
+            let recent_activity = await recentactivity.find({user_id:uid});
+            res.render("activity",{name,user_image,recent_activity});
+
+
+    }
     // exports.ser_update = async (req, res) => {
        
     //     try {

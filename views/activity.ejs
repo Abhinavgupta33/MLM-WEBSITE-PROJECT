@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recent Activity</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #495057;
+            --text-color: #2b2d42;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 25px;
+            border: 4px solid var(--accent-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-name {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0 0 5px 0;
+            color: var(--primary-color);
+        }
+        
+        .profile-subtitle {
+            font-size: 16px;
+            color: var(--dark-gray);
+            margin: 0;
+        }
+        
+        .activity-header {
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .activity-header i {
+            margin-right: 12px;
+            color: var(--accent-color);
+        }
+        
+        .activity-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .activity-table th {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: left;
+            padding: 16px 20px;
+            font-weight: 500;
+        }
+        
+        .activity-table th:first-child {
+            border-top-left-radius: 10px;
+        }
+        
+        .activity-table th:last-child {
+            border-top-right-radius: 10px;
+        }
+        
+        .activity-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--medium-gray);
+            vertical-align: middle;
+        }
+        
+        .activity-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .activity-table tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        .activity-table tr:hover {
+            background-color: rgba(76, 201, 240, 0.1);
+            transform: translateY(-2px);
+            transition: all 0.2s ease;
+        }
+        
+        .activity-icon {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .activity-icon-img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        .no-activity {
+            color: var(--dark-gray);
+            font-style: italic;
+            text-align: center;
+            padding: 40px;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .no-activity i {
+            font-size: 40px;
+            color: var(--medium-gray);
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .activity-date {
+            font-size: 13px;
+            color: var(--dark-gray);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .activity-date i {
+            margin-right: 5px;
+            font-size: 12px;
+        }
+        
+        .activity-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .badge-success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+        
+        .badge-warning {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .badge-danger {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .badge-info {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--accent-color);
+        }
+        
+        .activity-amount {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .activity-details {
+            display: flex;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .profile-pic {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .profile-name {
+                font-size: 22px;
+            }
+            
+            .activity-table th, 
+            .activity-table td {
+                padding: 12px 15px;
+            }
+            
+            .activity-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        /* Animation for new activities */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .activity-table tr {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        .activity-table tr:nth-child(1) { animation-delay: 0.1s; }
+        .activity-table tr:nth-child(2) { animation-delay: 0.2s; }
+        .activity-table tr:nth-child(3) { animation-delay: 0.3s; }
+        .activity-table tr:nth-child(4) { animation-delay: 0.4s; }
+        .activity-table tr:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <%- include("../utils/header")%> 
+    <%- include("side")%>
+    
+    <div class="container">
+        <div class="profile-header">
+            <% if(user_image) { %>
+                <img src="<%= user_image %>" alt="Profile Picture" class="profile-pic">
+            <% } %>
+            <div>
+                <h1 class="profile-name"><%= name %></h1>
+                <p class="profile-subtitle">Your recent account activities</p>
+            </div>
+        </div>
+
+        <h2 class="activity-header">
+            <i class="fas fa-history"></i>
+            Recent Activity
+        </h2>
+
+        <% if(recent_activity && recent_activity.length > 0) { %>
+            <table class="activity-table">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-tasks activity-icon"></i>Activity</th>
+                        <th><i class="fas fa-info-circle activity-icon"></i>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i = 0; i < recent_activity.length; i++) { 
+                        let activity = recent_activity[i];
+                        let icon, badgeClass, badgeText;
+                        
+                        // Determine icon and badge based on activity type
+                        if (activity.activity_type === 'deposit') {
+                            icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132693.png';
+                            badgeClass = 'badge-success';
+                            badgeText = 'Deposit';
+                        } else if (activity.activity_type === 'withdraw') {
+                            icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132737.png';
+                            badgeClass = 'badge-danger';
+                            badgeText = 'Withdrawal';
+                        } else if (activity.activity_type === 'balance_check') {
+                            icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132781.png';
+                            badgeClass = 'badge-info';
+                            badgeText = 'Balance';
+                        } else if (activity.activity_type === 'add_user') {
+                            icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132785.png';
+                            badgeClass = 'badge-success';
+                            badgeText = 'User';
+                        } else if (activity.activity_type === 'add_product') {
+                            icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132765.png';
+                            badgeClass = 'badge-success';
+                            badgeText = 'Product';
+                        } else if (activity.activity_type === 'remove_product') {
+                            icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132773.png';
+                            badgeClass = 'badge-danger';
+                            badgeText = 'Product';
+                        } else if (activity.activity_type === 'profile_update') {
+                            icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132775.png';
+                            badgeClass = 'badge-warning';
+                            badgeText = 'Profile';
+                        } else if (activity.activity_type === 'buy_product') {
+                            icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132763.png';
+                            badgeClass = 'badge-success';
+                            badgeText = 'Purchase';
+                        } else {
+                            icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132699.png';
+                            badgeClass = 'badge-info';
+                            badgeText = 'Activity';
+                        }
+                    %>
+                        <tr>
+                            <td>
+                                <div class="activity-details">
+                                    <img src="<%= icon %>" alt="Activity icon" class="activity-icon-img">
+                                    <%= activity.activity %>
+                                    <span class="activity-badge <%= badgeClass %>"><%= badgeText %></span>
+                                </div>
+                                <div class="activity-date">
+                                    <i class="far fa-clock"></i>
+                                    <%= new Date(activity.timestamp || Date.now()).toLocaleString() %>
+                                </div>
+                            </td>
+                            <td>
+                                <%= activity.activity_detail %>
+                                <% if (activity.amount) { %>
+                                    <span class="activity-amount">$<%= parseFloat(activity.amount).toFixed(2) %></span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <div class="no-activity">
+                <i class="far fa-calendar-times"></i>
+                No recent activity found. Your activities will appear here.
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        // Simple script to enhance user experience
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click event to table rows for potential expansion
+            const rows = document.querySelectorAll('.activity-table tbody tr');
+            rows.forEach(row => {
+                row.addEventListener('click', function() {
+                    // You could expand this to show more details
+                    this.classList.toggle('active');
+                });
+            });
+            
+            // Auto-refresh the page every 60 seconds to check for new activities
+            setInterval(() => {
+                window.location.reload();
+            }, 60000);
+        });
+    </script>
+</body>
+</html>
