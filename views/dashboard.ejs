@@ -50,10 +50,11 @@
         --dark-color: #1e293b;
         --light-color: #f8fafc;
         --sidebar-width: 280px;
+        --sidebar-collapsed-width: 80px;
         --header-height: 70px;
         --card-radius: 16px;
         --transition-speed: 0.3s;
-      }
+      };
       
       body {
         font-family: 'Poppins', sans-serif;
@@ -61,19 +62,22 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+        overflow-x: hidden;
       }
       
       /* Main Layout Structure */
       #main {
+        position: relative;
         display: flex;
         flex: 1;
         padding-top: var(--header-height);
+        transition: margin-left var(--transition-speed);
       }
       
-      /* Sidebar Styles */
+      /* Sidebar Styles - Enhanced */
       .sidebar-container {
         width: var(--sidebar-width);
-        min-height: 100vh;
+        min-height: calc(100vh - var(--header-height));
         position: fixed;
         left: 0;
         top: var(--header-height);
@@ -81,22 +85,118 @@
         box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
         z-index: 100;
         overflow-y: auto;
+        transition: all var(--transition-speed) ease;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-light) transparent;
+      }
+      
+      .sidebar-container::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      .sidebar-container::-webkit-scrollbar-thumb {
+        background-color: var(--primary-light);
+        border-radius: 3px;
+      }
+      
+      .sidebar-container::-webkit-scrollbar-track {
+        background: transparent;
       }
       
       .sidebar-content {
         padding: 20px 15px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
       }
       
-      /* Main Content Area */
+      /* Collapsed Sidebar - Enhanced */
+      .sidebar-collapsed .sidebar-container {
+        width: var(--sidebar-collapsed-width);
+        overflow-x: hidden;
+      }
+      
+      .sidebar-collapsed .sidebar-container .nav-link span,
+      .sidebar-collapsed .sidebar-container .card-title,
+      .sidebar-collapsed .sidebar-container .list-group-item span:first-child,
+      .sidebar-collapsed .sidebar-container small,
+      .sidebar-collapsed .sidebar-container .btn-sm,
+      .sidebar-collapsed .sidebar-container .badge,
+      .sidebar-collapsed .sidebar-container .dropdown-toggle::after,
+      .sidebar-collapsed .sidebar-container .collapse {
+        display: none !important;
+      }
+      
+      .sidebar-collapsed .sidebar-container .nav-link {
+        text-align: center;
+        padding: 0.75rem 0.5rem;
+        position: relative;
+      }
+      
+      .sidebar-collapsed .sidebar-container .nav-link i {
+        margin-right: 0;
+        font-size: 1.25rem;
+      }
+      
+      .sidebar-collapsed .sidebar-container .nav-item {
+        position: relative;
+      }
+      
+      .sidebar-collapsed .sidebar-container .nav-link.active::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 20px;
+        background: var(--primary-color);
+        border-radius: 3px 0 0 3px;
+      }
+      
+      .sidebar-collapsed .main-content {
+        margin-left: var(--sidebar-collapsed-width);
+      }
+      
+      /* Main Content Area - Enhanced */
       .main-content {
         flex: 1;
-        padding: 20px;
+        padding: 30px;
         background-color: #f8f9fa;
-        min-height: calc(100vh - var(--header-height));
-        margin-left: var(--sidebar-width);
+        /* min-height: calc(100vh - var(--header-height));
+        margin-left: var(--sidebar-width); */
+        transition: margin-left var(--transition-speed);
       }
       
-      /* Dashboard Cards */
+      /* Toggle Button - Enhanced */
+      .sidebar-toggle {
+        position: fixed;
+        left: calc(var(--sidebar-width) - 12px);
+        top: calc(var(--header-height) + 20px);
+        background: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        z-index: 101;
+        transition: all var(--transition-speed);
+        border: none;
+        color: var(--primary-color);
+      }
+      
+      .sidebar-collapsed .sidebar-toggle {
+        left: calc(var(--sidebar-collapsed-width) - 12px);
+      }
+      
+      .sidebar-toggle:hover {
+        transform: scale(1.1);
+      }
+      
+      /* Dashboard Cards - Enhanced */
       .dashboard-card {
         border: none;
         border-radius: var(--card-radius);
@@ -105,6 +205,7 @@
         background: white;
         position: relative;
         overflow: hidden;
+        height: 100%;
       }
       
       .dashboard-card::before {
@@ -122,7 +223,7 @@
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
       }
       
-      /* Card Icon */
+      /* Card Icon - Enhanced */
       .card-icon-container {
         width: 60px;
         height: 60px;
@@ -134,6 +235,11 @@
         color: white;
         font-size: 1.75rem;
         box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        transition: transform 0.3s ease;
+      }
+      
+      .dashboard-card:hover .card-icon-container {
+        transform: rotate(10deg) scale(1.1);
       }
       
       /* Enhanced Quick Actions */
@@ -155,6 +261,10 @@
         padding: 25px 15px;
         position: relative;
         border-top: 4px solid var(--primary-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
       }
       
       .quick-action-card:hover {
@@ -174,6 +284,11 @@
         color: white;
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        transition: transform 0.3s ease;
+      }
+      
+      .quick-action-card:hover .quick-action-icon {
+        transform: scale(1.1);
       }
       
       .quick-action-title {
@@ -186,6 +301,7 @@
         font-size: 0.85rem;
         color: #6c757d;
         margin-bottom: 15px;
+        flex-grow: 1;
       }
       
       .quick-action-btn {
@@ -201,6 +317,7 @@
       .quick-action-card:hover .quick-action-btn {
         background: var(--primary-color);
         color: white;
+        transform: translateY(-2px);
       }
       
       /* Different color variations for cards */
@@ -244,7 +361,7 @@
         background: linear-gradient(135deg, #10b981, #6ee7b7); 
       }
       
-      /* Recent Activity */
+      /* Recent Activity - Enhanced */
       .recent-activity {
         list-style: none;
         padding: 0;
@@ -255,6 +372,11 @@
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         display: flex;
         align-items: center;
+        transition: background-color 0.2s ease;
+      }
+      
+      .recent-activity li:hover {
+        background-color: rgba(0, 0, 0, 0.02);
       }
       
       .activity-icon {
@@ -267,14 +389,24 @@
         margin-right: 15px;
         color: white;
         flex-shrink: 0;
+        transition: transform 0.3s ease;
       }
       
-      /* Leaderboard */
+      .recent-activity li:hover .activity-icon {
+        transform: scale(1.1);
+      }
+      
+      /* Leaderboard - Enhanced */
       .leaderboard-item {
         display: flex;
         align-items: center;
         padding: 12px 15px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        transition: background-color 0.2s ease;
+      }
+      
+      .leaderboard-item:hover {
+        background-color: rgba(0, 0, 0, 0.02);
       }
       
       .rank {
@@ -289,7 +421,24 @@
         color: white;
       }
       
-      /* Responsive Adjustments */
+      /* Chart containers - Enhanced */
+      .chart-container {
+        height: 100px;
+        margin-top: 15px;
+        position: relative;
+      }
+      
+      /* Page title - Enhanced */
+      .pagetitle {
+        margin-bottom: 30px;
+      }
+      
+      /* Section spacing */
+      .section {
+        padding: 20px 0;
+      }
+      
+      /* Responsive Adjustments - Enhanced */
       @media (max-width: 1200px) {
         .quick-actions {
           grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -298,13 +447,23 @@
       
       @media (max-width: 992px) {
         .sidebar-container {
-          position: fixed;
+          transform: translateX(-100%);
           width: var(--sidebar-width);
-          min-height: 100vh;
+          z-index: 999;
+        }
+        
+        .sidebar-show .sidebar-container {
+          transform: translateX(0);
+          box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
         }
         
         .main-content {
-          margin-left: var(--sidebar-width);
+          position: relative;
+          margin-left: 0;
+        }
+        
+        .sidebar-toggle {
+          display: none;
         }
         
         .quick-actions {
@@ -312,9 +471,61 @@
         }
       }
       
-      @media (max-width: 768px) {
+      @media (max-width: 100%) {
+        .main-content {
+          padding: 20px 15px;
+        }
+        
         .quick-actions {
           grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+        
+        .dashboard-card {
+          margin-bottom: 20px;
+        }
+        
+        .pagetitle h1 {
+          font-size: 1.5rem;
+        }
+      }
+      
+      @media (max-width: 100%) {
+        .main-content {
+          padding: 15px 10px;
+        }
+        
+        .quick-actions {
+          grid-template-columns: 1fr;
+        }
+        
+        .leaderboard-item,
+        .recent-activity li {
+          padding: 10px;
+        }
+      }
+      
+      /* Mobile Sidebar Toggle Button */
+      .mobile-nav-toggle {
+        display: none;
+      }
+      
+      @media (max-width: 992px) {
+        .mobile-nav-toggle {
+          display: block;
+          position: fixed;
+          right: 15px;
+          top: 15px;
+          z-index: 999;
+          background: var(--primary-color);
+          color: white;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          border: none;
         }
       }
     </style>
@@ -322,6 +533,16 @@
 
   <body>
     <%- include("../utils/header") %>
+
+    <!-- Mobile Sidebar Toggle Button -->
+    <button class="mobile-nav-toggle d-lg-none">
+      <i class="bi bi-list"></i>
+    </button>
+
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+      <i class="bi bi-chevron-left"></i>
+    </button>
 
     <main id="main" class="main">
       <!-- Sidebar Column -->
@@ -337,14 +558,14 @@
                 <li class="nav-item">
                   <a class="nav-link active" href="/dashboard">
                     <i class="bi bi-speedometer2 me-2"></i>
-                    Dashboard
+                    <span>Dashboard</span>
                   </a>
                 </li>
                 
                 <li class="nav-item mt-2">
                   <a class="nav-link" data-bs-toggle="collapse" href="#userManagerCollapse">
                     <i class="bi bi-people-fill me-2"></i>
-                    User Manager
+                    <span>User Manager</span>
                     <i class="bi bi-chevron-down float-end"></i>
                   </a>
                   <div class="collapse" id="userManagerCollapse">
@@ -352,25 +573,25 @@
                       <li class="nav-item">
                         <a class="nav-link" href="/adduser">
                           <i class="bi bi-plus-circle me-2"></i>
-                          Add User
+                          <span>Add User</span>
                         </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="/userview">
                           <i class="bi bi-eye-fill me-2"></i>
-                          View Users
+                          <span>View Users</span>
                         </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="/updateuser">
                           <i class="bi bi-pencil-square me-2"></i>
-                          Update User
+                          <span>Update User</span>
                         </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="/deleteuser">
                           <i class="bi bi-trash-fill me-2"></i>
-                          Delete User
+                          <span>Delete User</span>
                         </a>
                       </li>
                     </ul>
@@ -380,7 +601,7 @@
                 <li class="nav-item mt-2">
                   <a class="nav-link" data-bs-toggle="collapse" href="#productManagerCollapse">
                     <i class="bi bi-box-seam me-2"></i>
-                    Product Manager
+                    <span>Product Manager</span>
                     <i class="bi bi-chevron-down float-end"></i>
                   </a>
                   <div class="collapse" id="productManagerCollapse">
@@ -388,25 +609,25 @@
                       <li class="nav-item">
                         <a class="nav-link" href="/addproduct">
                           <i class="bi bi-plus-circle me-2"></i>
-                          Add Product
+                          <span>Add Product</span>
                         </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="/viewproduct">
                           <i class="bi bi-eye-fill me-2"></i>
-                          View Products
+                          <span>View Products</span>
                         </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="/updateproduct">
                           <i class="bi bi-pencil-square me-2"></i>
-                          Update Product
+                          <span>Update Product</span>
                         </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="/deleteproduct">
                           <i class="bi bi-trash-fill me-2"></i>
-                          Delete Product
+                          <span>Delete Product</span>
                         </a>
                       </li>
                     </ul>
@@ -416,14 +637,14 @@
                 <li class="nav-item mt-2">
                   <a class="nav-link" href="/activity">
                     <i class="bi bi-graph-up me-2"></i>
-                    Activity
+                    <span>Activity</span>
                   </a>
                 </li>
                 
                 <li class="nav-item mt-2">
                   <a class="nav-link" href="/leaderboard">
                     <i class="bi bi-trophy-fill me-2"></i>
-                    Leaderboard
+                    <span>Leaderboard</span>
                   </a>
                 </li>
                 
@@ -434,35 +655,35 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/admininfo">
                     <i class="bi bi-person-circle me-2"></i>
-                    Profile
+                    <span>Profile</span>
                   </a>
                 </li>
                 
                 <li class="nav-item">
                   <a class="nav-link" href="/deposit">
                     <i class="bi bi-cash-stack me-2"></i>
-                    Deposit
+                    <span>Deposit</span>
                   </a>
                 </li>
                 
                 <li class="nav-item">
                   <a class="nav-link" href="/withdraw">
                     <i class="bi bi-bank2 me-2"></i>
-                    Withdraw
+                    <span>Withdraw</span>
                   </a>
                 </li>
                 
                 <li class="nav-item">
                   <a class="nav-link" href="/balance">
                     <i class="bi bi-wallet2 me-2"></i>
-                    Balance
+                    <span>Balance</span>
                   </a>
                 </li>
                 
                 <li class="nav-item position-relative">
                   <a class="nav-link" href="/notifications">
                     <i class="bi bi-bell-fill me-2"></i>
-                    Notifications
+                    <span>Notifications</span>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                       3
                     </span>
@@ -968,6 +1189,55 @@
               },
               x: { grid: { display: false, drawBorder: false } }
             }
+          }
+        });
+
+        // Enhanced Sidebar toggle functionality
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        sidebarToggle.addEventListener('click', function() {
+          document.body.classList.toggle('sidebar-collapsed');
+          const icon = this.querySelector('i');
+          if (document.body.classList.contains('sidebar-collapsed')) {
+            icon.classList.remove('bi-chevron-left');
+            icon.classList.add('bi-chevron-right');
+            localStorage.setItem('sidebarCollapsed', 'true');
+          } else {
+            icon.classList.remove('bi-chevron-right');
+            icon.classList.add('bi-chevron-left');
+            localStorage.setItem('sidebarCollapsed', 'false');
+          }
+        });
+
+        // Check localStorage for sidebar state
+        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+          document.body.classList.add('sidebar-collapsed');
+          const icon = sidebarToggle.querySelector('i');
+          icon.classList.remove('bi-chevron-left');
+          icon.classList.add('bi-chevron-right');
+        }
+
+        // Mobile sidebar toggle
+        const mobileSidebarToggle = document.querySelector('.mobile-nav-toggle');
+        if (mobileSidebarToggle) {
+          mobileSidebarToggle.addEventListener('click', function() {
+            document.body.classList.toggle('sidebar-show');
+            // Close when clicking outside
+            if (document.body.classList.contains('sidebar-show')) {
+              const closeSidebar = (e) => {
+                if (!e.target.closest('.sidebar-container') && !e.target.closest('.mobile-nav-toggle')) {
+                  document.body.classList.remove('sidebar-show');
+                  document.removeEventListener('click', closeSidebar);
+                }
+              };
+              setTimeout(() => document.addEventListener('click', closeSidebar), 10);
+            }
+          });
+        }
+
+        // Auto-collapse sidebar on mobile if window is resized
+        window.addEventListener('resize', function() {
+          if (window.innerWidth >= 992) {
+            document.body.classList.remove('sidebar-show');
           }
         });
       });
