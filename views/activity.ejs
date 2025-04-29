@@ -31,56 +31,42 @@
             flex-direction: column;
             min-height: 100vh;
         }
-        
-        /* Header styles */
-        header {
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        /* Main content layout */
-        .main-content {
+
+        /* Layout wrapper to prevent overlap */
+        .layout-wrapper {
             display: flex;
             flex: 1;
-            max-width: 1200px;
-            margin: 20px auto;
-            width: 100%;
-            padding: 0 20px;
+            padding-top: 60px; /* Space for header */
         }
-        
-        /* Sidebar styles */
+
+        /* Sidebar styling (preserving your existing sidebar structure) */
         .sidebar {
             width: 250px;
             background-color: var(--white);
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            margin-right: 20px;
-            height: fit-content;
+            position: fixed;
+            top: 60px; /* Below header */
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        /* Main content area */
+        .main-content {
+            flex: 1;
+            margin-left: 250px; /* Same as sidebar width */
+            padding: 20px;
         }
         
-        /* Container styles */
         .container {
-            flex: 1;
+            max-width: 1200px;
+            margin: 20px auto;
             background: var(--white);
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 20px;
         }
         
         .profile-header {
@@ -256,23 +242,37 @@
         }
         
         @media (max-width: 992px) {
-            .main-content {
-                flex-direction: column;
-                padding: 0 15px;
-            }
-            
             .sidebar {
-                width: 100%;
-                margin-right: 0;
-                margin-bottom: 20px;
+                width: 200px;
             }
-            
-            .container {
-                padding: 20px;
+            .main-content {
+                margin-left: 200px;
             }
         }
         
         @media (max-width: 768px) {
+            .layout-wrapper {
+                flex-direction: column;
+                padding-top: 60px;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+                margin-bottom: 20px;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 20px;
+                margin: 0;
+            }
+            
             .profile-pic {
                 width: 70px;
                 height: 70px;
@@ -311,114 +311,109 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1>Your App Name</h1>
-            <!-- Add your header navigation here -->
-        </div>
-    </header>
+    <%- include("../utils/header")%> 
     
-    <div class="main-content">
-        <aside class="sidebar">
-            <%- include("side") %>
-        </aside>
+    <div class="layout-wrapper">
+        <%- include("side")%>
         
-        <div class="container">
-            <div class="profile-header">
-                <% if(user_image) { %>
-                    <img src="<%= user_image %>" alt="Profile Picture" class="profile-pic">
-                <% } %>
-                <div>
-                    <h1 class="profile-name"><%= name %></h1>
-                    <p class="profile-subtitle">Your recent account activities</p>
+        <div class="main-content">
+            <div class="container">
+                <div class="profile-header">
+                    <% if(user_image) { %>
+                        <img src="<%= user_image %>" alt="Profile Picture" class="profile-pic">
+                    <% } %>
+                    <div>
+                        <h1 class="profile-name"><%= name %></h1>
+                        <p class="profile-subtitle">Your recent account activities</p>
+                    </div>
                 </div>
-            </div>
 
-            <h2 class="activity-header">
-                <i class="fas fa-history"></i>
-                Recent Activity
-            </h2>
+                <h2 class="activity-header">
+                    <i class="fas fa-history"></i>
+                    Recent Activity
+                </h2>
 
-            <% if(recent_activity && recent_activity.length > 0) { %>
-                <table class="activity-table">
-                    <thead>
-                        <tr>
-                            <th><i class="fas fa-tasks activity-icon"></i>Activity</th>
-                            <th><i class="fas fa-info-circle activity-icon"></i>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for(let i = 0; i < recent_activity.length; i++) { 
-                            let activity = recent_activity[i];
-                            let icon, badgeClass, badgeText;
-                            
-                            // Determine icon and badge based on activity type
-                            if (activity.activity_type === 'deposit') {
-                                icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132693.png';
-                                badgeClass = 'badge-success';
-                                badgeText = 'Deposit';
-                            } else if (activity.activity_type === 'withdraw') {
-                                icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132737.png';
-                                badgeClass = 'badge-danger';
-                                badgeText = 'Withdrawal';
-                            } else if (activity.activity_type === 'balance_check') {
-                                icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132781.png';
-                                badgeClass = 'badge-info';
-                                badgeText = 'Balance';
-                            } else if (activity.activity_type === 'add_user') {
-                                icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132785.png';
-                                badgeClass = 'badge-success';
-                                badgeText = 'User';
-                            } else if (activity.activity_type === 'add_product') {
-                                icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132765.png';
-                                badgeClass = 'badge-success';
-                                badgeText = 'Product';
-                            } else if (activity.activity_type === 'remove_product') {
-                                icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132773.png';
-                                badgeClass = 'badge-danger';
-                                badgeText = 'Product';
-                            } else if (activity.activity_type === 'profile_update') {
-                                icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132775.png';
-                                badgeClass = 'badge-warning';
-                                badgeText = 'Profile';
-                            } else if (activity.activity_type === 'buy_product') {
-                                icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132763.png';
-                                badgeClass = 'badge-success';
-                                badgeText = 'Purchase';
-                            } else {
-                                icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132699.png';
-                                badgeClass = 'badge-info';
-                                badgeText = 'Activity';
-                            }
-                        %>
+                <% if(recent_activity && recent_activity.length > 0) { %>
+                    <table class="activity-table">
+                        <thead>
                             <tr>
-                                <td>
-                                    <div class="activity-details">
-                                        <img src="<%= icon %>" alt="Activity icon" class="activity-icon-img">
-                                        <%= activity.activity %>
-                                        <span class="activity-badge <%= badgeClass %>"><%= badgeText %></span>
-                                    </div>
-                                    <div class="activity-date">
-                                        <i class="far fa-clock"></i>
-                                        <%= new Date(activity.timestamp || Date.now()).toLocaleString() %>
-                                    </div>
-                                </td>
-                                <td>
-                                    <%= activity.activity_detail %>
-                                    <% if (activity.amount) { %>
-                                        <span class="activity-amount">$<%= parseFloat(activity.amount).toFixed(2) %></span>
-                                    <% } %>
-                                </td>
+                                <th><i class="fas fa-tasks activity-icon"></i>Activity</th>
+                                <th><i class="fas fa-info-circle activity-icon"></i>Details</th>
                             </tr>
-                        <% } %>
-                    </tbody>
-                </table>
-            <% } else { %>
-                <div class="no-activity">
-                    <i class="far fa-calendar-times"></i>
-                    No recent activity found. Your activities will appear here.
-                </div>
-            <% } %>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < recent_activity.length; i++) { 
+                                let activity = recent_activity[i];
+                                let icon, badgeClass, badgeText;
+                                
+                                // Determine icon and badge based on activity type
+                                if (activity.activity_type === 'deposit') {
+                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132693.png';
+                                    badgeClass = 'badge-success';
+                                    badgeText = 'Deposit';
+                                } else if (activity.activity_type === 'withdraw') {
+                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132737.png';
+                                    badgeClass = 'badge-danger';
+                                    badgeText = 'Withdrawal';
+                                } else if (activity.activity_type === 'balance_check') {
+                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132781.png';
+                                    badgeClass = 'badge-info';
+                                    badgeText = 'Balance';
+                                } else if (activity.activity_type === 'add_user') {
+                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132785.png';
+                                    badgeClass = 'badge-success';
+                                    badgeText = 'User';
+                                } else if (activity.activity_type === 'add_product') {
+                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132765.png';
+                                    badgeClass = 'badge-success';
+                                    badgeText = 'Product';
+                                } else if (activity.activity_type === 'remove_product') {
+                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132773.png';
+                                    badgeClass = 'badge-danger';
+                                    badgeText = 'Product';
+                                } else if (activity.activity_type === 'profile_update') {
+                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132775.png';
+                                    badgeClass = 'badge-warning';
+                                    badgeText = 'Profile';
+                                } else if (activity.activity_type === 'buy_product') {
+                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132763.png';
+                                    badgeClass = 'badge-success';
+                                    badgeText = 'Purchase';
+                                } else {
+                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132699.png';
+                                    badgeClass = 'badge-info';
+                                    badgeText = 'Activity';
+                                }
+                            %>
+                                <tr>
+                                    <td>
+                                        <div class="activity-details">
+                                            <img src="<%= icon %>" alt="Activity icon" class="activity-icon-img">
+                                            <%= activity.activity %>
+                                            <span class="activity-badge <%= badgeClass %>"><%= badgeText %></span>
+                                        </div>
+                                        <div class="activity-date">
+                                            <i class="far fa-clock"></i>
+                                            <%= new Date(activity.timestamp || Date.now()).toLocaleString() %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <%= activity.activity_detail %>
+                                        <% if (activity.amount) { %>
+                                            <span class="activity-amount">$<%= parseFloat(activity.amount).toFixed(2) %></span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <div class="no-activity">
+                        <i class="far fa-calendar-times"></i>
+                        No recent activity found. Your activities will appear here.
+                    </div>
+                <% } %>
+            </div>
         </div>
     </div>
 
