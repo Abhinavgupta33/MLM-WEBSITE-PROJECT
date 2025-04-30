@@ -764,7 +764,7 @@ else{
         let name = abhi.your_name;
         let image = await tble.findOne({user_id:uid});
         let user_image = image.picture;
-       
+        let products = await tble2.find({});
         
         let productupdatedetail = "Product Updated Successfully";
         let rec = await new recentactivity({
@@ -773,7 +773,7 @@ else{
 
         });
         await rec.save(); 
-        res.render("updatdproduct",{name,user_image})
+        res.render("updateproduct",{products,name,user_image})
 
     }
 
