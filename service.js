@@ -1205,6 +1205,7 @@ exports.ser_confirm_purchase = async(req,res) => {
 
     
 exports.ser_confirm_purchase1 = async(req,res) => {
+    
     let abhi = parseInt(req.body.totalAmount);
     let uid = req.user.user_id;
     console.log(abhi)
@@ -1241,42 +1242,35 @@ exports.ser_confirm_purchase1 = async(req,res) => {
 
 
 
-    exports.ser_updateproduct = async(req,res) => {
+    exports.ser_updateproduct = async(req,res) => 
+        {
             let uid = req.user.user_id;
             let abhi = await tble.findOne({user_id:uid});
             let name = abhi.your_name;
             let image = await tble.findOne({user_id:uid});
             let user_image = image.picture;
-    let a = req.body.productNumber;
-    let b = req.body.productName;
-    console.log(b);
-    let c = req.body.productDescription;
-    console.log(c);
-    let d = req.body.productPrice;
-    console.log(d);
-    let e = req.body.productCategory;
-    console.log(e);
-    let g = req.body.productQuantity;
-    console.log(g);
+   
+            let a = req.body.productNumber;
+            let b = req.body.productName;
+            let c = req.body.productDescription;
+            let d = req.body.productPrice;
+            let e = req.body.productCategory;
+            let g = req.body.productQuantity;
     
        
-     await tble2.updateOne({product_no:a},{product_name:b,product_description:c,product_price:d,product_category:e,product_quantity:g});
-        console.log("product updated successfully.");
+            await tble2.updateOne({product_no:a},{product_name:b,product_description:c,product_price:d,product_category:e,product_quantity:g});
+            console.log("product updated successfully.");
 
+            let productupdatedetail = "Product Updated Successfully";
+            let rec = await new recentactivity({
+            user_id:uid,
+            activity:productupdatedetail
 
+            });
+            await rec.save(); 
 
-        
-        let productupdatedetail = "Product Updated Successfully";
-        let rec = await new recentactivity({
-          user_id:uid,
-          activity:productupdatedetail
-
-        });
-        await rec.save(); 
-
-    //console.log(req.file); // Cloudinary response
-   res.render("successupdated",{name,user_image});
- }
+            res.render("successupdated",{name,user_image});
+        }
 
 
 
@@ -1286,7 +1280,9 @@ exports.ser_confirm_purchase1 = async(req,res) => {
 
 
     
-    exports.ser_mailopen = async(req,res) => {
+    exports.ser_mailopen = async(req,res) => 
+        
+    {
 
         let uid = req.user.user_id;
         let image = await tble.findOne({user_id:uid});
@@ -1297,20 +1293,24 @@ exports.ser_confirm_purchase1 = async(req,res) => {
 
     }
 
-    exports.ser_leaderboard = async(req,res) => {
+    exports.ser_leaderboard = async(req,res) => 
+        
+        {
 
-        let uid = req.user.user_id;
-        let abhi = await tble.findOne({user_id:uid});
-        let name = abhi.your_name;
-        res.render("leaderboard",{name,user_image});
+            let uid = req.user.user_id;
+            let abhi = await tble.findOne({user_id:uid});
+            let name = abhi.your_name;
+            res.render("leaderboard",{name,user_image});
 
-    }
+        }
 
 
 
 
     exports.ser_activity= async(req,res)=>
+       
         {
+       
             let uid = req.user.user_id;
             let image = await tble.findOne({user_id:uid});
             let user_image = image.picture;
@@ -1321,6 +1321,57 @@ exports.ser_confirm_purchase1 = async(req,res) => {
 
 
     }
+
+
+    exports.ser_productedit= async(req,res)=>
+       
+        {
+       
+            let uid = req.user.user_id;
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
+            let abhi = await tble.findOne({user_id:uid});
+            let name = abhi.your_name;
+            let productno = req.query.productno;
+            
+            let product_detail = await tble2.findOne({product_no:productno});
+
+            res.render("productedit",{product_detail,user_image,name})
+        }
+
+
+    exports.ser_producteditsuccess= async(req,res)=>
+      
+        {
+
+            let uid = req.user.user_id;
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
+            let abhi = await tble.findOne({user_id:uid});
+            let name = abhi.your_name;
+            
+            let new_product_name = req.body.productName;
+            let new_product_description = req.body.productDescription; 
+            let new_product_category = req.body.productCategory;
+            let new_product_price = req.body.productPrice;
+            let new_product_quantity = req.body.productQuantity;
+            
+            await tble2.updateOne({product_name:new_product_name},{product_description:new_product_description,product_category:new_product_category,product_price:new_product_price,product_quantity:new_product_quantity});
+           
+            res.render("productupdatesuccess",{user_image,name});
+            
+        }    
+
+
+    exports.ser_productdelete= async(req,res)=>
+        {
+            let productno = req.query.productno;
+            console.log(productno);
+
+
+res.render("error")
+        }
+
     // exports.ser_update = async (req, res) => {
        
     //     try {
