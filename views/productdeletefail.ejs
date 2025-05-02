@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Denied - Admin Required</title>
+  <style>
+    /* Consistent with dashboard styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f8fafc;
+    }
+    
+    /* Access denied container */
+    .denied-container {
+      max-width: 600px;
+      margin: 100px auto;
+      padding: 40px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      text-align: center;
+      border-left: 5px solid #f59e0b;
+    }
+    
+    /* Warning icon */
+    .denied-icon {
+      font-size: 72px;
+      color: #f59e0b;
+      margin-bottom: 20px;
+    }
+    
+    /* Heading */
+    .denied-heading {
+      font-size: 28px;
+      color: #1e293b;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    
+    /* Message */
+    .denied-message {
+      color: #64748b;
+      font-size: 16px;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+    
+    /* Admin requirements */
+    .admin-requirements {
+      background: #fffbeb;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 25px 0;
+      text-align: left;
+    }
+    
+    .requirements-title {
+      font-weight: 600;
+      color: #b45309;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .requirements-list {
+      padding-left: 20px;
+      color: #64748b;
+    }
+    
+    .requirements-list li {
+      margin-bottom: 8px;
+    }
+    
+    /* Action buttons */
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btn-warning {
+      background-color: #f59e0b;
+      color: white;
+      border: none;
+    }
+    
+    .btn-warning:hover {
+      background-color: #d97706;
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      background-color: white;
+      color: #3b82f6;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .btn-outline:hover {
+      background-color: #f8fafc;
+      border-color: #3b82f6;
+    }
+    
+    /* Animation */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+    
+    .denied-container {
+      animation: fadeIn 0.5s ease-out, pulse 1.5s ease-in-out 0.5s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .denied-container {
+        margin: 60px 20px;
+        padding: 30px 20px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <%- include("../utils/header")%> 
+    <%- include("side")%>
+  <!-- Access Denied Message -->
+  <div class="denied-container">
+    <div class="denied-icon">
+      <i class="bi bi-shield-lock"></i>
+    </div>
+    <h1 class="denied-heading">Admin Access Required</h1>
+    <p class="denied-message">
+      You don't have permission to delete products. This action requires administrator privileges.
+    </p>
+    
+    <div class="admin-requirements">
+      <div class="requirements-title">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>Administrator Privileges Required</span>
+      </div>
+      <ul class="requirements-list">
+        <li>Only users with admin role can delete products</li>
+        <li>Your current role doesn't have sufficient permissions</li>
+        <li>Contact your system administrator for assistance</li>
+      </ul>
+    </div>
+    
+    <div class="action-buttons">
+      <a href="/mail-open" class="btn btn-warning">
+        <i class="bi bi-person-gear"></i> Contact Admin
+      </a>
+      <a href="/updateproduct" class="btn btn-outline">
+        <i class="bi bi-arrow-left"></i> Back to Products
+      </a>
+    </div>
+  </div>
+</body>
+</html>

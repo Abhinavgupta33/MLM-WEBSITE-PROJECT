@@ -1364,12 +1364,21 @@ exports.ser_confirm_purchase1 = async(req,res) => {
 
 
     exports.ser_productdelete= async(req,res)=>
-        {
-            let productno = req.query.productno;
-            console.log(productno);
+        {  
+            let uid = req.user.user_id;
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
+            let abhi = await tble.findOne({user_id:uid});
+            let name = abhi.your_name;
+            let productname = req.query.productname;
+            if(uid=="1"){
+              await   tble2.deleteOne({product_name:productname});
+                res.render("productdeletesuccess",{name,user_image});
 
-
-res.render("error")
+            }
+            else{
+                res.render("productdeletefail",{name,user_image});
+            }
         }
 
     // exports.ser_update = async (req, res) => {

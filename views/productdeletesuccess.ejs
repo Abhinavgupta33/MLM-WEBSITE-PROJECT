@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Deleted Successfully</title>
+  <style>
+    /* Use the same styles as your dashboard for consistency */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f8fafc;
+    }
+    
+    /* Success message container */
+    .success-container {
+      max-width: 600px;
+      margin: 100px auto;
+      padding: 40px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    
+    /* Success icon */
+    .success-icon {
+      font-size: 72px;
+      color: #10b981;
+      margin-bottom: 20px;
+    }
+    
+    /* Success heading */
+    .success-heading {
+      font-size: 28px;
+      color: #1e293b;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    
+    /* Success message */
+    .success-message {
+      color: #64748b;
+      font-size: 16px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    
+    /* Action buttons */
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      background-color: #2563eb;
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      background-color: white;
+      color: #3b82f6;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .btn-outline:hover {
+      background-color: #f8fafc;
+      border-color: #3b82f6;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .success-container {
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .success-container {
+        margin: 60px 20px;
+        padding: 30px 20px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <%- include("../utils/header")%> 
+    <%- include("side")%>
+  <!-- Success Message -->
+  <div class="success-container">
+    <div class="success-icon">
+      <i class="bi bi-check-circle-fill"></i>
+    </div>
+    <h1 class="success-heading">Product Deleted Successfully</h1>
+    <p class="success-message">
+      The product has been permanently removed from your inventory. 
+      This action cannot be undone.
+    </p>
+    
+    <div class="action-buttons">
+      <a href="/updateproduct" class="btn btn-primary">
+        <i class="bi bi-arrow-left"></i> Back to Products
+      </a>
+      <a href="/dashboard" class="btn btn-outline">
+        <i class="bi bi-speedometer2"></i> Return to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Optional: Add a countdown to automatically redirect
+    document.addEventListener('DOMContentLoaded', function() {
+      // Uncomment this if you want auto-redirect after 5 seconds
+      /*
+      setTimeout(function() {
+        window.location.href = '/products';
+      }, 5000);
+      */
+    });
+  </script>
+</body>
+</html>

@@ -14,16 +14,16 @@
     }
     
     body {
-      background-color: #f5f5f5;
-      padding-top: 60px;
+      background-color: #f8fafc;
+      padding-top: 70px;
     }
     
     /* Header Styles */
     .header {
-      background: #fff;
-      height: 60px;
-      padding: 0 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background: white;
+      height: 70px;
+      padding: 0 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
       position: fixed;
       top: 0;
       left: 0;
@@ -32,6 +32,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    
+    .header.scrolled {
+      height: 60px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
     
     .d-flex {
@@ -49,9 +56,15 @@
     /* Logo */
     .logo {
       text-decoration: none;
-      color: #333;
-      font-weight: 600;
-      font-size: 1.2rem;
+      color: #1e293b;
+      font-weight: 700;
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+    
+    .logo:hover {
+      color: #3b82f6;
     }
     
     /* Navigation */
@@ -65,15 +78,23 @@
     }
     
     .nav-link {
-      color: #333;
+      color: #64748b;
       text-decoration: none;
-      padding: 10px;
+      padding: 10px 15px;
       display: flex;
       align-items: center;
+      transition: all 0.3s ease;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+    
+    .nav-link:hover {
+      color: #3b82f6;
+      background: #f8fafc;
     }
     
     .nav-icon {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
     }
     
     /* Badge */
@@ -81,28 +102,40 @@
       position: absolute;
       top: -5px;
       right: -5px;
-      background: #0d6efd;
+      background: #ef4444;
       color: white;
       border-radius: 50%;
       font-size: 0.7rem;
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     
     /* Dropdown */
     .dropdown-menu {
       position: absolute;
       right: 0;
-      top: 100%;
+      top: calc(100% + 5px);
       background: white;
-      border-radius: 5px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      min-width: 250px;
-      padding: 10px 0;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      min-width: 280px;
+      padding: 8px 0;
       display: none;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: all 0.2s ease;
+      border: 1px solid #f1f5f9;
+    }
+    
+    .dropdown:hover .dropdown-menu {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
     
     .dropdown-menu-arrow::before {
@@ -113,45 +146,112 @@
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
       border-bottom: 10px solid white;
-    }
-    
-    .dropdown:hover .dropdown-menu {
-      display: block;
+      filter: drop-shadow(0 -2px 2px rgba(0,0,0,0.03));
     }
     
     .dropdown-header {
-      padding: 10px 15px;
-      font-weight: 600;
+      padding: 12px 20px;
+      font-weight: 700;
+      color: #1e293b;
+      font-size: 1rem;
+      border-bottom: 1px solid #f1f5f9;
     }
     
     .dropdown-item {
-      padding: 10px 15px;
+      padding: 10px 20px;
       text-decoration: none;
-      color: #333;
+      color: #475569;
       display: flex;
-      gap: 10px;
+      gap: 12px;
+      align-items: center;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
     }
     
     .dropdown-item:hover {
-      background: #f8f9fa;
+      background: #f8fafc;
+      color: #3b82f6;
     }
     
     .dropdown-divider {
-      border-top: 1px solid #eee;
-      margin: 5px 0;
+      border-top: 1px solid #f1f5f9;
+      margin: 6px 0;
+    }
+    
+    /* Notification items */
+    .notification-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 20px;
+      transition: all 0.2s ease;
+    }
+    
+    .notification-item:hover {
+      background: #f8fafc;
+    }
+    
+    .notification-item i {
+      font-size: 1.3rem;
+      margin-top: 3px;
+    }
+    
+    .notification-item div h4 {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      color: #1e293b;
+      font-weight: 600;
+    }
+    
+    .notification-item div p {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-bottom: 3px;
+    }
+    
+    .notification-item div p:last-child {
+      font-size: 0.75rem;
+      color: #94a3b8;
     }
     
     /* Images */
     .rounded-circle {
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       object-fit: cover;
+      border: 2px solid #e2e8f0;
+      transition: all 0.3s ease;
     }
     
-    /* Main Content */
-    .main {
+    .nav-profile:hover .rounded-circle {
+      border-color: #3b82f6;
+    }
+    
+    /* Profile dropdown */
+    .profile .dropdown-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
       padding: 20px;
+    }
+    
+    .profile .dropdown-header img {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 10px;
+      border: 3px solid #e2e8f0;
+    }
+    
+    .profile .dropdown-header h6 {
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+    
+    .profile .dropdown-header span {
+      font-size: 0.85rem;
+      color: #64748b;
     }
     
     /* Responsive */
@@ -159,29 +259,74 @@
       .d-none.d-lg-block {
         display: none;
       }
+      
+      .header {
+        padding: 0 15px;
+      }
+      
+      .header-nav ul {
+        gap: 10px;
+      }
     }
     
     /* Icons */
     .bi {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
     }
     
-    .text-warning { color: #ffc107; }
-    .text-danger { color: #dc3545; }
-    .text-success { color: #28a745; }
-    .text-primary { color: #0d6efd; }
+    .text-warning { color: #f59e0b; }
+    .text-danger { color: #ef4444; }
+    .text-success { color: #10b981; }
+    .text-primary { color: #3b82f6; }
+    
+    /* View all badge */
+    .rounded-pill {
+      border-radius: 50px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #3b82f6;
+      color: white;
+    }
+    
+    /* Dropdown footer */
+    .dropdown-footer {
+      text-align: center;
+      padding: 10px;
+    }
+    
+    .dropdown-footer a {
+      color: #3b82f6;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+    
+    .dropdown-footer a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Shopping cart icon */
+    .bi-cart3 {
+      color: #64748b;
+      transition: color 0.2s ease;
+    }
+    
+    .nav-link:hover .bi-cart3 {
+      color: #3b82f6;
+    }
   </style>
   <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
 <body>
   <!-- Header -->
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
       <a href="/dashboard" class="logo d-flex align-items-center">
+        <i class="bi bi-speedometer2 me-2"></i>
         <span class="d-none d-lg-block">Admin Dashboard</span>
       </a>
-    
     </div>
     
     <nav class="header-nav ms-auto">
@@ -196,7 +341,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number">4</span>
+            <span class="badge bg-danger badge-number">4</span>
           </a>
           
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
@@ -209,8 +354,8 @@
             <li class="notification-item">
               <i class="bi bi-exclamation-circle text-warning"></i>
               <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
+                <h4>System Alert</h4>
+                <p>Server maintenance scheduled for tonight</p>
                 <p>30 min. ago</p>
               </div>
             </li>
@@ -220,8 +365,8 @@
             <li class="notification-item">
               <i class="bi bi-x-circle text-danger"></i>
               <div>
-                <h4>Atque rerum nesciunt</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
+                <h4>Failed Login Attempt</h4>
+                <p>Unsuccessful login from unknown device</p>
                 <p>1 hr. ago</p>
               </div>
             </li>
@@ -231,8 +376,8 @@
             <li class="notification-item">
               <i class="bi bi-check-circle text-success"></i>
               <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
+                <h4>Backup Completed</h4>
+                <p>Database backup was successful</p>
                 <p>2 hrs. ago</p>
               </div>
             </li>
@@ -242,8 +387,8 @@
             <li class="notification-item">
               <i class="bi bi-info-circle text-primary"></i>
               <div>
-                <h4>Dicta reprehenderit</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
+                <h4>New User Registered</h4>
+                <p>John Doe has created an account</p>
                 <p>4 hrs. ago</p>
               </div>
             </li>
@@ -258,7 +403,8 @@
         <!-- Shopping Cart -->
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-icon" href="/shopping">
-            <img src="assets/img/add-to-cart.png" alt="Cart" class="rounded-circle" />
+            <i class="bi bi-cart3"></i>
+            <span class="badge bg-success badge-number" style="right: -2px;">3</span>
           </a>
         </li>
 
@@ -271,6 +417,7 @@
           
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
+              <img src="<%=user_image %>" alt="Profile" class="rounded-circle mb-2" />
               <h6>Admin User</h6>
               <span>Administrator</span>
             </li>
@@ -286,7 +433,7 @@
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/change_pass_page">
-                <i class="bi bi-gear"></i>
+                <i class="bi bi-shield-lock"></i>
                 <span>Change Password</span>
               </a>
             </li>
@@ -304,6 +451,28 @@
     </nav>
   </header>
 
-
+  <script>
+    // Add scroll effect to header
+    window.addEventListener('scroll', function() {
+      const header = document.querySelector('.header');
+      if (window.scrollY > 10) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+    
+    // Simulate dynamic notification count
+    setInterval(function() {
+      const badge = document.querySelector('.notifications .badge-number');
+      const count = parseInt(badge.textContent);
+      // Randomly change notification count (for demo purposes)
+      if (Math.random() > 0.7) {
+        const newCount = Math.max(0, count + (Math.random() > 0.5 ? 1 : -1));
+        badge.textContent = newCount;
+        badge.style.backgroundColor = newCount > 3 ? '#ef4444' : '#3b82f6';
+      }
+    }, 5000);
+  </script>
 </body>
 </html>

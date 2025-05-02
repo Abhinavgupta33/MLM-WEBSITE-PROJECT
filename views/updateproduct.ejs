@@ -608,11 +608,12 @@
                                 <a href="/productedit/?productno=<%= product.product_no %>" class="btn btn-edit btn-sm">
                                     <i class="bi bi-pencil-fill"></i> Edit
                                 </a>
-                                
-                                <button class="btn btn-delete btn-sm" 
-                                    <!-- onclick="confirmDelete(<%= product.product_no %>, '<%= product.product_name %>')"> -->
+                                <a href="/productdelete?productname=<%=product.product_name %>">
+                                <button class="btn btn-delete btn-sm"> 
+                            
                                     <i class="bi bi-trash-fill"></i> Delete
                                 </button>
+                            </a>
                             </div>
                         </div>
                     </div>
@@ -658,32 +659,6 @@
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div class="modal-overlay" id="deleteOverlay"></div>
-    <div class="modal-container delete-modal" id="deleteModal">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirm Deletion</h3>
-            <button type="button" class="btn-close" onclick="closeDeleteModal()">
-                <i class="bi bi-x-lg"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="delete-icon">
-                <i class="bi bi-exclamation-octagon-fill"></i>
-            </div>
-            <h4>Are you sure?</h4>
-            <p>You are about to delete <strong id="deleteProductName"></strong>.</p>
-            <p class="text-danger">This action cannot be undone.</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeDeleteModal()">
-                <i class="bi bi-x-circle"></i> Cancel
-            </button>
-        <button class="btn btn-danger" id="confirmDeleteBtn">
-                 <i class="bi bi-trash-fill"></i> Delete
-            </button>
-        </div>
-    </div>
 
     <script>
         // View Modal Functions
@@ -706,35 +681,8 @@
         }
         
         // Delete Modal Functions
-        let productToDelete = null;
+       
         
-        function confirmDelete(productNo, productName) {
-            productToDelete = productNo;
-            document.getElementById('deleteProductName').textContent = productName;
-            
-            document.getElementById('deleteOverlay').classList.add('active');
-            document.getElementById('deleteModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeDeleteModal() {
-            productToDelete = null;
-            document.getElementById('deleteOverlay').classList.remove('active');
-            document.getElementById('deleteModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        
-        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-            if(productToDelete) {
-                // Show loading state
-                const btn = this;
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Deleting...';
-                btn.disabled = true;
-                
-                window.location.href = '/productdelete' + productToDelete;
-            }
-        });
         
         // Close modals when clicking on overlay
         document.getElementById('viewOverlay').addEventListener('click', closeViewModal);
