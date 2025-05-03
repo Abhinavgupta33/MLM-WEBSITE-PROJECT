@@ -6,6 +6,7 @@
       <a class="nav-link active" href="/dashboard">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
+        <div class="active-indicator"></div>
       </a>
     </li>
     <!-- End Dashboard Nav -->
@@ -15,7 +16,7 @@
       <a class="nav-link collapsed" data-bs-target="#user-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="user-manager-nav">
         <i class="bi bi-people"></i>
         <span>User Manager</span>
-        <i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-chevron-down ms-auto toggle-icon"></i>
       </a>
       <ul id="user-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
@@ -31,13 +32,13 @@
           </a>
         </li>
         <li>
-          <a href="/updateuser">
+          <a href="/userview">
             <i class="bi bi-person-gear"></i>
             <span>Update User</span>
           </a>
         </li>
         <li>
-          <a href="/deleteuser">
+          <a href="/userview">
             <i class="bi bi-person-x"></i>
             <span>Delete User</span>
           </a>
@@ -51,7 +52,7 @@
       <a class="nav-link collapsed" data-bs-target="#product-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="product-manager-nav">
         <i class="bi bi-box-seam"></i>
         <span>Product Manager</span>
-        <i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-chevron-down ms-auto toggle-icon"></i>
       </a>
       <ul id="product-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
@@ -73,7 +74,7 @@
           </a>
         </li>
         <li>
-          <a href="/deleteproduct">
+          <a href="/updateproduct">
             <i class="bi bi-trash"></i>
             <span>Delete Product</span>
           </a>
@@ -87,13 +88,19 @@
       <a class="nav-link collapsed" data-bs-target="#mail-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="mail-manager-nav">
         <i class="bi bi-envelope"></i>
         <span>Mail Manager</span>
-        <i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-chevron-down ms-auto toggle-icon"></i>
       </a>
       <ul id="mail-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
           <a href="/otp_genrate">
             <i class="bi bi-shield-check"></i>
             <span>Verify User</span>
+          </a>
+        </li>
+        <li>
+          <a href="/mail-open">
+            <i class="bi bi-shield-check"></i>
+            <span>Send Mail</span>
           </a>
         </li>
       </ul>
@@ -135,29 +142,49 @@
 <!-- Additional Styles -->
 <style>
   :root {
-    --sidebar-bg: #ffffff;
-    --sidebar-text: #2c3e50;
-    --sidebar-active-bg: #e6f2ff;
-    --sidebar-hover-bg: #f0f7ff;
-    --sidebar-icon-color: #3498db;
-    --sidebar-active-icon-color: #1a73e8;
-    --sidebar-border-color: #e0e0e0;
-    --sidebar-transition: all 0.3s ease;
-    --header-height: 60px; /* Match this with your header height */
+    --sidebar-bg: #f8fafc;
+    --sidebar-text: #334155;
+    --sidebar-active-bg: #e0e7ff;
+    --sidebar-hover-bg: #f1f5f9;
+    --sidebar-icon-color: #64748b;
+    --sidebar-active-icon-color: #4f46e5;
+    --sidebar-border-color: #e2e8f0;
+    --sidebar-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --header-height: 60px;
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 80px;
+    --sidebar-item-padding: 12px 20px;
+    --sidebar-subitem-padding: 10px 15px 10px 35px;
   }
 
   .sidebar {
     background-color: var(--sidebar-bg);
     color: var(--sidebar-text);
     min-height: calc(100vh - var(--header-height));
-    width: 250px;
+    width: var(--sidebar-width);
     position: fixed;
     left: 0;
     top: var(--header-height);
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.03);
     transition: var(--sidebar-transition);
     z-index: 100;
     border-right: 1px solid var(--sidebar-border-color);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+  }
+
+  .sidebar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sidebar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  .sidebar::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 3px;
   }
 
   .sidebar-nav {
@@ -166,20 +193,21 @@
   }
 
   .nav-item {
-    margin-bottom: 3px;
+    margin-bottom: 4px;
     position: relative;
   }
 
   .nav-link {
     color: var(--sidebar-text);
-    padding: 10px 20px;
+    padding: var(--sidebar-item-padding);
     display: flex;
     align-items: center;
     text-decoration: none;
     transition: var(--sidebar-transition);
-    border-left: 3px solid transparent;
-    border-radius: 0 4px 4px 0;
-    margin: 0 10px;
+    border-radius: 8px;
+    margin: 0 12px;
+    position: relative;
+    font-size: 0.95rem;
   }
 
   .nav-link:hover {
@@ -190,15 +218,26 @@
   .nav-link.active {
     background-color: var(--sidebar-active-bg);
     color: var(--sidebar-active-icon-color);
-    border-left-color: var(--sidebar-active-icon-color);
     font-weight: 500;
+  }
+
+  .nav-link.active .active-indicator {
+    position: absolute;
+    right: -12px;
+    height: 20px;
+    width: 4px;
+    background-color: var(--sidebar-active-icon-color);
+    border-radius: 2px 0 0 2px;
+    transition: var(--sidebar-transition);
   }
 
   .nav-link i {
     color: var(--sidebar-icon-color);
-    margin-right: 10px;
-    font-size: 1.1rem;
+    margin-right: 12px;
+    font-size: 1.15rem;
     transition: var(--sidebar-transition);
+    min-width: 24px;
+    text-align: center;
   }
 
   .nav-link.active i,
@@ -207,79 +246,194 @@
   }
 
   .nav-content {
-    padding-left: 15px;
+    padding-left: 12px;
     list-style: none;
-    background-color: rgba(240, 247, 255, 0.5);
-    margin: 5px 10px;
-    border-radius: 4px;
+    background-color: transparent;
+    margin: 6px 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: var(--sidebar-transition);
   }
 
   .nav-content li a {
-    padding: 8px 15px;
+    padding: var(--sidebar-subitem-padding);
     display: flex;
     align-items: center;
     color: var(--sidebar-text);
     text-decoration: none;
     transition: var(--sidebar-transition);
     font-size: 0.9rem;
+    border-radius: 6px;
+    margin: 2px 0;
   }
 
   .nav-content li a:hover {
     background-color: var(--sidebar-hover-bg);
-    padding-left: 18px;
     color: var(--sidebar-active-icon-color);
+    padding-left: 38px;
   }
 
   .nav-content li a i {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: var(--sidebar-icon-color);
+    margin-right: 10px;
+  }
+
+  .nav-content li a:hover i {
+    color: var(--sidebar-active-icon-color);
   }
 
   .nav-heading {
-    padding: 15px 20px 5px;
+    padding: 20px 24px 8px;
     font-size: 0.75rem;
     text-transform: uppercase;
-    color: #7f8c8d;
-    letter-spacing: 1px;
-    margin-top: 15px;
-    border-top: 1px solid var(--sidebar-border-color);
+    color: #64748b;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    margin-top: 10px;
+    position: relative;
   }
 
-  .bi-chevron-down {
-    transition: transform 0.3s ease;
+  .nav-heading:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 24px;
+    right: 24px;
+    height: 1px;
+    background-color: var(--sidebar-border-color);
+  }
+
+  .toggle-icon {
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--sidebar-icon-color);
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
-  .nav-link.collapsed .bi-chevron-down {
-    transform: rotate(-90deg);
+  .nav-link:not(.collapsed) .toggle-icon {
+    transform: rotate(180deg);
+    color: var(--sidebar-active-icon-color);
   }
 
+  /* Collapsed state */
   @media (max-width: 992px) {
     .sidebar {
-      width: 70px;
+      width: var(--sidebar-collapsed-width);
       overflow: hidden;
     }
+    
+    .sidebar:hover {
+      width: var(--sidebar-width);
+      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .sidebar:hover span {
+      display: inline;
+    }
+    
+    .sidebar:hover .nav-heading {
+      display: block;
+    }
+    
+    .sidebar:hover .nav-content {
+      display: block;
+    }
+    
+    .sidebar:hover .toggle-icon {
+      display: inline-block;
+    }
+    
     .sidebar span {
       display: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
     }
-    .sidebar .nav-heading {
+    
+    .sidebar:hover span {
+      opacity: 1;
+    }
+    
+    .nav-heading {
       display: none;
     }
-    .sidebar .nav-link {
+    
+    .nav-link {
       justify-content: center;
-      margin: 0 5px;
-      padding: 10px 5px;
+      margin: 0 8px;
+      padding: 12px 8px;
     }
-    .sidebar .nav-link i {
+    
+    .nav-link i {
       margin-right: 0;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
     }
-    .sidebar .nav-content {
+    
+    .nav-content {
       display: none;
     }
-    .sidebar .bi-chevron-down {
+    
+    .toggle-icon {
       display: none;
+    }
+    
+    .nav-link.active .active-indicator {
+      right: 0;
+      width: 3px;
+      height: 24px;
+      border-radius: 0 2px 2px 0;
+    }
+  }
+
+  /* Smooth collapse animations */
+  .nav-content.collapsing {
+    transition: height 0.25s ease;
+  }
+
+  /* Badge styling for future use */
+  .badge-sidebar {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    padding: 3px 6px;
+    border-radius: 10px;
+    background-color: var(--sidebar-active-icon-color);
+    color: white;
+  }
+
+  /* Ripple effect */
+  .nav-link {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-link:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(79, 70, 229, 0.3);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+  }
+
+  .nav-link:focus:not(:active)::after {
+    animation: ripple 0.6s ease-out;
+  }
+
+  @keyframes ripple {
+    0% {
+      transform: scale(0, 0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(20, 20);
+      opacity: 0;
     }
   }
 </style>

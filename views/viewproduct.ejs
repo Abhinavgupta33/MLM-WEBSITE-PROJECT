@@ -5,152 +5,263 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Products</title>
     
-
-      <link href="../assets/img/favicon.png" rel="icon" />
-      <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+    <link href="../assets/img/favicon.png" rel="icon" />
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
   
-      <link href="https://fonts.gstatic.com" rel="preconnect" />
-      <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet"
-      />
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
   
-      <link
-        href="../assets/vendor/bootstrap/css/bootstrap.min.css"
-        rel="stylesheet"
-      />
-      <link
-        href="../assets/vendor/bootstrap-icons/bootstrap-icons.css"
-        rel="stylesheet"
-      />
-      <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-      <link href="../assets/vendor/quill/quill.snow.css" rel="stylesheet" />
-      <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
-      <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
-      <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet" />
+    <link
+      href="../assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="../assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+    <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
+    <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet" />
   
-      <script
-        src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"
-      ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
 
     <style>
         /* Global Styles */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #f8f9fc;
+            --accent-color: #2980b9;
+            --text-color: #34495e;
+            --light-color: #ffffff;
+            --success-color: #2ecc71;
+            --info-color: #3498db;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --dark-color: #2c3e50;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
             margin: 0;
             padding: 0;
         }
+        
         .rounded-circle {
             margin-left: 90%;
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-}
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+        }
 
         h1 {
             text-align: center;
-            margin: 20px 0;
-            color: #333;
+            margin: 30px 0;
+            color: var(--dark-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 3px;
         }
 
         /* Product Container */
         .product-container {
-        margin-left: 20%;
+            margin-left: 20%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 30px;
         }
 
         .product {
-            background-color: white;
+            background-color: var(--light-color);
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
             text-align: center;
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .product:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-img-container {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border-radius: 8px;
+            position: relative;
         }
 
         .product img {
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: var(--transition);
             border-radius: 8px;
-            transition: transform 0.3s;
         }
 
         .product:hover img {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .product h2 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            margin: 10px 0;
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
             margin: 10px 0;
         }
 
         .product p {
-            font-size: 1rem;
-            color: #333;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            line-height: 1.5;
+            height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
         }
 
         .quantity-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 10px;
+            margin: 15px 0;
+        }
+
+        .quantity-container label {
+            margin-right: 10px;
+            font-weight: 600;
+            color: var(--dark-color);
         }
 
         .quantity-container input {
-            width: 50px;
-            padding: 5px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            width: 60px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             text-align: center;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .quantity-container input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
         }
 
+        /* Button Styles */
         .button-group {
-            margin-top: 10px;
+            margin-top: 15px;
             display: flex;
             gap: 10px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         button {
-            padding: 10px 15px;
+            padding: 10px 20px;
             border: none;
-            background-color: #28a745;
             color: white;
-            font-size: 1rem;
+            font-size: 0.9rem;
             border-radius: 5px;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            transition: background-color 0.3s, transform 0.3s;
+            transition: var(--transition);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         button:hover {
-            background-color: #218838;
             transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         button:active {
             transform: translateY(0);
-            box-shadow: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         button:disabled {
-            background-color: #6c757d;
+            background-color: #bdc3c7;
             cursor: not-allowed;
+        }
+        
+        .buy-now {
+            background-color: var(--success-color);
+            border-bottom: 3px solid #27ae60;
+        }
+        
+        .buy-now:hover {
+            background-color: #27ae60;
+        }
+        
+        .add-to-cart {
+            background-color: var(--info-color);
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .quick-view-btn {
+            background-color: var(--dark-color);
+            border-bottom: 3px solid #1a252f;
+        }
+        
+        .quick-view-btn:hover {
+            background-color: #1a252f;
         }
 
         /* Loading Spinner */
@@ -178,69 +289,114 @@
 
         @keyframes spin {
             from {
-                transform: rotate(0deg);
+                transform: translate(-50%, -50%) rotate(0deg);
             }
             to {
-                transform: rotate(360deg);
+                transform: translate(-50%, -50%) rotate(360deg);
             }
         }
 
         /* Quick View Modal */
-       /* Ensure the modal is vertically and horizontally centered */
-.modal {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 500px;
-    background: white;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    z-index: 1000;
-    text-align: center;
-}
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .modal.active {
+            display: block;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -40%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
 
-/* Adjust overlay to block background interaction */
-.overlay.active {
-    display: block;
-    background: rgba(0, 0, 0, 0.7);
-}
-
-/* Add some padding to modal body for a cleaner layout */
-.modal-body {
-    padding: 15px;
-}
-
-.modal-body img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 15px;
-}
-.modal-header {
-            background-color: #28a745;
+        .modal-header {
+            background-color: var(--primary-color);
             color: white;
-            padding: 10px;
+            padding: 15px 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
             text-align: center;
         }
 
+        .modal-body {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .modal-img-container {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-body img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        #modal-name {
+            color: var(--dark-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        #modal-description {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        #modal-price {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
         .modal-footer {
-            padding: 10px;
+            padding: 15px 20px;
             text-align: right;
+            border-top: 1px solid #eee;
         }
 
         .modal-footer button {
-            background-color: #dc3545;
+            background-color: var(--dark-color);
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: var(--transition);
+            font-weight: 600;
+            border-bottom: 3px solid #1a252f;
         }
 
         .modal-footer button:hover {
-            background-color: #c82333;
+            background-color: #1a252f;
         }
 
         /* Overlay */
@@ -251,19 +407,111 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 999;
+            backdrop-filter: blur(3px);
         }
 
-        .overlay.active,
-        .modal.active {
+        .overlay.active {
             display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Floating Cart Button */
+        .floating-cart-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 99;
+            transition: var(--transition);
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        .floating-cart-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            background-color: var(--accent-color);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .floating-cart-btn i {
+            font-size: 1.5rem;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
         }
 
         /* Responsive Design */
+        @media (max-width: 992px) {
+            .product-container {
+                margin-left: 0;
+                padding: 20px 10px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .product-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .product {
+                padding: 15px;
+            }
+            
+            .product h2 {
+                font-size: 1.2rem;
+            }
+            
+            .price {
+                font-size: 1.2rem;
+            }
+            
+            .floating-cart-btn {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
             }
         }
     </style>
@@ -276,14 +524,16 @@
     <div class="product-container">
         <% products.forEach(product => { %>
             <div class="product">
-                <img src="<%= product.product_image %>" alt="<%= product.product_name %>">
+                <div class="product-img-container">
+                    <img src="<%= product.product_image %>" alt="<%= product.product_name %>">
+                </div>
                 <h2><%= product.product_name %></h2>
-                <p>₹<%= product.product_price.toFixed(2) %></p>
+                <div class="price">₹<%= product.product_price.toFixed(2) %></div>
                 <p><%= product.product_description %></p>
 
                 <div class="quantity-container">
+                    <label for="quantity-<%= product.product_no %>">Qty:</label>
                     <input type="number" id="quantity-<%= product.product_no %>" min="1" value="1">
-                    <label for="quantity-<%= product.product_no %>">Qty</label>
                 </div>
 
                 <div class="button-group">
@@ -301,17 +551,21 @@
                         <span>Add to Cart</span>
                         <div class="spinner"></div>
                     </button>
-                   <div class="quick-view">                    <button 
+                    <button 
                         type="button" 
-                        class="quick-view" 
-                        onclick= "openModal('<%= product.product_image %>', '<%= product.product_name %>', '<%= product.product_description %>')">
-                        Quick View
+                        class="quick-view-btn" 
+                        onclick="openModal('<%= product.product_image %>', '<%= product.product_name %>', '<%= product.product_description %>', '<%= product.product_price.toFixed(2) %>')">
+                        <span>Quick View</span>
                     </button>
-                </div>
-
                 </div>
             </div>
         <% }) %>
+    </div>
+    
+    <!-- Floating Cart Button -->
+    <div class="floating-cart-btn" onclick="window.location.href='/cart'">
+        <i class="bi bi-cart-fill"></i>
+        <span class="cart-count">0</span>
     </div>
 
     <!-- Quick View Modal -->
@@ -319,8 +573,11 @@
     <div class="modal">
         <div class="modal-header">Product Details</div>
         <div class="modal-body">
-            <img id="modal-img" src="" alt="">
+            <div class="modal-img-container">
+                <img id="modal-img" src="" alt="">
+            </div>
             <h2 id="modal-name"></h2>
+            <div class="price" id="modal-price"></div>
             <p id="modal-description"></p>
         </div>
         <div class="modal-footer">
@@ -336,19 +593,49 @@
             }, 1000);
         }
 
-        function openModal(image, name, description) {
+        function openModal(image, name, description, price) {
             document.getElementById('modal-img').src = image;
             document.getElementById('modal-name').textContent = name;
+            document.getElementById('modal-price').textContent = '₹' + price;
             document.getElementById('modal-description').textContent = description;
 
             document.querySelector('.overlay').classList.add('active');
             document.querySelector('.modal').classList.add('active');
+            
+            // Prevent scrolling when modal is open
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             document.querySelector('.overlay').classList.remove('active');
             document.querySelector('.modal').classList.remove('active');
+            
+            // Re-enable scrolling
+            document.body.style.overflow = '';
         }
+        
+        // Close modal when clicking on overlay
+        document.querySelector('.overlay').addEventListener('click', closeModal);
+        
+        // Fetch cart count (you'll need to implement this based on your backend)
+        function updateCartCount() {
+            fetch('/api/cart/count')
+                .then(response => response.json())
+                .then(data => {
+                    if(data.count > 0) {
+                        document.querySelector('.cart-count').textContent = data.count;
+                        document.querySelector('.cart-count').style.display = 'flex';
+                    } else {
+                        document.querySelector('.cart-count').style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching cart count:', error);
+                });
+        }
+        
+        // Initialize cart count
+        document.addEventListener('DOMContentLoaded', updateCartCount);
     </script>
     
     <%- include("../utils/footer")%>
