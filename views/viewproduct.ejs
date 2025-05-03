@@ -563,7 +563,7 @@
     </div>
     
     <!-- Floating Cart Button -->
-    <div class="floating-cart-btn" onclick="window.location.href='/cart'">
+    <div class="floating-cart-btn" onclick="window.location.href='/shopping'">
         <i class="bi bi-cart-fill"></i>
         <span class="cart-count">0</span>
     </div>
@@ -619,7 +619,7 @@
         
         // Fetch cart count (you'll need to implement this based on your backend)
         function updateCartCount() {
-            fetch('/api/cart/count')
+            fetch('/api/shopping/count')
                 .then(response => response.json())
                 .then(data => {
                     if(data.count > 0) {

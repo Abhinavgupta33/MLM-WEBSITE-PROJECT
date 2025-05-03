@@ -1071,7 +1071,7 @@ else {
 
 
 exports.ser_removeproduct = async(req,res) => {
-    let removequantity = req.query.yoyo;
+    try{let removequantity = req.query.yoyo;
     console.log(removequantity)
     let uid = req.user.user_id;
     let data = req.query.id;
@@ -1118,7 +1118,10 @@ else{
     res.render("addtocart",{cart});
 
 }
-    
+}
+catch{
+    res.render("error")
+}
 }
 
 
@@ -1373,9 +1376,10 @@ exports.ser_confirm_purchase1 = async(req,res) => {
             let productname = req.query.productname;
             if(uid=="1"){
               await   tble2.deleteOne({product_name:productname});
-                res.render("productdeletesuccess",{name,user_image});
-
-            }
+              await   tble3.deleteOne({product_name:productname});
+             
+              res.render("productdeletesuccess",{name,user_image});
+                 }
             else{
                 res.render("productdeletefail",{name,user_image});
             }
