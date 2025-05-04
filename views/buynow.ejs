@@ -52,6 +52,22 @@
     .cart-item h4 {
       margin: 0 0 10px;
     }
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .razorpay-btn {
+      background-color: #2d8ff0;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .razorpay-btn:hover {
+      background-color: #1a73e8;
+    }
   </style>
 </head>
 <body>
@@ -66,24 +82,24 @@
     <div class="product-info">
       <h2>Your Cart Items</h2>
       <div id="cartItems">
-        <% cart.forEach(item => { %>
+       
           <div class="cart-item">
-            <h4><%= item.product_name %></h4>
-            <p>Price:₹ <%= item.product_price %></p>
-            <p>Quantity: <%= item.product_quantity %></p>
-            <p>Subtotal: ₹<%= item.product_price * item.product_quantity %></p>
+            <h4 id="hello"> <%= cart.product_name %></h4>
+            <p>Price: <%= cart.product_price %></p>
+            <p name="quantity">Quantity: <%=quantity %></p>
+            <p>Subtotal: <%= cart.product_price * quantity %></p>
           </div>
-        <% }); %>
+       
       </div>
       
       <div class="total-amount">
-        <p>Total Amount:₹ <span id="totalAmount"><%= cart.reduce((total, item) => total + item.product_price * item.product_quantity, 0) %></span></p>
+        <p>Total Amount: <span id="totalAmount"><%=  cart.product_price * quantity,  %></span></p>
       </div>
     </div>
 
     <!-- Form Section -->
     <h3>Enter Your Details to Confirm Purchase</h3>
-    <form action="/confirm_purchase" method="POST" class="form-container">
+    <form action="/confirm_purchase1" method="POST" class="form-container">
       <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" class="form-control" required>
@@ -98,7 +114,11 @@
       </div>
       
       <input type="hidden" id="hiddenTotalAmount" name="totalAmount" value="">
-      <button type="submit" class="btn btn-primary">Confirm Purchase</button>
+      
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary">Confirm Purchase</button>
+        <button type="button" id="rzp-button1" class="razorpay-btn">Pay with Razorpay</button>
+      </div>
     </form>
   </div>
 
@@ -106,12 +126,60 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <!-- Razorpay checkout script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   
   <script>
     // Set the total amount value in the hidden input field
     document.addEventListener('DOMContentLoaded', () => {
       const totalAmount = document.getElementById('totalAmount').textContent.trim();
       document.getElementById('hiddenTotalAmount').value = totalAmount;
+      
+      // Razorpay payment handler
+      document.getElementById('rzp-button1').onclick = function(e) {
+        // Get form values
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const address = document.getElementById('address').value;
+        
+        // Validate form before proceeding to payment
+        if (!name || !email || !address) {
+          alert('Please fill all the required fields before payment');
+          return;
+        }
+        
+        const amount = parseFloat(totalAmount) * 100; // Razorpay expects amount in paise
+        
+        const options = {
+          "key": "rzp_test_wtrBaXbtEKahAZ", // Replace with your Razorpay key
+          "amount": amount,
+          "currency": "INR",
+          "name": "Your Company Name",
+          "description": "Purchase Payment",
+          "image": "https://example.com/your_logo.jpg",
+          "prefill": {
+            "name": name,
+            "email": email,
+            "contact": "9999999999" // You can add a contact field to your form if needed
+          },
+          "notes": {
+            "address": address
+          },
+          "theme": {
+            "color": "#3399cc"
+          },
+          "handler": function(response) {
+            // This function will be called after successful payment
+            alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
+            // You can submit the form programmatically here if needed
+            document.querySelector('form').submit();
+          }
+        };
+        
+        const rzp1 = new Razorpay(options);
+        rzp1.open();
+        e.preventDefault();
+      };
     });
   </script>
 </body>

@@ -1125,7 +1125,49 @@ catch{
 }
 
 
+
+
+
+
+
 exports.ser_buynow = async(req,res) => {
+    console.log("i am abhi");
+    
+    let uid = req.user.user_id;
+    let abhi = await tble.findOne({user_id:uid});
+    let name = abhi.your_name;
+    let image = await tble.findOne({user_id:uid});
+    let user_image = image.picture;
+   
+
+    let cart = await tble3.find({addedby:uid})
+    let abhi1 = cart.product_quantity;
+    let productname = cart.product_name;
+    let quantity = await tble2.find({product_name:productname});
+    console.log(cart)
+    console.log(quantity)
+    
+    res.cookie("buynowname",product);
+    res.cookie("buynowquantity",quantity);
+    console.log(abhi1);
+    if(abhi1>quantity){
+    res.render("buynow1",{quantity,cart});
+}
+
+else{
+    res.render("itemnotavailable",{name,user_image})
+}
+}
+
+
+
+
+
+
+
+
+
+exports.ser_buynow1 = async(req,res) => {
     console.log("i am abhi");
     
     let uid = req.user.user_id;

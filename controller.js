@@ -1,4 +1,4 @@
-let {  ser_productdelete,ser_productedit,ser_producteditsuccess,ser_activity,ser_updateproductview,ser_addproductview,ser_adduserview,ser_signup,ser_leaderboard,ser_mailopen,ser_deleteproduct,ser_updateproduct,ser_confirm_purchase1,ser_confirm_purchase,ser_dashboard,ser_removeproduct,ser_buynow,ser_addtocart,ser_shopping,ser_viewproduct,ser_balance,ser_viewprofile,ser_deposit,ser_withdraw,ser_withdraw1,ser_deposit1,ser_logout,ser_changepass,ser_admininfo,ser_user,ser_update,ser_filter,ser_adduserdata,ser_userview,ser_login,ser_blockuser,ser_unblockuser}=require("./service");
+let {   ser_buynow1,ser_productdelete,ser_productedit,ser_producteditsuccess,ser_activity,ser_updateproductview,ser_addproductview,ser_adduserview,ser_signup,ser_leaderboard,ser_mailopen,ser_deleteproduct,ser_updateproduct,ser_confirm_purchase1,ser_confirm_purchase,ser_dashboard,ser_removeproduct,ser_buynow,ser_addtocart,ser_shopping,ser_viewproduct,ser_balance,ser_viewprofile,ser_deposit,ser_withdraw,ser_withdraw1,ser_deposit1,ser_logout,ser_changepass,ser_admininfo,ser_user,ser_update,ser_filter,ser_adduserdata,ser_userview,ser_login,ser_blockuser,ser_unblockuser}=require("./service");
 
 exports.cont_register=(req,res)=>
 
@@ -181,10 +181,16 @@ exports.cont_change_pass1=(req,res)=>
                                                     }
                                                        
                                                     
-                                                    
                                                     exports.cont_buynow=(req,res)=>
                                                         {
                                                             ser_buynow(req,res);
+                                                            //res.render("viewproduct");
+                                                        }
+                                                        
+
+                                                    exports.cont_buynow1=(req,res)=>
+                                                        {
+                                                            ser_buynow1(req,res);
                                                             //res.render("viewproduct");
                                                         }
                                                            
