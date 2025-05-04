@@ -1138,15 +1138,14 @@ exports.ser_buynow = async(req,res) => {
     let name = abhi.your_name;
     let image = await tble.findOne({user_id:uid});
     let user_image = image.picture;
-   
+        
+    let quantity = await parseInt(req.query.quantity);
+    let product = await req.query.product_no;
+    console.log(quantity);
+    console.log(uid);
 
-    let cart = await tble3.find({addedby:uid})
+    let cart = await tble2.findOne({product_no:product})
     let abhi1 = cart.product_quantity;
-    let productname = cart.product_name;
-    let quantity = await tble2.find({product_name:productname});
-    console.log(cart)
-    console.log(quantity)
-    
     res.cookie("buynowname",product);
     res.cookie("buynowquantity",quantity);
     console.log(abhi1);
