@@ -61,10 +61,23 @@
       font-size: 1.4rem;
       letter-spacing: 0.5px;
       transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     
     .logo:hover {
       color: #3b82f6;
+    }
+    
+    .logo-img {
+      height: 36px;
+      width: auto;
+      transition: all 0.3s ease;
+    }
+    
+    .logo:hover .logo-img {
+      transform: scale(1.05);
     }
     
     /* Navigation */
@@ -267,6 +280,14 @@
       .header-nav ul {
         gap: 10px;
       }
+      
+      .logo-text {
+        display: none;
+      }
+      
+      .logo-img {
+        height: 32px;
+      }
     }
     
     /* Icons */
@@ -323,9 +344,9 @@
   <!-- Header -->
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
-      <a href="/dashboard" class="logo d-flex align-items-center">
-        <i class="bi bi-speedometer2 me-2"></i>
-        <span class="d-none d-lg-block">Admin Dashboard</span>
+      <a href="/dashboard" class="logo">
+        <img src="/logo/site_logo.png" alt="ChainCore Logo" class="logo-img">
+        <span class="logo-text d-none d-lg-block">ChainCore</span>
       </a>
     </div>
     

@@ -1,3 +1,6 @@
+let express=require("express");
+
+let app=express();
 
 const tble3 = require("./module/user3.0");
 const tble2 = require("./module/user2.0");
@@ -5,6 +8,12 @@ const tble = require("./module/user");
 const recentactivity = require("./module/recentactivity");
 let jwt=require("jsonwebtoken");
 const user = require("./module/user");
+const bodyParser = require('body-parser');
+require('dotenv').config();
+app.use(bodyParser.urlencoded({ extended: true }));  // Parse URL-encoded form data
+
+
+const nodemailer = require('nodemailer');
 
 
 
@@ -1425,6 +1434,70 @@ exports.ser_confirm_purchase1 = async(req,res) => {
                 res.render("productdeletefail",{name,user_image});
             }
         }
+
+
+
+        exports.ser_user_mail= async(req,res)=>{
+
+            let uid = req.user.user_id;
+               
+                let abhi = await tble.findOne({user_id:uid});
+                let name = abhi.your_name;
+                let image = await tble.findOne({user_id:uid});
+                let user_image = image.picture;
+
+            let sender_mail = await tble.findOne({user_id:uid});
+            let sender_mail_is = sender_mail.email;
+
+            let user_mail = req.body.email;
+console.log(sender_mail_is,user_mail)
+            res.render("viewuser_mail",{user_image,sender_mail_is,user_mail});
+        }
+
+exports.ser_view_user_send_mail = async (req, res) => {
+  try {
+    const uid = req.user.user_id;
+
+    // Fetch user details once instead of twice
+    const abhi = await tble.findOne({ user_id: uid });
+    const name = abhi.your_name;
+    const user_image = abhi.picture;
+
+    const { senderEmail, recipientEmail, subject, message } = req.body;
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: senderEmail,
+      to: recipientEmail,
+      subject: subject,
+      text: message,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    const mailsenddetail = "Mail Send Successfully";
+
+    // Fix: use uid instead of undefined `data.user_id`
+    const rec =await new recentactivity({
+      user_id: uid,
+      activity: mailsenddetail,
+    });
+
+    await rec.save();
+
+    await res.render("mailsuccess", { name, user_image });
+  } catch (error) {
+    console.error("Email send error:", error);
+    res.render("mailsendfail", { name, user_image });
+  }
+};
 
     // exports.ser_update = async (req, res) => {
        

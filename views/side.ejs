@@ -1,4 +1,4 @@
-<!-- ======= Sidebar ======= -->
+<!-- ======= Enhanced Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
     <!-- Dashboard Nav -->
@@ -10,6 +10,40 @@
       </a>
     </li>
     <!-- End Dashboard Nav -->
+
+    <!-- Recent Activity Section -->
+    <li class="nav-heading">Recent Activity</li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" id="recent-activity-toggle">
+        <i class="bi bi-clock-history"></i>
+        <span>Activity Log</span>
+        <span class="badge-sidebar">New</span>
+      </a>
+      <div class="recent-activity-content">
+        <div class="activity-item">
+          <i class="bi bi-check-circle-fill text-success"></i>
+          <div>
+            <p>System update completed</p>
+            <small>2 minutes ago</small>
+          </div>
+        </div>
+        <div class="activity-item">
+          <i class="bi bi-person-plus-fill text-primary"></i>
+          <div>
+            <p>New user registered</p>
+            <small>15 minutes ago</small>
+          </div>
+        </div>
+        <div class="activity-item">
+          <i class="bi bi-cart-check-fill text-info"></i>
+          <div>
+            <p>New order received</p>
+            <small>1 hour ago</small>
+          </div>
+        </div>
+      </div>
+    </li>
+    <!-- End Recent Activity Section -->
 
     <!-- User Manager Nav -->
     <li class="nav-item">
@@ -139,22 +173,23 @@
 </aside>
 <!-- End Sidebar -->
 
-<!-- Additional Styles -->
+<!-- Enhanced Sidebar Styles -->
 <style>
   :root {
-    --sidebar-bg: #f8fafc;
+    --sidebar-bg: #ffffff;
     --sidebar-text: #334155;
-    --sidebar-active-bg: #e0e7ff;
-    --sidebar-hover-bg: #f1f5f9;
+    --sidebar-active-bg: #f0f4ff;
+    --sidebar-hover-bg: #f8fafc;
     --sidebar-icon-color: #64748b;
     --sidebar-active-icon-color: #4f46e5;
     --sidebar-border-color: #e2e8f0;
     --sidebar-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     --header-height: 60px;
-    --sidebar-width: 260px;
+    --sidebar-width: 280px;
     --sidebar-collapsed-width: 80px;
     --sidebar-item-padding: 12px 20px;
     --sidebar-subitem-padding: 10px 15px 10px 35px;
+    --sidebar-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
   }
 
   .sidebar {
@@ -165,26 +200,13 @@
     position: fixed;
     left: 0;
     top: var(--header-height);
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.03);
+    box-shadow: var(--sidebar-shadow);
     transition: var(--sidebar-transition);
     z-index: 100;
     border-right: 1px solid var(--sidebar-border-color);
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 #f1f5f9;
-  }
-
-  .sidebar::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .sidebar::-webkit-scrollbar-track {
-    background: #f1f5f9;
-  }
-
-  .sidebar::-webkit-scrollbar-thumb {
-    background-color: #cbd5e1;
-    border-radius: 3px;
   }
 
   .sidebar-nav {
@@ -208,17 +230,18 @@
     margin: 0 12px;
     position: relative;
     font-size: 0.95rem;
+    font-weight: 500;
   }
 
   .nav-link:hover {
     background-color: var(--sidebar-hover-bg);
-    color: var(--sidebar-text);
+    color: var(--sidebar-active-icon-color);
   }
 
   .nav-link.active {
     background-color: var(--sidebar-active-bg);
     color: var(--sidebar-active-icon-color);
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .nav-link.active .active-indicator {
@@ -315,6 +338,69 @@
     color: var(--sidebar-active-icon-color);
   }
 
+  /* Recent Activity Styles */
+  .recent-activity-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    margin: 0 12px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+  }
+
+  .nav-link.collapsed + .recent-activity-content {
+    max-height: 0 !important;
+  }
+
+  .activity-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 15px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .activity-item:last-child {
+    border-bottom: none;
+  }
+
+  .activity-item i {
+    font-size: 1rem;
+    margin-right: 12px;
+    margin-top: 2px;
+  }
+
+  .activity-item div {
+    flex: 1;
+  }
+
+  .activity-item p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #334155;
+    font-weight: 500;
+  }
+
+  .activity-item small {
+    display: block;
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 3px;
+  }
+
+  /* Badge styling */
+  .badge-sidebar {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    padding: 3px 6px;
+    border-radius: 10px;
+    background-color: #ef4444;
+    color: white;
+    font-weight: 600;
+  }
+
   /* Collapsed state */
   @media (max-width: 992px) {
     .sidebar {
@@ -324,7 +410,7 @@
     
     .sidebar:hover {
       width: var(--sidebar-width);
-      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--sidebar-shadow);
     }
     
     .sidebar:hover span {
@@ -341,6 +427,10 @@
     
     .sidebar:hover .toggle-icon {
       display: inline-block;
+    }
+    
+    .sidebar:hover .recent-activity-content {
+      display: block;
     }
     
     .sidebar span {
@@ -372,7 +462,15 @@
       display: none;
     }
     
+    .recent-activity-content {
+      display: none;
+    }
+    
     .toggle-icon {
+      display: none;
+    }
+    
+    .badge-sidebar {
       display: none;
     }
     
@@ -387,19 +485,6 @@
   /* Smooth collapse animations */
   .nav-content.collapsing {
     transition: height 0.25s ease;
-  }
-
-  /* Badge styling for future use */
-  .badge-sidebar {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.7rem;
-    padding: 3px 6px;
-    border-radius: 10px;
-    background-color: var(--sidebar-active-icon-color);
-    color: white;
   }
 
   /* Ripple effect */
@@ -437,3 +522,21 @@
     }
   }
 </style>
+
+<script>
+  // Toggle Recent Activity
+  document.getElementById('recent-activity-toggle').addEventListener('click', function(e) {
+    e.preventDefault();
+    const content = this.nextElementSibling;
+    this.classList.toggle('collapsed');
+    
+    if (this.classList.contains('collapsed')) {
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
+  });
+
+  // Initialize with activity closed
+  document.querySelector('.recent-activity-content').style.maxHeight = '0';
+</script>

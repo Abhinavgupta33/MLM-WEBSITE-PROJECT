@@ -473,7 +473,7 @@ app.post('/addproduct1',my_auth, upload.single('productImage'),async (req, res) 
    res.render("successadditem",{name,user_image});
  });
  
-
+ 
 app.use(bp.urlencoded({extended:true}));
 de.config();
 const path=require("path");

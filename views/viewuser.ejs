@@ -24,7 +24,7 @@
     <style>
       /* Custom styles to prevent overlap */
       #main {
-        margin-left: 250px; /* Match sidebar width */
+        margin-left: 280px; /* Match sidebar width */
         padding-top: 60px; /* Match header height */
         transition: all 0.3s;
       }
@@ -195,7 +195,7 @@
                                 </form>
                               </td>
                             <td>
-                              <form class="filter" action="/user_mail_page" method="post">
+                              <form class="filter" action="/user_mail" method="post">
                                 <input type="hidden" name="email" value="<%= user.email %>" />
                                 <input type="submit" value="Mail" class="btn btn-primary" />
                               </form>

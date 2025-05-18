@@ -1,7 +1,7 @@
 let express=require("express");
 let router=express.Router();
 let my_auth=require("./my_auth");
-let{cont_buynow1,cont_productdelete,cont_activity,cont_producteditsuccess,cont_productedit,cont_leaderboard,cont_deleteproduct,cont_mailopen,cont_updateproduct1,cont_signup,cont_updateproduct,cont_confirm_purchase1,cont_confirm_purchase,cont_removeproduct,cont_addtocart,cont_buynow,cont_shopping,cont_viewproduct,cont_addproduct,cont_balance,cont_viewprofile,cont_logout,cont_deposit1,cont_deposit,cont_withdraw1,cont_withdraw,cont_change_pass1,cont_admininfo,cont_update,cont_userupdate,cont_userunblock,cont_userblock,cont_filteruser,cont_loginrout,cont_viewuser,cont_userview,cont_register,cont_adduserdata,cont_login,cont_adduser,cont_signup_page,cont_adminprofile,cont_dashboard,cont_otp,cont_changepass}=require("./controller");
+let{cont_view_user_send_mail,cont_user_mail,cont_buynow1,cont_productdelete,cont_activity,cont_producteditsuccess,cont_productedit,cont_leaderboard,cont_deleteproduct,cont_mailopen,cont_updateproduct1,cont_signup,cont_updateproduct,cont_confirm_purchase1,cont_confirm_purchase,cont_removeproduct,cont_addtocart,cont_buynow,cont_shopping,cont_viewproduct,cont_addproduct,cont_balance,cont_viewprofile,cont_logout,cont_deposit1,cont_deposit,cont_withdraw1,cont_withdraw,cont_change_pass1,cont_admininfo,cont_update,cont_userupdate,cont_userunblock,cont_userblock,cont_filteruser,cont_loginrout,cont_viewuser,cont_userview,cont_register,cont_adduserdata,cont_login,cont_adduser,cont_signup_page,cont_adminprofile,cont_dashboard,cont_otp,cont_changepass}=require("./controller");
 
 router.get("/",cont_login);
 router.get("/register",my_auth,cont_register);
@@ -51,6 +51,8 @@ router.post("/profile_edit")
 router.get("/productedit",my_auth,cont_productedit);
 router.post("/producteditsuccess",my_auth,cont_producteditsuccess);
 router.get("/productdelete",my_auth,cont_productdelete);
+router.post("/user_mail",my_auth,cont_user_mail);
+router.post("/view_user_send_mail",my_auth,cont_view_user_send_mail);
 
 
 
