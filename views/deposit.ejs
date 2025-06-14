@@ -3,8 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Amount and Password Form</title>
+  <title>Secure Transaction Form</title>
   <style>
+    :root {
+      --primary-color: #007bff;
+      --secondary-color: #6c757d;
+      --success-color: #28a745;
+      --error-color: #ff4d4d;
+      --light-color: #ffffff;
+      --dark-color: #343a40;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
@@ -13,125 +22,539 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: linear-gradient(135deg, #007bff, #6c757d);
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      overflow: hidden;
+      position: relative;
     }
+
+    /* Enhanced Background Animations */
+    .money-particle {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: float 15s linear infinite;
+      z-index: -1;
+      filter: blur(1px);
+    }
+
+    .money-symbol {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: bold;
+      animation: floatSymbol 20s linear infinite;
+      z-index: -1;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(110vh) translateX(0) rotate(0deg) scale(0.5);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-10vh) translateX(100px) rotate(360deg) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    @keyframes floatSymbol {
+      0% {
+        transform: translateY(110vh) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.7;
+      }
+      80% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-10vh) translateX(100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Form Container with Enhanced Animation */
     .form-container {
-      background: #ffffff;
-      padding: 25px 35px;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
+      transform: translateY(30px);
+      opacity: 0;
+      animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.3s;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
+
+    .form-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+      animation: progressBar 3s ease-in-out infinite;
+    }
+
+    @keyframes progressBar {
+      0% { width: 0; left: 0; }
+      50% { width: 100%; left: 0; }
+      100% { width: 0; left: 100%; }
+    }
+
+    @keyframes fadeInUp {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
     .form-container h2 {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       text-align: center;
-      color: #333;
-      font-size: 24px;
+      color: var(--dark-color);
+      font-size: 26px;
+      position: relative;
+      animation: textGlow 2s ease-in-out infinite alternate;
     }
+
+    @keyframes textGlow {
+      from {
+        text-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+      }
+      to {
+        text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+      }
+    }
+
     .form-container label {
       display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      color: #555;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: var(--dark-color);
+      animation: slideInLabel 0.5s ease-out forwards;
+      opacity: 0;
+      transform: translateX(-10px);
     }
+
+    @keyframes slideInLabel {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .form-container label:nth-child(1) {
+      animation-delay: 0.5s;
+    }
+    .form-container label:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
     .form-container input {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
+      padding: 14px;
+      margin-bottom: 18px;
       border: 1px solid #ddd;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 16px;
-      transition: border-color 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      background: rgba(255, 255, 255, 0.8);
+      animation: inputFadeIn 0.5s ease-out forwards;
+      opacity: 0;
+      transform: translateY(10px);
     }
+
+    @keyframes inputFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-container input:nth-of-type(1) {
+      animation-delay: 0.7s;
+    }
+    .form-container input:nth-of-type(2) {
+      animation-delay: 0.8s;
+    }
+
     .form-container input:focus {
-      border-color: #007bff;
+      border-color: var(--primary-color);
       outline: none;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+      transform: scale(1.02);
+      background: var(--light-color);
     }
+
+    /* Enhanced Button with Ripple Effect */
     .form-container button {
       width: 100%;
-      padding: 12px;
-      background-color: #007bff;
+      padding: 14px;
+      background-color: var(--primary-color);
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       color: white;
       font-size: 18px;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      animation: buttonFadeIn 0.5s ease-out forwards;
+      opacity: 0;
+      transform: translateY(10px);
+      animation-delay: 0.9s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
+
+    @keyframes buttonFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .form-container button:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
+      background-color: #0069d9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
+
+    .form-container button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container button .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.7);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
+    }
+
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* Enhanced Error Styles */
     .error {
-      color: #ff4d4d;
+      color: var(--error-color);
       font-size: 14px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      padding: 8px 12px;
+      background: rgba(255, 77, 77, 0.1);
+      border-radius: 6px;
+      border-left: 4px solid var(--error-color);
+      animation: shake 0.5s ease, fadeIn 0.3s ease;
+      display: flex;
+      align-items: center;
     }
-    .form-container .success-message {
-      color: #28a745;
+
+    .error::before {
+      content: '!';
+      margin-right: 8px;
+      background: var(--error-color);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+
+    /* Success Message with Confetti */
+    .success-message {
+      color: var(--success-color);
       font-size: 16px;
       text-align: center;
-      margin-top: 15px;
+      margin-top: 20px;
+      padding: 12px;
+      background: rgba(40, 167, 69, 0.1);
+      border-radius: 8px;
+      border-left: 4px solid var(--success-color);
+      animation: fadeIn 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .success-message::before {
+      content: '✓';
+      margin-right: 8px;
+      background: var(--success-color);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    /* Wrong Password Animation */
+    .wrong-password {
+      color: var(--error-color);
+      font-size: 14px;
+      text-align: center;
+      margin: 15px 0;
+      padding: 10px;
+      background: rgba(255, 77, 77, 0.1);
+      border-radius: 8px;
+      animation: pulse 1.5s infinite, fadeIn 0.5s ease;
+      border: 1px dashed rgba(255, 77, 77, 0.3);
+      position: relative;
+    }
+
+    .wrong-password::before {
+      content: '⚠';
+      margin-right: 8px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.1); }
+      50% { transform: scale(1.02); box-shadow: 0 0 0 5px rgba(255, 77, 77, 0); }
+    }
+
+    /* Confetti Animation */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #f00;
+      opacity: 0;
+      animation: confetti 3s ease-in-out forwards;
+    }
+
+    @keyframes confetti {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
   <%- include("../utils/header")%> 
   <%- include("side")%>
+  
+  <!-- Enhanced Background Money Elements -->
+  <div id="moneyBackground"></div>
+  
   <form action="/deposit1" method="post">
-  <div class="form-container">
-    <h2>Enter Details</h2>
-    <form id="detailsForm">
-      <label for="amount">Amount:</label>
-      <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
-      <span id="amountError" class="error"></span>
+    <div class="form-container">
+      <h2>Secure Transaction</h2>
+      <form id="detailsForm">
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+        <span id="amountError" class="error" style="display: none;"></span>
 
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" placeholder="Enter password" required>
-      <span id="passwordError" class="error"></span>
-<p> Worng Password Entered  <%= passwordcheck %> No. Of Times  </p>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" required>
+        <span id="passwordError" class="error" style="display: none;"></span>
+        
+        <% if (passwordcheck > 0) { %>
+          <p class="wrong-password">Wrong Password Entered <%= passwordcheck %> No. Of Times</p>
+        <% } %>
 
-      <button type="submit">Submit</button>
-     
-      <div id="successMessage" class="success-message" style="display: none;">Form submitted successfully!</div>
-    
-    </form>
-  </div>
-</form>
+        <button type="submit" id="submitBtn">Submit</button>
+       
+        <div id="successMessage" class="success-message" style="display: none;">
+          Transaction Successful!
+        </div>
+      </form>
+    </div>
+  </form>
+
   <script>
+    // Create enhanced floating money background elements
+    const moneyBackground = document.getElementById('moneyBackground');
+    const moneySymbols = ['$', '€', '¥', '£', '₽', '₹', '₩', '₿'];
+    
+    // Create particles with varying sizes and shapes
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'money-particle';
+      
+      // Random size between 3-12px
+      const size = Math.random() * 9 + 3;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      
+      // Random position
+      particle.style.left = `${Math.random() * 100}%`;
+      
+      // Random animation duration and delay
+      particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+      particle.style.animationDelay = `${Math.random() * 10}s`;
+      
+      // Random shape (some as circles, some as squares)
+      if (Math.random() > 0.7) {
+        particle.style.borderRadius = '0';
+      }
+      
+      // Random color variation
+      if (Math.random() > 0.8) {
+        particle.style.backgroundColor = `rgba(0, 123, 255, ${Math.random() * 0.5 + 0.3})`;
+      }
+      
+      moneyBackground.appendChild(particle);
+    }
+    
+    // Create money symbols with more variations
+    for (let i = 0; i < 15; i++) {
+      const symbol = document.createElement('div');
+      symbol.className = 'money-symbol';
+      symbol.textContent = moneySymbols[Math.floor(Math.random() * moneySymbols.length)];
+      
+      // Random size between 20-50px
+      const size = Math.random() * 30 + 20;
+      symbol.style.fontSize = `${size}px`;
+      
+      // Random position
+      symbol.style.left = `${Math.random() * 100}%`;
+      
+      // Random animation duration and delay
+      symbol.style.animationDuration = `${Math.random() * 20 + 15}s`;
+      symbol.style.animationDelay = `${Math.random() * 15}s`;
+      
+      // Random rotation
+      symbol.style.transform = `rotate(${Math.random() * 360}deg)`;
+      
+      moneyBackground.appendChild(symbol);
+    }
+
+    // Form handling with enhanced animations
     const form = document.getElementById('detailsForm');
     const amountInput = document.getElementById('amount');
     const passwordInput = document.getElementById('password');
     const amountError = document.getElementById('amountError');
     const passwordError = document.getElementById('passwordError');
     const successMessage = document.getElementById('successMessage');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Add ripple effect to button
+    submitBtn.addEventListener('click', function(e) {
+      // Only create ripple if form is valid
+      if (amountInput.value && passwordInput.value) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      }
+    });
 
     form.addEventListener('submit', (event) => {
-      event.preventDefault(); // Prevent form submission
+      event.preventDefault();
 
       let isValid = true;
 
       // Clear previous errors
-      amountError.textContent = '';
-      passwordError.textContent = '';
+      amountError.style.display = 'none';
+      passwordError.style.display = 'none';
       successMessage.style.display = 'none';
 
       // Validate amount
-      if (amountInput.value === '' || amountInput.value <= 0) {
-        amountError.textContent = 'Please enter a valid amount.';
+      if (!amountInput.value || amountInput.value <= 0) {
+        amountError.textContent = 'Please enter a valid positive amount.';
+        amountError.style.display = 'flex';
         isValid = false;
+        
+        // Add shake animation to input
+        amountInput.style.animation = 'shake 0.5s ease';
+        setTimeout(() => {
+          amountInput.style.animation = '';
+        }, 500);
       }
 
-     
-      // If valid, show success message and reset the form
+      // Validate password
+      if (!passwordInput.value) {
+        passwordError.textContent = 'Please enter your password.';
+        passwordError.style.display = 'flex';
+        isValid = false;
+        
+        // Add shake animation to input
+        passwordInput.style.animation = 'shake 0.5s ease';
+        setTimeout(() => {
+          passwordInput.style.animation = '';
+        }, 500);
+      }
+
+      // If valid, show success message with confetti
       if (isValid) {
         successMessage.style.display = 'block';
-        form.reset();
+        
+        // Create confetti effect
+        createConfetti();
+        
+        // Reset form after delay
+        setTimeout(() => {
+          form.reset();
+        }, 3000);
       }
     });
+
+    function createConfetti() {
+      const colors = ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1', '#fd7e14'];
+      
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.top = '0';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = `${Math.random() * 8 + 4}px`;
+        confetti.style.height = `${Math.random() * 8 + 4}px`;
+        confetti.style.borderRadius = `${Math.random() * 50}%`;
+        confetti.style.animationDuration = `${Math.random() * 2 + 1}s`;
+        confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+        
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => {
+          confetti.remove();
+        }, 3000);
+      }
+    }
   </script>
 </body>
 </html>

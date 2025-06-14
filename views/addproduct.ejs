@@ -14,6 +14,11 @@
       --light-gray: #f8f9fa;
       --border-color: #dee2e6;
       --error-color: #ef233c;
+      --bubble-color-1: #3a86ff;
+      --bubble-color-2: #4895ef;
+      --bubble-color-3: #4cc9f0;
+      --bubble-color-4: #4361ee;
+      --bubble-color-5: #3f37c9;
     }
     
     * {
@@ -32,17 +37,66 @@
       align-items: center;
       min-height: 100vh;
       padding: 20px;
+      position: relative;
+      overflow: hidden;
     }
     
+    /* Enhanced Bubble Background Animation */
+    .bubbles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      opacity: 0.6;
+      animation: float 15s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translateY(-20vh) rotate(180deg);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(0) rotate(360deg);
+        opacity: 0.6;
+      }
+    }
+    
+    /* Form Container Styles */
     .form-container {
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       width: 100%;
       max-width: 520px;
       padding: 2.5rem;
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(8px);
+      animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      transform: translateY(20px);
+      opacity: 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    @keyframes fadeInUp {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
     
     .form-container::before {
@@ -55,17 +109,50 @@
       background: linear-gradient(90deg, var(--primary-color), var(--success-color));
     }
     
+    .form-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        135deg,
+        rgba(67, 97, 238, 0.03) 0%,
+        rgba(76, 201, 240, 0.03) 100%
+      );
+      z-index: -1;
+    }
+    
     .form-container h2 {
       text-align: center;
       margin-bottom: 1.75rem;
       color: var(--text-color);
       font-weight: 700;
       font-size: 1.75rem;
+      position: relative;
     }
     
     .form-group {
       margin-bottom: 1.25rem;
       position: relative;
+      animation: fadeIn 0.6s ease-out forwards;
+      opacity: 0;
+    }
+    
+    /* Staggered animations for form groups */
+    .form-group:nth-child(1) { animation-delay: 0.2s; }
+    .form-group:nth-child(2) { animation-delay: 0.3s; }
+    .form-group:nth-child(3) { animation-delay: 0.4s; }
+    .form-group:nth-child(4) { animation-delay: 0.5s; }
+    .form-group:nth-child(5) { animation-delay: 0.6s; }
+    .form-group:nth-child(6) { animation-delay: 0.7s; }
+    
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      transform: translateY(0);
+      }
     }
     
     label {
@@ -92,7 +179,7 @@
       border-radius: 8px;
       font-size: 0.95rem;
       transition: all 0.3s ease;
-      background-color: var(--light-gray);
+      background-color: rgba(248, 249, 250, 0.7);
     }
     
     textarea {
@@ -132,12 +219,36 @@
       margin-top: 0.5rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.8s ease-out 0.8s forwards;
+      opacity: 0;
+    }
+    
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: 0.5s;
     }
     
     .submit-btn:hover {
       background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+    }
+    
+    .submit-btn:hover::before {
+      left: 100%;
     }
     
     .submit-btn:active {
@@ -150,7 +261,13 @@
       border: 1px dashed var(--border-color);
       border-radius: 8px;
       padding: 1rem;
-      background-color: var(--light-gray);
+      background-color: rgba(248, 249, 250, 0.5);
+      transition: all 0.3s ease;
+    }
+    
+    #imagePreview:hover {
+      border-color: var(--primary-color);
+      background-color: rgba(248, 249, 250, 0.8);
     }
     
     #imagePreview img {
@@ -158,6 +275,11 @@
       max-height: 200px;
       border-radius: 6px;
       object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+    
+    #imagePreview img:hover {
+      transform: scale(1.02);
     }
     
     .file-input-container {
@@ -180,7 +302,7 @@
     .file-input-label {
       display: block;
       padding: 0.75rem 1rem;
-      background-color: var(--light-gray);
+      background-color: rgba(248, 249, 250, 0.7);
       border: 1px solid var(--border-color);
       border-radius: 8px;
       text-align: center;
@@ -189,7 +311,8 @@
     }
     
     .file-input-label:hover {
-      background-color: #e9ecef;
+      background-color: rgba(233, 236, 239, 0.8);
+      border-color: var(--primary-color);
     }
     
     .file-input-text {
@@ -211,8 +334,11 @@
   </style>
 </head>
 <body>
-  <%- include("../utils/header")%> 
-  <%- include("side")%>
+     <%- include("../utils/header")%> 
+    <%- include("side")%>
+  <!-- Enhanced Bubble Background -->
+  <div class="bubbles-container" id="bubblesContainer"></div>
+  
   <div class="form-container">
     <h2>Add New Product</h2>
     <form action="/addproduct1" method="post" enctype="multipart/form-data" onsubmit="return validateProductForm()">
@@ -263,6 +389,37 @@
   </div>
 
   <script>
+    // Enhanced bubble creation with better animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const bubblesContainer = document.getElementById('bubblesContainer');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        
+        // Random size between 5px and 15px
+        const size = Math.random() * 10 + 5;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        
+        // Random position
+        bubble.style.left = `${Math.random() * 100}vw`;
+        bubble.style.top = `${Math.random() * 100}vh`;
+        
+        // Random color from gradient
+        const hue = Math.random() * 60 + 220; // Blue/purple range
+        bubble.style.background = `hsla(${hue}, 80%, 60%, ${Math.random() * 0.4 + 0.3})`;
+        
+        // Random animation duration and delay
+        const duration = Math.random() * 10 + 10;
+        const delay = Math.random() * 5;
+        bubble.style.animation = `float ${duration}s ${delay}s infinite ease-in-out`;
+        
+        bubblesContainer.appendChild(bubble);
+      }
+    });
+    
     function validateProductForm() {
       const name = document.getElementById('productName').value.trim();
       const description = document.getElementById('productDescription').value.trim();

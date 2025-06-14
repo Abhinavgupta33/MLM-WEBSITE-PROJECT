@@ -1,4 +1,4 @@
-<!-- ======= Enhanced Sidebar ======= -->
+<!-- ======= Premium Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
     <!-- Dashboard Nav -->
@@ -13,33 +13,42 @@
 
     <!-- Recent Activity Section -->
     <li class="nav-heading">Recent Activity</li>
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="#" id="recent-activity-toggle">
+    <li class="nav-item activity-container">
+      <a href="/activity" class="nav-link" id="activity-main-link">
         <i class="bi bi-clock-history"></i>
         <span>Activity Log</span>
-        <span class="badge-sidebar">New</span>
+        <span class="badge-sidebar pulse">3</span>
       </a>
-      <div class="recent-activity-content">
-        <div class="activity-item">
-          <i class="bi bi-check-circle-fill text-success"></i>
-          <div>
+      <div class="recent-activity-preview">
+        <div class="activity-item" onclick="window.location.href='/activity'">
+          <div class="activity-icon success">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+          <div class="activity-details">
             <p>System update completed</p>
             <small>2 minutes ago</small>
           </div>
         </div>
-        <div class="activity-item">
-          <i class="bi bi-person-plus-fill text-primary"></i>
-          <div>
+        <div class="activity-item" onclick="window.location.href='/activity'">
+          <div class="activity-icon primary">
+            <i class="bi bi-person-plus-fill"></i>
+          </div>
+          <div class="activity-details">
             <p>New user registered</p>
             <small>15 minutes ago</small>
           </div>
         </div>
-        <div class="activity-item">
-          <i class="bi bi-cart-check-fill text-info"></i>
-          <div>
+        <div class="activity-item" onclick="window.location.href='/activity'">
+          <div class="activity-icon info">
+            <i class="bi bi-cart-check-fill"></i>
+          </div>
+          <div class="activity-details">
             <p>New order received</p>
             <small>1 hour ago</small>
           </div>
+        </div>
+        <div class="view-all-activities">
+          <a href="/activity">View All Activities <i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
     </li>
@@ -133,7 +142,7 @@
         </li>
         <li>
           <a href="/mail-open">
-            <i class="bi bi-shield-check"></i>
+            <i class="bi bi-envelope-plus"></i>
             <span>Send Mail</span>
           </a>
         </li>
@@ -170,15 +179,26 @@
     </li>
     <!-- End Settings Nav -->
   </ul>
+  
+  <!-- Sidebar Footer -->
+  <div class="sidebar-footer">
+    <div class="sidebar-theme-toggle">
+      <i class="bi bi-moon"></i>
+      <span>Dark Mode</span>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="darkModeToggle">
+      </div>
+    </div>
+  </div>
 </aside>
 <!-- End Sidebar -->
 
-<!-- Enhanced Sidebar Styles -->
+<!-- Premium Sidebar Styles -->
 <style>
   :root {
     --sidebar-bg: #ffffff;
     --sidebar-text: #334155;
-    --sidebar-active-bg: #f0f4ff;
+    --sidebar-active-bg: rgba(79, 70, 229, 0.1);
     --sidebar-hover-bg: #f8fafc;
     --sidebar-icon-color: #64748b;
     --sidebar-active-icon-color: #4f46e5;
@@ -190,6 +210,7 @@
     --sidebar-item-padding: 12px 20px;
     --sidebar-subitem-padding: 10px 15px 10px 35px;
     --sidebar-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+    --sidebar-footer-height: 60px;
   }
 
   .sidebar {
@@ -207,11 +228,14 @@
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 #f1f5f9;
+    display: flex;
+    flex-direction: column;
   }
 
   .sidebar-nav {
     padding: 15px 0;
     list-style: none;
+    flex: 1;
   }
 
   .nav-item {
@@ -236,6 +260,7 @@
   .nav-link:hover {
     background-color: var(--sidebar-hover-bg);
     color: var(--sidebar-active-icon-color);
+    transform: translateX(4px);
   }
 
   .nav-link.active {
@@ -339,52 +364,115 @@
   }
 
   /* Recent Activity Styles */
-  .recent-activity-content {
+  .recent-activity-preview {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease-out;
     margin: 0 12px;
     background-color: #f8fafc;
     border-radius: 8px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
   }
 
-  .nav-link.collapsed + .recent-activity-content {
-    max-height: 0 !important;
+  .activity-container:hover .recent-activity-preview {
+    max-height: 300px;
+    padding: 10px;
   }
 
   .activity-item {
     display: flex;
     align-items: flex-start;
-    padding: 12px 15px;
+    padding: 10px;
     border-bottom: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+
+  .activity-item:hover {
+    background-color: rgba(79, 70, 229, 0.05);
+    transform: translateX(2px);
   }
 
   .activity-item:last-child {
     border-bottom: none;
   }
 
-  .activity-item i {
-    font-size: 1rem;
+  .activity-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-right: 12px;
-    margin-top: 2px;
+    flex-shrink: 0;
   }
 
-  .activity-item div {
+  .activity-icon i {
+    margin: 0;
+    font-size: 0.9rem;
+    color: white;
+  }
+
+  .activity-icon.success {
+    background-color: #10b981;
+  }
+
+  .activity-icon.primary {
+    background-color: #3b82f6;
+  }
+
+  .activity-icon.info {
+    background-color: #06b6d4;
+  }
+
+  .activity-details {
     flex: 1;
   }
 
-  .activity-item p {
+  .activity-details p {
     margin: 0;
     font-size: 0.85rem;
     color: #334155;
     font-weight: 500;
   }
 
-  .activity-item small {
+  .activity-details small {
     display: block;
     font-size: 0.75rem;
     color: #64748b;
     margin-top: 3px;
+  }
+
+  .view-all-activities {
+    text-align: center;
+    padding: 8px 0 0;
+    margin-top: 5px;
+    border-top: 1px dashed #e2e8f0;
+  }
+
+  .view-all-activities a {
+    color: var(--sidebar-active-icon-color);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s ease;
+  }
+
+  .view-all-activities a:hover {
+    color: #4338ca;
+  }
+
+  .view-all-activities a i {
+    margin-left: 5px;
+    transition: transform 0.2s ease;
+  }
+
+  .view-all-activities a:hover i {
+    transform: translateX(3px);
   }
 
   /* Badge styling */
@@ -399,6 +487,47 @@
     background-color: #ef4444;
     color: white;
     font-weight: 600;
+  }
+
+  .badge-sidebar.pulse {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
+  }
+
+  /* Sidebar Footer */
+  .sidebar-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--sidebar-border-color);
+    margin-top: auto;
+  }
+
+  .sidebar-theme-toggle {
+    display: flex;
+    align-items: center;
+    color: var(--sidebar-text);
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+  .sidebar-theme-toggle i {
+    margin-right: 10px;
+    color: var(--sidebar-icon-color);
+  }
+
+  .sidebar-theme-toggle .form-check-input {
+    margin-left: auto;
+    cursor: pointer;
   }
 
   /* Collapsed state */
@@ -429,8 +558,12 @@
       display: inline-block;
     }
     
-    .sidebar:hover .recent-activity-content {
+    .sidebar:hover .recent-activity-preview {
       display: block;
+    }
+    
+    .sidebar:hover .sidebar-footer {
+      display: flex;
     }
     
     .sidebar span {
@@ -462,7 +595,7 @@
       display: none;
     }
     
-    .recent-activity-content {
+    .recent-activity-preview {
       display: none;
     }
     
@@ -471,6 +604,10 @@
     }
     
     .badge-sidebar {
+      display: none;
+    }
+    
+    .sidebar-footer {
       display: none;
     }
     
@@ -487,56 +624,41 @@
     transition: height 0.25s ease;
   }
 
-  /* Ripple effect */
+  /* Hover effects */
   .nav-link {
     position: relative;
     overflow: hidden;
+    transition: all 0.3s ease;
   }
 
-  .nav-link:after {
+  .nav-link:before {
     content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(79, 70, 229, 0.3);
-    opacity: 0;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%);
-    transform-origin: 50% 50%;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.1), transparent);
+    transition: all 0.5s ease;
   }
 
-  .nav-link:focus:not(:active)::after {
-    animation: ripple 0.6s ease-out;
-  }
-
-  @keyframes ripple {
-    0% {
-      transform: scale(0, 0);
-      opacity: 0.5;
-    }
-    100% {
-      transform: scale(20, 20);
-      opacity: 0;
-    }
+  .nav-link:hover:before {
+    left: 100%;
   }
 </style>
 
 <script>
-  // Toggle Recent Activity
-  document.getElementById('recent-activity-toggle').addEventListener('click', function(e) {
-    e.preventDefault();
-    const content = this.nextElementSibling;
-    this.classList.toggle('collapsed');
-    
-    if (this.classList.contains('collapsed')) {
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + 'px';
-    }
+  // Dark mode toggle
+  document.getElementById('darkModeToggle').addEventListener('change', function() {
+    document.body.classList.toggle('dark-mode');
+    document.querySelector('.sidebar-theme-toggle i').classList.toggle('bi-moon');
+    document.querySelector('.sidebar-theme-toggle i').classList.toggle('bi-sun');
   });
 
-  // Initialize with activity closed
-  document.querySelector('.recent-activity-content').style.maxHeight = '0';
+  // Make entire activity items clickable
+  document.querySelectorAll('.activity-item').forEach(item => {
+    item.addEventListener('click', function() {
+      window.location.href = '/activity';
+    });
+  });
 </script>

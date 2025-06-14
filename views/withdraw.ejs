@@ -13,30 +13,159 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: linear-gradient(135deg, #007bff, #6c757d);
+      overflow: hidden;
+      position: relative;
+      background-color: #f8f9fa;
       color: #333;
     }
+
+    /* Bank-themed background animation */
+    .bank-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bank-note {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0;
+      animation: floatNote 15s linear infinite;
+      transform: rotate(15deg);
+    }
+
+    @keyframes floatNote {
+      0% {
+        transform: translateY(100vh) translateX(0) rotate(15deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.1;
+      }
+      50% {
+        opacity: 0.2;
+      }
+      90% {
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(-100px) translateX(100px) rotate(15deg);
+        opacity: 0;
+      }
+    }
+
+    /* ATM card animation */
+    .card-animation {
+      position: absolute;
+      width: 200px;
+      height: 120px;
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      z-index: -1;
+      animation: cardFloat 8s ease-in-out infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes cardFloat {
+      0%, 100% {
+        transform: translate(-150px, -50px) rotate(-10deg);
+      }
+      50% {
+        transform: translate(150px, 50px) rotate(10deg);
+      }
+    }
+
+    /* Cash withdrawal animation */
+    .cash-stack {
+      position: absolute;
+      width: 80px;
+      height: 40px;
+      background: linear-gradient(135deg, #28a745, #218838);
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      z-index: -1;
+      animation: cashPulse 3s ease-in-out infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes cashPulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
     .withdraw-container {
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.95);
       padding: 30px 40px;
       border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
       width: 100%;
       max-width: 400px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      backdrop-filter: blur(3px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      transform-style: preserve-3d;
+      perspective: 1000px;
     }
+
+    .withdraw-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #28a745, #007bff);
+      animation: progressBar 2s ease-in-out infinite;
+    }
+
+    @keyframes progressBar {
+      0% { width: 0; left: 0; }
+      50% { width: 100%; left: 0; }
+      100% { width: 0; left: 100%; }
+    }
+
     .withdraw-container h2 {
       margin-bottom: 20px;
       font-size: 24px;
       color: #333;
+      animation: fadeIn 0.5s ease-out;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .withdraw-container label {
       display: block;
       margin-bottom: 10px;
       font-weight: bold;
       text-align: left;
       color: #555;
+      animation: slideIn 0.5s ease-out;
+      animation-fill-mode: backwards;
     }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
     .withdraw-container input {
       width: 100%;
       padding: 12px;
@@ -44,13 +173,18 @@
       border: 1px solid #ddd;
       border-radius: 6px;
       font-size: 16px;
-      transition: border-color 0.3s ease;
+      transition: all 0.3s ease;
+      animation: slideIn 0.5s ease-out 0.2s;
+      animation-fill-mode: backwards;
     }
+
     .withdraw-container input:focus {
       border-color: #007bff;
       outline: none;
       box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      transform: scale(1.02);
     }
+
     .withdraw-container button {
       width: 100%;
       padding: 12px;
@@ -61,46 +195,146 @@
       font-size: 18px;
       font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      transition: all 0.3s ease;
+      animation: fadeIn 0.5s ease-out 0.4s;
+      animation-fill-mode: backwards;
+      position: relative;
+      overflow: hidden;
     }
+
     .withdraw-container button:hover {
       background-color: #0056b3;
-      transform: scale(1.05);
+      transform: scale(1.02);
     }
+
+    .withdraw-container button:active {
+      transform: scale(0.98);
+    }
+
+    .withdraw-container button::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(45deg);
+      animation: buttonShine 3s ease-in-out infinite;
+    }
+
+    @keyframes buttonShine {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
+    }
+
     .error {
       color: #ff4d4d;
       font-size: 14px;
       margin-bottom: 10px;
       text-align: left;
+      animation: shake 0.5s ease-out;
     }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+
     .success {
       color: #28a745;
       font-size: 16px;
       margin-top: 15px;
+      animation: bounceIn 0.5s ease-out;
+    }
+
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* ATM machine animation */
+    .atm-machine {
+      position: absolute;
+      width: 120px;
+      height: 180px;
+      background: linear-gradient(135deg, #6c757d, #495057);
+      border-radius: 10px;
+      z-index: -1;
+      animation: atmGlow 4s ease-in-out infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes atmGlow {
+      0%, 100% { box-shadow: 0 0 10px rgba(108, 117, 125, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(108, 117, 125, 0.5); }
+    }
+
+    /* Money transfer animation */
+    .money-transfer {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(40, 167, 69, 0.1);
+      border: 2px dashed rgba(40, 167, 69, 0.3);
+      animation: transferPulse 2s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes transferPulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.2); opacity: 0.5; }
+    }
+
+    /* Enhanced money fly animation */
+    .money-fly {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0;
+      animation: moneyFly 1s ease-out forwards;
+      z-index: 10;
+    }
+
+    @keyframes moneyFly {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
 <body>
+  <!-- Bank-themed background elements -->
+  <div class="bank-bg" id="bankBg"></div>
+  <div class="card-animation"></div>
+  <div class="atm-machine" style="top: 20%; left: 10%;"></div>
+  <div class="atm-machine" style="bottom: 15%; right: 15%;"></div>
+  <div class="cash-stack" style="top: 30%; right: 20%;"></div>
+  <div class="cash-stack" style="bottom: 25%; left: 20%;"></div>
+  <div class="money-transfer" style="top: 40%; left: 25%;"></div>
+  <div class="money-transfer" style="bottom: 35%; right: 25%;"></div>
+
   <%- include("../utils/header")%> 
   <%- include("side")%>
   <form action="/withdraw1" method="post">
-  <div class="withdraw-container">
-    <h2>Withdraw Funds</h2>
-    <form id="withdrawForm">
-      <label for="amount">Withdrawal Amount:</label>
-      <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
-      <span id="amountError" class="error"></span>
+    <div class="withdraw-container">
+      <h2>Withdraw Funds</h2>
+      <form id="withdrawForm">
+        <label for="amount">Withdrawal Amount:</label>
+        <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+        <span id="amountError" class="error"></span>
 
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" placeholder="Enter your password" required>
-      <span id="passwordError" class="error"></span>
-      <p> Worng Password Entered  <%= passwordcheck %> No. Of Times  </p>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <span id="passwordError" class="error"></span>
+        <p> Wrong Password Entered <%= passwordcheck %> No. Of Times </p>
 
-      <button type="submit">Withdraw</button>
-      <p id="successMessage" class="success"></p>
-    </form>
-  </div>
-</form>
+        <button type="submit" id="withdrawButton">Withdraw</button>
+        <p id="successMessage" class="success"></p>
+      </form>
+    </div>
+  </form>
   <script>
     const form = document.getElementById('withdrawForm');
     const amountInput = document.getElementById('amount');
@@ -108,6 +342,25 @@
     const amountError = document.getElementById('amountError');
     const passwordError = document.getElementById('passwordError');
     const successMessage = document.getElementById('successMessage');
+    const withdrawButton = document.getElementById('withdrawButton');
+    const bankBg = document.getElementById('bankBg');
+
+    // Create floating bank notes
+    function createBankNotes() {
+      const notes = ['💵', '💴', '💶', '💷', '💰'];
+      for (let i = 0; i < 8; i++) {
+        const note = document.createElement('div');
+        note.className = 'bank-note';
+        note.textContent = notes[Math.floor(Math.random() * notes.length)];
+        note.style.left = `${Math.random() * 100}%`;
+        note.style.animationDuration = `${10 + Math.random() * 20}s`;
+        note.style.animationDelay = `${Math.random() * 15}s`;
+        note.style.fontSize = `${20 + Math.random() * 15}px`;
+        bankBg.appendChild(note);
+      }
+    }
+
+    createBankNotes();
 
     form.addEventListener('submit', (event) => {
       event.preventDefault(); // Prevent form submission
@@ -124,12 +377,80 @@
         amountError.textContent = 'Please enter a valid withdrawal amount.';
         isValid = false;
       }
-      // If valid, show success message
+
+      // Validate password
+      if (passwordInput.value === '') {
+        passwordError.textContent = 'Please enter your password.';
+        isValid = false;
+      }
+
+      // If valid, show success message and animation
       if (isValid) {
         successMessage.textContent = 'Withdrawal request submitted successfully!';
-        form.reset(); // Reset the form
+        
+        // Create enhanced money animation
+        createMoneyAnimation();
+        
+        // Create receipt animation
+        createReceiptAnimation();
+        
+        // Reset the form after animation
+        setTimeout(() => {
+          form.reset();
+        }, 1500);
       }
     });
+
+    function createMoneyAnimation() {
+      const container = document.querySelector('.withdraw-container');
+      const buttonRect = withdrawButton.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      
+      for (let i = 0; i < 15; i++) {
+        const money = document.createElement('div');
+        money.className = 'money-fly';
+        money.textContent = ['💵', '💴', '💶', '💷', '💰'][Math.floor(Math.random() * 5)];
+        money.style.left = (buttonRect.left - containerRect.left + buttonRect.width/2) + 'px';
+        money.style.top = (buttonRect.top - containerRect.top) + 'px';
+        money.style.fontSize = `${20 + Math.random() * 15}px`;
+        
+        // Random end position
+        const tx = (Math.random() - 0.5) * 300;
+        const ty = -Math.random() * 150 - 50;
+        money.style.setProperty('--tx', tx + 'px');
+        money.style.setProperty('--ty', ty + 'px');
+        money.style.animationDuration = `${0.5 + Math.random()}s`;
+        
+        container.appendChild(money);
+        
+        // Remove element after animation
+        setTimeout(() => {
+          money.remove();
+        }, 1000);
+      }
+    }
+
+    function createReceiptAnimation() {
+      const container = document.querySelector('.withdraw-container');
+      const buttonRect = withdrawButton.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      
+      const receipt = document.createElement('div');
+      receipt.className = 'money-fly';
+      receipt.textContent = '🧾';
+      receipt.style.left = (buttonRect.left - containerRect.left + buttonRect.width/2) + 'px';
+      receipt.style.top = (buttonRect.top - containerRect.top) + 'px';
+      receipt.style.fontSize = '30px';
+      receipt.style.setProperty('--tx', '0px');
+      receipt.style.setProperty('--ty', '-100px');
+      receipt.style.animationDuration = '1.5s';
+      
+      container.appendChild(receipt);
+      
+      setTimeout(() => {
+        receipt.remove();
+      }, 1500);
+    }
   </script>
 </body>
 </html>

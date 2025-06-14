@@ -738,7 +738,7 @@ else{
 
         });
         await rec.save(); 
-        res.render("register2",{name,user_image});
+        res.render("adduser",{name,user_image});
     }
 
 
@@ -813,7 +813,7 @@ else{
             res.render("notbalance",{name,user_image});
         } 
         else {
-            
+
               if(passwordcheck<5) { 
                 if (data.password !== b) {
                      console.log("incorrect password"); 
@@ -827,7 +827,7 @@ else{
              }
         
             else{
-
+                let passwordcheck = 0;
                 let withdrawdetail = "Withdrawal Successfully Done";
                 let withdrawdone = " User Have Successfully Withdrawn Amount "
                 let rec = await new recentactivity({
@@ -888,7 +888,7 @@ else{
              }
         
             else{
-                
+             let passwordcheck = 0;    
             let depositdetail = "Deposited Successfully Done";
             let depositdone = "User Have Successfully Deposited Amount"
             let rec =await  new recentactivity({
@@ -1450,9 +1450,12 @@ exports.ser_confirm_purchase1 = async(req,res) => {
             let sender_mail_is = sender_mail.email;
 
             let user_mail = req.body.email;
-console.log(sender_mail_is,user_mail)
+            console.log(sender_mail_is,user_mail)
             res.render("viewuser_mail",{user_image,sender_mail_is,user_mail});
         }
+
+
+
 
 exports.ser_view_user_send_mail = async (req, res) => {
   try {
