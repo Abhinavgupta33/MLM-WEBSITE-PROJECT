@@ -3,51 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout Page</title>
+    <title>Logout Successful</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --success: #4cc9f0;
+            --white: #ffffff;
+            --dark: #2b2d42;
+            --light-bg: #f8f9fa;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f4f4f9;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            overflow: hidden;
         }
+        
+        /* Floating particles animation */
+        .particle {
+            position: absolute;
+            background: var(--primary-light);
+            border-radius: 50%;
+            filter: blur(5px);
+            opacity: 0.5;
+            z-index: -1;
+            animation: float-up linear infinite;
+        }
+        
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-20vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+        
+        /* Main container animation */
         .logout-container {
             text-align: center;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            background-color: var(--white);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
+        
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .logout-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        }
+        
+        h1 {
+            color: var(--dark);
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--success);
+            border-radius: 3px;
+        }
+        
+        /* Checkmark animation */
+        .checkmark {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+        
+        .checkmark-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(76, 201, 240, 0.1) 0%, rgba(67, 97, 238, 0.2) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: circle-pulse 2s infinite;
+        }
+        
+        @keyframes circle-pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(76, 201, 240, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 20px rgba(76, 201, 240, 0);
+            }
+        }
+        
+        .checkmark-icon {
+            color: var(--success);
+            font-size: 60px;
+            animation: checkmark-bounce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        @keyframes checkmark-bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        p {
+            color: #6c757d;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        /* Button animation */
         button {
-            background-color: #007BFF;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 4px;
+            padding: 16px 32px;
+            font-size: 1rem;
+            border-radius: 50px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.4s ease;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+            transform: translateY(0);
         }
+        
         button:hover {
-            background-color: #0056b3;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(67, 97, 238, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        .additional-info {
+            margin-top: 30px;
+            color: #adb5bd;
+            font-size: 0.9rem;
+            animation: fadeIn 1s 0.5s both;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Confetti animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 10;
+            animation: confetti-fall 3s linear forwards;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Particles will be added by JavaScript -->
+    
     <div class="logout-container">
-        <h1>You have successfully logged out</h1>
-        <button onclick="redirectToLogin()">Go to Login Page</button>
+        <div class="checkmark">
+            <div class="checkmark-circle">
+                <i class="fas fa-check checkmark-icon"></i>
+            </div>
+        </div>
+        <h1>Logout Successful</h1>
+        <p>You have been securely logged out. Thank you for using our service!</p>
+        <button onclick="redirectToLogin()">
+            <i class="fas fa-sign-in-alt"></i> Return to Login
+        </button>
+        <div class="additional-info">
+            <p>For your security, please close the browser if you're on a shared device.</p>
+        </div>
     </div>
 
     <script>
         function redirectToLogin() {
-            // Replace 'login.html' with the actual path to your login page
-            window.location.href = '/';
+            // Create confetti effect before redirecting
+            createConfetti();
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1000);
         }
+        
+        // Create floating particles
+        function createParticles() {
+            const colors = ['#4361ee', '#4895ef', '#4cc9f0', '#f72585', '#7209b7'];
+            const body = document.body;
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random properties
+                const size = Math.random() * 15 + 5;
+                const posX = Math.random() * 100;
+                const duration = Math.random() * 15 + 10;
+                const delay = Math.random() * 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.backgroundColor = color;
+                
+                body.appendChild(particle);
+            }
+        }
+        
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#4361ee', '#4895ef', '#4cc9f0', '#f72585', '#7209b7', '#3a0ca3', '#b5179e'];
+            const container = document.querySelector('.logout-container');
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const posX = Math.random() * 100;
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 0.5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const shape = Math.random() > 0.5 ? '50%' : '0';
+                
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.left = `${posX}%`;
+                confetti.style.animationDuration = `${duration}s`;
+                confetti.style.animationDelay = `${delay}s`;
+                confetti.style.backgroundColor = color;
+                confetti.style.borderRadius = shape;
+                
+                container.appendChild(confetti);
+            }
+        }
+        
+        // Initialize animations when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Add slight delay to checkmark animation for better effect
+            setTimeout(() => {
+                document.querySelector('.checkmark-icon').style.animation = 'checkmark-bounce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            }, 300);
+        });
     </script>
 </body>
 </html>

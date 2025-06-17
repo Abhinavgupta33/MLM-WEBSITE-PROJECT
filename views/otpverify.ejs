@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure OTP Verification</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    /* Security pattern background */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background-image: 
+        radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(67, 97, 238, 0.03) 0%, transparent 50%);
+      background-size: 100px 100px;
+      transform: rotate(15deg);
+      z-index: -1;
+    }
+    
+    .verification-card {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(67, 97, 238, 0.1);
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .verification-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 32px rgba(67, 97, 238, 0.15);
+    }
+    
+    .verification-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--success));
+    }
+    
+    .card-header {
+      margin-bottom: 32px;
+    }
+    
+    .card-header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    
+    .card-header p {
+      color: #6c757d;
+      font-size: 14px;
+    }
+    
+    .card-header .email {
+      color: var(--primary);
+      font-weight: 500;
+      word-break: break-all;
+    }
+    
+    .otp-form {
+      margin-top: 24px;
+    }
+    
+    .otp-input-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    
+    .otp-input-container input {
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 600;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    
+    .otp-input-container input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
+    .otp-input-container input.filled {
+      border-color: var(--success);
+      animation: pulse 0.5s ease;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .verify-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+    }
+    
+    .verify-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+    }
+    
+    .verify-btn:active {
+      transform: translateY(0);
+    }
+    
+    .security-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 24px;
+      color: #6c757d;
+      font-size: 13px;
+    }
+    
+    .security-badge svg {
+      margin-right: 8px;
+      fill: var(--success);
+    }
+    
+    /* Animated circles decoration */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(67, 97, 238, 0.05);
+      z-index: -1;
+    }
+    
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      right: -150px;
+      animation: float 12s infinite ease-in-out;
+    }
+    
+    .circle-2 {
+      width: 200px;
+      height: 200px;
+      bottom: -100px;
+      left: -100px;
+      animation: float 8s infinite ease-in-out reverse;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(20px, 20px); }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .verification-card {
+        padding: 32px 24px;
+        margin: 0 16px;
+      }
+      
+      .otp-input-container input {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Decorative circles -->
+  <div class="circle circle-1"></div>
+  <div class="circle circle-2"></div>
+  
+  <div class="verification-card animate__animated animate__fadeIn">
+    <div class="card-header">
+      <h1>Verify Your Identity</h1>
+      <p>We've sent a 6-digit code to <span class="email"><%= email %></span></p>
+    </div>
+    
+    <form action="/verifyotp" method="POST" class="otp-form">
+      <input type="hidden" name="email" value="<%= email %>">
+      
+      <div class="otp-input-container" id="otpContainer">
+        <input type="text" name="otp1" maxlength="1" pattern="\d" required>
+        <input type="text" name="otp2" maxlength="1" pattern="\d" required>
+        <input type="text" name="otp3" maxlength="1" pattern="\d" required>
+        <input type="text" name="otp4" maxlength="1" pattern="\d" required>
+        <input type="text" name="otp5" maxlength="1" pattern="\d" required>
+        <input type="text" name="otp6" maxlength="1" pattern="\d" required>
+      </div>
+      
+      <button type="submit" class="verify-btn">Verify & Continue</button>
+    </form>
+    
+    <div class="security-badge">
+      <svg width="16" height="16" viewBox="0 0 24 24">
+        <path d="M12,1L3,5v6c0,5.55 3.84,10.74 9,12c5.16-1.26 9-6.45 9-12V5L12,1z M12,11.99h7c-0.53,4.12-3.28,7.79-7,8.94V12H5V6.3l7-3.11V11.99z"/>
+      </svg>
+      <span>Secure verification process</span>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const otpInputs = document.querySelectorAll('.otp-input-container input');
+      const form = document.querySelector('.otp-form');
+      
+      // Auto-focus and move between inputs
+      otpInputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+          if (e.target.value.length === 1) {
+            if (index < otpInputs.length - 1) {
+              otpInputs[index + 1].focus();
+            }
+            e.target.classList.add('filled');
+          } else {
+            e.target.classList.remove('filled');
+          }
+        });
+        
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
+            otpInputs[index - 1].focus();
+          }
+        });
+      });
+      
+      // Combine OTP digits before form submission
+      form.addEventListener('submit', (e) => {
+        const otp = Array.from(otpInputs).map(input => input.value).join('');
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'otp';
+        hiddenInput.value = otp;
+        form.appendChild(hiddenInput);
+      });
+      
+      // Auto-focus first input
+      otpInputs[0].focus();
+    });
+  </script>
+</body>
+</html>

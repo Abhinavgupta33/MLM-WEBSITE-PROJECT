@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recent Activity</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #4361ee;
+            --primary-light: #eef2ff;
             --secondary-color: #3f37c9;
             --accent-color: #4cc9f0;
             --success-color: #4caf50;
@@ -21,7 +23,7 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             background-color: var(--light-gray);
@@ -101,146 +103,217 @@
         }
         
         .activity-header {
-            font-size: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
+        }
+        
+        .activity-title {
+            font-size: 24px;
             color: var(--secondary-color);
             display: flex;
             align-items: center;
+            margin: 0;
         }
         
-        .activity-header i {
+        .activity-title i {
             margin-right: 12px;
             color: var(--accent-color);
         }
         
-        .activity-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-top: 20px;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .activity-table th {
+        .refresh-btn {
             background-color: var(--primary-color);
-            color: var(--white);
-            text-align: left;
-            padding: 16px 20px;
-            font-weight: 500;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
         }
         
-        .activity-table th:first-child {
-            border-top-left-radius: 10px;
-        }
-        
-        .activity-table th:last-child {
-            border-top-right-radius: 10px;
-        }
-        
-        .activity-table td {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--medium-gray);
-            vertical-align: middle;
-        }
-        
-        .activity-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .activity-table tr:nth-child(even) {
-            background-color: var(--light-gray);
-        }
-        
-        .activity-table tr:hover {
-            background-color: rgba(76, 201, 240, 0.1);
+        .refresh-btn:hover {
+            background-color: var(--secondary-color);
             transform: translateY(-2px);
-            transition: all 0.2s ease;
+        }
+        
+        .refresh-btn i {
+            margin-right: 6px;
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .activity-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .activity-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .activity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-color);
+        }
+        
+        .activity-content {
+            display: flex;
+            align-items: flex-start;
         }
         
         .activity-icon {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 18px;
+            flex-shrink: 0;
         }
         
-        .activity-icon-img {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-            vertical-align: middle;
+        .activity-info {
+            flex: 1;
         }
         
-        .no-activity {
+        .activity-message {
+            font-weight: 500;
+            margin: 0 0 5px 0;
+            color: var(--text-color);
+        }
+        
+        .activity-detail {
             color: var(--dark-gray);
-            font-style: italic;
-            text-align: center;
-            padding: 40px;
-            background-color: var(--light-gray);
-            border-radius: 10px;
-            margin-top: 20px;
+            font-size: 14px;
+            margin: 0 0 10px 0;
         }
         
-        .no-activity i {
-            font-size: 40px;
-            color: var(--medium-gray);
-            margin-bottom: 15px;
-            display: block;
-        }
-        
-        .activity-date {
-            font-size: 13px;
+        .activity-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
             color: var(--dark-gray);
-            margin-top: 5px;
+        }
+        
+        .activity-time {
             display: flex;
             align-items: center;
         }
         
-        .activity-date i {
+        .activity-time i {
             margin-right: 5px;
             font-size: 12px;
         }
         
         .activity-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 4px 10px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
-            margin-left: 8px;
         }
         
-        .badge-success {
+        .badge-new {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .no-activity {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            color: var(--dark-gray);
+        }
+        
+        .no-activity i {
+            font-size: 48px;
+            color: var(--medium-gray);
+            margin-bottom: 15px;
+        }
+        
+        .no-activity h3 {
+            margin: 0 0 10px 0;
+            font-weight: 500;
+        }
+        
+        .no-activity p {
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        /* Activity type indicators */
+        .activity-login {
+            border-left-color: var(--success-color);
+        }
+        
+        .activity-login .activity-icon {
             background-color: rgba(76, 175, 80, 0.1);
             color: var(--success-color);
         }
         
-        .badge-warning {
+        .activity-update {
+            border-left-color: var(--warning-color);
+        }
+        
+        .activity-update .activity-icon {
             background-color: rgba(255, 152, 0, 0.1);
             color: var(--warning-color);
         }
         
-        .badge-danger {
+        .activity-error {
+            border-left-color: var(--danger-color);
+        }
+        
+        .activity-error .activity-icon {
             background-color: rgba(244, 67, 54, 0.1);
             color: var(--danger-color);
         }
         
-        .badge-info {
+        .activity-info {
+            border-left-color: var(--accent-color);
+        }
+        
+        .activity-info .activity-icon {
             background-color: rgba(76, 201, 240, 0.1);
             color: var(--accent-color);
         }
         
-        .activity-amount {
-            font-weight: 600;
-            color: var(--secondary-color);
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .activity-details {
-            display: flex;
-            align-items: center;
+        .activity-card {
+            animation: fadeIn 0.4s ease forwards;
+            opacity: 0;
         }
         
+        /* Responsive styles */
         @media (max-width: 992px) {
             .sidebar {
                 width: 200px;
@@ -282,45 +355,45 @@
                 font-size: 22px;
             }
             
-            .activity-table th, 
-            .activity-table td {
-                padding: 12px 15px;
-            }
-            
-            .activity-table {
-                display: block;
-                overflow-x: auto;
+            .activity-card {
+                padding: 15px;
             }
         }
         
-        /* Animation for new activities */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Loading animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
         }
         
-        .activity-table tr {
-            animation: fadeIn 0.3s ease forwards;
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(67, 97, 238, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
         }
         
-        .activity-table tr:nth-child(1) { animation-delay: 0.1s; }
-        .activity-table tr:nth-child(2) { animation-delay: 0.2s; }
-        .activity-table tr:nth-child(3) { animation-delay: 0.3s; }
-        .activity-table tr:nth-child(4) { animation-delay: 0.4s; }
-        .activity-table tr:nth-child(5) { animation-delay: 0.5s; }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
     <%- include("../utils/header")%> 
     <%- include("side")%>
     <div class="layout-wrapper">
-        
-        
         <div class="main-content">
             <div class="container">
                 <div class="profile-header">
                     <% if(user_image) { %>
                         <img src="<%= user_image %>" alt="Profile Picture" class="profile-pic">
+                    <% } else { %>
+                        <div class="profile-pic" style="background-color: var(--primary-light); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user" style="font-size: 40px; color: var(--primary-color);"></i>
+                        </div>
                     <% } %>
                     <div>
                         <h1 class="profile-name"><%= name %></h1>
@@ -328,89 +401,70 @@
                     </div>
                 </div>
 
-                <h2 class="activity-header">
-                    <i class="fas fa-history"></i>
-                    Recent Activity
-                </h2>
+                <div class="activity-header">
+                    <h2 class="activity-title">
+                        <i class="fas fa-history"></i>
+                        Recent Activities
+                    </h2>
+                    <button class="refresh-btn" id="refreshActivities">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
 
                 <% if(recent_activity && recent_activity.length > 0) { %>
-                    <table class="activity-table">
-                        <thead>
-                            <tr>
-                                <th><i class="fas fa-tasks activity-icon"></i>Activity</th>
-                                <th><i class="fas fa-info-circle activity-icon"></i>Details</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for(let i = 0; i < recent_activity.length; i++) { 
-                                let activity = recent_activity[i];
-                                let icon, badgeClass, badgeText;
-                                
-                                // Determine icon and badge based on activity type
-                                if (activity.activity_type === 'deposit') {
-                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132693.png';
-                                    badgeClass = 'badge-success';
-                                    badgeText = 'Deposit';
-                                } else if (activity.activity_type === 'withdraw') {
-                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132737.png';
-                                    badgeClass = 'badge-danger';
-                                    badgeText = 'Withdrawal';
-                                } else if (activity.activity_type === 'balance_check') {
-                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132781.png';
-                                    badgeClass = 'badge-info';
-                                    badgeText = 'Balance';
-                                } else if (activity.activity_type === 'add_user') {
-                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132785.png';
-                                    badgeClass = 'badge-success';
-                                    badgeText = 'User';
-                                } else if (activity.activity_type === 'add_product') {
-                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132765.png';
-                                    badgeClass = 'badge-success';
-                                    badgeText = 'Product';
-                                } else if (activity.activity_type === 'remove_product') {
-                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132773.png';
-                                    badgeClass = 'badge-danger';
-                                    badgeText = 'Product';
-                                } else if (activity.activity_type === 'profile_update') {
-                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132775.png';
-                                    badgeClass = 'badge-warning';
-                                    badgeText = 'Profile';
-                                } else if (activity.activity_type === 'buy_product') {
-                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132763.png';
-                                    badgeClass = 'badge-success';
-                                    badgeText = 'Purchase';
-                                } else {
-                                    icon = 'https://cdn-icons-png.flaticon.com/512/3132/3132699.png';
-                                    badgeClass = 'badge-info';
-                                    badgeText = 'Activity';
-                                }
-                            %>
-                                <tr>
-                                    <td>
-                                        <div class="activity-details">
-                                            <img src="<%= icon %>" alt="Activity icon" class="activity-icon-img">
-                                            <%= activity.activity %>
-                                            <span class="activity-badge <%= badgeClass %>"><%= badgeText %></span>
-                                        </div>
-                                        <div class="activity-date">
-                                            <i class="far fa-clock"></i>
-                                            <%= new Date(activity.timestamp || Date.now()).toLocaleString() %>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <%= activity.activity_detail %>
-                                        <% if (activity.amount) { %>
-                                            <span class="activity-amount">$<%= parseFloat(activity.amount).toFixed(2) %></span>
+                    <div class="activity-list" id="activityList">
+                        <% for(let i = 0; i < recent_activity.length; i++) { 
+                            let activity = recent_activity[i];
+                            let iconClass, activityTypeClass, icon;
+                            
+                            // Determine icon and activity type based on activity content
+                            if (activity.activity.includes('login') || activity.activity.includes('sign in')) {
+                                iconClass = 'fas fa-sign-in-alt';
+                                activityTypeClass = 'activity-login';
+                            } else if (activity.activity.includes('update') || activity.activity.includes('change')) {
+                                iconClass = 'fas fa-edit';
+                                activityTypeClass = 'activity-update';
+                            } else if (activity.activity.includes('error') || activity.activity.includes('failed')) {
+                                iconClass = 'fas fa-exclamation-triangle';
+                                activityTypeClass = 'activity-error';
+                            } else {
+                                iconClass = 'fas fa-info-circle';
+                                activityTypeClass = 'activity-info';
+                            }
+                            
+                            // Check if activity is recent (last 15 minutes)
+                            const isNew = new Date() - new Date(activity.createdAt) < 15 * 60 * 1000;
+                        %>
+                            <div class="activity-card <%= activityTypeClass %>" style="animation-delay: <%= i * 0.1 %>s">
+                                <div class="activity-content">
+                                    <div class="activity-icon">
+                                        <i class="<%= iconClass %>"></i>
+                                    </div>
+                                    <div class="activity-info">
+                                        <p class="activity-message"><%= activity.activity %></p>
+                                        <% if(activity.activity_detail && activity.activity_detail !== 'No Activity Is Done') { %>
+                                            <p class="activity-detail"><%= activity.activity_detail %></p>
                                         <% } %>
-                                    </td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
+                                        <div class="activity-meta">
+                                            <div class="activity-time">
+                                                <i class="far fa-clock"></i>
+                                                <%= new Date(activity.createdAt).toLocaleString() %>
+                                            </div>
+                                            <% if(isNew) { %>
+                                                <span class="activity-badge badge-new">New</span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
                 <% } else { %>
                     <div class="no-activity">
                         <i class="far fa-calendar-times"></i>
-                        No recent activity found. Your activities will appear here.
+                        <h3>No Recent Activity</h3>
+                        <p>Your activities will appear here once you perform any actions.</p>
                     </div>
                 <% } %>
             </div>
@@ -418,21 +472,36 @@
     </div>
 
     <script>
-        // Simple script to enhance user experience
         document.addEventListener('DOMContentLoaded', function() {
-            // Add click event to table rows for potential expansion
-            const rows = document.querySelectorAll('.activity-table tbody tr');
-            rows.forEach(row => {
-                row.addEventListener('click', function() {
+            const refreshBtn = document.getElementById('refreshActivities');
+            const activityList = document.getElementById('activityList');
+            
+            // Refresh activities
+            refreshBtn.addEventListener('click', function() {
+                // Show loading state
+                refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+                refreshBtn.disabled = true;
+                
+                // Simulate loading (in a real app, this would be an AJAX call)
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            });
+            
+            // Highlight new activities on page load
+            const activities = document.querySelectorAll('.activity-card');
+            activities.forEach(activity => {
+                // Add click handler for each activity
+                activity.addEventListener('click', function() {
                     // You could expand this to show more details
-                    this.classList.toggle('active');
+                    this.classList.toggle('expanded');
                 });
             });
             
-            // Auto-refresh the page every 60 seconds to check for new activities
+            // Auto-refresh every 2 minutes
             setInterval(() => {
-                window.location.reload();
-            }, 60000);
+                refreshBtn.click();
+            }, 120000);
         });
     </script>
 </body>

@@ -57,6 +57,96 @@
             color: var(--text-color);
             margin: 0;
             padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Elements */
+        .bg-circle {
+            position: fixed;
+            border-radius: 50%;
+            background: rgba(52, 152, 219, 0.1);
+            z-index: -1;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .bg-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            bottom: -50px;
+            right: -50px;
+            animation-delay: 2s;
+        }
+
+        .bg-circle:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 30%;
+            right: 10%;
+            animation-delay: 4s;
+        }
+
+        .bg-circle:nth-child(4) {
+            width: 250px;
+            height: 250px;
+            bottom: 20%;
+            left: 5%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(10px, 10px) rotate(5deg);
+            }
+            50% {
+                transform: translate(-10px, 5px) rotate(-5deg);
+            }
+            75% {
+                transform: translate(5px, -10px) rotate(3deg);
+            }
+        }
+
+        /* Pulse Animation for Featured Products */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(46, 204, 113, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+            }
+        }
+
+        .featured {
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        .featured::before {
+            content: "Featured";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 1;
         }
         
         .rounded-circle {
@@ -64,6 +154,11 @@
             width: 40px;
             height: 40px;
             object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .rounded-circle:hover {
+            transform: scale(1.1);
         }
 
         h1 {
@@ -108,10 +203,20 @@
             overflow: hidden;
             transition: var(--transition);
             border: 1px solid rgba(0, 0, 0, 0.05);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .product:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
 
@@ -124,6 +229,7 @@
             overflow: hidden;
             border-radius: 8px;
             position: relative;
+            background-color: #f5f7fa;
         }
 
         .product img {
@@ -132,10 +238,11 @@
             object-fit: contain;
             transition: var(--transition);
             border-radius: 8px;
+            transform: scale(0.95);
         }
 
         .product:hover img {
-            transform: scale(1.05);
+            transform: scale(1);
         }
 
         .product h2 {
@@ -143,6 +250,11 @@
             margin: 10px 0;
             color: var(--dark-color);
             font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .product:hover h2 {
+            color: var(--primary-color);
         }
 
         .price {
@@ -150,6 +262,23 @@
             font-weight: 700;
             color: var(--primary-color);
             margin: 10px 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        .price::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .product:hover .price::after {
+            width: 100%;
         }
 
         .product p {
@@ -220,6 +349,21 @@
             justify-content: center;
             min-width: 120px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
         }
 
         button:hover {
@@ -310,22 +454,15 @@
             z-index: 1000;
             display: none;
             overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
         
         .modal.active {
             display: block;
-            animation: modalFadeIn 0.3s ease-out;
-        }
-        
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -40%);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            animation: none;
         }
 
         .modal-header {
@@ -335,6 +472,17 @@
             font-size: 1.3rem;
             font-weight: 600;
             text-align: center;
+            position: relative;
+        }
+
+        .modal-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
         }
 
         .modal-body {
@@ -348,6 +496,9 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
         }
         
         .modal-body img {
@@ -355,6 +506,11 @@
             max-height: 100%;
             object-fit: contain;
             border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .modal-body img:hover {
+            transform: scale(1.05);
         }
         
         #modal-name {
@@ -362,6 +518,19 @@
             font-size: 1.5rem;
             margin-bottom: 10px;
             font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        #modal-name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            transform: translateX(50%);
         }
         
         #modal-description {
@@ -375,6 +544,10 @@
             font-size: 1.4rem;
             font-weight: 700;
             margin: 10px 0;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background-color: rgba(52, 152, 219, 0.1);
         }
 
         .modal-footer {
@@ -410,16 +583,13 @@
             background: rgba(0, 0, 0, 0.7);
             z-index: 999;
             backdrop-filter: blur(3px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .overlay.active {
             display: block;
-            animation: fadeIn 0.3s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            opacity: 1;
         }
 
         /* Floating Cart Button */
@@ -440,6 +610,7 @@
             z-index: 99;
             transition: var(--transition);
             border-bottom: 3px solid var(--accent-color);
+            transform: scale(1);
         }
         
         .floating-cart-btn:hover {
@@ -466,6 +637,25 @@
             justify-content: center;
             font-size: 0.8rem;
             font-weight: bold;
+            transform: scale(1);
+            transition: var(--transition);
+        }
+
+        .floating-cart-btn:hover .cart-count {
+            transform: scale(1.1);
+        }
+
+        /* Product Rating */
+        .rating {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .rating i {
+            color: #f39c12;
+            margin: 0 2px;
+            font-size: 1rem;
         }
 
         /* Responsive Design */
@@ -473,6 +663,10 @@
             .product-container {
                 margin-left: 0;
                 padding: 20px 10px;
+            }
+
+            .bg-circle {
+                display: none;
             }
         }
         
@@ -514,20 +708,50 @@
                 right: 20px;
             }
         }
+
+        /* Staggered Animation for Products */
+        .product:nth-child(1) { animation-delay: 0.1s; }
+        .product:nth-child(2) { animation-delay: 0.2s; }
+        .product:nth-child(3) { animation-delay: 0.3s; }
+        .product:nth-child(4) { animation-delay: 0.4s; }
+        .product:nth-child(5) { animation-delay: 0.5s; }
+        .product:nth-child(6) { animation-delay: 0.6s; }
+        .product:nth-child(7) { animation-delay: 0.7s; }
+        .product:nth-child(8) { animation-delay: 0.8s; }
+        .product:nth-child(9) { animation-delay: 0.9s; }
+        .product:nth-child(10) { animation-delay: 1.0s; }
     </style>
 </head>
 <body>
+    <!-- Animated Background Elements -->
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+
     <%- include("../utils/header")%> 
     <%- include("side")%>
 
     <h1>Our Products</h1>
     <div class="product-container">
-        <% products.forEach(product => { %>
-            <div class="product">
+        <% products.forEach((product, index) => { %>
+            <div class="product <%= index % 4 === 0 ? 'featured' : '' %>">
                 <div class="product-img-container">
                     <img src="<%= product.product_image %>" alt="<%= product.product_name %>">
                 </div>
                 <h2><%= product.product_name %></h2>
+                
+                <!-- Product Rating -->
+                <div class="rating">
+                    <% const stars = Math.min(5, Math.max(1, Math.floor(Math.random() * 5) + 1)); %>
+                    <% for(let i = 0; i < stars; i++) { %>
+                        <i class="bi bi-star-fill"></i>
+                    <% } %>
+                    <% for(let i = stars; i < 5; i++) { %>
+                        <i class="bi bi-star"></i>
+                    <% } %>
+                </div>
+                
                 <div class="price">₹<%= product.product_price.toFixed(2) %></div>
                 <p><%= product.product_description %></p>
 
@@ -577,8 +801,29 @@
                 <img id="modal-img" src="" alt="">
             </div>
             <h2 id="modal-name"></h2>
+            
+            <!-- Modal Rating -->
+            <div class="rating">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-half"></i>
+                <span style="margin-left: 5px; color: var(--text-color);">(24 reviews)</span>
+            </div>
+            
             <div class="price" id="modal-price"></div>
             <p id="modal-description"></p>
+            
+            <!-- Additional Info -->
+            <div style="margin-top: 20px; text-align: left; border-top: 1px dashed #eee; padding-top: 15px;">
+                <h5 style="color: var(--dark-color); margin-bottom: 10px;">Product Details</h5>
+                <ul style="text-align: left; padding-left: 20px; color: var(--text-color);">
+                    <li>Free shipping on orders over ₹500</li>
+                    <li>30-day return policy</li>
+                    <li>GST included in price</li>
+                </ul>
+            </div>
         </div>
         <div class="modal-footer">
             <button onclick="closeModal()">Close</button>
@@ -586,29 +831,61 @@
     </div>
 
     <script>
+        // Enhanced handleButtonClick with error handling
         function handleButtonClick(button, url) {
             button.classList.add('loading');
+            
+            // Simulate network request with timeout
             setTimeout(() => {
-                window.location.href = url;
+                fetch(url, {
+                    method: 'GET',
+                    credentials: 'same-origin'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response;
+                })
+                .then(() => {
+                    window.location.href = url;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    button.classList.remove('loading');
+                    // Show error message to user
+                    alert('An error occurred. Please try again later.');
+                });
             }, 1000);
         }
 
+        // Enhanced modal functions with animations
         function openModal(image, name, description, price) {
             document.getElementById('modal-img').src = image;
             document.getElementById('modal-name').textContent = name;
             document.getElementById('modal-price').textContent = '₹' + price;
             document.getElementById('modal-description').textContent = description;
 
+            // Show overlay first
             document.querySelector('.overlay').classList.add('active');
-            document.querySelector('.modal').classList.add('active');
+            
+            // Then show modal after a slight delay
+            setTimeout(() => {
+                document.querySelector('.modal').classList.add('active');
+            }, 50);
             
             // Prevent scrolling when modal is open
             document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
-            document.querySelector('.overlay').classList.remove('active');
+            // Hide modal first
             document.querySelector('.modal').classList.remove('active');
+            
+            // Then hide overlay after animation completes
+            setTimeout(() => {
+                document.querySelector('.overlay').classList.remove('active');
+            }, 300);
             
             // Re-enable scrolling
             document.body.style.overflow = '';
@@ -617,25 +894,116 @@
         // Close modal when clicking on overlay
         document.querySelector('.overlay').addEventListener('click', closeModal);
         
-        // Fetch cart count (you'll need to implement this based on your backend)
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.querySelector('.modal').classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Enhanced cart count functionality with localStorage caching
         function updateCartCount() {
+            // Check localStorage first for cached count
+            const cachedCount = localStorage.getItem('cartCount');
+            if (cachedCount) {
+                updateCartUI(parseInt(cachedCount));
+            }
+            
+            // Then fetch fresh data from server
             fetch('/api/shopping/count')
-                .then(response => response.json())
-                .then(data => {
-                    if(data.count > 0) {
-                        document.querySelector('.cart-count').textContent = data.count;
-                        document.querySelector('.cart-count').style.display = 'flex';
-                    } else {
-                        document.querySelector('.cart-count').style.display = 'none';
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
                     }
+                    return response.json();
+                })
+                .then(data => {
+                    updateCartUI(data.count);
+                    // Cache the count
+                    localStorage.setItem('cartCount', data.count);
                 })
                 .catch(error => {
                     console.error('Error fetching cart count:', error);
+                    // If fetch fails, use cached value if available
+                    if (cachedCount) {
+                        updateCartUI(parseInt(cachedCount));
+                    }
                 });
         }
         
-        // Initialize cart count
-        document.addEventListener('DOMContentLoaded', updateCartCount);
+        function updateCartUI(count) {
+            const cartCountElement = document.querySelector('.cart-count');
+            if (count > 0) {
+                cartCountElement.textContent = count;
+                cartCountElement.style.display = 'flex';
+                
+                // Add animation to cart count when it changes
+                cartCountElement.style.animation = 'none';
+                void cartCountElement.offsetWidth; // Trigger reflow
+                cartCountElement.style.animation = 'pulse 0.5s';
+            } else {
+                cartCountElement.style.display = 'none';
+            }
+        }
+        
+        // Initialize cart count and set up periodic refresh
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            
+            // Refresh cart count every 30 seconds
+            setInterval(updateCartCount, 30000);
+            
+            // Add hover effect to product images
+            document.querySelectorAll('.product-img-container').forEach(container => {
+                const img = container.querySelector('img');
+                
+                container.addEventListener('mousemove', (e) => {
+                    const { left, top, width, height } = container.getBoundingClientRect();
+                    const x = (e.clientX - left) / width * 100;
+                    const y = (e.clientY - top) / height * 100;
+                    img.style.transformOrigin = `${x}% ${y}%`;
+                });
+            });
+        });
+
+        // Add to cart animation
+        function animateAddToCart(button) {
+            const cartBtn = document.querySelector('.floating-cart-btn');
+            const buttonRect = button.getBoundingClientRect();
+            const cartRect = cartBtn.getBoundingClientRect();
+            
+            // Create flying element
+            const flyingItem = document.createElement('div');
+            flyingItem.style.position = 'fixed';
+            flyingItem.style.left = `${buttonRect.left + buttonRect.width/2}px`;
+            flyingItem.style.top = `${buttonRect.top}px`;
+            flyingItem.style.width = '20px';
+            flyingItem.style.height = '20px';
+            flyingItem.style.backgroundColor = 'var(--primary-color)';
+            flyingItem.style.borderRadius = '50%';
+            flyingItem.style.zIndex = '1000';
+            flyingItem.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            document.body.appendChild(flyingItem);
+            
+            // Animate to cart
+            setTimeout(() => {
+                flyingItem.style.left = `${cartRect.left + cartRect.width/2}px`;
+                flyingItem.style.top = `${cartRect.top + cartRect.height/2}px`;
+                flyingItem.style.transform = 'scale(0.1)';
+                flyingItem.style.opacity = '0.5';
+            }, 10);
+            
+            // Remove after animation
+            setTimeout(() => {
+                flyingItem.remove();
+                
+                // Bounce cart button
+                cartBtn.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    cartBtn.style.transform = 'scale(1)';
+                }, 300);
+            }, 800);
+        }
     </script>
     
     <%- include("../utils/footer")%>

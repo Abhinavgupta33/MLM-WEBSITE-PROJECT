@@ -3,59 +3,232 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Blocked</title>
+  <title>Account Blocked</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --error: #dc3545;
+      --error-light: #f8d7da;
+      --primary: #007bff;
+      --primary-hover: #0056b3;
+      --dark: #343a40;
+      --light: #f8f9fa;
+    }
+    
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      background-color: #f8f9fa;
+      min-height: 100vh;
+      background-color: var(--light);
+      position: relative;
+      overflow: hidden;
     }
+    
+    /* Broken glass animation */
+    .glass-shard {
+      position: absolute;
+      background-color: rgba(220, 53, 69, 0.15);
+      opacity: 0;
+      z-index: -1;
+      animation: shard-fall linear forwards;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+    
+    @keyframes shard-fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Lock icon animation */
+    @keyframes lock-shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    
     .container {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      width: 90%;
+      max-width: 450px;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: container-appear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      position: relative;
+      overflow: hidden;
+      border-top: 5px solid var(--error);
     }
+    
+    @keyframes container-appear {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .lock-icon {
+      font-size: 80px;
+      color: var(--error);
+      margin-bottom: 25px;
+      animation: lock-shake 0.8s infinite;
+      text-shadow: 0 0 15px rgba(220, 53, 69, 0.3);
+    }
+    
     h1 {
-      color: #dc3545;
+      color: var(--error);
+      font-size: 28px;
+      margin-bottom: 15px;
+      font-weight: 700;
     }
+    
     p {
-      margin: 10px 0;
-      color: #6c757d;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+      color: var(--dark);
       font-size: 16px;
+      margin-bottom: 25px;
+      line-height: 1.6;
     }
+    
+    .contact-box {
+      background-color: var(--error-light);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      animation: fadeIn 1s 0.5s both;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    button {
+      padding: 14px 28px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+    }
+    
     button:hover {
-      background-color: #0056b3;
+      background-color: var(--primary-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    /* Ripple effect */
+    button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    
+    button:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+    
+    @keyframes ripple {
+      0% { transform: scale(0, 0); opacity: 0.5; }
+      100% { transform: scale(20, 20); opacity: 0; }
     }
   </style>
 </head>
 <body>
+  <!-- Animated glass shards will be added by JavaScript -->
+  
   <div class="container">
-    <h1>User Blocked</h1>
-    <p>Please contact your admin to get unblocked.</p>
-    <button onclick="redirectToLogin()">Go to Login Page</button>
+    <i class="fas fa-lock lock-icon"></i>
+    <h1>Account Blocked</h1>
+    <p>Your account has been temporarily suspended due to multiple failed login attempts or policy violations.</p>
+    
+    <div class="contact-box">
+      <p><i class="fas fa-envelope"></i> Contact admin at: <strong>ag9108074@gmail.com</strong></p>
+    </div>
+    
+    <button onclick="redirectToLogin()">
+      <i class="fas fa-sign-in-alt"></i> Return to Login
+    </button>
   </div>
 
   <script>
     function redirectToLogin() {
-      // Replace 'login.html' with the actual path of your login page
-      window.location.href = '/login';
+      // Create additional shards when button is clicked
+      createShards();
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 800);
     }
+    
+    // Create falling glass shard animation
+    function createShards() {
+      const colors = ['#dc3545', '#e35d6a', '#e9838d', '#f8d7da'];
+      const body = document.body;
+      
+      for (let i = 0; i < 20; i++) {
+        const shard = document.createElement('div');
+        shard.className = 'glass-shard';
+        
+        // Random properties
+        const size = Math.random() * 30 + 15;
+        const posX = Math.random() * 100;
+        const duration = Math.random() * 3 + 2;
+        const delay = Math.random() * 0.5;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        shard.style.width = `${size}px`;
+        shard.style.height = `${size}px`;
+        shard.style.left = `${posX}%`;
+        shard.style.animationDuration = `${duration}s`;
+        shard.style.animationDelay = `${delay}s`;
+        shard.style.backgroundColor = color;
+        
+        body.appendChild(shard);
+      }
+    }
+    
+    // Initialize animations when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      createShards();
+    });
   </script>
 </body>
 </html>

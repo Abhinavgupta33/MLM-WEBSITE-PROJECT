@@ -3,40 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error Page</title>
+    <title>Error Occurred</title>
     <style>
+        :root {
+            --error-color: #ff4f4f;
+            --error-dark: #d32f2f;
+            --error-light: #ffcdd2;
+            --text-color: #333;
+            --bg-color: #f2f2f2;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            color: #333;
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
+            position: relative;
         }
+
+        /* Error pulse animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Floating error elements */
+        .error-particle {
+            position: absolute;
+            background-color: var(--error-light);
+            border-radius: 50%;
+            animation: floatError 15s linear infinite;
+            z-index: -1;
+            opacity: 0;
+        }
+
+        @keyframes floatError {
+            0% {
+                transform: translateY(110vh) translateX(0) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(100px) rotate(360deg) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Container animation */
         .container {
             text-align: center;
             background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: relative;
+            z-index: 1;
+            border-left: 6px solid var(--error-color);
         }
+
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Error icon animation */
+        .error-icon {
+            font-size: 80px;
+            color: var(--error-color);
+            margin-bottom: 20px;
+            animation: shake 0.8s cubic-bezier(.36,.07,.19,.97) both;
+            transform: translate3d(0, 0, 0);
+            display: inline-block;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+            40%, 60% { transform: translate3d(6px, 0, 0); }
+        }
+
         h1 {
-            color: #ff4f4f;
+            color: var(--error-color);
             font-size: 48px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            animation: textPulse 2s infinite;
         }
+
+        @keyframes textPulse {
+            0% { text-shadow: 0 0 5px rgba(255, 79, 79, 0.3); }
+            50% { text-shadow: 0 0 15px rgba(255, 79, 79, 0.5); }
+            100% { text-shadow: 0 0 5px rgba(255, 79, 79, 0.3); }
+        }
+
         p {
             font-size: 18px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .error-details {
+            background-color: var(--error-light);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none; /* Can be shown if error details are available */
+        }
+
+        /* Button styles */
+        .action-btn {
+            padding: 12px 24px;
+            background-color: var(--error-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .action-btn:hover {
+            background-color: var(--error-dark);
+            transform: translateY(-2px);
+        }
+
+        .action-btn:active {
+            transform: translateY(0);
+        }
+
+        .secondary-btn {
+            background-color: #f2f2f2;
+            color: var(--text-color);
+            border: 1px solid #ddd;
+        }
+
+        .secondary-btn:hover {
+            background-color: #e6e6e6;
+        }
+
+        /* Glitch effect for error text */
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .glitch::before {
+            color: #0ff;
+            z-index: -1;
+            animation: glitch-effect 3s infinite;
+        }
+
+        .glitch::after {
+            color: #f0f;
+            z-index: -2;
+            animation: glitch-effect 2s infinite reverse;
+        }
+
+        @keyframes glitch-effect {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
+    <!-- Error particles background -->
+    <div id="errorParticles"></div>
+    
     <div class="container">
-        <h1>Error</h1>
-        <p>Oops! Something went wrong. Please try again later.</p>
+        <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        
+        <h1 class="glitch" data-text="Error">Error</h1>
+        
+        <p>Oops! Something went wrong while processing your request.</p>
+        
+        <div class="error-details" id="errorDetails">
+            <!-- Error details can be dynamically inserted here -->
+        </div>
+        
+        <div>
+            <button class="action-btn" onclick="window.location.reload()">
+                <i class="fas fa-sync-alt"></i> Try Again
+            </button>
+            <button class="action-btn secondary-btn" onclick="window.location.href='/'">
+                <i class="fas fa-home"></i> Return Home
+            </button>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create floating error particles
+            const errorParticles = document.getElementById('errorParticles');
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'error-particle';
+                
+                // Random size between 5-20px
+                const size = Math.random() * 15 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                
+                // Random animation duration and delay
+                particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                
+                // Random shape
+                if (Math.random() > 0.7) {
+                    particle.style.borderRadius = '0';
+                }
+                
+                errorParticles.appendChild(particle);
+            }
+
+            // Example: Show error details if available
+            // const errorDetails = document.getElementById('errorDetails');
+            // if (errorMessageFromServer) {
+            //     errorDetails.textContent = errorMessageFromServer;
+            //     errorDetails.style.display = 'block';
+            // }
+        });
+    </script>
 </body>
 </html>

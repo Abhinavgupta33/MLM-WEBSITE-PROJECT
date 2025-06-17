@@ -5,54 +5,353 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Withdrawal Successful</title>
     <style>
+        :root {
+            --primary-color: #00796b;
+            --primary-dark: #004d40;
+            --primary-light: #b2dfdb;
+            --success-color: #4caf50;
+            --background: #e0f7fa;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #e0f7fa; /* Light blue background */
+            background-color: var(--background);
             color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
+            position: relative;
         }
+
+        /* Floating cash animation */
+        .cash {
+            position: absolute;
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            animation: floatCash 12s linear infinite;
+            z-index: 0;
+            opacity: 0;
+            transform: rotate(15deg);
+        }
+
+        @keyframes floatCash {
+            0% {
+                transform: translateY(110vh) translateX(0) rotate(15deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(100px) rotate(30deg) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Success checkmark animation */
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 5;
+            stroke: var(--success-color);
+            stroke-miterlimit: 10;
+            margin: 20px auto;
+            box-shadow: inset 0 0 0 rgba(76, 175, 80, 0.4);
+            animation: fill 0.6s ease-in-out 0.6s forwards, scale 0.5s ease-in-out 0.9s both;
+        }
+
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 5;
+            stroke-miterlimit: 10;
+            stroke: var(--success-color);
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes scale {
+            0%, 100% {
+                transform: none;
+            }
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0 0 0 60px rgba(76, 175, 80, 0.1);
+            }
+        }
+
+        /* Container animation */
         .container {
             text-align: center;
             background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            width: 320px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 350px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: relative;
+            z-index: 1;
         }
+
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
         h1 {
-            color: #00796b; /* Dark teal color */
+            color: var(--primary-color);
             margin-bottom: 20px;
+            font-size: 28px;
+            animation: textGlow 2s ease-in-out infinite alternate;
         }
+
+        @keyframes textGlow {
+            from {
+                text-shadow: 0 0 5px rgba(0, 121, 107, 0.3);
+            }
+            to {
+                text-shadow: 0 0 10px rgba(0, 121, 107, 0.5);
+            }
+        }
+
         p {
             font-size: 16px;
             color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
-        button {
-            padding: 12px 20px;
-            background-color: #00796b;
+
+        /* Button with ripple effect */
+        .success-btn {
+            padding: 14px 24px;
+            background-color: var(--primary-color);
             color: #fff;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s ease;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        button:hover {
-            background-color: #004d40;
+
+        .success-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .success-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .success-btn .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Cash falling animation */
+        .falling-cash {
+            position: absolute;
+            width: 60px;
+            height: 30px;
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            animation: falling 3s ease-in forwards;
+            z-index: 0;
+            opacity: 0;
+        }
+
+        @keyframes falling {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <%- include("../utils/header")%> 
     <%- include("side")%>
+    
+    <!-- Background cash elements -->
+    <div id="cashBackground"></div>
+    
     <div class="container">
-        <h1>Withdrawal Successful</h1>
-        <p>Your withdrawal has been successfully processed.</p>
-        <button onclick="location.href='/dashboard'">Go to Home</button>
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+        
+        <h1>Withdrawal Successful!</h1>
+        <p>Your funds have been processed and will be transferred shortly.</p>
+        
+        <button class="success-btn" id="homeBtn">
+            <i class="fas fa-home" style="margin-right: 8px;"></i> Go to Home
+        </button>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create floating cash background
+            const cashBackground = document.getElementById('cashBackground');
+            const denominations = ['₹100', '₹200', '₹500', '₹2000'];
+            
+            for (let i = 0; i < 10; i++) {
+                const note = document.createElement('div');
+                note.className = 'cash';
+                
+                // Random size
+                const width = Math.random() * 40 + 60;
+                const height = width / 2;
+                note.style.width = `${width}px`;
+                note.style.height = `${height}px`;
+                
+                // Random position
+                note.style.left = `${Math.random() * 100}%`;
+                
+                // Random denomination
+                note.textContent = denominations[Math.floor(Math.random() * denominations.length)];
+                
+                // Random animation duration and delay
+                note.style.animationDuration = `${Math.random() * 12 + 8}s`;
+                note.style.animationDelay = `${Math.random() * 8}s`;
+                
+                // Color based on denomination
+                if (note.textContent.includes('500')) {
+                    note.style.background = 'linear-gradient(135deg, #f5f5f5, #FFD700)';
+                } else if (note.textContent.includes('2000')) {
+                    note.style.background = 'linear-gradient(135deg, #f5f5f5, #87CEEB)';
+                }
+                
+                cashBackground.appendChild(note);
+            }
+
+            // Create falling cash animation
+            function createFallingCash() {
+                const denominations = ['₹100', '₹200', '₹500', '₹2000'];
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        const cash = document.createElement('div');
+                        cash.className = 'falling-cash';
+                        
+                        // Random size
+                        const width = Math.random() * 40 + 40;
+                        const height = width / 2;
+                        cash.style.width = `${width}px`;
+                        cash.style.height = `${height}px`;
+                        
+                        // Random position
+                        cash.style.left = `${Math.random() * 100}%`;
+                        
+                        // Random denomination
+                        cash.textContent = denominations[Math.floor(Math.random() * denominations.length)];
+                        
+                        // Random animation duration
+                        cash.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                        
+                        // Color based on denomination
+                        if (cash.textContent.includes('500')) {
+                            cash.style.background = 'linear-gradient(135deg, #f5f5f5, #FFD700)';
+                        } else if (cash.textContent.includes('2000')) {
+                            cash.style.background = 'linear-gradient(135deg, #f5f5f5, #87CEEB)';
+                        }
+                        
+                        document.body.appendChild(cash);
+                        
+                        // Remove after animation
+                        setTimeout(() => {
+                            cash.remove();
+                        }, 3000);
+                    }, i * 200);
+                }
+            }
+            
+            // Create falling cash on page load
+            setTimeout(createFallingCash, 500);
+            
+            // Add ripple effect to button
+            const homeBtn = document.getElementById('homeBtn');
+            
+            homeBtn.addEventListener('click', function(e) {
+                // Create ripple effect
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple';
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                    window.location.href = '/dashboard';
+                }, 600);
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Verification Failed</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --primary: #4361ee;
+      --error: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    /* Security pattern background */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background-image: 
+        radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(67, 97, 238, 0.03) 0%, transparent 50%);
+      background-size: 100px 100px;
+      transform: rotate(15deg);
+      z-index: -1;
+    }
+    
+    .error-card {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(247, 37, 133, 0.1);
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .error-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--error), #b5179e);
+    }
+    
+    .error-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #f72585, #b5179e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 16px rgba(247, 37, 133, 0.2);
+    }
+    
+    .error-icon svg {
+      width: 40px;
+      height: 40px;
+      fill: white;
+    }
+    
+    .card-header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+    
+    .card-header p {
+      color: var(--gray);
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    
+    .email-display {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    
+    .email-display span {
+      font-weight: 500;
+      color: var(--primary);
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    
+    .btn {
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #3a0ca3);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+    }
+    
+    .btn-outline {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: rgba(67, 97, 238, 0.05);
+    }
+    
+    .attempts-warning {
+      color: var(--error);
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    
+    .attempts-warning svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--error);
+    }
+    
+    /* Animated circles decoration */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(247, 37, 133, 0.05);
+      z-index: -1;
+    }
+    
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      right: -150px;
+      animation: float 12s infinite ease-in-out;
+    }
+    
+    .circle-2 {
+      width: 200px;
+      height: 200px;
+      bottom: -100px;
+      left: -100px;
+      animation: float 8s infinite ease-in-out reverse;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(20px, 20px); }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .error-card {
+        padding: 32px 24px;
+        margin: 0 16px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Decorative circles -->
+  <div class="circle circle-1"></div>
+  <div class="circle circle-2"></div>
+  
+  <div class="error-card animate__animated animate__shakeX">
+    <div class="error-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+      </svg>
+    </div>
+    
+    <div class="card-header">
+      <h1>Verification Failed</h1>
+      <p>The OTP you entered is incorrect. Please try again or request a new code.</p>
+      
+      <div class="email-display">
+        Sent to: <span><%= email %></span>
+      </div>
+    </div>
+    
+    <div class="action-buttons">
+      <a href="/verifyotp?email=<%= email %>" class="btn btn-primary">Try Again</a>
+      <a href="/sendotp?email=<%= email %>" class="btn btn-outline">Send New Code</a>
+    </div>
+    
+    <div class="attempts-warning">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
+      <span>Too many failed attempts may temporarily lock your account</span>
+    </div>
+  </div>
+</body>
+</html>

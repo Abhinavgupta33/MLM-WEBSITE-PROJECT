@@ -6,61 +6,233 @@
   <title>Account Unblocked</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       background-color: #f8f9fa;
+      overflow: hidden;
+      position: relative;
     }
+    
+    /* Background animation elements */
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(40, 167, 69, 0.1);
+      animation: float 15s infinite linear;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(180deg);
+      }
+      100% {
+        transform: translateY(0) rotate(360deg);
+      }
+    }
+    
     .unblocked-container {
       background: #ffffff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
       text-align: center;
-      width: 400px;
+      width: 450px;
+      z-index: 10;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
     }
+    
+    .unblocked-container:hover {
+      transform: translateY(-5px);
+    }
+    
+    .unblocked-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #28a745, #7cbf8a);
+    }
+    
     .unblocked-container h1 {
       color: #28a745;
-      font-size: 24px;
+      font-size: 28px;
       margin-bottom: 20px;
+      font-weight: 600;
     }
+    
     .unblocked-container p {
       color: #555;
       font-size: 16px;
       margin-bottom: 30px;
+      line-height: 1.6;
     }
+    
     .unblocked-container button {
-      padding: 10px 20px;
+      padding: 12px 30px;
       background-color: #007bff;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 50px;
       font-size: 16px;
       cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
     }
+    
     .unblocked-container button:hover {
       background-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    }
+    
+    .unblocked-container button:active {
+      transform: translateY(0);
+    }
+    
+    .unblocked-container button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    
+    .unblocked-container button:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+    
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(20, 20);
+        opacity: 0;
+      }
+    }
+    
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 25px;
+      position: relative;
+    }
+    
+    .checkmark-circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #e8f8ee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: scaleIn 0.5s ease-out;
+    }
+    
+    .checkmark-icon {
+      color: #28a745;
+      font-size: 50px;
+      animation: checkmark 0.5s ease-out;
+    }
+    
+    @keyframes scaleIn {
+      0% {
+        transform: scale(0);
+      }
+      80% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    
+    @keyframes checkmark {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <%- include("../utils/header")%> 
   <%- include("side")%>
+  
+  <!-- Background animation circles -->
+  <div class="bg-circle" style="width: 300px; height: 300px; top: -100px; left: -100px; animation-delay: 0s;"></div>
+  <div class="bg-circle" style="width: 200px; height: 200px; bottom: -50px; right: -50px; animation-delay: 2s;"></div>
+  <div class="bg-circle" style="width: 150px; height: 150px; top: 20%; right: 10%; animation-delay: 4s;"></div>
+  <div class="bg-circle" style="width: 100px; height: 100px; bottom: 30%; left: 15%; animation-delay: 6s;"></div>
+  
   <div class="unblocked-container">
-    <h1>Account Unblocked</h1>
-    <p>Your account has been successfully unblocked. You can now log in and continue using our services.</p>
-    <button onclick="goToHome()">Go to Homepage</button>
+    <div class="checkmark">
+      <div class="checkmark-circle">
+        <i class="fas fa-check checkmark-icon"></i>
+      </div>
+    </div>
+    <h1>Account Unblocked Successfully!</h1>
+    <p>Your account has been successfully unblocked. You can now log in and continue using our services without any restrictions.</p>
+    <button onclick="goToHome()">Go to Dashboard</button>
   </div>
 
   <script>
     function goToHome() {
-      // Redirect to the homepage or login page
+      // Redirect to the homepage or login page (original route preserved)
       window.location.href = '/dashboard';
     }
+    
+    // Add more floating circles dynamically
+    document.addEventListener('DOMContentLoaded', function() {
+      const body = document.body;
+      for (let i = 0; i < 5; i++) {
+        const circle = document.createElement('div');
+        circle.className = 'bg-circle';
+        const size = Math.random() * 100 + 50;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 8;
+        
+        circle.style.width = `${size}px`;
+        circle.style.height = `${size}px`;
+        circle.style.left = `${posX}%`;
+        circle.style.top = `${posY}%`;
+        circle.style.animationDelay = `${delay}s`;
+        circle.style.opacity = Math.random() * 0.2 + 0.05;
+        
+        body.appendChild(circle);
+      }
+    });
   </script>
 </body>
 </html>

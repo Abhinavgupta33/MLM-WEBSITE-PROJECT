@@ -6,7 +6,7 @@
   <title>Cart Error</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       text-align: center;
       margin: 0;
       padding: 0;
@@ -14,44 +14,195 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       background-color: #f8f9fa;
+      overflow: hidden;
+      position: relative;
     }
+
+    /* Animated background elements */
+    .bg-element {
+      position: absolute;
+      background-color: rgba(220, 53, 69, 0.1);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .bg-element-1 {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      left: -150px;
+      animation: float 15s infinite ease-in-out;
+    }
+
+    .bg-element-2 {
+      width: 200px;
+      height: 200px;
+      bottom: -100px;
+      right: -100px;
+      animation: float 12s infinite ease-in-out reverse;
+    }
+
+    .bg-element-3 {
+      width: 150px;
+      height: 150px;
+      top: 30%;
+      right: 10%;
+      animation: float 8s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(10px, 10px) rotate(5deg);
+      }
+      50% {
+        transform: translate(-10px, 5px) rotate(-5deg);
+      }
+      75% {
+        transform: translate(5px, -10px) rotate(3deg);
+      }
+    }
+
     .container {
       background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      max-width: 450px;
+      width: 90%;
+      position: relative;
+      z-index: 1;
+      transform: scale(0.95);
+      opacity: 0;
+      animation: fadeIn 0.5s ease-out forwards;
+      border: 1px solid rgba(220, 53, 69, 0.2);
     }
+
+    @keyframes fadeIn {
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
     h1 {
       color: #dc3545;
       margin-bottom: 20px;
+      font-size: 28px;
+      position: relative;
+      padding-bottom: 10px;
     }
+
+    h1:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background-color: #dc3545;
+      border-radius: 3px;
+    }
+
     p {
       color: #6c757d;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      line-height: 1.6;
+      font-size: 16px;
     }
+
     button {
-      padding: 10px 20px;
+      padding: 12px 24px;
       background-color: #007bff;
       color: #fff;
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
       font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+      position: relative;
+      overflow: hidden;
     }
+
     button:hover {
       background-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+
+    button:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(20, 20);
+        opacity: 0;
+      }
+    }
+
+    .error-icon {
+      font-size: 60px;
+      color: #dc3545;
+      margin-bottom: 20px;
+      animation: bounce 1s ease infinite alternate;
+    }
+
+    @keyframes bounce {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(-10px);
+      }
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <%- include("../utils/header")%> 
-    <%- include("side")%>
+  <%- include("side")%>
+  
+  <!-- Background elements -->
+  <div class="bg-element bg-element-1"></div>
+  <div class="bg-element bg-element-2"></div>
+  <div class="bg-element bg-element-3"></div>
+
   <div class="container">
+    <div class="error-icon">
+      <i class="fas fa-exclamation-circle"></i>
+    </div>
     <h1>Quantity Exceeds Stock</h1>
-    <p>You have added more items to your cart than are currently available in stock. Please adjust the quantity.</p>
+    <p>You have added more items to your cart than are currently available in stock. Please adjust the quantity to proceed with your purchase.</p>
     <button onclick="goBack()">Go Back to Cart</button>
   </div>
 
@@ -60,6 +211,32 @@
       // Replace 'cart.html' with the actual URL of your cart page
       window.location.href = '/viewproduct';
     }
+
+    // Add some floating particles for more visual interest
+    document.addEventListener('DOMContentLoaded', function() {
+      const body = document.body;
+      const colors = ['rgba(220, 53, 69, 0.2)', 'rgba(220, 53, 69, 0.15)', 'rgba(220, 53, 69, 0.1)'];
+      
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('bg-element');
+        
+        const size = Math.random() * 20 + 5;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.background = color;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        particle.style.animation = `float ${duration}s ${delay}s infinite ease-in-out`;
+        
+        body.appendChild(particle);
+      }
+    });
   </script>
 </body>
 </html>

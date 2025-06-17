@@ -5,9 +5,11 @@ let app=express();
 const tble3 = require("./module/user3.0");
 const tble2 = require("./module/user2.0");
 const tble = require("./module/user");
+const Otp = require("./module/otp");  // import OTP model
+const sendOtp = require("./compnents/sendOtp"); // import sendOtp function
+
 const recentactivity = require("./module/recentactivity");
 let jwt=require("jsonwebtoken");
-const user = require("./module/user");
 const bodyParser = require('body-parser');
 require('dotenv').config();
 app.use(bodyParser.urlencoded({ extended: true }));  // Parse URL-encoded form data
@@ -78,7 +80,7 @@ const nodemailer = require('nodemailer');
 
          let user_image = image.picture;
      
-         res.render("dashboard",{name,activeuser,totalproduct,user_image})
+         res.render("signupsuccess",{name,activeuser,totalproduct,user_image})
      
  };
  
@@ -106,53 +108,73 @@ exports.ser_dashboard = async (req,res) => {
 
 
 exports.ser_login = async (req, res) => {
-  
-    let a = req.body.email;
+  let a = req.body.email;
   let b = req.body.pass;
+
   try {
-      let data = await tble.findOne({ email: a, password: b }); // Use findOne
-        
-      //console.log(data.user_id);
-      let tok=jwt.sign(data.user_id,"aabb");
-     
-      //let wapas=jwt.verify(tok,"aabb");/
-      //console.log(wapas);
-      if (data.blocked==false) {
+    let data = await tble.findOne({ email: a });
+    if (!data || b !== data.password) {
+      return res.render("incorrectpass");
+    }
 
-          res.cookie("mytoken",tok);
-          //const hello = req.cookies.loginuserid;ss
-       //res.cookie("abhi",data.user_id)
-       let name = data.your_name;
-       await tble.updateOne({your_name:name},{$set:{status:"active"}});
-   
-        let active_user = await tble.find({status:"active"});
-        let activeuser = active_user.length;
-      
-        let totalproducts = await tble2.find({});
-        let totalproduct = totalproducts.length;
+    if (data.blocked) {
+      return res.render("loginblocked");
+    }
 
-        let user_image = data.picture;
-        
-        let logindetail = "User logged In Successfully";
-        let loginuser = (data.your_name,"Logged In Successfully");
-        let rec = new recentactivity({
-          user_id:data.user_id,
-          activity:logindetail,
-        activity_detail:loginuser
-        });
-        await rec.save();
-      
-        res.render("dashboard",{name,activeuser,totalproduct,user_image})
+    // Password correct → send OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    await Otp.create({ email: a, otp });
+    await sendOtp(a, otp);
 
-      } else {
-        
-          res.render("loginblocked");
-      }
+    // Temporarily store user ID in session or hidden form
+    res.render("otpverify", { email: a });  // Show OTP form
+
   } catch (error) {
-      console.error("Error logging in:", error);
-      res.render("error");
+    console.error("Error logging in:", error);
+    res.render("error");
   }
 };
+
+
+exports.ser_verify_otp = async (req, res) => {
+  const { email, otp } = req.body;
+
+  try {
+    const data = await Otp.findOne({ email, otp });
+    console.log(email,otp);
+    if (!data) return res.render("wrongotp");
+
+    const user = await tble.findOne({ email:email });
+
+    let tok = jwt.sign(user.user_id, "aabb");
+    res.cookie("mytoken", tok);
+
+    await tble.updateOne({ your_name: user.your_name }, { $set: { status: "active" } });
+
+    let activeuser = (await tble.find({ status: "active" })).length;
+    let totalproduct = (await tble2.find({})).length;
+
+    await new recentactivity({
+      user_id: user.user_id,
+      activity: "User logged in via OTP",
+      activity_detail: `${user.your_name} verified OTP and logged in`
+    }).save();
+
+    res.render("dashboard", {
+      name: user.your_name,
+      activeuser,
+      totalproduct,
+      user_image: user.picture
+    });
+
+    await Otp.deleteMany({ email });
+
+  } catch (error) {
+    console.error("OTP verification error:", error);
+    res.render("error");
+  }
+};
+
 
 // exports.ser_adduserdata = async (req, res) => {
 //     let un = req.cookies.abhi;
@@ -1486,16 +1508,16 @@ exports.ser_view_user_send_mail = async (req, res) => {
     await transporter.sendMail(mailOptions);
 
     const mailsenddetail = "Mail Send Successfully";
-
+   
     // Fix: use uid instead of undefined `data.user_id`
     const rec =await new recentactivity({
       user_id: uid,
-      activity: mailsenddetail,
+      activity: mailsenddetail
     });
 
     await rec.save();
-
-    await res.render("mailsuccess", { name, user_image });
+    res.render("mailsuccess", { name, user_image });
+   
   } catch (error) {
     console.error("Email send error:", error);
     res.render("mailsendfail", { name, user_image });

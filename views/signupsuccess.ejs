@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Created Successfully</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --success-color: #4CAF50;
+            --text-color: #2c3e50;
+            --secondary-text: #7f8c8d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: var(--text-color);
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+        }
+        
+        /* Animated Background Elements */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(52, 152, 219, 0.1);
+            animation: float 15s infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+        
+        .bg-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            bottom: -50px;
+            right: -50px;
+            animation-delay: 2s;
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        .bg-circle:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 30%;
+            right: 20%;
+            animation-delay: 4s;
+        }
+        
+        .bg-circle:nth-child(4) {
+            width: 250px;
+            height: 250px;
+            bottom: 10%;
+            left: 20%;
+            animation-delay: 6s;
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+        
+        /* Success Card */
+        .success-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: scale(0.95);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .checkmark {
+            color: var(--success-color);
+            font-size: 72px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: bounceIn 0.8s ease-out;
+        }
+        
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 15px;
+            font-weight: 700;
+            animation: fadeIn 0.8s ease-out 0.2s backwards;
+        }
+        
+        p {
+            color: var(--secondary-text);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            animation: fadeIn 0.8s ease-out 0.4s backwards;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+            animation: fadeIn 0.8s ease-out 0.6s backwards;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+        }
+        
+        .login-link {
+            margin-top: 20px;
+            font-size: 14px;
+            animation: fadeIn 0.8s ease-out 0.8s backwards;
+        }
+        
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+            color: #2980b9;
+        }
+        
+        .countdown {
+            margin-top: 15px;
+            color: var(--secondary-text);
+            font-size: 14px;
+            animation: fadeIn 0.8s ease-out 1s backwards;
+        }
+        
+        /* Confetti animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--success-color);
+            opacity: 0;
+            z-index: -1;
+            animation: confetti 5s ease-in-out infinite;
+        }
+        
+        @keyframes confetti {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(500px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background circles -->
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    
+    <!-- Confetti elements -->
+    <div id="confetti-container"></div>
+    
+    <!-- Success content container -->
+    <div class="success-container">
+        <div class="checkmark">✓</div>
+        <h1>Account Created Successfully!</h1>
+        <p>Thank you for signing up. Your account has been successfully created. A verification email has been sent to your registered email address. Please verify your email to complete the registration process.</p>
+        
+        <a href="/" class="btn">Go to Home Page</a>
+        
+        <div class="countdown">You will be automatically redirected in <span id="countdown">10</span> seconds...</div>
+        
+        <div class="login-link">
+            Didn't receive verification email? <a href="#">Resend Email</a>
+        </div>
+    </div>
+
+    <script>
+        // Countdown and redirect function
+        function startCountdown() {
+            let seconds = 10;
+            const countdownElement = document.getElementById('countdown');
+            
+            const countdownInterval = setInterval(() => {
+                seconds--;
+                countdownElement.textContent = seconds;
+                
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    window.location.href = "/"; // Redirect to home page
+                }
+            }, 1000);
+        }
+        
+        // Create confetti elements
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#4CAF50', '#3498db', '#f1c40f', '#e74c3c', '#9b59b6'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                container.appendChild(confetti);
+            }
+        }
+        
+        // Start animations when the page loads
+        window.onload = function() {
+            startCountdown();
+            createConfetti();
+        };
+    </script>
+</body>
+</html>

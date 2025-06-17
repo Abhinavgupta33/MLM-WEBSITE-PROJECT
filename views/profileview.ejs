@@ -5,88 +5,258 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Information</title>
     <style>
+        :root {
+            --primary: #6c757d;
+            --primary-dark: #5a6268;
+            --accent: #3498db;
+            --accent-dark: #2980b9;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --transition: all 0.3s ease;
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-md: 0 8px 16px rgba(0,0,0,0.1);
+            --radius-md: 12px;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #007bff, #6c757d);
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: #333;
+            color: var(--dark);
+            position: relative;
+            overflow: hidden;
+            background-color: #f5f7fa;
         }
+        
+        /* Animated background elements */
+        .bg-particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(52,152,219,0.1) 0%, transparent 70%);
+            filter: blur(1px);
+            z-index: -1;
+            opacity: 0;
+            animation: particle-float linear infinite;
+        }
+        
+        @keyframes particle-float {
+            0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+            10% { opacity: 0.4; }
+            100% { transform: translate(var(--tx, 200px), var(--ty, 200px)) scale(1.5); opacity: 0; }
+        }
+        
         .container {
             width: 90%;
             max-width: 600px;
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.5s ease-in-out;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            padding: 30px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+            border: 1px solid rgba(0,0,0,0.05);
         }
+        
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
+        
         .container h2 {
             text-align: center;
-            color: #007bff;
+            color: var(--accent);
             font-size: 28px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #007bff;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(52,152,219,0.2);
             padding-bottom: 10px;
+            position: relative;
         }
+        
+        .container h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: center;
+            animation: underline-grow 0.8s 0.3s ease-out forwards;
+        }
+        
+        @keyframes underline-grow {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+        
         .user-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
-            padding: 10px;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
             font-size: 16px;
+            transition: var(--transition);
+            border-radius: 4px;
         }
+        
+        .user-info:hover {
+            background-color: rgba(52,152,219,0.05);
+            transform: translateX(5px);
+        }
+        
         .user-info:last-child {
             border-bottom: none;
         }
+        
         .user-info label {
-            font-weight: bold;
-            color: #555;
+            font-weight: 600;
+            color: var(--gray);
         }
+        
         .user-info span {
-            color: #333;
-            font-size: 14px;
+            color: var(--dark);
+            font-size: 15px;
             text-align: right;
+            font-weight: 500;
         }
+        
         .button-container {
             text-align: center;
             margin-top: 30px;
         }
+        
         .button-container button {
-            background-color: #007bff;
+            background-color: var(--accent);
             color: white;
-            padding: 12px 25px;
+            padding: 13px 28px;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             cursor: pointer;
-            font-size: 18px;
-            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(52,152,219,0.3);
         }
+        
         .button-container button:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: var(--accent-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52,152,219,0.4);
         }
-        .button-container button:focus {
-            outline: 2px solid #0056b3;
-            outline-offset: 2px;
+        
+        .button-container button:active {
+            transform: translateY(-1px);
         }
+        
+        .button-container button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+        
+        .button-container button:hover::before {
+            left: 100%;
+        }
+        
+        /* Floating dots animation */
+        .floating-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(52,152,219,0.3);
+            animation: float-up 15s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes float-up {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            10% { opacity: 0.6; }
+            100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+        }
+        
+        /* New animated waves background */
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="rgba(52, 152, 219, 0.2)" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: -2;
+            animation: wave-animation 10s linear infinite;
+        }
+        
+        .wave:nth-child(2) {
+            bottom: 20px;
+            opacity: 0.5;
+            animation: wave-animation 8s linear infinite reverse;
+        }
+        
+        .wave:nth-child(3) {
+            bottom: 40px;
+            opacity: 0.3;
+            animation: wave-animation 12s linear infinite;
+        }
+        
+        @keyframes wave-animation {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1440px; }
+        }
+        
+        /* Geometric shapes animation */
+        .geometric-shape {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+            animation: shape-rotate 30s linear infinite;
+        }
+        
+        .shape-triangle {
+            width: 100px;
+            height: 100px;
+            background: var(--accent);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+        
+        .shape-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        
+        .shape-square {
+            width: 70px;
+            height: 70px;
+            background: var(--accent);
+        }
+        
+        @keyframes shape-rotate {
+            0% { transform: rotate(0deg) translateX(0) translateY(0); }
+            25% { transform: rotate(90deg) translateX(50px) translateY(50px); }
+            50% { transform: rotate(180deg) translateX(0) translateY(100px); }
+            75% { transform: rotate(270deg) translateX(-50px) translateY(50px); }
+            100% { transform: rotate(360deg) translateX(0) translateY(0); }
+        }
+        
         @media (max-width: 768px) {
             .user-info {
                 flex-direction: column;
@@ -96,10 +266,31 @@
                 margin-top: 5px;
                 text-align: left;
             }
+            .container {
+                padding: 25px 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <%- include("../utils/header")%> 
+    <%- include("side")%>
+    
+    <!-- Background elements -->
+    <div id="particles"></div>
+    <div id="floating-dots"></div>
+    
+    <!-- Animated waves -->
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    
+    <!-- Geometric shapes -->
+    <div class="geometric-shape shape-triangle" style="top: 10%; left: 10%;"></div>
+    <div class="geometric-shape shape-circle" style="top: 70%; left: 80%;"></div>
+    <div class="geometric-shape shape-square" style="top: 20%; left: 85%;"></div>
+    <div class="geometric-shape shape-triangle" style="top: 80%; left: 15%; transform: rotate(180deg);"></div>
+    
     <form action="/profileedit" method="get">
         <div class="container">
             <h2>User Information</h2>
@@ -140,5 +331,78 @@
             </div>
         </div>
     </form>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'bg-particle';
+                
+                // Random properties
+                const size = Math.random() * 100 + 50;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const tx = (Math.random() - 0.5) * 400;
+                const ty = (Math.random() - 0.5) * 400;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 15;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Create floating dots
+        function createFloatingDots() {
+            const container = document.getElementById('floating-dots');
+            
+            for (let i = 0; i < 15; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'floating-dot';
+                
+                // Random properties
+                const size = Math.random() * 6 + 4;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = Math.random() * 10 + 10;
+                const opacity = Math.random() * 0.4 + 0.1;
+                
+                dot.style.width = `${size}px`;
+                dot.style.height = `${size}px`;
+                dot.style.left = `${left}%`;
+                dot.style.animationDelay = `${delay}s`;
+                dot.style.animationDuration = `${duration}s`;
+                dot.style.opacity = opacity;
+                
+                container.appendChild(dot);
+            }
+        }
+        
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            createFloatingDots();
+            
+            // Add some random movement to geometric shapes
+            const shapes = document.querySelectorAll('.geometric-shape');
+            shapes.forEach(shape => {
+                const duration = Math.random() * 20 + 20;
+                const delay = Math.random() * 10;
+                shape.style.animationDuration = `${duration}s`;
+                shape.style.animationDelay = `-${delay}s`;
+            });
+        });
+    </script>
 </body>
 </html>

@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Message Not Sent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4a6fa5;
-            --secondary-color: #166088;
-            --accent-color: #4fc3f7;
+            --primary-color: #ff5252;
+            --secondary-color: #d32f2f;
+            --accent-color: #ff867f;
             --error-color: #f44336;
-            --text-color: #333;
-            --light-bg: #f9f9f9;
+            --text-color: #2f3542;
+            --light-bg: #f5f7fa;
+            --card-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
         }
         
         * {
@@ -21,13 +24,71 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--light-bg);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Floating Error Elements */
+        .error-bg-element {
+            position: absolute;
+            opacity: 0;
+            z-index: 0;
+            animation: floatError 15s linear infinite;
+            color: var(--error-color);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            pointer-events: none;
+            font-size: 0;
+        }
+        
+        @keyframes floatError {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.1;
+            }
+            50% {
+                opacity: 0.15;
+                transform: translateY(50vh) rotate(180deg) scale(1);
+            }
+            90% {
+                opacity: 0.08;
+            }
+            100% {
+                transform: translateY(-20vh) rotate(360deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+        
+        /* Error Waves */
+        .error-wave {
+            position: absolute;
+            width: 200%;
+            height: 100px;
+            background: rgba(244, 67, 54, 0.05);
+            border-radius: 50%;
+            animation: wave 8s infinite linear;
+            z-index: 0;
+        }
+        
+        @keyframes wave {
+            0% {
+                transform: translateX(-50%) scaleY(1);
+            }
+            50% {
+                transform: translateX(-30%) scaleY(0.8);
+            }
+            100% {
+                transform: translateX(-50%) scaleY(1);
+            }
         }
         
         .container {
@@ -38,105 +99,188 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            position: relative;
+            z-index: 1;
         }
         
         .error-card {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 3rem 2rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 4rem 3rem;
             text-align: center;
             transform: translateY(0);
             opacity: 1;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .error-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
         }
         
         .error-icon {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 1.5rem;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #ffebee;
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.1), rgba(255, 134, 127, 0.1));
             border-radius: 50%;
             position: relative;
+            animation: errorPulse 2s infinite;
         }
         
-        .error-icon::before,
-        .error-icon::after {
-            content: "";
-            position: absolute;
-            width: 50px;
-            height: 5px;
-            background-color: var(--error-color);
-            top: 47px;
+        @keyframes errorPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(244, 67, 54, 0);
+            }
         }
         
-        .error-icon::before {
-            transform: rotate(45deg);
+        .error-icon i {
+            font-size: 60px;
+            color: var(--error-color);
+            animation: errorShake 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
         }
         
-        .error-icon::after {
-            transform: rotate(-45deg);
+        @keyframes errorShake {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            20%, 40%, 60%, 80% {
+                transform: scale(1.1) rotate(5deg);
+            }
+            30%, 50%, 70% {
+                transform: scale(1.1) rotate(-5deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
         }
         
         h1 {
-            color: var(--error-color);
-            margin-bottom: 1rem;
-            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s 0.2s both;
         }
         
         p {
             margin-bottom: 2rem;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #555;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s 0.4s both;
         }
         
         .error-details {
-            background-color: #fff8f8;
+            background-color: #fff5f5;
             border-left: 4px solid var(--error-color);
-            padding: 1rem;
-            margin: 1.5rem 0;
+            padding: 1.5rem;
+            margin: 2rem 0;
             text-align: left;
-            font-size: 0.95rem;
+            border-radius: 0 8px 8px 0;
+            animation: fadeInUp 0.8s 0.6s both;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .error-details p {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--error-color);
+            animation: none;
+        }
+        
+        .error-details ul {
+            margin-left: 1.5rem;
             color: #666;
+        }
+        
+        .error-details li {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        .error-details li::before {
+            content: "•";
+            color: var(--error-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
         }
         
         .action-buttons {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 1.5rem;
             flex-wrap: wrap;
+            animation: fadeInUp 0.8s 0.8s both;
         }
         
         .btn {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            min-width: 180px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+            font-size: 18px;
         }
         
         .btn-primary {
-            background-color: var(--error-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
         }
         
         .btn-primary:hover {
-            background-color: #d32f2f;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(244, 67, 54, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
         }
         
         .btn-secondary {
-            background-color: white;
-            color: var(--error-color);
-            border: 1px solid var(--error-color);
+            background: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
         
         .btn-secondary:hover {
-            background-color: #ffebee;
+            background: rgba(244, 67, 54, 0.05);
+            transform: translateY(-3px);
         }
         
         footer {
@@ -144,76 +288,163 @@
             padding: 1.5rem;
             color: #666;
             font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
         }
         
-        @media (max-width: 600px) {
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .error-card {
+            animation: cardEntrance 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+        
+        @keyframes cardEntrance {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @media (max-width: 768px) {
             .container {
-                padding: 1rem;
+                padding: 1.5rem;
             }
             
             .error-card {
-                padding: 2rem 1rem;
+                padding: 3rem 1.5rem;
             }
             
             h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
+            }
+            
+            .error-icon {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .error-icon i {
+                font-size: 50px;
             }
             
             .action-buttons {
                 flex-direction: column;
-                align-items: center;
+                gap: 1rem;
             }
             
             .btn {
                 width: 100%;
-                max-width: 250px;
             }
-        }
-        
-        /* Animation */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-        
-        .error-card {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
     <%- include("../utils/header")%> 
     <%- include("side")%>
+    
+    <!-- Background elements will be added by JS -->
+    <div class="error-wave" style="bottom: 0; left: 0;"></div>
+    <div class="error-wave" style="bottom: 50px; left: 0; animation-delay: -2s;"></div>
+    
     <div class="container">
         <div class="error-card">
-            <div class="error-icon" aria-hidden="true"></div>
+            <div class="error-icon">
+                <i class="fas fa-times"></i>
+            </div>
             <h1>Failed to Send Message</h1>
             <p>We encountered an issue while trying to send your email. Please try again later.</p>
             
             <div class="error-details">
-                <p><strong>Possible reasons:</strong></p>
-                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <p>Possible reasons:</p>
+                <ul>
                     <li>Network connection issues</li>
                     <li>Temporary server problem</li>
                     <li>Invalid email address</li>
+                    <li>Message content too large</li>
+                    <li>Recipient mailbox full</li>
                 </ul>
             </div>
             
             <div class="action-buttons">
-                <a href="/mail-open" class="btn btn-primary">Try Again</a>
-                <a href="/dashboard" class="btn btn-secondary">Return Home</a>
+                <a href="/mail-open" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Try Again
+                </a>
+                <a href="/dashboard" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Return Home
+                </a>
             </div>
         </div>
     </div>
     
     <footer>
-        &copy; 2023 Your Company Name. All rights reserved.
+        &copy; <span id="current-year"></span> Your Company Name. All rights reserved.
     </footer>
+
+    <script>
+        // Create floating error background elements
+        function createErrorElements() {
+            const icons = ['fa-exclamation-circle', 'fa-times-circle', 'fa-ban', 'fa-bug'];
+            const colors = ['#ff5252', '#d32f2f', '#ff867f', '#ff8a80'];
+            
+            for (let i = 0; i < 12; i++) {
+                const element = document.createElement('div');
+                element.className = 'error-bg-element';
+                element.innerHTML = `<i class="fas ${icons[i % icons.length]}"></i>`;
+                
+                // Random properties
+                const left = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 15 + Math.random() * 15;
+                const size = 20 + Math.random() * 40;
+                
+                // Apply styles
+                element.style.left = `${left}%`;
+                element.style.top = `${100 + (Math.random() * 20)}%`;
+                element.style.animationDelay = `${delay}s`;
+                element.style.animationDuration = `${duration}s`;
+                element.style.color = colors[i % colors.length];
+                element.style.fontSize = `${size}px`;
+                
+                document.body.appendChild(element);
+            }
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            createErrorElements();
+            
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Add hover effect to buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                });
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Add subtle shake to error card on hover
+            const errorCard = document.querySelector('.error-card');
+            errorCard.addEventListener('mouseenter', function() {
+                this.style.animation = 'errorShake 0.5s ease';
+            });
+        });
+    </script>
 </body>
 </html>

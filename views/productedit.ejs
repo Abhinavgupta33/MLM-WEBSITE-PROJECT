@@ -20,6 +20,7 @@
     <style>
         :root {
             --primary: #4361ee;
+            --primary-light: #4cc9f0;
             --primary-dark: #3a56d4;
             --secondary: #3f37c9;
             --success: #4cc9f0;
@@ -31,18 +32,26 @@
             --gray: #6c757d;
             --light-gray: #e9ecef;
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
         }
         
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f5f7fb;
             color: var(--dark);
+            min-height: 100vh;
         }
         
         .admin-container {
             margin-left: 280px;
             padding: 30px;
             transition: var(--transition);
+            animation: fadeIn 0.6s ease-out;
         }
         
         .page-header {
@@ -62,6 +71,7 @@
             margin: 0;
             font-size: 1.8rem;
             position: relative;
+            animation: slideInLeft 0.6s ease-out;
         }
         
         .page-title::after {
@@ -73,18 +83,33 @@
             height: 3px;
             background: linear-gradient(90deg, var(--primary), var(--success));
             border-radius: 3px;
+            animation: expandWidth 0.8s 0.3s ease-out forwards;
         }
         
         .edit-form-container {
             background: white;
-            border-radius: 12px;
+            border-radius: var(--radius-lg);
             padding: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.6s 0.2s ease-out both;
+            border: 1px solid rgba(0,0,0,0.05);
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+        
+        .edit-form-container:hover {
+            transform: translateY(-5px) rotateX(1deg) rotateY(1deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
         
         .form-section {
             margin-bottom: 30px;
+            animation: fadeIn 0.6s ease both;
         }
+        
+        .form-section:nth-child(1) { animation-delay: 0.3s; }
+        .form-section:nth-child(2) { animation-delay: 0.4s; }
+        .form-section:nth-child(3) { animation-delay: 0.5s; }
         
         .section-title {
             font-size: 1.2rem;
@@ -93,10 +118,18 @@
             margin-bottom: 20px;
             padding-bottom: 8px;
             border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            font-size: 1.3rem;
         }
         
         .form-group {
             margin-bottom: 20px;
+            position: relative;
         }
         
         .form-label {
@@ -104,16 +137,23 @@
             margin-bottom: 8px;
             font-weight: 500;
             color: var(--dark);
+            transition: var(--transition);
+        }
+        
+        .form-group:focus-within .form-label {
+            color: var(--primary);
+            transform: translateX(5px);
         }
         
         .form-control {
             width: 100%;
-            padding: 10px 15px;
+            padding: 12px 15px;
             border: 1px solid var(--light-gray);
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-size: 0.95rem;
             transition: var(--transition);
             background-color: #f8fafc;
+            box-shadow: var(--shadow-sm);
         }
         
         .form-control:focus {
@@ -121,6 +161,7 @@
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
             background-color: white;
+            transform: translateY(-2px);
         }
         
         textarea.form-control {
@@ -137,35 +178,50 @@
         }
         
         .image-preview {
-            width: 200px;
-            height: 200px;
-            border-radius: 8px;
+            width: 220px;
+            height: 220px;
+            border-radius: var(--radius-md);
             overflow: hidden;
             background-color: var(--light);
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px dashed var(--gray);
+            border: 2px dashed var(--gray);
             position: relative;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .image-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
         }
         
         .image-preview img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+            transition: var(--transition);
         }
         
         .upload-btn {
             position: relative;
             overflow: hidden;
             display: inline-block;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-3px);
         }
         
         .btn-upload {
             background-color: var(--info);
             color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
             font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
@@ -173,11 +229,12 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            box-shadow: var(--shadow-sm);
         }
         
         .btn-upload:hover {
             background-color: #3a7bd5;
-            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
         
         .upload-btn input[type="file"] {
@@ -194,9 +251,10 @@
             display: flex;
             justify-content: flex-end;
             gap: 15px;
-            margin-top: 30px;
+            margin-top: 40px;
             padding-top: 20px;
             border-top: 1px solid var(--light-gray);
+            animation: fadeIn 0.6s 0.6s ease both;
         }
         
         .btn {
@@ -205,24 +263,25 @@
             justify-content: center;
             gap: 8px;
             font-weight: 500;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
             transition: var(--transition);
             cursor: pointer;
             font-size: 0.95rem;
             border: none;
+            box-shadow: var(--shadow-sm);
         }
         
         .btn-save {
             background-color: var(--success);
             color: white;
-            padding: 12px 25px;
+            padding: 12px 28px;
         }
         
         .btn-save:hover {
             background-color: #3ab0d5;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(58, 176, 213, 0.2);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
         }
         
         .btn-reset {
@@ -232,13 +291,83 @@
         
         .btn-reset:hover {
             background-color: #e07e0e;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(224, 126, 14, 0.2);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
         }
         
         .btn-cancel {
             background-color: var(--gray);
             color: white;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #5a6268;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Floating label effect */
+        .floating-label {
+            position: absolute;
+            top: 12px;
+            left: 15px;
+            color: var(--gray);
+            transition: var(--transition);
+            pointer-events: none;
+            background: white;
+            padding: 0 5px;
+            border-radius: 4px;
+        }
+        
+        .form-control:focus + .floating-label,
+        .form-control:not(:placeholder-shown) + .floating-label {
+            top: -10px;
+            left: 10px;
+            font-size: 0.8rem;
+            color: var(--primary);
+            background: linear-gradient(to bottom, white 50%, transparent 50%);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
         /* Responsive Design */
@@ -262,8 +391,9 @@
                 width: 100%;
             }
             
-            .image-upload-container {
-                flex-direction: column;
+            .image-preview {
+                width: 180px;
+                height: 180px;
             }
         }
         
@@ -280,16 +410,11 @@
             .section-title {
                 font-size: 1.1rem;
             }
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease forwards;
+            
+            .btn-upload {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -297,61 +422,63 @@
     <%- include("../utils/header")%> 
     <%- include("side")%>
 
-    <div class="admin-container fade-in">
+    <div class="admin-container">
         <div class="page-header">
             <h1 class="page-title">Edit Product</h1>
             <a href="/viewproduct" class="btn btn-cancel">
-                <i class=""></i> Back to Products
+                <i class="bi bi-arrow-left"></i> Back to Products
             </a>
         </div>
         
         <div class="edit-form-container">
-            <form action="/producteditsuccess" method="post" >
+            <form action="/producteditsuccess" method="post" id="editProductForm" enctype="multipart/form-data">
+                <input type="hidden" name="productId" value="<%= product_detail._id %>">
+                
                 <div class="form-section">
-                    <h3 class="section-title">Basic Information</h3>
+                    <h3 class="section-title"><i class="bi bi-info-circle"></i> Basic Information</h3>
                     
                     <div class="form-group">
-                        <label for="productName" class="form-label">Product Name</label>
                         <input type="text" class="form-control" id="productName" name="productName" 
-                               value="<%- product_detail.product_name %>" required>
+                               value="<%= product_detail.product_name %>" required placeholder=" ">
+                        <label for="productName" class="floating-label">Product Name</label>
                     </div>
                     
                     <div class="form-group">
-                        <label for="productDescription" class="form-label">Description</label>
                         <textarea class="form-control" id="productDescription" name="productDescription" 
-                                  required><%- product_detail.product_description %></textarea>
+                                  required placeholder=" "><%= product_detail.product_description %></textarea>
+                        <label for="productDescription" class="floating-label">Description</label>
                     </div>
                     
                     <div class="form-group">
-                        <label for="productCategory" class="form-label">Category</label>
                         <input type="text" class="form-control" id="productCategory" name="productCategory" 
-                               value="<%=-product_detail.product_category %>" required>
+                               value="<%= product_detail.product_category %>" required placeholder=" ">
+                        <label for="productCategory" class="floating-label">Category</label>
                     </div>
                 </div>
                 
                 <div class="form-section">
-                    <h3 class="section-title">Pricing & Inventory</h3>
+                    <h3 class="section-title"><i class="bi bi-tags"></i> Pricing & Inventory</h3>
                     
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="productPrice" class="form-label">Price (₹)</label>
                                 <input type="number" step="0.01" class="form-control" id="productPrice" 
-                                       name="productPrice" value="<%- product_detail.product_price %>" required>
+                                       name="productPrice" value="<%= product_detail.product_price %>" required placeholder=" ">
+                                <label for="productPrice" class="floating-label">Price (₹)</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="productQuantity" class="form-label">Stock Quantity</label>
                                 <input type="number" class="form-control" id="productQuantity" 
-                                       name="productQuantity" value="<%- product_detail.product_quantity %>" required>
+                                       name="productQuantity" value="<%= product_detail.product_quantity %>" required placeholder=" ">
+                                <label for="productQuantity" class="floating-label">Stock Quantity</label>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="form-section">
-                    <h3 class="section-title">Product Image</h3>
+                    <h3 class="section-title"><i class="bi bi-image"></i> Product Image</h3>
                     
                     <div class="image-upload-container">
                         <div class="image-preview">
@@ -366,10 +493,10 @@
                             <button type="button" class="btn-upload">
                                 <i class="bi bi-upload"></i> Change Image
                             </button>
-                            <input type="file" id="productImage" name="product_image" accept="image/*">
+                            <input type="file" id="productImage" name="productImage" accept="image/*">
                         </div>
                         
-                        <input type="hidden" name="existing_image" value="<%= product_detail.product_image %>">
+                        <input type="hidden" name="existingImage" value="<%= product_detail.product_image %>">
                     </div>
                 </div>
                 
@@ -401,16 +528,32 @@
                         document.querySelector('.image-preview').appendChild(imagePreview);
                     }
                     document.getElementById('imagePreview').src = event.target.result;
+                    document.querySelector('.image-preview i')?.remove();
                 };
                 reader.readAsDataURL(file);
             }
         });
         
         // Form Submission Loading State
-        document.getElementById('editProductForm').addEventListener('submit', function() {
+        document.getElementById('editProductForm').addEventListener('submit', function(e) {
             const saveBtn = document.getElementById('saveBtn');
-            saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
+            saveBtn.innerHTML = '<span class="spinner"></span> Saving...';
             saveBtn.disabled = true;
+        });
+        
+        // Initialize floating labels for existing values
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.form-control');
+            inputs.forEach(input => {
+                if (input.value) {
+                    const label = input.nextElementSibling;
+                    label.style.top = '-10px';
+                    label.style.left = '10px';
+                    label.style.fontSize = '0.8rem';
+                    label.style.color = 'var(--primary)';
+                    label.style.background = 'linear-gradient(to bottom, white 50%, transparent 50%)';
+                }
+            });
         });
     </script>
     

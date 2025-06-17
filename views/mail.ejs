@@ -10,210 +10,114 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            overflow: hidden;
             position: relative;
-            background: linear-gradient(-45deg, #f5f7fa, #e4e8eb, #d1d9e6, #c3cfe2);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-        
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-        
-        /* Paper Plane Animation */
-        .paper-planes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
             overflow: hidden;
         }
         
-        .paper-plane {
+        /* Background animation elements */
+        .mail-bg-element {
             position: absolute;
-            color: #4a6baf;
-            font-size: 24px;
-            animation: floatPlane linear infinite;
-            opacity: 0.6;
-        }
-        
-        @keyframes floatPlane {
-            0% {
-                transform: translateY(100vh) translateX(-50px) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.6;
-            }
-            90% {
-                opacity: 0.6;
-            }
-            100% {
-                transform: translateY(-100px) translateX(50px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        /* Envelope Animation */
-        .envelope {
-            position: absolute;
-            width: 40px;
-            height: 30px;
-            background: #e74c3c;
-            border-radius: 3px;
-            animation: floatEnvelope linear infinite;
-            opacity: 0.7;
+            opacity: 0.08;
             z-index: 0;
+            font-size: 0;
+            animation: float 15s linear infinite;
+            color: #4a6bff;
         }
         
-        .envelope:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-top: 15px solid #c0392b;
-            transform-origin: top;
-            transform: rotateX(0deg);
-            transition: all 0.3s ease;
-        }
-        
-        @keyframes floatEnvelope {
+        @keyframes float {
             0% {
-                transform: translateY(100vh) translateX(-30px) rotate(0deg);
+                transform: translateY(0) rotate(0deg);
                 opacity: 0;
+                font-size: 0;
             }
             10% {
-                opacity: 0.7;
+                opacity: 0.08;
+                font-size: 30px;
             }
             90% {
-                opacity: 0.7;
+                opacity: 0.08;
+                font-size: 30px;
             }
             100% {
-                transform: translateY(-100px) translateX(30px) rotate(360deg);
+                transform: translateY(-100vh) rotate(360deg);
                 opacity: 0;
+                font-size: 0;
             }
         }
         
-        /* Form Styles */
         form {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            padding: 30px;
             width: 100%;
             max-width: 600px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             z-index: 1;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            border: 1px solid rgba(74, 107, 175, 0.2);
+            transition: transform 0.3s ease;
         }
-
+        
         form:hover {
-            transform: scale(1.02) rotateY(1deg) rotateX(1deg);
-            box-shadow: 0 20px 50px rgba(74, 107, 175, 0.2);
+            transform: translateY(-5px);
         }
         
         input, textarea {
             width: 100%;
-            padding: 16px 18px;
+            padding: 14px 18px;
             margin-bottom: 20px;
-            border: 1px solid rgba(74, 107, 175, 0.3);
+            border: 1px solid #e0e0e0;
             border-radius: 8px;
             font-size: 16px;
             transition: all 0.3s ease;
             box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: inset 0 1px 3px rgba(74, 107, 175, 0.1);
+            background-color: #f8f9fa;
         }
         
         input:focus, textarea:focus {
-            border-color: #4a6baf;
+            border-color: #4a6bff;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(74, 107, 175, 0.2);
-            background: white;
-            transform: translateY(-2px);
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+            background-color: white;
         }
         
         textarea {
             min-height: 200px;
             resize: vertical;
+            line-height: 1.6;
         }
         
         button {
-            background: linear-gradient(45deg, #4a6baf, #6a8fd8);
+            background-color: #4a6bff;
             color: white;
             border: none;
-            padding: 16px 32px;
+            padding: 14px 24px;
             border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
             width: 100%;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(74, 107, 175, 0.3);
-            text-transform: uppercase;
             font-weight: 500;
-            letter-spacing: 1px;
-        }
-        
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.4),
-                transparent
-            );
-            transition: all 0.6s ease;
         }
         
         button:hover {
-            background: linear-gradient(45deg, #3a5a9f, #5a7fc8);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(74, 107, 175, 0.4);
-        }
-        
-        button:hover::before {
-            left: 100%;
+            background-color: #3a5bef;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(58, 91, 239, 0.3);
         }
         
         button:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 10px rgba(74, 107, 175, 0.4);
+            transform: translateY(0);
         }
         
         .form-group {
@@ -225,14 +129,7 @@
             display: block;
             margin-bottom: 10px;
             font-weight: 500;
-            color: #4a6baf;
-            transition: all 0.3s ease;
-        }
-        
-        .form-group input:focus ~ label,
-        .form-group textarea:focus ~ label {
-            color: #3a5a9f;
-            transform: translateX(5px);
+            color: #2f3542;
         }
         
         .char-count {
@@ -241,151 +138,92 @@
             text-align: right;
             margin-top: -15px;
             margin-bottom: 15px;
-            transition: all 0.3s ease;
-        }
-        
-        textarea:focus ~ .char-count {
-            color: #4a6baf;
         }
         
         .success-message {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            background-color: #4BB543;
             color: white;
-            padding: 18px;
-            border-radius: 8px;
-            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
             display: none;
-            animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+            animation: fadeIn 0.5s;
+            text-align: center;
         }
         
-        @keyframes fadeInUp {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .error-message {
-            color: #e74c3c;
+            color: #ff3333;
             font-size: 13px;
             margin-top: -15px;
             margin-bottom: 15px;
             display: none;
-            animation: shakeError 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+            animation: shake 0.3s;
         }
         
-        @keyframes shakeError {
-            10%, 90% { transform: translateX(-2px); }
-            20%, 80% { transform: translateX(3px); }
-            30%, 50%, 70% { transform: translateX(-5px); }
-            40%, 60% { transform: translateX(5px); }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
         }
         
-        /* Floating label effect */
-        .floating-label {
-            position: absolute;
-            left: 15px;
-            top: 15px;
-            color: #999;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            background: white;
-            padding: 0 5px;
+        .form-header {
+            text-align: center;
+            margin-bottom: 25px;
         }
         
-        input:focus ~ .floating-label,
-        input:not(:placeholder-shown) ~ .floating-label,
-        textarea:focus ~ .floating-label,
-        textarea:not(:placeholder-shown) ~ .floating-label {
-            top: -10px;
-            left: 10px;
-            font-size: 12px;
-            color: #4a6baf;
-            background: rgba(255, 255, 255, 0.9);
+        .form-header h2 {
+            color: #2f3542;
+            margin-bottom: 5px;
+            font-weight: 500;
         }
         
-        /* Mail Sent Animation */
-        @keyframes mailSent {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.2);
-                opacity: 0.8;
-            }
-            100% {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-        }
-        
-        .mail-sent-animation {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 80px;
-            color: #4a6baf;
-            z-index: 1000;
-            animation: mailSent 1.5s ease-out forwards;
-            pointer-events: none;
-        }
-        
-        /* Ripple Effect */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.7);
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
-        }
-        
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+        .form-header p {
+            color: #747d8c;
+            margin: 0;
         }
     </style>
 </head>
 <body>
-        <%- include("../utils/header")%> 
+    <%- include("../utils/header")%> 
     <%- include("side")%>
-    <div class="paper-planes" id="paperPlanes"></div>
-    <div class="paper-planes" id="envelopes"></div>
     
-    <form id="emailForm">
+    <!-- Background animation elements will be added by JS -->
+    
+    <form id="emailForm" action="/send-mail" method="POST">
+        <div class="form-header">
+            <h2><i class="fas fa-envelope" style="color: #4a6bff;"></i> Compose Email</h2>
+            <p>Send your message to recipients</p>
+        </div>
+        
         <div class="success-message" id="successMessage">
             <i class="fas fa-check-circle"></i> Email sent successfully!
         </div>
         
         <div class="form-group">
-            <input type="email" id="senderEmail" name="senderEmail" placeholder=" " required>
-            <label class="floating-label" for="senderEmail">Your Email</label>
+            <label for="senderEmail"><i class="fas fa-user" style="color: #4a6bff;"></i> Your Email</label>
+            <input type="email" id="senderEmail" name="senderEmail" placeholder="your.email@example.com" required>
             <div class="error-message" id="senderEmailError">Please enter a valid email address</div>
         </div>
         
         <div class="form-group">
-            <input type="email" id="recipientEmail" name="recipientEmail" placeholder=" " required>
-            <label class="floating-label" for="recipientEmail">Recipient Email</label>
+            <label for="recipientEmail"><i class="fas fa-users" style="color: #4a6bff;"></i> Recipient Email</label>
+            <input type="email" id="recipientEmail" name="recipientEmail" placeholder="recipient@example.com" required>
             <div class="error-message" id="recipientEmailError">Please enter a valid email address</div>
         </div>
         
         <div class="form-group">
-            <input type="text" id="subject" name="subject" placeholder=" " required>
-            <label class="floating-label" for="subject">Subject</label>
+            <label for="subject"><i class="fas fa-tag" style="color: #4a6bff;"></i> Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="Email subject" required>
         </div>
         
         <div class="form-group">
-            <textarea id="message" name="message" placeholder=" " required></textarea>
-            <label class="floating-label" for="message">Message</label>
+            <label for="message"><i class="fas fa-comment-alt" style="color: #4a6bff;"></i> Message</label>
+            <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
             <div class="char-count"><span id="charCount">0</span> characters</div>
         </div>
         
@@ -395,73 +233,44 @@
     </form>
 
     <script>
+        // Create floating mail background elements
+        function createFloatingElements() {
+            const icons = ['fa-envelope', 'fa-paper-plane', 'fa-mail-bulk', 'fa-inbox', 'fa-envelope-open'];
+            const colors = ['#4a6bff', '#ff6b6b', '#4BB543', '#ffa502', '#9c88ff'];
+            
+            for (let i = 0; i < 12; i++) {
+                const element = document.createElement('div');
+                element.className = 'mail-bg-element';
+                element.innerHTML = `<i class="fas ${icons[i % icons.length]}"></i>`;
+                
+                // Random position
+                const left = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 15 + Math.random() * 10;
+                const size = 20 + Math.random() * 30;
+                
+                // Apply styles
+                element.style.left = `${left}%`;
+                element.style.top = `${100 + (Math.random() * 20)}%`;
+                element.style.animationDelay = `${delay}s`;
+                element.style.animationDuration = `${duration}s`;
+                element.style.color = colors[i % colors.length];
+                element.style.fontSize = `${size}px`;
+                
+                document.body.appendChild(element);
+            }
+        }
+        
+        // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('emailForm');
+            createFloatingElements();
+            
             const message = document.getElementById('message');
             const charCount = document.getElementById('charCount');
-            const submitBtn = document.getElementById('submitBtn');
-            const successMessage = document.getElementById('successMessage');
-            const paperPlanesContainer = document.getElementById('paperPlanes');
-            const envelopesContainer = document.getElementById('envelopes');
-            
-            // Create flying paper planes
-            function createPaperPlanes() {
-                for (let i = 0; i < 8; i++) {
-                    const plane = document.createElement('i');
-                    plane.classList.add('fas', 'fa-paper-plane', 'paper-plane');
-                    
-                    // Random properties
-                    const posX = Math.random() * 100;
-                    const duration = Math.random() * 15 + 15;
-                    const delay = Math.random() * 15;
-                    const size = Math.random() * 20 + 15;
-                    
-                    plane.style.left = `${posX}%`;
-                    plane.style.fontSize = `${size}px`;
-                    plane.style.animationDuration = `${duration}s`;
-                    plane.style.animationDelay = `${delay}s`;
-                    
-                    paperPlanesContainer.appendChild(plane);
-                }
-            }
-            
-            // Create flying envelopes
-            function createEnvelopes() {
-                for (let i = 0; i < 5; i++) {
-                    const envelope = document.createElement('div');
-                    envelope.classList.add('envelope');
-                    
-                    // Random properties
-                    const posX = Math.random() * 100;
-                    const duration = Math.random() * 20 + 15;
-                    const delay = Math.random() * 20;
-                    const size = Math.random() * 20 + 20;
-                    
-                    envelope.style.left = `${posX}%`;
-                    envelope.style.width = `${size}px`;
-                    envelope.style.height = `${size * 0.75}px`;
-                    envelope.style.animationDuration = `${duration}s`;
-                    envelope.style.animationDelay = `${delay}s`;
-                    
-                    envelopesContainer.appendChild(envelope);
-                }
-            }
-            
-            createPaperPlanes();
-            createEnvelopes();
             
             // Character counter
             message.addEventListener('input', function() {
                 charCount.textContent = this.value.length;
-                
-                // Change color based on length
-                if (this.value.length > 500) {
-                    charCount.style.color = '#e74c3c';
-                } else if (this.value.length > 300) {
-                    charCount.style.color = '#f39c12';
-                } else {
-                    charCount.style.color = '#4a6baf';
-                }
             });
             
             // Email validation
@@ -472,39 +281,13 @@
                 
                 if (!isValid && input.value !== '') {
                     error.style.display = 'block';
-                    input.style.borderColor = '#e74c3c';
-                    input.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.2)';
-                    input.style.animation = 'shakeError 0.5s';
-                    
-                    // Create ripple effect
-                    createRipple(input);
+                    input.style.borderColor = '#ff3333';
                 } else {
                     error.style.display = 'none';
-                    input.style.borderColor = 'rgba(74, 107, 175, 0.3)';
-                    input.style.boxShadow = 'inset 0 1px 3px rgba(74, 107, 175, 0.1)';
+                    input.style.borderColor = '#e0e0e0';
                 }
                 
                 return isValid;
-            }
-            
-            // Ripple effect for errors
-            function createRipple(element) {
-                const ripple = document.createElement('span');
-                ripple.classList.add('ripple');
-                
-                const rect = element.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                
-                ripple.style.width = `${size}px`;
-                ripple.style.height = `${size}px`;
-                ripple.style.left = `${rect.left + window.scrollX}px`;
-                ripple.style.top = `${rect.top + window.scrollY}px`;
-                
-                document.body.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
             }
             
             // Real-time validation
@@ -516,68 +299,19 @@
                 validateEmail('recipientEmail', 'recipientEmailError');
             });
             
-            // Form submission
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
+            // Form submission - will still submit normally through your routes
+            document.getElementById('emailForm').addEventListener('submit', function(e) {
                 // Validate form
                 const senderValid = validateEmail('senderEmail', 'senderEmailError');
                 const recipientValid = validateEmail('recipientEmail', 'recipientEmailError');
                 
-                if (senderValid && recipientValid) {
+                if (!senderValid || !recipientValid) {
+                    e.preventDefault();
+                } else {
+                    const submitBtn = document.getElementById('submitBtn');
                     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
                     submitBtn.disabled = true;
-                    
-                    // Create mail sent animation
-                    createMailSentAnimation();
-                    
-                    // Simulate form submission
-                    setTimeout(function() {
-                        successMessage.style.display = 'block';
-                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Email';
-                        submitBtn.disabled = false;
-                        
-                        // Reset form after 3 seconds
-                        setTimeout(function() {
-                            form.reset();
-                            successMessage.style.display = 'none';
-                            charCount.textContent = '0';
-                            charCount.style.color = '#666';
-                        }, 3000);
-                    }, 1500);
                 }
-            });
-            
-            // Mail sent animation
-            function createMailSentAnimation() {
-                const mailIcon = document.createElement('i');
-                mailIcon.classList.add('fas', 'fa-envelope', 'mail-sent-animation');
-                
-                document.body.appendChild(mailIcon);
-                
-                // Remove after animation completes
-                setTimeout(() => {
-                    mailIcon.remove();
-                }, 1500);
-            }
-            
-            // Add ripple effect to button
-            submitBtn.addEventListener('click', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const ripple = document.createElement('span');
-                ripple.classList.add('ripple');
-                
-                ripple.style.left = `${x}px`;
-                ripple.style.top = `${y}px`;
-                
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
             });
         });
     </script>

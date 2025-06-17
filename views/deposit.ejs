@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secure Transaction Form</title>
+  <title>Secure Deposit Form</title>
   <style>
     :root {
-      --primary-color: #007bff;
+      --primary-color: #4a6bff;
       --secondary-color: #6c757d;
       --success-color: #28a745;
       --error-color: #ff4d4d;
       --light-color: #ffffff;
       --dark-color: #343a40;
+      --gold-color: #FFD700;
+      --silver-color: #C0C0C0;
     }
 
     body {
@@ -22,32 +24,39 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      background-color: #f5f7fa;
       overflow: hidden;
       position: relative;
     }
 
-    /* Enhanced Background Animations */
-    .money-particle {
+    /* Deposit-themed Background Animations */
+    .coin {
       position: absolute;
-      background-color: rgba(255, 255, 255, 0.8);
       border-radius: 50%;
-      animation: float 15s linear infinite;
+      background: radial-gradient(circle at 30% 30%, var(--gold-color), #daa520);
+      box-shadow: 0 0 10px rgba(218, 165, 32, 0.6);
+      animation: floatCoin 15s linear infinite;
       z-index: -1;
-      filter: blur(1px);
-    }
-
-    .money-symbol {
-      position: absolute;
-      color: rgba(255, 255, 255, 0.7);
-      font-weight: bold;
-      animation: floatSymbol 20s linear infinite;
-      z-index: -1;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       opacity: 0;
     }
 
-    @keyframes float {
+    .banknote {
+      position: absolute;
+      background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      color: #333;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: -1;
+      opacity: 0;
+      animation: floatNote 12s linear infinite;
+      transform: rotate(15deg);
+    }
+
+    @keyframes floatCoin {
       0% {
         transform: translateY(110vh) translateX(0) rotate(0deg) scale(0.5);
         opacity: 0;
@@ -59,34 +68,34 @@
         opacity: 0.8;
       }
       100% {
-        transform: translateY(-10vh) translateX(100px) rotate(360deg) scale(1.2);
+        transform: translateY(-10vh) translateX(100px) rotate(360deg) scale(1);
         opacity: 0;
       }
     }
 
-    @keyframes floatSymbol {
+    @keyframes floatNote {
       0% {
-        transform: translateY(110vh) translateX(0) rotate(0deg);
+        transform: translateY(110vh) translateX(0) rotate(15deg) scale(0.5);
         opacity: 0;
       }
-      20% {
-        opacity: 0.7;
+      10% {
+        opacity: 0.8;
       }
-      80% {
-        opacity: 0.7;
+      90% {
+        opacity: 0.8;
       }
       100% {
-        transform: translateY(-10vh) translateX(100px) rotate(360deg);
+        transform: translateY(-10vh) translateX(100px) rotate(30deg) scale(1);
         opacity: 0;
       }
     }
 
     /* Form Container with Enhanced Animation */
     .form-container {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.98);
       padding: 30px 40px;
       border-radius: 15px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
       width: 100%;
       max-width: 420px;
       transform: translateY(30px);
@@ -94,8 +103,7 @@
       animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.3s;
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
 
     .form-container::before {
@@ -128,16 +136,18 @@
       color: var(--dark-color);
       font-size: 26px;
       position: relative;
-      animation: textGlow 2s ease-in-out infinite alternate;
     }
 
-    @keyframes textGlow {
-      from {
-        text-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-      }
-      to {
-        text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-      }
+    .form-container h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+      border-radius: 3px;
     }
 
     .form-container label {
@@ -171,8 +181,8 @@
       border: 1px solid #ddd;
       border-radius: 8px;
       font-size: 16px;
-      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-      background: rgba(255, 255, 255, 0.8);
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.9);
       animation: inputFadeIn 0.5s ease-out forwards;
       opacity: 0;
       transform: translateY(10px);
@@ -195,8 +205,7 @@
     .form-container input:focus {
       border-color: var(--primary-color);
       outline: none;
-      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-      transform: scale(1.02);
+      box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
       background: var(--light-color);
     }
 
@@ -204,7 +213,7 @@
     .form-container button {
       width: 100%;
       padding: 14px;
-      background-color: var(--primary-color);
+      background: linear-gradient(135deg, var(--primary-color), #3a5bed);
       border: none;
       border-radius: 8px;
       color: white;
@@ -229,7 +238,7 @@
     }
 
     .form-container button:hover {
-      background-color: #0069d9;
+      background: linear-gradient(135deg, #3a5bed, #2a4bdd);
       transform: translateY(-2px);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
@@ -342,17 +351,16 @@
       50% { transform: scale(1.02); box-shadow: 0 0 0 5px rgba(255, 77, 77, 0); }
     }
 
-    /* Confetti Animation */
-    .confetti {
+    /* Deposit Confetti Animation */
+    .deposit-confetti {
       position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: #f00;
+      width: 12px;
+      height: 12px;
       opacity: 0;
-      animation: confetti 3s ease-in-out forwards;
+      animation: depositConfetti 3s ease-in-out forwards;
     }
 
-    @keyframes confetti {
+    @keyframes depositConfetti {
       0% {
         transform: translateY(0) rotate(0deg);
         opacity: 1;
@@ -362,96 +370,152 @@
         opacity: 0;
       }
     }
+
+    /* Digital Currency Animation */
+    .digital-currency {
+      position: absolute;
+      color: rgba(0, 0, 0, 0.1);
+      font-family: monospace;
+      font-weight: bold;
+      z-index: -1;
+      user-select: none;
+      animation: floatDigital 20s linear infinite;
+    }
+
+    @keyframes floatDigital {
+      0% {
+        transform: translateY(110vh) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.1;
+      }
+      80% {
+        opacity: 0.1;
+      }
+      100% {
+        transform: translateY(-10vh) translateX(100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
   <%- include("../utils/header")%> 
   <%- include("side")%>
   
-  <!-- Enhanced Background Money Elements -->
-  <div id="moneyBackground"></div>
+  <!-- Deposit-themed Background Elements -->
+  <div id="depositBackground"></div>
   
   <form action="/deposit1" method="post">
     <div class="form-container">
-      <h2>Secure Transaction</h2>
+      <h2>Deposit Funds</h2>
+      
       <form id="detailsForm">
-        <label for="amount">Amount:</label>
+        <label for="amount">Amount to Deposit:</label>
         <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
         <span id="amountError" class="error" style="display: none;"></span>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Enter password" required>
+        <label for="password">Account Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
         <span id="passwordError" class="error" style="display: none;"></span>
         
         <% if (passwordcheck > 0) { %>
-          <p class="wrong-password">Wrong Password Entered <%= passwordcheck %> No. Of Times</p>
+          <p class="wrong-password">Incorrect Password (Attempt <%= passwordcheck %>)</p>
         <% } %>
 
-        <button type="submit" id="submitBtn">Submit</button>
+        <button type="submit" id="submitBtn">
+          <i class="fas fa-coins" style="margin-right: 8px;"></i> Deposit Funds
+        </button>
        
         <div id="successMessage" class="success-message" style="display: none;">
-          Transaction Successful!
+          <i class="fas fa-check-circle" style="margin-right: 8px;"></i> Deposit Successful!
         </div>
       </form>
     </div>
   </form>
 
   <script>
-    // Create enhanced floating money background elements
-    const moneyBackground = document.getElementById('moneyBackground');
-    const moneySymbols = ['$', '€', '¥', '£', '₽', '₹', '₩', '₿'];
+    // Create deposit-themed background elements
+    const depositBackground = document.getElementById('depositBackground');
     
-    // Create particles with varying sizes and shapes
-    for (let i = 0; i < 30; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'money-particle';
+    // Create floating coins
+    for (let i = 0; i < 15; i++) {
+      const coin = document.createElement('div');
+      coin.className = 'coin';
       
-      // Random size between 3-12px
-      const size = Math.random() * 9 + 3;
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
+      // Random size between 20-40px
+      const size = Math.random() * 20 + 20;
+      coin.style.width = `${size}px`;
+      coin.style.height = `${size}px`;
       
       // Random position
-      particle.style.left = `${Math.random() * 100}%`;
+      coin.style.left = `${Math.random() * 100}%`;
       
       // Random animation duration and delay
-      particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
-      particle.style.animationDelay = `${Math.random() * 10}s`;
+      coin.style.animationDuration = `${Math.random() * 15 + 10}s`;
+      coin.style.animationDelay = `${Math.random() * 10}s`;
       
-      // Random shape (some as circles, some as squares)
+      // Make some coins silver
       if (Math.random() > 0.7) {
-        particle.style.borderRadius = '0';
+        coin.style.background = 'radial-gradient(circle at 30% 30%, var(--silver-color), #c0c0c0';
+        coin.style.boxShadow = '0 0 10px rgba(192, 192, 192, 0.6)';
       }
       
-      // Random color variation
-      if (Math.random() > 0.8) {
-        particle.style.backgroundColor = `rgba(0, 123, 255, ${Math.random() * 0.5 + 0.3})`;
-      }
-      
-      moneyBackground.appendChild(particle);
+      depositBackground.appendChild(coin);
     }
     
-    // Create money symbols with more variations
-    for (let i = 0; i < 15; i++) {
-      const symbol = document.createElement('div');
-      symbol.className = 'money-symbol';
-      symbol.textContent = moneySymbols[Math.floor(Math.random() * moneySymbols.length)];
+    // Create floating banknotes
+    const denominations = ['₹100', '₹200', '₹500', '₹2000'];
+    for (let i = 0; i < 10; i++) {
+      const note = document.createElement('div');
+      note.className = 'banknote';
+      
+      // Random size
+      const width = Math.random() * 40 + 60;
+      const height = width / 2;
+      note.style.width = `${width}px`;
+      note.style.height = `${height}px`;
+      
+      // Random position
+      note.style.left = `${Math.random() * 100}%`;
+      
+      // Random denomination
+      note.textContent = denominations[Math.floor(Math.random() * denominations.length)];
+      
+      // Random animation duration and delay
+      note.style.animationDuration = `${Math.random() * 12 + 8}s`;
+      note.style.animationDelay = `${Math.random() * 8}s`;
+      
+      // Color based on denomination
+      if (note.textContent.includes('500')) {
+        note.style.background = 'linear-gradient(135deg, #f5f5f5, var(--gold-color))';
+      } else if (note.textContent.includes('2000')) {
+        note.style.background = 'linear-gradient(135deg, #f5f5f5, #87CEEB)';
+      }
+      
+      depositBackground.appendChild(note);
+    }
+
+    // Create subtle digital currency elements in background
+    for (let i = 0; i < 10; i++) {
+      const digital = document.createElement('div');
+      digital.className = 'digital-currency';
+      digital.textContent = Math.random() > 0.5 ? '₹' : [0, 1][Math.floor(Math.random() * 2)];
       
       // Random size between 20-50px
       const size = Math.random() * 30 + 20;
-      symbol.style.fontSize = `${size}px`;
+      digital.style.fontSize = `${size}px`;
       
       // Random position
-      symbol.style.left = `${Math.random() * 100}%`;
+      digital.style.left = `${Math.random() * 100}%`;
       
       // Random animation duration and delay
-      symbol.style.animationDuration = `${Math.random() * 20 + 15}s`;
-      symbol.style.animationDelay = `${Math.random() * 15}s`;
+      digital.style.animationDuration = `${Math.random() * 20 + 15}s`;
+      digital.style.animationDelay = `${Math.random() * 15}s`;
       
-      // Random rotation
-      symbol.style.transform = `rotate(${Math.random() * 360}deg)`;
-      
-      moneyBackground.appendChild(symbol);
+      depositBackground.appendChild(digital);
     }
 
     // Form handling with enhanced animations
@@ -465,22 +529,19 @@
 
     // Add ripple effect to button
     submitBtn.addEventListener('click', function(e) {
-      // Only create ripple if form is valid
-      if (amountInput.value && passwordInput.value) {
-        const rect = this.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const ripple = document.createElement('span');
-        ripple.className = 'ripple';
-        ripple.style.left = `${x}px`;
-        ripple.style.top = `${y}px`;
-        this.appendChild(ripple);
-        
-        setTimeout(() => {
-          ripple.remove();
-        }, 600);
-      }
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      this.appendChild(ripple);
+      
+      setTimeout(() => {
+        ripple.remove();
+      }, 600);
     });
 
     form.addEventListener('submit', (event) => {
@@ -523,28 +584,52 @@
       if (isValid) {
         successMessage.style.display = 'block';
         
-        // Create confetti effect
-        createConfetti();
+        // Create deposit-themed confetti effect
+        createDepositConfetti();
         
-        // Reset form after delay
+        // Submit the form after animation
         setTimeout(() => {
-          form.reset();
-        }, 3000);
+          form.submit();
+        }, 2000);
       }
     });
 
-    function createConfetti() {
-      const colors = ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1', '#fd7e14'];
+    function createDepositConfetti() {
+      const colors = ['#4a6bff', '#28a745', '#FFD700', '#C0C0C0', '#87CEEB'];
+      const symbols = ['₹', '$', '€', '¢', '¤'];
       
       for (let i = 0; i < 50; i++) {
         const confetti = document.createElement('div');
-        confetti.className = 'confetti';
+        confetti.className = 'deposit-confetti';
         confetti.style.left = `${Math.random() * 100}%`;
         confetti.style.top = '0';
         confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.width = `${Math.random() * 8 + 4}px`;
-        confetti.style.height = `${Math.random() * 8 + 4}px`;
-        confetti.style.borderRadius = `${Math.random() * 50}%`;
+        
+        // Random size and shape
+        if (Math.random() > 0.5) {
+          // Coin-shaped confetti
+          confetti.style.width = `${Math.random() * 10 + 6}px`;
+          confetti.style.height = confetti.style.width;
+          confetti.style.borderRadius = '50%';
+          confetti.style.boxShadow = `0 0 5px ${colors[Math.floor(Math.random() * colors.length)]}`;
+        } else {
+          // Banknote-shaped confetti
+          confetti.style.width = `${Math.random() * 20 + 10}px`;
+          confetti.style.height = `${Math.random() * 10 + 5}px`;
+          confetti.style.borderRadius = '2px';
+          
+          // Add currency symbol to some notes
+          if (Math.random() > 0.7) {
+            confetti.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            confetti.style.display = 'flex';
+            confetti.style.justifyContent = 'center';
+            confetti.style.alignItems = 'center';
+            confetti.style.color = '#333';
+            confetti.style.fontWeight = 'bold';
+            confetti.style.fontSize = '10px';
+          }
+        }
+        
         confetti.style.animationDuration = `${Math.random() * 2 + 1}s`;
         confetti.style.animationDelay = `${Math.random() * 0.5}s`;
         

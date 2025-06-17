@@ -5,117 +5,234 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product Deleted Successfully</title>
   <style>
-    /* Use the same styles as your dashboard for consistency */
+    /* Modern CSS with custom properties */
+    :root {
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --text-dark: #1e293b;
+      --text-medium: #64748b;
+      --text-light: #f8fafc;
+      --bg-light: #f8fafc;
+      --bg-white: #ffffff;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     
     body {
-      background-color: #f8fafc;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
     }
     
     /* Success message container */
     .success-container {
       max-width: 600px;
       margin: 100px auto;
-      padding: 40px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      padding: 50px;
+      background: var(--bg-white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
     
-    /* Success icon */
+    /* Success icon animation */
     .success-icon {
-      font-size: 72px;
-      color: #10b981;
-      margin-bottom: 20px;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .success-icon .circle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--success-light);
+      animation: pulse 2s infinite;
+    }
+    
+    .success-icon .check {
+      font-size: 60px;
+      color: var(--success);
+      position: relative;
+      z-index: 2;
+      animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) both;
     }
     
     /* Success heading */
     .success-heading {
-      font-size: 28px;
-      color: #1e293b;
+      font-size: 32px;
+      color: var(--text-dark);
       margin-bottom: 15px;
-      font-weight: 600;
+      font-weight: 700;
+      animation: fadeInUp 0.6s 0.2s both;
     }
     
     /* Success message */
     .success-message {
-      color: #64748b;
-      font-size: 16px;
+      color: var(--text-medium);
+      font-size: 18px;
       margin-bottom: 30px;
       line-height: 1.6;
+      animation: fadeInUp 0.6s 0.3s both;
     }
     
     /* Action buttons */
     .action-buttons {
       display: flex;
       justify-content: center;
-      gap: 15px;
-      margin-top: 30px;
+      gap: 20px;
+      margin-top: 40px;
+      animation: fadeInUp 0.6s 0.4s both;
     }
     
     .btn {
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: 500;
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
       text-decoration: none;
-      transition: all 0.3s ease;
+      transition: var(--transition);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: var(--shadow-sm);
     }
     
     .btn-primary {
-      background-color: #3b82f6;
-      color: white;
-      border: none;
+      background-color: var(--primary);
+      color: var(--text-light);
+      border: 2px solid var(--primary);
     }
     
     .btn-primary:hover {
-      background-color: #2563eb;
-      transform: translateY(-2px);
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
     }
     
     .btn-outline {
-      background-color: white;
-      color: #3b82f6;
-      border: 1px solid #e2e8f0;
+      background-color: var(--bg-white);
+      color: var(--primary);
+      border: 2px solid var(--border);
     }
     
     .btn-outline:hover {
-      background-color: #f8fafc;
-      border-color: #3b82f6;
+      background-color: var(--bg-light);
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
     }
     
-    /* Animation */
+    /* Animations */
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     
-    .success-container {
-      animation: fadeIn 0.5s ease-out;
+    @keyframes fadeInUp {
+      from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
     }
     
-    /* Responsive */
+    @keyframes bounceIn {
+      0% { 
+        opacity: 0; 
+        transform: scale(0.3); 
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1.1); 
+      }
+      70% { 
+        transform: scale(0.9); 
+      }
+      100% { 
+        transform: scale(1); 
+      }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(0.8); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 0.5; }
+      100% { transform: scale(0.8); opacity: 0.8; }
+    }
+    
+    /* Confetti celebration */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: var(--success);
+      opacity: 0;
+      z-index: 10;
+      animation: confetti-fall 3s ease-in-out forwards;
+    }
+    
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(600px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Responsive design */
     @media (max-width: 768px) {
       .success-container {
-        margin: 60px 20px;
-        padding: 30px 20px;
+        margin: 80px 20px;
+        padding: 40px 20px;
+      }
+      
+      .success-heading {
+        font-size: 28px;
+      }
+      
+      .success-message {
+        font-size: 16px;
       }
       
       .action-buttons {
         flex-direction: column;
+        gap: 12px;
       }
       
       .btn {
         width: 100%;
+        padding: 12px 24px;
       }
     }
   </style>
@@ -128,7 +245,8 @@
   <!-- Success Message -->
   <div class="success-container">
     <div class="success-icon">
-      <i class="bi bi-check-circle-fill"></i>
+      <div class="circle"></div>
+      <i class="bi bi-check-circle-fill check"></i>
     </div>
     <h1 class="success-heading">Product Deleted Successfully</h1>
     <p class="success-message">
@@ -147,13 +265,58 @@
   </div>
 
   <script>
-    // Optional: Add a countdown to automatically redirect
     document.addEventListener('DOMContentLoaded', function() {
-      // Uncomment this if you want auto-redirect after 5 seconds
+      // Create confetti effect
+      function createConfetti() {
+        const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b'];
+        const container = document.querySelector('.success-container');
+        
+        for (let i = 0; i < 50; i++) {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          
+          // Random properties
+          const size = Math.random() * 10 + 5;
+          const left = Math.random() * 100;
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          const delay = Math.random() * 2;
+          const duration = Math.random() * 2 + 2;
+          const shape = Math.random() > 0.5 ? '50%' : '0';
+          
+          confetti.style.width = `${size}px`;
+          confetti.style.height = `${size}px`;
+          confetti.style.left = `${left}%`;
+          confetti.style.backgroundColor = color;
+          confetti.style.borderRadius = shape;
+          confetti.style.animationDelay = `${delay}s`;
+          confetti.style.animationDuration = `${duration}s`;
+          
+          container.appendChild(confetti);
+        }
+      }
+      
+      // Create confetti after a short delay
+      setTimeout(createConfetti, 500);
+      
+      // Optional: Add a countdown to automatically redirect
       /*
-      setTimeout(function() {
-        window.location.href = '/products';
-      }, 5000);
+      let seconds = 5;
+      const countdownElement = document.createElement('div');
+      countdownElement.style.marginTop = '20px';
+      countdownElement.style.color = '#64748b';
+      countdownElement.style.fontSize = '14px';
+      countdownElement.textContent = `Redirecting to products page in ${seconds} seconds...`;
+      document.querySelector('.success-container').appendChild(countdownElement);
+      
+      const countdown = setInterval(function() {
+        seconds--;
+        countdownElement.textContent = `Redirecting to products page in ${seconds} seconds...`;
+        
+        if (seconds <= 0) {
+          clearInterval(countdown);
+          window.location.href = '/products';
+        }
+      }, 1000);
       */
     });
   </script>

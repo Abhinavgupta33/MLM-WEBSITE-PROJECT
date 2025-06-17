@@ -4,125 +4,231 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enhanced Email Form</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
     <style>
+        :root {
+            --primary: #4a6bff;
+            --primary-hover: #3a5bef;
+            --success: #4BB543;
+            --error: #ff3333;
+            --light-gray: #f5f7fa;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #333;
+        }
+        
         body {
-            
             font-family: 'Roboto', sans-serif;
-            background-color: #f5f7fa;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Floating background elements */
+        .bg-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(74, 107, 255, 0.05);
+            animation: float 12s infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
         }
         
         form {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            padding: 40px;
             width: 100%;
             max-width: 600px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        form:hover {
+            transform: translateY(-5px);
+        }
+        
+        form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), #7c9bff);
+        }
+        
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--dark-gray);
         }
         
         input, textarea {
             width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
+            padding: 14px 18px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 8px;
             font-size: 16px;
             transition: all 0.3s ease;
             box-sizing: border-box;
+            background-color: #fafafa;
         }
         
         input:focus, textarea:focus {
-            border-color: #4a6bff;
+            border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+            box-shadow: 0 0 0 4px rgba(74, 107, 255, 0.15);
+            background-color: white;
         }
         
         textarea {
             min-height: 200px;
             resize: vertical;
+            line-height: 1.6;
         }
         
         button {
-            background-color: #4a6bff;
+            background-color: var(--primary);
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
+            padding: 15px 30px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
             width: 100%;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
         }
         
         button:hover {
-            background-color: #3a5bef;
-            transform: translateY(-2px);
+            background-color: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(74, 107, 255, 0.3);
         }
         
         button:active {
             transform: translateY(0);
         }
         
-        .form-group {
-            position: relative;
-            margin-bottom: 20px;
+        /* Ripple effect */
+        button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
         }
         
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #333;
+        button:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% { transform: scale(0, 0); opacity: 0.5; }
+            100% { transform: scale(20, 20); opacity: 0; }
         }
         
         .char-count {
-            font-size: 12px;
+            font-size: 13px;
             color: #666;
             text-align: right;
-            margin-top: -15px;
-            margin-bottom: 15px;
+            margin-top: -18px;
+            margin-bottom: 18px;
         }
         
         .success-message {
-            background-color: #4BB543;
+            background-color: var(--success);
             color: white;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 25px;
             display: none;
             animation: fadeIn 0.5s;
+            align-items: center;
+            gap: 10px;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .error-message {
-            color: #ff3333;
+            color: var(--error);
             font-size: 13px;
-            margin-top: -15px;
-            margin-bottom: 15px;
+            margin-top: -18px;
+            margin-bottom: 18px;
             display: none;
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            color: var(--medium-gray);
+            transition: all 0.3s ease;
+        }
+        
+        input:focus ~ .input-icon {
+            color: var(--primary);
+        }
+        
+        .input-error {
+            border-color: var(--error) !important;
+        }
+        
+        .input-success {
+            border-color: var(--success) !important;
         }
     </style>
 </head>
 <body>
     <%- include("../utils/header")%> 
     <%- include("side")%>
+    
+    <!-- Background elements -->
+    <div class="bg-element" style="width: 200px; height: 200px; top: -50px; left: -50px; animation-delay: 0s;"></div>
+    <div class="bg-element" style="width: 300px; height: 300px; bottom: -100px; right: -100px; animation-delay: 2s;"></div>
+    <div class="bg-element" style="width: 150px; height: 150px; top: 30%; right: 10%; animation-delay: 4s;"></div>
+    
     <form id="emailForm" action="/view_user_send_mail" method="POST">
         <div class="success-message" id="successMessage">
             <i class="fas fa-check-circle"></i> Email sent successfully!
@@ -131,18 +237,21 @@
         <div class="form-group">
             <label for="senderEmail">Your Email</label>
             <input type="email" id="senderEmail" name="senderEmail" placeholder="your.email@example.com" value="<%=sender_mail_is%>" required>
-            <div class="error-message" id="senderEmailError"><Please enter a valid email address></div>
+            <i class="fas fa-envelope input-icon"></i>
+            <div class="error-message" id="senderEmailError">Please enter a valid email address</div>
         </div>
         
         <div class="form-group">
             <label for="recipientEmail">Recipient Email</label>
             <input type="email" id="recipientEmail" name="recipientEmail" placeholder="recipient@example.com" value="<%=user_mail%>" required>
+            <i class="fas fa-user input-icon"></i>
             <div class="error-message" id="recipientEmailError">Please enter a valid email address</div>
         </div>
         
         <div class="form-group">
             <label for="subject">Subject</label>
             <input type="text" id="subject" name="subject" placeholder="Email subject" required>
+            <i class="fas fa-tag input-icon"></i>
         </div>
         
         <div class="form-group">
@@ -157,72 +266,79 @@
     </form>
 
     <script>
-    //     document.addEventListener('DOMContentLoaded', function() {
-    //         const form = document.getElementById('emailForm');
-    //         const message = document.getElementById('message');
-    //         const charCount = document.getElementById('charCount');
-    //         const submitBtn = document.getElementById('submitBtn');
-    //         const successMessage = document.getElementById('successMessage');
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('emailForm');
+            const message = document.getElementById('message');
+            const charCount = document.getElementById('charCount');
+            const submitBtn = document.getElementById('submitBtn');
+            const successMessage = document.getElementById('successMessage');
             
-    //         // Character counter
-    //         message.addEventListener('input', function() {
-    //             charCount.textContent = this.value.length;
-    //         });
+            // Character counter
+            message.addEventListener('input', function() {
+                charCount.textContent = this.value.length;
+            });
             
-    //         // Email validation
-    //         function validateEmail(inputId, errorId) {
-    //             const input = document.getElementById(inputId);
-    //             const error = document.getElementById(errorId);
-    //             const isValid = input.checkValidity();
+            // Email validation
+            function validateEmail(inputId, errorId) {
+                const input = document.getElementById(inputId);
+                const error = document.getElementById(errorId);
+                const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
                 
-    //             if (!isValid && input.value !== '') {
-    //                 error.style.display = 'block';
-    //                 input.style.borderColor = '#ff3333';
-    //             } else {
-    //                 error.style.display = 'none';
-    //                 input.style.borderColor = '#e0e0e0';
-    //             }
+                if (!isValid && input.value !== '') {
+                    error.style.display = 'block';
+                    input.classList.add('input-error');
+                    input.classList.remove('input-success');
+                } else if (input.value === '') {
+                    error.style.display = 'none';
+                    input.classList.remove('input-error');
+                    input.classList.remove('input-success');
+                } else {
+                    error.style.display = 'none';
+                    input.classList.remove('input-error');
+                    input.classList.add('input-success');
+                }
                 
-    //             return isValid;
-    //         }
+                return isValid;
+            }
             
-    //         // Real-time validation
-    //         document.getElementById('senderEmail').addEventListener('blur', function() {
-    //             validateEmail('senderEmail', 'senderEmailError');
-    //         });
+            // Real-time validation
+            document.getElementById('senderEmail').addEventListener('blur', function() {
+                validateEmail('senderEmail', 'senderEmailError');
+            });
             
-    //         document.getElementById('recipientEmail').addEventListener('blur', function() {
-    //             validateEmail('recipientEmail', 'recipientEmailError');
-    //         });
+            document.getElementById('recipientEmail').addEventListener('blur', function() {
+                validateEmail('recipientEmail', 'recipientEmailError');
+            });
             
-    //         // Form submission
-    //         form.addEventListener('submit', function(e) {
-    //             e.preventDefault();
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
                 
-    //             // Validate form
-    //             const senderValid = validateEmail('senderEmail', 'senderEmailError');
-    //             const recipientValid = validateEmail('recipientEmail', 'recipientEmailError');
+                // Validate form
+                const senderValid = validateEmail('senderEmail', 'senderEmailError');
+                const recipientValid = validateEmail('recipientEmail', 'recipientEmailError');
+                const subjectValid = document.getElementById('subject').value.trim() !== '';
+                const messageValid = document.getElementById('message').value.trim() !== '';
                 
-    //             if (senderValid && recipientValid) {
-    //                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    //                 submitBtn.disabled = true;
+                if (senderValid && recipientValid && subjectValid && messageValid) {
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                    submitBtn.disabled = true;
                     
-    //                 // Simulate form submission
-    //                 setTimeout(function() {
-    //                     successMessage.style.display = 'block';
-    //                     submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Email';
-    //                     submitBtn.disabled = false;
-                        
-    //                     // Reset form after 3 seconds
-    //                     setTimeout(function() {
-    //                         form.reset();
-    //                         successMessage.style.display = 'none';
-    //                         charCount.textContent = '0';
-    //                     }, 3000);
-    //                 }, 1500);
-    //             }
-    //         });
-    //     });
-    // </script>
+                    // Submit the form after validation
+                    setTimeout(() => {
+                        form.submit();
+                    }, 1500);
+                } else {
+                    // Highlight empty required fields
+                    if (!subjectValid) {
+                        document.getElementById('subject').classList.add('input-error');
+                    }
+                    if (!messageValid) {
+                        document.getElementById('message').classList.add('input-error');
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

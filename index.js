@@ -82,7 +82,6 @@ app.use(bodyParser.urlencoded({ extended: true }));  // Parse URL-encoded form d
 
 
 app.post('/send-mail',my_auth, async (req, res) => {
-  
   let uid = req.user.user_id;
       
     let abhi = await tble.findOne({user_id:uid});
@@ -90,6 +89,8 @@ app.post('/send-mail',my_auth, async (req, res) => {
     let image = await tble.findOne({user_id:uid});
     let user_image = image.picture;
 
+  try {
+ 
   
   const { senderEmail, recipientEmail, subject, message } = req.body;
 
@@ -108,19 +109,19 @@ app.post('/send-mail',my_auth, async (req, res) => {
     text: message,
   };
 
-  try {
+  
     await transporter.sendMail(mailOptions);
   
           let mailsenddetail = "Mail Send Successfully";
           let rec = new recentactivity({
-            user_id:data.user_id,
+            user_id:uid,
             activity:mailsenddetail
   
           });
           await rec.save(); 
     res.render("mailsuccess",{name,user_image});
   } catch (error) {
-    res.render("mailsendfail",{name,user_image});
+    res.render("mailsendfail",{user_image});
   }
 });
 
