@@ -69,6 +69,7 @@
 ![Admin Panel](./screenshots/admin-panel.png)
 ![Cart](./screenshots/cart.png)
 ![Referral Tree](./screenshots/referral-tree.png)
+
 ⚙️ Installation
 1. Clone the repositor
 2. 
@@ -91,6 +92,7 @@ RAZORPAY_SECRET=your_razorpay_secret
 4. Start the server
 
 npm start index.js
+
 📁 Project Structure
 
 MLM-WEBSITE-PROJECT/
