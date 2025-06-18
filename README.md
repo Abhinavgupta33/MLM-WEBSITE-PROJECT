@@ -63,11 +63,7 @@
 ├── cart.png
 ├── referral-tree.png
 
-scss
-Copy
-Edit
 
-```markdown
 ![Login](./screenshots/login.png)
 ![User Dashboard](./screenshots/user-dashboard.png)
 ![Admin Panel](./screenshots/admin-panel.png)
@@ -153,3 +149,7 @@ Abhinav Gupta
 
 📝 License
 This project is licensed under the MIT License. Feel free to use and improve it!
+
+yaml
+Copy
+Edit
