@@ -69,8 +69,10 @@ Edit
 
 ```markdown
 ![Login](./screenshots/login.png)
-![Dashboard](./screenshots/user-dashboard.png)
+![User Dashboard](./screenshots/user-dashboard.png)
 ![Admin Panel](./screenshots/admin-panel.png)
+![Cart](./screenshots/cart.png)
+![Referral Tree](./screenshots/referral-tree.png)
 ⚙️ Installation
 1. Clone the repository
 bash
@@ -115,18 +117,33 @@ MLM-WEBSITE-PROJECT/
 ├── screenshots/     # Project images for documentation
 ├── .env             # Environment variables
 └── server.js        # Main server file
-🔐 Security Highlights
-JWT-based session auth
+🔐 Environment Variables
+Make sure to configure the following:
 
-OTP email verification
+PORT
+
+MONGODB_URI
+
+JWT_SECRET
+
+EMAIL_USER and EMAIL_PASS (for Gmail, use App Password)
+
+RAZORPAY_KEY and RAZORPAY_SECRET
+
+🛡️ Security Highlights
+JWT-based session authentication
+
+OTP verification via email
 
 Razorpay for secure transactions
 
-Role-based access (admin/user)
+Role-based access control (Admin/User)
 
-Input validation (can be extended with express-validator)
+Encrypted passwords with Bcrypt
 
-Email service using secure SMTP credentials
+Environment-based config (via .env)
+
+Secure mailing with SMTP
 
 👨‍💻 Author
 Abhinav Gupta
@@ -135,20 +152,4 @@ Abhinav Gupta
 💻 GitHub
 
 📝 License
-This project is licensed under the MIT License.
-
-yaml
-Copy
-Edit
-
----
-
-### ✅ What You Should Do Now:
-
-1. **Create or replace** the `README.md` file in your project folder with this content.
-2. Add screenshots in a `screenshots/` folder.
-3. Commit and push to GitHub:
-   ```bash
-   git add README.md screenshots/
-   git commit -m "Add professional README and project screenshots"
-   git push
+This project is licensed under the MIT License. Feel free to use and improve it!
