@@ -1,143 +1,84 @@
-# 💼 ChianCore – MLM Platform (MERN Stack)
+# 💼ChianCore Website
 
-**ChianCore** is a full-featured **Multi-Level Marketing (MLM)** web application built with the **MERN stack** – MongoDB, Express.js, React.js, and Node.js. It allows users to register, buy products, earn referral commissions, and manage earnings. Admins can oversee the platform using a secure dashboard.
-
-🌐 **Live Site:** [mlm-website-project.onrender.com](https://mlm-website-project.onrender.com)
+A full-stack Multi-Level Marketing (MLM) platform built using the **MERN** stack – MongoDB, Express.js, React.js, and Node.js. This project allows users to register, purchase products, earn referral-based commissions, and manage their earnings. Admins can control the entire system via a secure dashboard.
 
 ---
 
-## 📚 Table of Contents
+## 🌐 Live Demo
 
-- [🔑 Features](#-features)
-- [🛠️ Tech Stack](#-tech-stack)
-- [🖼️ Screenshots](#-screenshots)
-- [⚙️ Installation](#-installation)
-- [📁 Project Structure](#-project-structure)
-- [🔐 Environment Variables](#-environment-variables)
-- [🛡️ Security Highlights](#-security-highlights)
-- [👨‍💻 Author](#-author)
-- [📝 License](#-license)
+🔗 **Hosted on Render:** [Visit Live Website](https://mlm-website-project.onrender.com/)
 
 ---
 
-## 🔑 Features
+## 📌 Table of Contents
 
-### 👥 User Panel
-- 🔐 OTP-based login with **JWT** authentication
-- 🛒 Add, remove, and update product quantities in **cart**
-- 💳 Razorpay integration for deposits & purchases
-- 👨‍👩‍👧‍👦 Multi-level **referral system** with commission auto-distribution
-- 💸 **Withdraw** from balance (requests go to admin)
-- 📬 Receive **email notifications** via Nodemailer
-- 📊 Dashboard: View balance, referral list, commission logs
-
-### 🧑‍💼 Admin Panel
-- ✅ Approve or reject withdrawal requests
-- 🚫 Block/Unblock users
-- 🧾 View all users and their referral trees
-- 📦 Manage product inventory
-- 📈 Track earnings and activity *(future dashboard ready)*
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Screenshots](#-screenshots)
+- [Installation](#-installation)
+- [Project Structure](#-project-structure)
+- [Environment Variables](#-environment-variables)
+- [Security](#-security)
+- [Author](#-author)
+- [License](#-license)
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ Features
 
-| Layer       | Technology |
-|-------------|------------|
-| Frontend    | React.js, Axios, Bootstrap |
-| Backend     | Node.js, Express.js |
-| Database    | MongoDB (Mongoose ORM) |
-| Auth & APIs | JWT, Nodemailer, Razorpay SDK |
-| Styling     | Bootstrap & Custom CSS |
+### 👥 User Features:
+- 🔐 Secure registration and login with JWT authentication
+- 💳 Razorpay integration for purchasing products or adding balance
+- 🛒 E-commerce features like add/remove products to cart and quantity update
+- 👥 Referral-based commission system (MLM tree structure)
+- 💸 Withdraw request functionality with admin approval
+- 📬 Email notifications using Nodemailer
+- 📊 User dashboard for balance, referrals, and transactions
+
+### 🛠️ Admin Features:
+- ✅ Approve/Decline withdrawal requests
+- 🧑‍💻 Block/Unblock users
+- 📦 Manage product listings
+- 🧾 View and manage all users and their commissions
+- 📈 Track platform performance and total earnings
 
 ---
 
-## 🖼️ Screenshots
+## 🧰 Tech Stack
 
-> *(Add screenshots in a `/screenshots` folder and reference them here)*
+### Frontend:
+- React.js
+- Axios for API calls
+- React Router DOM
+- Bootstrap / Custom CSS
 
-/screenshots/
-├── login.png
-├── user-dashboard.png
-├── admin-panel.png
-├── cart.png
-├── referral-tree.png
+### Backend:
+- Node.js
+- Express.js
+- MongoDB with Mongoose
+- JWT for secure authentication
+- Razorpay SDK for payment processing
+- Nodemailer for email functionality
+- Bcrypt for password hashing
 
+---
 
-![Login](./screenshots/login.png)
-![User Dashboard](./screenshots/user-dashboard.png)
-![Admin Panel](./screenshots/admin-panel.png)
-![Cart](./screenshots/cart.png)
-![Referral Tree](./screenshots/referral-tree.png)
+## 📸 Screenshots
 
-⚙️ Installation
-1. Clone the repositor
-2. 
-git clone https://github.com/Abhinavgupta33/MLM-WEBSITE-PROJECT.git
-cd MLM-WEBSITE-PROJECT
+> *(Add images here in your actual repo)*
 
-3. Install dependencies
-npm install
+- **Login Page**
+- **User Dashboard**
+- **Admin Panel**
+- **Product Cart**
+- **Commission Tree View**
 
-3. Set up environment variables
-Create a .env file and add:
+---
 
-PORT=5000
-MONGODB_URI=your_mongo_connection
-JWT_SECRET=your_jwt_secret
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password
-RAZORPAY_KEY=your_razorpay_key
-RAZORPAY_SECRET=your_razorpay_secret
-4. Start the server
+## ⚙️ Installation
 
-npm start index.js
+### 1. Clone the repository
 
-📁 Project Structure
-
-MLM-WEBSITE-PROJECT/
-├── controllers/     # Route logic
-├── models/          # Mongoose schemas
-├── routes/          # API routes
-├── utils/           # Helper functions (mail, auth)
-├── public/          # Static assets
-├── views/           # EJS templates (if any)
-├── screenshots/     # Project images for documentation
-├── .env             # Environment variables
-└── server.js        # Main server file
-🔐 Environment Variables
-Make sure to configure the following:
-
-PORT
-
-MONGODB_URI
-
-JWT_SECRET
-
-EMAIL_USER and EMAIL_PASS (for Gmail, use App Password)
-
-RAZORPAY_KEY and RAZORPAY_SECRET
-
-🛡️ Security Highlights
-JWT-based session authentication
-
-OTP verification via email
-
-Razorpay for secure transactions
-
-Role-based access control (Admin/User)
-
-Encrypted passwords with Bcrypt
-
-Environment-based config (via .env)
-
-Secure mailing with SMTP
-
-👨‍💻 Author
-Abhinav Gupta
-📧 ag9108074@gmail.com
-🔗 LinkedIn
-💻 GitHub
-
-📝 License
-This project is licensed under the MIT License. Feel free to use and improve it!
+```bash
+git clone https://github.com/Abhinavgupta33/mlm-website.git
+cd mlm-website
