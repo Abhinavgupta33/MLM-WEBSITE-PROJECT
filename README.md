@@ -70,23 +70,17 @@
 ![Cart](./screenshots/cart.png)
 ![Referral Tree](./screenshots/referral-tree.png)
 ⚙️ Installation
-1. Clone the repository
-bash
-Copy
-Edit
+1. Clone the repositor
+2. 
 git clone https://github.com/Abhinavgupta33/MLM-WEBSITE-PROJECT.git
 cd MLM-WEBSITE-PROJECT
-2. Install dependencies
-bash
-Copy
-Edit
+
+3. Install dependencies
 npm install
+
 3. Set up environment variables
 Create a .env file and add:
 
-env
-Copy
-Edit
 PORT=5000
 MONGODB_URI=your_mongo_connection
 JWT_SECRET=your_jwt_secret
@@ -95,14 +89,10 @@ EMAIL_PASS=your_app_password
 RAZORPAY_KEY=your_razorpay_key
 RAZORPAY_SECRET=your_razorpay_secret
 4. Start the server
-bash
-Copy
-Edit
-npm start
+
+npm start index.js
 📁 Project Structure
-bash
-Copy
-Edit
+
 MLM-WEBSITE-PROJECT/
 ├── controllers/     # Route logic
 ├── models/          # Mongoose schemas
@@ -149,7 +139,3 @@ Abhinav Gupta
 
 📝 License
 This project is licensed under the MIT License. Feel free to use and improve it!
-
-yaml
-Copy
-Edit
