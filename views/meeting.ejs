@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLM Meeting Management</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        .meeting-list {
+            margin-top: 40px;
+        }
+        .meeting-card {
+            background: #f9f9f9;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        .meeting-card:hover {
+            transform: translateY(-5px);
+        }
+        .meeting-card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.4em;
+        }
+        .meeting-meta {
+            font-size: 15px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .meeting-meta span {
+            display: flex;
+            align-items: center;
+        }
+        .meeting-meta i {
+            margin-right: 8px;
+            color: #3498db;
+            font-size: 1.1em;
+        }
+        .action-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+        }
+        .action-buttons button {
+            padding: 10px 18px;
+            font-size: 14px;
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        .filter-controls {
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .filter-controls select, .filter-controls input {
+            flex: 1;
+            min-width: 220px;
+        }
+        
+        /* Enhanced Map Styling */
+        #map {
+            height: 500px;
+            width: 100%;
+            margin-top: 15px;
+            display: none;
+            border-radius: 10px;
+            border: 2px solid #3498db;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+            transition: all 0.3s ease;
+        }
+        #map:hover {
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+        .map-controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .map-controls button {
+            padding: 10px 18px;
+            font-size: 15px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .map-controls button:hover {
+            transform: translateY(-3px);
+        }
+        .map-search-input {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            font-size: 16px;
+        }
+        .map-search-input:focus {
+            border-color: #3498db;
+            background-color: #fff;
+        }
+        
+        /* Custom map elements */
+        .gm-style .gm-style-iw {
+            font-family: 'Arial', sans-serif;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .gm-style .gm-style-iw a {
+            color: #3498db;
+            font-weight: bold;
+        }
+        .map-marker-label {
+            background-color: #3498db;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        
+        .toggle-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 25px;
+        }
+        .toggle-option {
+            display: flex;
+            align-items: center;
+        }
+        .toggle-option input[type="radio"] {
+            margin-right: 10px;
+            width: auto;
+            height: 18px;
+            width: 18px;
+            accent-color: #3498db;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-left: 12px;
+        }
+        .status-scheduled {
+            background-color: #3498db;
+            color: white;
+        }
+        .status-completed {
+            background-color: #2ecc71;
+            color: white;
+        }
+        .status-canceled {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 15px;
+            }
+            .filter-controls {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .filter-controls select, .filter-controls input {
+                width: 100%;
+                min-width: 100%;
+            }
+            #map {
+                height: 350px;
+            }
+            .meeting-meta {
+                gap: 12px;
+                flex-direction: column;
+            }
+            .action-buttons {
+                flex-wrap: wrap;
+            }
+            .map-controls {
+                gap: 10px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-calendar-alt"></i> MLM Meeting Management</h1>
+        
+        <div class="meeting-form">
+            <h2><i class="fas fa-plus-circle"></i> Schedule New Meeting</h2>
+            <form id="meetingForm" method="POST" action="/create_meeting">
+                <div class="form-group">
+                    <label for="meetingTitle"><i class="fas fa-heading"></i> Meeting Title</label>
+                    <input type="text" id="meetingTitle" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="meetingDate"><i class="fas fa-calendar-day"></i> Date & Time</label>
+                    <input type="datetime-local" id="meetingDate" name="dateTime" required>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-video"></i> Meeting Type</label>
+                    <div class="toggle-container">
+                        <div class="toggle-option">
+                            <input type="radio" id="meetingTypeOnline" name="meetingMode" value="online" checked>
+                            <label for="meetingTypeOnline">Online</label>
+                        </div>
+                        <div class="toggle-option">
+                            <input type="radio" id="meetingTypeOffline" name="meetingMode" value="offline">
+                            <label for="meetingTypeOffline">Offline</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" id="onlineLocationGroup">
+                    <label for="meetingPlatform"><i class="fas fa-laptop"></i> Online Platform</label>
+                    <select id="meetingPlatform" name="meetingPlatform" required>
+                        <option value="">Select platform</option>
+                        <option value="zoom">Zoom</option>
+                        <option value="google_meet">Google Meet</option>
+                        <option value="teams">Microsoft Teams</option>
+                        <option value="skype">Skype</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <div class="form-group" id="meetingLinkGroup" style="display: none;">
+                        <label for="meetingLink"><i class="fas fa-link"></i> Meeting Link</label>
+                        <input type="url" id="meetingLink" name="meetingLink" placeholder="https://">
+                    </div>
+                </div>
+                
+                <div class="form-group" id="offlineLocationGroup" style="display: none;">
+                    <label for="meetingAddress"><i class="fas fa-map-marker-alt"></i> Physical Address</label>
+                    <input type="text" id="meetingAddress" name="meetingAddress" placeholder="Search for a location or address" class="map-search-input">
+                    <div id="map"></div>
+                    <div class="map-controls">
+                        <button type="button" id="clearMarker" class="delete-btn">
+                            <i class="fas fa-trash"></i> Clear Marker
+                        </button>
+                        <button type="button" id="getLocation">
+                            <i class="fas fa-location-arrow"></i> Use Current Location
+                        </button>
+                        <button type="button" id="zoomIn">
+                            <i class="fas fa-search-plus"></i> Zoom In
+                        </button>
+                        <button type="button" id="zoomOut">
+                            <i class="fas fa-search-minus"></i> Zoom Out
+                        </button>
+                    </div>
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
+                </div>
+                
+                <div class="form-group">
+                    <label for="meetingCategory"><i class="fas fa-tag"></i> Meeting Category</label>
+                    <select id="meetingCategory" name="meetingCategory" required>
+                        <option value="">Select category</option>
+                        <option value="training">Training</option>
+                        <option value="recruitment">Recruitment</option>
+                        <option value="team">Team Meeting</option>
+                        <option value="product">Product Launch</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="meetingDescription"><i class="fas fa-align-left"></i> Description</label>
+                    <textarea id="meetingDescription" name="description" rows="4"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="meetingStatus"><i class="fas fa-info-circle"></i> Status</label>
+                    <select id="meetingStatus" name="status">
+                        <option value="scheduled">Scheduled</option>
+                        <option value="completed">Completed</option>
+                        <option value="canceled">Canceled</option>
+                    </select>
+                </div>
+                
+                <button type="submit"><i class="fas fa-save"></i> Schedule Meeting</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Load Google Maps API with Places library -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-B3o9cuaDBoEzeb4-Mdxo5FNCMWGaz6s&libraries=places&callback=initApp" async defer></script>
+
+    <script>
+        let map;
+        let marker;
+        let autocomplete;
+        let geocoder;
+        let mapInitialized = false;
+        
+        // Initialize the application
+        function initApp() {
+            // Meeting type toggle
+            document.querySelectorAll('input[name="meetingMode"]').forEach(radio => {
+                radio.addEventListener('change', toggleMeetingType);
+            });
+
+            // Platform selection change
+            document.getElementById('meetingPlatform').addEventListener('change', function() {
+                const linkGroup = document.getElementById('meetingLinkGroup');
+                linkGroup.style.display = this.value === 'other' ? 'block' : 'none';
+            });
+            
+            // Clear marker button
+            document.getElementById('clearMarker').addEventListener('click', clearMarker);
+            
+            // Get current location button
+            document.getElementById('getLocation').addEventListener('click', getCurrentLocation);
+            
+            // Zoom controls
+            document.getElementById('zoomIn').addEventListener('click', function() {
+                if (map) map.setZoom(map.getZoom() + 1);
+            });
+            
+            document.getElementById('zoomOut').addEventListener('click', function() {
+                if (map) map.setZoom(map.getZoom() - 1);
+            });
+            
+            // Initialize map if offline is selected by default
+            if (document.getElementById('meetingTypeOffline').checked) {
+                initMap();
+            }
+        }
+
+        function toggleMeetingType() {
+            const isOnline = document.getElementById('meetingTypeOnline').checked;
+            document.getElementById('onlineLocationGroup').style.display = isOnline ? 'block' : 'none';
+            document.getElementById('offlineLocationGroup').style.display = isOnline ? 'none' : 'block';
+            
+            if (!isOnline && !mapInitialized) {
+                initMap();
+            } else if (!isOnline && mapInitialized) {
+                document.getElementById('map').style.display = 'block';
+            }
+        }
+
+        function initMap() {
+            const mapElement = document.getElementById('map');
+            mapElement.style.display = 'block';
+            
+            // Custom map style (clean and professional)
+            const mapStyles = [
+                {
+                    "featureType": "all",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "saturation": 36
+                        },
+                        {
+                            "color": "#333333"
+                        },
+                        {
+                            "lightness": 40
+                        }
+                    ]
+                },
+                {
+                    "featureType": "all",
+                    "elementType": "labels.text.stroke",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        },
+                        {
+                            "color": "#ffffff"
+                        },
+                        {
+                            "lightness": 16
+                        }
+                    ]
+                },
+                {
+                    "featureType": "all",
+                    "elementType": "labels.icon",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#fefefe"
+                        },
+                        {
+                            "lightness": 20
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "color": "#fefefe"
+                        },
+                        {
+                            "lightness": 17
+                        },
+                        {
+                            "weight": 1.2
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#f5f5f5"
+                        },
+                        {
+                            "lightness": 20
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#f5f5f5"
+                        },
+                        {
+                            "lightness": 21
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#ffffff"
+                        },
+                        {
+                            "lightness": 17
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "color": "#ffffff"
+                        },
+                        {
+                            "lightness": 29
+                        },
+                        {
+                            "weight": 0.2
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#ffffff"
+                        },
+                        {
+                            "lightness": 18
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.local",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#ffffff"
+                        },
+                        {
+                            "lightness": 16
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#f2f2f2"
+                        },
+                        {
+                            "lightness": 19
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#3498db"
+                        },
+                        {
+                            "lightness": 17
+                        }
+                    ]
+                }
+            ];
+            
+            // Create the map with custom style
+            map = new google.maps.Map(mapElement, {
+                center: { lat: 20.5937, lng: 78.9629 }, // India coordinates
+                zoom: 5,
+                styles: mapStyles,
+                mapTypeControl: true,
+                streetViewControl: true,
+                zoomControl: false, // We'll use custom zoom controls
+                fullscreenControl: true,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                    position: google.maps.ControlPosition.TOP_RIGHT
+                }
+            });
+            
+            // Initialize geocoder
+            geocoder = new google.maps.Geocoder();
+            
+            // Initialize autocomplete for address input
+            autocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('meetingAddress'),
+                {
+                    types: ['geocode', 'establishment'],
+                    componentRestrictions: {country: 'in'},
+                    fields: ['geometry', 'formatted_address']
+                }
+            );
+            
+            // Add listener for when a place is selected from autocomplete
+            autocomplete.addListener('place_changed', function() {
+                const place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    alert("No details available for input: '" + place.name + "'");
+                    return;
+                }
+                
+                if (place.geometry.viewport) {
+                    map.fitBounds(place.geometry.viewport);
+                } else {
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(17);
+                }
+                
+                placeMarker(place.geometry.location);
+            });
+            
+            // Add click listener on map to add marker
+            map.addListener('click', function(event) {
+                placeMarker(event.latLng);
+            });
+            
+            mapInitialized = true;
+        }
+        
+        function placeMarker(location) {
+            if (marker) {
+                marker.setMap(null);
+            }
+            
+            marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                draggable: true,
+                animation: google.maps.Animation.DROP,
+                icon: {
+                    url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                    scaledSize: new google.maps.Size(40, 40)
+                }
+            });
+            
+            map.setCenter(location);
+            map.setZoom(17);
+            
+            updateCoordinates(location);
+            
+            // Reverse geocode to get address
+            geocoder.geocode({ location: location }, function(results, status) {
+                if (status === 'OK' && results[0]) {
+                    document.getElementById('meetingAddress').value = results[0].formatted_address;
+                }
+            });
+            
+            // Create info window
+            const infoWindow = new google.maps.InfoWindow({
+                content: '<div style="padding:10px;"><strong>Meeting Location</strong><br>' + 
+                         'Lat: ' + location.lat().toFixed(6) + '<br>' +
+                         'Lng: ' + location.lng().toFixed(6) + '</div>'
+            });
+            
+            marker.addListener('click', function() {
+                infoWindow.open(map, marker);
+            });
+            
+            marker.addListener('dragend', function() {
+                updateCoordinates(marker.getPosition());
+                // Update address when marker is dragged
+                geocoder.geocode({ location: marker.getPosition() }, function(results, status) {
+                    if (status === 'OK' && results[0]) {
+                        document.getElementById('meetingAddress').value = results[0].formatted_address;
+                    }
+                });
+            });
+        }
+        
+        function updateCoordinates(location) {
+            document.getElementById('latitude').value = location.lat();
+            document.getElementById('longitude').value = location.lng();
+        }
+        
+        function clearMarker() {
+            if (marker) {
+                marker.setMap(null);
+                marker = null;
+            }
+            document.getElementById('meetingAddress').value = '';
+            document.getElementById('latitude').value = '';
+            document.getElementById('longitude').value = '';
+        }
+        
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        placeMarker(pos);
+                    },
+                    function(error) {
+                        let errorMessage = 'Error getting your location: ';
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage += "You denied the request for Geolocation.";
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage += "Location information is unavailable.";
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage += "The request to get user location timed out.";
+                                break;
+                            case error.UNKNOWN_ERROR:
+                                errorMessage += "An unknown error occurred.";
+                                break;
+                        }
+                        alert(errorMessage);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                alert('Error: Your browser doesn\'t support geolocation.');
+            }
+        }
+    </script>
+</body>
+</html>

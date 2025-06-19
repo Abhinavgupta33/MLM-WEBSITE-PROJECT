@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Invitations Sent Successfully</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .success-container {
+            max-width: 600px;
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 80px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .meeting-details {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        .detail-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .detail-label {
+            font-weight: bold;
+            min-width: 120px;
+            color: #555;
+        }
+        .invitees-list {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .invitee-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .invitee-item:last-child {
+            border-bottom: none;
+        }
+        .invitee-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: #777;
+        }
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: #2196F3;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #0b7dda;
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+        .btn-outline:hover {
+            background-color: #f5f5f5;
+        }
+        .email-sent {
+            display: inline-flex;
+            align-items: center;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .email-sent i {
+            margin-right: 5px;
+            font-size: 12px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h1>Meeting Created Successfully!</h1>
+        <p>Your meeting has been scheduled and invitations have been sent to all selected participants.</p>
+        
+        <div class="meeting-details">
+            <div class="detail-row">
+                <span class="detail-label">Meeting Title:</span>
+                <span id="meetingTitle">Project Kickoff Meeting</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Date & Time:</span>
+                <span id="meetingDateTime">Friday, June 10, 2023 at 2:00 PM</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Location:</span>
+                <span id="meetingLocation">Conference Room A / Zoom</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Invitations Sent:</span>
+                <span id="inviteCount">5 participants</span>
+            </div>
+        </div>
+        
+        <h3>Invited Participants</h3>
+        <div class="invitees-list" id="inviteesList">
+            <!-- Invitees will be populated here -->
+            <div class="invitee-item">
+                <div class="invitee-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span>john.doe@example.com</span>
+                <span class="email-sent"><i class="fas fa-check"></i> Sent</span>
+            </div>
+            <div class="invitee-item">
+                <div class="invitee-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span>jane.smith@example.com</span>
+                <span class="email-sent"><i class="fas fa-check"></i> Sent</span>
+            </div>
+            <div class="invitee-item">
+                <div class="invitee-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span>mike.johnson@example.com</span>
+                <span class="email-sent"><i class="fas fa-check"></i> Sent</span>
+            </div>
+            <div class="invitee-item">
+                <div class="invitee-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span>sarah.williams@example.com</span>
+                <span class="email-sent"><i class="fas fa-check"></i> Sent</span>
+            </div>
+            <div class="invitee-item">
+                <div class="invitee-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span>david.brown@example.com</span>
+                <span class="email-sent"><i class="fas fa-check"></i> Sent</span>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <a href="/meetings" class="btn btn-primary">
+                <i class="fas fa-calendar-alt"></i> View All Meetings
+            </a>
+            <a href="#" class="btn btn-secondary" id="copyLinkBtn">
+                <i class="fas fa-copy"></i> Copy Meeting Link
+            </a>
+            <a href="/meeting" class="btn btn-outline">
+                <i class="fas fa-plus"></i> Create Another
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // You can populate this data dynamically from your backend
+        document.addEventListener('DOMContentLoaded', function() {
+            // Example of how to populate data from query parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const meetingTitle = urlParams.get('title') || 'Project Kickoff Meeting';
+            const meetingDateTime = urlParams.get('datetime') || 'Friday, June 10, 2023 at 2:00 PM';
+            const meetingLocation = urlParams.get('location') || 'Conference Room A / Zoom';
+            const inviteCount = urlParams.get('inviteCount') || '5 participants';
+            
+            document.getElementById('meetingTitle').textContent = meetingTitle;
+            document.getElementById('meetingDateTime').textContent = meetingDateTime;
+            document.getElementById('meetingLocation').textContent = meetingLocation;
+            document.getElementById('inviteCount').textContent = inviteCount;
+            
+            // Copy meeting link functionality
+            document.getElementById('copyLinkBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                const meetingId = urlParams.get('meetingId') || '';
+                const meetingLink = `${window.location.origin}/meetings/${meetingId}`;
+                
+                navigator.clipboard.writeText(meetingLink).then(() => {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    alert('Failed to copy meeting link. Please try again.');
+                });
+            });
+            
+            // If you have actual invitee data, you can populate it here
+            /*
+            const invitees = JSON.parse(urlParams.get('invitees') || [];
+            const inviteesList = document.getElementById('inviteesList');
+            inviteesList.innerHTML = '';
+            
+            invitees.forEach(invitee => {
+                const item = document.createElement('div');
+                item.className = 'invitee-item';
+                item.innerHTML = `
+                    <div class="invitee-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span>${invitee.email}</span>
+                    <span class="email-sent"><i class="fas fa-check"></i> Sent</span>
+                `;
+                inviteesList.appendChild(item);
+            });
+            */
+        });
+    </script>
+</body>
+</html>

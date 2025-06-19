@@ -4,13 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enhanced Email Form</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #f59e0b;
+            --success: #10b981;
+            --error: #ef4444;
+            --glass: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f7fa;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe, #f0fdf4);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,70 +36,88 @@
             overflow: hidden;
         }
         
-        /* Background animation elements */
-        .mail-bg-element {
+        /* Floating bubbles background */
+        .bubble {
             position: absolute;
-            opacity: 0.08;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--primary-light), var(--primary));
+            opacity: 0.15;
+            filter: blur(20px);
             z-index: 0;
-            font-size: 0;
-            animation: float 15s linear infinite;
-            color: #4a6bff;
+            animation: float 15s infinite ease-in-out;
         }
         
         @keyframes float {
-            0% {
+            0%, 100% {
                 transform: translateY(0) rotate(0deg);
-                opacity: 0;
-                font-size: 0;
             }
-            10% {
-                opacity: 0.08;
-                font-size: 30px;
-            }
-            90% {
-                opacity: 0.08;
-                font-size: 30px;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
-                font-size: 0;
+            50% {
+                transform: translateY(-20vh) rotate(180deg);
             }
         }
         
+        /* Glass morphism form */
         form {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-            padding: 30px;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            padding: 40px;
             width: 100%;
             max-width: 600px;
             position: relative;
             z-index: 1;
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
         }
         
         form:hover {
             transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.25);
+        }
+        
+        form::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+            z-index: -1;
+            animation: shine 8s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: rotate(30deg) translateX(-100%); }
+            100% { transform: rotate(30deg) translateX(100%); }
         }
         
         input, textarea {
             width: 100%;
-            padding: 14px 18px;
+            padding: 16px 20px;
             margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
             font-size: 16px;
             transition: all 0.3s ease;
-            box-sizing: border-box;
-            background-color: #f8f9fa;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #1e293b;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        input::placeholder, textarea::placeholder {
+            color: rgba(30, 41, 59, 0.6);
         }
         
         input:focus, textarea:focus {
-            border-color: #4a6bff;
+            border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
-            background-color: white;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+            background-color: rgba(255, 255, 255, 0.2);
         }
         
         textarea {
@@ -94,11 +127,11 @@
         }
         
         button {
-            background-color: #4a6bff;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
             border: none;
-            padding: 14px 24px;
-            border-radius: 8px;
+            padding: 16px 24px;
+            border-radius: 12px;
             font-size: 16px;
             cursor: pointer;
             width: 100%;
@@ -106,14 +139,37 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg);
+            transition: all 0.3s;
         }
         
         button:hover {
-            background-color: #3a5bef;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(58, 91, 239, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+        
+        button:hover::after {
+            left: 100%;
         }
         
         button:active {
@@ -127,42 +183,103 @@
         
         .form-group label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-weight: 500;
-            color: #2f3542;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-group label i {
+            font-size: 18px;
+            color: var(--primary);
         }
         
         .char-count {
-            font-size: 12px;
-            color: #666;
+            font-size: 13px;
+            color: #64748b;
             text-align: right;
             margin-top: -15px;
             margin-bottom: 15px;
+            transition: all 0.3s;
         }
         
-        .success-message {
-            background-color: #4BB543;
-            color: white;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+        .char-count.warning {
+            color: var(--secondary);
+        }
+        
+        .char-count.error {
+            color: var(--error);
+        }
+        
+        /* Notification messages */
+        .notification {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 25px;
             display: none;
             animation: fadeIn 0.5s;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .notification::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: currentColor;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .notification i {
+            margin-right: 8px;
+        }
+        
+        .notification-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .success-message {
+            color: var(--success);
+        }
+        
+        .error-message {
+            color: var(--error);
+            font-size: 13px;
+            margin-top: -15px;
+            margin-bottom: 15px;
+            display: none;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .error-message::before {
+            content: '!';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background-color: var(--error);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
         }
         
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .error-message {
-            color: #ff3333;
-            font-size: 13px;
-            margin-top: -15px;
-            margin-bottom: 15px;
-            display: none;
-            animation: shake 0.3s;
         }
         
         @keyframes shake {
@@ -173,58 +290,137 @@
         
         .form-header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            position: relative;
         }
         
         .form-header h2 {
-            color: #2f3542;
-            margin-bottom: 5px;
-            font-weight: 500;
+            color: #1e293b;
+            margin-bottom: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .form-header h2 i {
+            font-size: 28px;
+            color: var(--primary);
         }
         
         .form-header p {
-            color: #747d8c;
+            color: #64748b;
             margin: 0;
+            font-size: 15px;
+        }
+        
+        /* Decorative elements */
+        .form-decoration {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        .decoration-1 {
+            background: var(--primary);
+            top: -50px;
+            right: -50px;
+            animation: pulse 8s infinite alternate;
+        }
+        
+        .decoration-2 {
+            background: var(--secondary);
+            bottom: -30px;
+            left: -30px;
+            width: 80px;
+            height: 80px;
+            animation: pulse 6s 1s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.2); opacity: 0.5; }
+        }
+        
+        /* Floating mail icons */
+        .floating-icon {
+            position: absolute;
+            font-size: 24px;
+            color: var(--primary);
+            opacity: 0.7;
+            z-index: 0;
+            animation: float-icon 15s infinite linear;
+        }
+        
+        @keyframes float-icon {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate(calc(var(--random-x) * 10px), -100vh) rotate(360deg);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <%- include("../utils/header")%> 
+     <%- include("../utils/header")%> 
     <%- include("side")%>
     
-    <!-- Background animation elements will be added by JS -->
+    <!-- Background bubbles -->
+    <div class="bubble" style="width: 300px; height: 300px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+    <div class="bubble" style="width: 200px; height: 200px; top: 60%; left: 80%; animation-delay: 2s;"></div>
+    <div class="bubble" style="width: 250px; height: 250px; top: 30%; left: 70%; animation-delay: 4s;"></div>
     
     <form id="emailForm" action="/send-mail" method="POST">
+        <!-- Form decorations -->
+        <div class="form-decoration decoration-1"></div>
+        <div class="form-decoration decoration-2"></div>
+        
         <div class="form-header">
-            <h2><i class="fas fa-envelope" style="color: #4a6bff;"></i> Compose Email</h2>
-            <p>Send your message to recipients</p>
+            <h2><i class="fas fa-paper-plane"></i> Compose Email</h2>
+            <p>Send your message with style and ease</p>
         </div>
         
-        <div class="success-message" id="successMessage">
-            <i class="fas fa-check-circle"></i> Email sent successfully!
+        <div class="notification success-message" id="successMessage">
+            <div class="notification-content">
+                <i class="fas fa-check-circle"></i> Email sent successfully!
+            </div>
         </div>
         
         <div class="form-group">
-            <label for="senderEmail"><i class="fas fa-user" style="color: #4a6bff;"></i> Your Email</label>
+            <label for="senderEmail"><i class="fas fa-envelope"></i> Your Email</label>
             <input type="email" id="senderEmail" name="senderEmail" placeholder="your.email@example.com" required>
             <div class="error-message" id="senderEmailError">Please enter a valid email address</div>
         </div>
         
         <div class="form-group">
-            <label for="recipientEmail"><i class="fas fa-users" style="color: #4a6bff;"></i> Recipient Email</label>
+            <label for="recipientEmail"><i class="fas fa-user"></i> Recipient Email</label>
             <input type="email" id="recipientEmail" name="recipientEmail" placeholder="recipient@example.com" required>
             <div class="error-message" id="recipientEmailError">Please enter a valid email address</div>
         </div>
         
         <div class="form-group">
-            <label for="subject"><i class="fas fa-tag" style="color: #4a6bff;"></i> Subject</label>
+            <label for="subject"><i class="fas fa-tag"></i> Subject</label>
             <input type="text" id="subject" name="subject" placeholder="Email subject" required>
         </div>
         
         <div class="form-group">
-            <label for="message"><i class="fas fa-comment-alt" style="color: #4a6bff;"></i> Message</label>
+            <label for="message"><i class="fas fa-comment-alt"></i> Message</label>
             <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
-            <div class="char-count"><span id="charCount">0</span> characters</div>
+            <div class="char-count"><span id="charCount">0</span>/1000 characters</div>
         </div>
         
         <button type="submit" id="submitBtn">
@@ -233,73 +429,103 @@
     </form>
 
     <script>
-        // Create floating mail background elements
-        function createFloatingElements() {
+        // Create floating mail icons
+        function createFloatingIcons() {
             const icons = ['fa-envelope', 'fa-paper-plane', 'fa-mail-bulk', 'fa-inbox', 'fa-envelope-open'];
-            const colors = ['#4a6bff', '#ff6b6b', '#4BB543', '#ffa502', '#9c88ff'];
+            const colors = ['#6366f1', '#f59e0b', '#10b981', '#8b5cf6', '#ec4899'];
             
-            for (let i = 0; i < 12; i++) {
-                const element = document.createElement('div');
-                element.className = 'mail-bg-element';
-                element.innerHTML = `<i class="fas ${icons[i % icons.length]}"></i>`;
+            for (let i = 0; i < 15; i++) {
+                const icon = document.createElement('div');
+                icon.className = 'floating-icon';
+                icon.innerHTML = `<i class="fas ${icons[i % icons.length]}"></i>`;
                 
-                // Random position
-                const left = Math.random() * 100;
+                // Random properties
+                const startX = Math.random() * 100;
+                const startY = 100 + Math.random() * 20;
                 const delay = Math.random() * 15;
                 const duration = 15 + Math.random() * 10;
-                const size = 20 + Math.random() * 30;
+                const size = 18 + Math.random() * 24;
+                const randomX = (Math.random() - 0.5) * 2;
                 
                 // Apply styles
-                element.style.left = `${left}%`;
-                element.style.top = `${100 + (Math.random() * 20)}%`;
-                element.style.animationDelay = `${delay}s`;
-                element.style.animationDuration = `${duration}s`;
-                element.style.color = colors[i % colors.length];
-                element.style.fontSize = `${size}px`;
+                icon.style.left = `${startX}%`;
+                icon.style.top = `${startY}%`;
+                icon.style.animationDelay = `${delay}s`;
+                icon.style.animationDuration = `${duration}s`;
+                icon.style.color = colors[i % colors.length];
+                icon.style.fontSize = `${size}px`;
+                icon.style.setProperty('--random-x', randomX);
                 
-                document.body.appendChild(element);
+                document.body.appendChild(icon);
             }
         }
         
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            createFloatingElements();
+            createFloatingIcons();
             
             const message = document.getElementById('message');
             const charCount = document.getElementById('charCount');
+            const charCountElement = document.querySelector('.char-count');
             
-            // Character counter
+            // Character counter with visual feedback
             message.addEventListener('input', function() {
-                charCount.textContent = this.value.length;
+                const length = this.value.length;
+                charCount.textContent = length;
+                
+                // Visual feedback based on length
+                if (length > 800) {
+                    charCountElement.classList.add('warning');
+                    charCountElement.classList.remove('error');
+                } else if (length > 950) {
+                    charCountElement.classList.remove('warning');
+                    charCountElement.classList.add('error');
+                } else {
+                    charCountElement.classList.remove('warning', 'error');
+                }
             });
             
-            // Email validation
+            // Enhanced email validation
             function validateEmail(inputId, errorId) {
                 const input = document.getElementById(inputId);
                 const error = document.getElementById(errorId);
-                const isValid = input.checkValidity();
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const isValid = emailRegex.test(input.value);
                 
                 if (!isValid && input.value !== '') {
                     error.style.display = 'block';
-                    input.style.borderColor = '#ff3333';
+                    input.style.borderColor = 'var(--error)';
+                    input.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.2)';
+                    return false;
                 } else {
                     error.style.display = 'none';
-                    input.style.borderColor = '#e0e0e0';
+                    input.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                    input.style.boxShadow = 'none';
+                    return true;
                 }
-                
-                return isValid;
             }
             
-            // Real-time validation
-            document.getElementById('senderEmail').addEventListener('blur', function() {
-                validateEmail('senderEmail', 'senderEmailError');
-            });
+            // Real-time validation with debounce
+            let timeout;
+            function setupValidation(inputId, errorId) {
+                const input = document.getElementById(inputId);
+                
+                input.addEventListener('input', function() {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        validateEmail(inputId, errorId);
+                    }, 500);
+                });
+                
+                input.addEventListener('blur', function() {
+                    validateEmail(inputId, errorId);
+                });
+            }
             
-            document.getElementById('recipientEmail').addEventListener('blur', function() {
-                validateEmail('recipientEmail', 'recipientEmailError');
-            });
+            setupValidation('senderEmail', 'senderEmailError');
+            setupValidation('recipientEmail', 'recipientEmailError');
             
-            // Form submission - will still submit normally through your routes
+            // Form submission
             document.getElementById('emailForm').addEventListener('submit', function(e) {
                 // Validate form
                 const senderValid = validateEmail('senderEmail', 'senderEmailError');
@@ -307,11 +533,54 @@
                 
                 if (!senderValid || !recipientValid) {
                     e.preventDefault();
+                    // Shake animation for errors
+                    if (!senderValid) {
+                        document.getElementById('senderEmail').style.animation = 'shake 0.3s';
+                        setTimeout(() => {
+                            document.getElementById('senderEmail').style.animation = '';
+                        }, 300);
+                    }
+                    if (!recipientValid) {
+                        document.getElementById('recipientEmail').style.animation = 'shake 0.3s';
+                        setTimeout(() => {
+                            document.getElementById('recipientEmail').style.animation = '';
+                        }, 300);
+                    }
                 } else {
                     const submitBtn = document.getElementById('submitBtn');
                     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
                     submitBtn.disabled = true;
+                    
+                    // Simulate success message (in a real app, this would be after actual submission)
+                    setTimeout(() => {
+                        document.getElementById('successMessage').style.display = 'block';
+                        submitBtn.innerHTML = '<i class="fas fa-check"></i> Sent!';
+                        
+                        // Reset form after 3 seconds
+                        setTimeout(() => {
+                            this.reset();
+                            document.getElementById('successMessage').style.display = 'none';
+                            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Email';
+                            submitBtn.disabled = false;
+                            charCount.textContent = '0';
+                            charCountElement.classList.remove('warning', 'error');
+                        }, 3000);
+                    }, 1500);
                 }
+            });
+            
+            // Add hover effect to form inputs
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('mouseenter', () => {
+                    input.style.transform = 'translateY(-2px)';
+                    input.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.1)';
+                });
+                
+                input.addEventListener('mouseleave', () => {
+                    input.style.transform = '';
+                    input.style.boxShadow = '';
+                });
             });
         });
     </script>

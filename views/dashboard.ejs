@@ -34,8 +34,11 @@
     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
     <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet" />
 
-    <!-- Template Main CSS File -->
-  
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
       :root {
@@ -51,7 +54,7 @@
         --light-color: #f8fafc;
         --card-radius: 16px;
         --transition-speed: 0.3s;
-      };
+      }
       
       body {
         font-family: 'Poppins', sans-serif;
@@ -60,6 +63,57 @@
         display: flex;
         flex-direction: column;
         overflow-x: hidden;
+        position: relative;
+      }
+      
+      /* Animated Background Elements */
+      .bg-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+      
+      .particle {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+        animation: float 15s infinite ease-in-out;
+        filter: blur(1px);
+      }
+      
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(5deg);
+        }
+      }
+      
+      /* Glow Effect */
+      @keyframes glow {
+        0% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.5); }
+        50% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.8); }
+        100% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.5); }
+      }
+      
+      .glow {
+        animation: glow 3s infinite;
+      }
+      
+      /* Pulse Animation */
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+      
+      .pulse {
+        animation: pulse 2s infinite;
       }
       
       /* Main Layout Structure */
@@ -321,6 +375,268 @@
         padding: 20px 0;
       }
       
+      /* Status Indicators */
+      .status-indicator {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 5px;
+      }
+      
+      .status-active {
+        background-color: var(--success-color);
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+      }
+      
+      .status-inactive {
+        background-color: var(--danger-color);
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+      }
+      
+      .status-pending {
+        background-color: var(--warning-color);
+        box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
+      }
+      
+      /* Notification Badge */
+      .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: var(--danger-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.6rem;
+        font-weight: bold;
+      }
+      
+      /* Progress Trackers */
+      .progress-tracker {
+        height: 6px;
+        border-radius: 3px;
+        background-color: #e9ecef;
+        overflow: hidden;
+      }
+      
+      .progress-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 1s ease;
+      }
+      
+      /* Hover Effects */
+      .hover-grow {
+        transition: transform 0.3s ease;
+      }
+      
+      .hover-grow:hover {
+        transform: scale(1.02);
+      }
+      
+      /* Dark Mode Toggle */
+      .dark-mode-toggle {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 999;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        transition: all 0.3s ease;
+      }
+      
+      .dark-mode-toggle:hover {
+        transform: scale(1.1);
+      }
+      
+      /* Dark Mode Styles */
+      body.dark-mode {
+        background-color: #121212;
+        color: #f8f9fa;
+      }
+      
+      body.dark-mode .main-content {
+        background-color: #121212;
+      }
+      
+      body.dark-mode .dashboard-card,
+      body.dark-mode .quick-action-card {
+        background-color: #1e1e1e;
+        color: #f8f9fa;
+      }
+      
+      body.dark-mode .quick-action-title,
+      body.dark-mode .quick-action-desc {
+        color: #f8f9fa;
+      }
+      
+      body.dark-mode .recent-activity li,
+      body.dark-mode .leaderboard-item {
+        border-bottom-color: rgba(255, 255, 255, 0.05);
+      }
+      
+      /* Search Bar */
+      .search-bar {
+        position: relative;
+        margin-bottom: 20px;
+      }
+      
+      .search-bar input {
+        padding-left: 40px;
+        border-radius: 20px;
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+      }
+      
+      .search-bar input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+      }
+      
+      .search-bar i {
+        position: absolute;
+        left: 15px;
+        top: 12px;
+        color: #6c757d;
+      }
+      
+      /* Task List */
+      .task-list {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .task-item {
+        padding: 12px 15px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+      
+      .task-item:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+      
+      .task-checkbox {
+        margin-right: 10px;
+      }
+      
+      .task-completed {
+        text-decoration: line-through;
+        opacity: 0.7;
+      }
+      
+      /* Enhanced Calendar Styles */
+      .calendar-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 10px 15px;
+        text-align: center;
+      }
+      
+      .calendar-days-header {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+        margin-bottom: 5px;
+        font-weight: 600;
+        font-size: 0.8rem;
+      }
+      
+      .calendar-day-header {
+        text-align: center;
+        padding: 5px;
+        color: var(--primary-color);
+      }
+      
+      .calendar-days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+      }
+      
+      .calendar-day {
+        text-align: center;
+        padding: 8px 5px;
+        border-radius: 8px;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s ease;
+      }
+      
+      .calendar-day:hover:not(.empty-day) {
+        background-color: var(--primary-light);
+        color: white;
+      }
+      
+      .calendar-day.current {
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: bold;
+      }
+      
+      .calendar-day.event-day::after {
+        content: '';
+        position: absolute;
+        bottom: 3px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: var(--accent-color);
+      }
+      
+      .calendar-day.event-day.current::after {
+        background-color: white;
+      }
+      
+      .calendar-day.empty-day {
+        visibility: hidden;
+      }
+      
+      .calendar-stats {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 8px;
+      }
+      
+      .calendar-stats .stat-item {
+        background-color: rgba(255, 255, 255, 0.9);
+      }
+      
+      .calendar-stats .stat-value {
+        font-weight: bold;
+        font-size: 1.1rem;
+        line-height: 1;
+      }
+      
+      .calendar-stats .stat-label {
+        color: #6c757d;
+        font-size: 0.7rem;
+      }
+      
+      /* Dark mode calendar adjustments */
+      body.dark-mode .calendar-stats .stat-item {
+        background-color: rgba(30, 30, 30, 0.9);
+      }
+      
+      body.dark-mode .calendar-stats .stat-label {
+        color: #adb5bd;
+      }
+      
       /* Responsive Adjustments */
       @media (max-width: 1200px) {
         .quick-actions {
@@ -331,6 +647,7 @@
       @media (max-width: 992px) {
         .main-content {
           padding: 20px 15px;
+          margin-left: 0;
         }
         
         .quick-actions {
@@ -356,6 +673,9 @@
   </head>
 
   <body>
+    <!-- Animated Background Particles -->
+    <div class="bg-particles" id="particles-js"></div>
+    
     <%- include("../utils/header") %>
     <%- include("side")%>
     <main id="main" class="main">
@@ -365,7 +685,7 @@
           <div class="pagetitle">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <h1>Premium Dashboard</h1>
+                <h1 class="animate__animated animate__fadeIn">Premium Dashboard</h1>
                 <nav>
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -374,7 +694,7 @@
                 </nav>
               </div>
               <div>
-                <button class="btn btn-primary">
+                <button class="btn btn-primary pulse">
                   <i class="bi bi-plus-circle me-2"></i>Create New
                 </button>
               </div>
@@ -382,11 +702,17 @@
           </div>
           <!-- End Page Title -->
 
+          <!-- Search Bar -->
+          <div class="search-bar">
+            <i class="bi bi-search"></i>
+            <input type="text" class="form-control" placeholder="Search dashboard...">
+          </div>
+
           <section class="section dashboard">
             <div class="row">
               <!-- Total Users Card -->
               <div class="col-xxl-4 col-md-6">
-                <div class="card dashboard-card">
+                <div class="card dashboard-card hover-grow" data-aos="fade-up">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                       <h5 class="card-title mb-0">Total Users</h5>
@@ -417,6 +743,16 @@
                     <div class="chart-container mt-3">
                       <canvas id="usersChart"></canvas>
                     </div>
+                    <div class="mt-3">
+                      <div class="d-flex justify-content-between small mb-1">
+                        <span><span class="status-indicator status-active"></span> Active: 892</span>
+                        <span><span class="status-indicator status-inactive"></span> Inactive: 203</span>
+                        <span><span class="status-indicator status-pending"></span> Pending: 150</span>
+                      </div>
+                      <div class="progress-tracker">
+                        <div class="progress-fill" style="width: 72%; background: linear-gradient(to right, var(--success-color), var(--primary-color));"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -424,11 +760,11 @@
 
               <!-- Revenue Card -->
               <div class="col-xxl-4 col-md-6">
-                <div class="card dashboard-card">
+                <div class="card dashboard-card hover-grow" data-aos="fade-up" data-aos-delay="100">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                       <h5 class="card-title mb-0">Revenue</h5>
-                      <span class="badge bg-success">Live</span>
+                      <span class="badge bg-success glow">Live</span>
                     </div>
                     <div class="d-flex align-items-center">
                       <div class="card-icon-container me-3" style="background: linear-gradient(135deg, var(--success-color), #34d399);">
@@ -445,6 +781,13 @@
                     <div class="chart-container mt-3">
                       <canvas id="revenueChart"></canvas>
                     </div>
+                    <div class="mt-3">
+                      <div class="d-flex justify-content-between small">
+                        <span>Today: <strong>$1,245</strong></span>
+                        <span>Week: <strong>$8,765</strong></span>
+                        <span>Month: <strong>$24,589</strong></span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -452,12 +795,15 @@
 
               <!-- Active Sessions Card -->
               <div class="col-xxl-4 col-md-6">
-                <div class="card dashboard-card">
+                <div class="card dashboard-card hover-grow" data-aos="fade-up" data-aos-delay="200">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                       <h5 class="card-title mb-0">Active Sessions</h5>
-                      <div class="spinner-grow spinner-grow-sm text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                      <div class="position-relative">
+                        <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span class="notification-badge">5</span>
                       </div>
                     </div>
                     <div class="d-flex align-items-center">
@@ -503,8 +849,8 @@
 
             <div class="row mt-4">
               <!-- Quick Actions -->
-              <div class="col-lg-12">
-                <div class="card dashboard-card">
+              <div class="col-lg-8">
+                <div class="card dashboard-card hover-grow" data-aos="fade-up">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                       <h5 class="card-title mb-0">Quick Actions</h5>
@@ -515,46 +861,42 @@
                         <div class="quick-action-icon">
                           <i class="bi bi-person-plus-fill"></i>
                         </div>
-                        
-                        <a href="/adduser"><h6 class="quick-action-title">Add User</h6>
+                        <a href="/adduser" class="text-decoration-none"><h6 class="quick-action-title">Add User</h6>
                         <p class="quick-action-desc">Create new user accounts</p>
-                        <button class="quick-action-btn">Action</button>
-                      </a>
+                        <button class="quick-action-btn">Action</button></a>
                       </div>
                       
                       <div class="quick-action-card">
-                        <a href="/addproduct">
+                        <a href="/addproduct" class="text-decoration-none">
                         <div class="quick-action-icon">
                           <i class="bi bi-plus-square-fill"></i>
                         </div>
-                       
                         <h6 class="quick-action-title">Add Product</h6>
                         <p class="quick-action-desc">Add new products to catalog</p>
                         <button class="quick-action-btn">Action</button>
-                      </a>
+                        </a>
                       </div>
                       
                       <div class="quick-action-card">
-                        
-                        <a href="/deposit">
+                        <a href="/deposit" class="text-decoration-none">
                         <div class="quick-action-icon">
                           <i class="bi bi-cash-stack"></i>
                         </div>
                         <h6 class="quick-action-title">Process Deposit</h6>
                         <p class="quick-action-desc">Handle user deposits</p>
                         <button class="quick-action-btn">Action</button>
-                      </a>
+                        </a>
                       </div>
                       
                       <div class="quick-action-card">
-                        <a href="/withdraw">
+                        <a href="/withdraw" class="text-decoration-none">
                         <div class="quick-action-icon">
                           <i class="bi bi-currency-exchange"></i>
                         </div>
                         <h6 class="quick-action-title">Process Withdrawal</h6>
                         <p class="quick-action-desc">Handle user withdrawals</p>
                         <button class="quick-action-btn">Action</button>
-                      </a>
+                        </a>
                       </div>
                       
                       <div class="quick-action-card">
@@ -567,14 +909,14 @@
                       </div>
                       
                       <div class="quick-action-card">
-                        <a href="/admininfo">
+                        <a href="/admininfo" class="text-decoration-none">
                         <div class="quick-action-icon">
                           <i class="bi bi-gear-fill"></i>
                         </div>
                         <h6 class="quick-action-title">Settings</h6>
                         <p class="quick-action-desc">System configuration</p>
                         <button class="quick-action-btn">Action</button>
-                      </a>
+                        </a>
                       </div>
                       
                       <div class="quick-action-card">
@@ -586,27 +928,69 @@
                         <button class="quick-action-btn">Action</button>
                       </div>
                       
-                      <a href="/mail-open" class="text-decoration-none">
-                        <div class="quick-action-card">
-                          <div class="quick-action-icon">
-                            <i class="bi bi-envelope-plus"></i>
-                          </div>
-                          <h6 class="quick-action-title">Send Email</h6>
-                          <p class="quick-action-desc">Compose new messages</p>
-                          <button class="quick-action-btn">Action</button>
+                      <div class="quick-action-card">
+                        <a href="/mail-open" class="text-decoration-none">
+                        <div class="quick-action-icon">
+                          <i class="bi bi-envelope-plus"></i>
                         </div>
-                      </a>
+                        <h6 class="quick-action-title">Send Email</h6>
+                        <p class="quick-action-desc">Compose new messages</p>
+                        <button class="quick-action-btn">Action</button>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <!-- End Quick Actions -->
+
+              <!-- Tasks Widget -->
+              <div class="col-lg-4">
+                <div class="card dashboard-card hover-grow" data-aos="fade-up" data-aos-delay="100">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h5 class="card-title mb-0">My Tasks</h5>
+                      <span class="badge bg-primary">5 Pending</span>
+                    </div>
+                    
+                    <ul class="task-list">
+                      <li class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <span>Review user verification requests</span>
+                      </li>
+                      <li class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <span>Process pending withdrawals</span>
+                      </li>
+                      <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" checked>
+                        <span class="task-completed">Update product catalog</span>
+                      </li>
+                      <li class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <span>Generate monthly reports</span>
+                      </li>
+                      <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" checked>
+                        <span class="task-completed">Respond to support tickets</span>
+                      </li>
+                    </ul>
+                    
+                    <div class="mt-3">
+                      <button class="btn btn-sm btn-outline-primary w-100">
+                        <i class="bi bi-plus-circle me-2"></i>Add New Task
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Tasks Widget -->
             </div>
 
             <div class="row mt-4">
               <!-- Leaderboard -->
               <div class="col-lg-4">
-                <div class="card dashboard-card" id="leaderboard">
+                <div class="card dashboard-card hover-grow" data-aos="fade-up" id="leaderboard">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                       <h5 class="card-title mb-0">Top Users</h5>
@@ -684,8 +1068,8 @@
               <!-- End Leaderboard -->
 
               <!-- Recent Activity -->
-              <div class="col-lg-8">
-                <div class="card dashboard-card">
+              <div class="col-lg-4">
+                <div class="card dashboard-card hover-grow" data-aos="fade-up" data-aos-delay="100">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                       <h5 class="card-title mb-0">Recent Activity</h5>
@@ -702,7 +1086,7 @@
                     </div>
                     
                     <ul class="recent-activity">
-                      <li>
+                      <li class="animate__animated animate__fadeIn">
                         <div class="activity-icon bg-success">
                           <i class="bi bi-person-plus"></i>
                         </div>
@@ -711,7 +1095,7 @@
                           <div class="text-muted small">John Doe - 10 mins ago</div>
                         </div>
                       </li>
-                      <li>
+                      <li class="animate__animated animate__fadeIn animate__delay-1s">
                         <div class="activity-icon bg-info">
                           <i class="bi bi-box-seam"></i>
                         </div>
@@ -720,7 +1104,7 @@
                           <div class="text-muted small">Premium Widget - 25 mins ago</div>
                         </div>
                       </li>
-                      <li>
+                      <li class="animate__animated animate__fadeIn animate__delay-2s">
                         <div class="activity-icon bg-warning">
                           <i class="bi bi-cash-coin"></i>
                         </div>
@@ -729,7 +1113,7 @@
                           <div class="text-muted small">$1,250.00 - 1 hour ago</div>
                         </div>
                       </li>
-                      <li>
+                      <li class="animate__animated animate__fadeIn animate__delay-3s">
                         <div class="activity-icon bg-primary">
                           <i class="bi bi-envelope"></i>
                         </div>
@@ -738,7 +1122,7 @@
                           <div class="text-muted small">jane@example.com - 2 hours ago</div>
                         </div>
                       </li>
-                      <li>
+                      <li class="animate__animated animate__fadeIn animate__delay-4s">
                         <div class="activity-icon bg-danger">
                           <i class="bi bi-trash"></i>
                         </div>
@@ -752,6 +1136,69 @@
                 </div>
               </div>
               <!-- End Recent Activity -->
+
+              <!-- Calendar Widget -->
+              <div class="col-lg-4">
+                <div class="card dashboard-card hover-grow calendar-widget" data-aos="fade-up" data-aos-delay="200">
+                  <div class="calendar-header d-flex justify-content-between align-items-center">
+                    <button class="btn btn-sm btn-outline-light prev-month">
+                      <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <h5 class="mb-0" id="calendar-month-year">June 2023</h5>
+                    <button class="btn btn-sm btn-outline-light next-month">
+                      <i class="bi bi-chevron-right"></i>
+                    </button>
+                  </div>
+                  <div class="card-body p-2">
+                    <!-- Quick Stats -->
+                    <div class="calendar-stats mb-3">
+                      <div class="row g-2">
+                        <div class="col-4">
+                          <div class="stat-item text-center p-2 rounded">
+                            <div class="stat-value text-primary">5</div>
+                            <div class="stat-label small">Events</div>
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="stat-item text-center p-2 rounded">
+                            <div class="stat-value text-success">2</div>
+                            <div class="stat-label small">Meetings</div>
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="stat-item text-center p-2 rounded">
+                            <div class="stat-value text-warning">1</div>
+                            <div class="stat-label small">Reminders</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="calendar-days-header">
+                      <div class="calendar-day-header">Sun</div>
+                      <div class="calendar-day-header">Mon</div>
+                      <div class="calendar-day-header">Tue</div>
+                      <div class="calendar-day-header">Wed</div>
+                      <div class="calendar-day-header">Thu</div>
+                      <div class="calendar-day-header">Fri</div>
+                      <div class="calendar-day-header">Sat</div>
+                    </div>
+                    
+                    <div class="calendar-days" id="calendar-days">
+                      <!-- Days will be populated by JavaScript -->
+                    </div>
+                  </div>
+                  
+                  <div class="card-footer bg-transparent border-top-0 pt-0">
+                    <a href="/meeting">
+                      <button class="btn btn-sm btn-primary w-100 add-event-btn">
+                      <i class="bi bi-plus-circle me-2"></i>Add Event
+                    </button>
+                  </a>
+                  </div>
+                </div>
+              </div>
+              <!-- End Calendar Widget -->
             </div>
           </section>
         </div>
@@ -759,6 +1206,11 @@
       <!-- End Main Content Column -->
     </main>
     <!-- End #main -->
+
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" id="darkModeToggle">
+      <i class="bi bi-moon-fill"></i>
+    </div>
 
     <%- include("../utils/footer") %>
 
@@ -776,12 +1228,47 @@
     <script src="assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
 
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
     
     <!-- Custom Dashboard JS -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
+        // Initialize AOS animations
+        AOS.init({
+          duration: 800,
+          easing: 'ease-in-out',
+          once: true
+        });
+        
+        // Initialize particles.js
+        particlesJS('particles-js', {
+          particles: {
+            number: { value: 30, density: { enable: true, value_area: 800 } },
+            color: { value: "#6366f1" },
+            shape: { type: "circle" },
+            opacity: { value: 0.3, random: true },
+            size: { value: 5, random: true },
+            line_linked: { enable: false },
+            move: {
+              enable: true,
+              speed: 1,
+              direction: "none",
+              random: true,
+              straight: false,
+              out_mode: "out",
+              bounce: false
+            }
+          },
+          interactivity: { detect_on: "canvas", events: { onhover: { enable: false } } }
+        });
+        
         // Initialize charts
         const usersCtx = document.getElementById('usersChart').getContext('2d');
         new Chart(usersCtx, {
@@ -833,6 +1320,177 @@
               x: { grid: { display: false, drawBorder: false } }
             }
           }
+        });
+        
+        // Calendar functionality
+        function generateCalendar(month, year) {
+          const calendarDays = document.getElementById('calendar-days');
+          const monthYearDisplay = document.getElementById('calendar-month-year');
+          
+          // Clear previous calendar
+          calendarDays.innerHTML = '';
+          
+          // Set month and year display
+          const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                            'July', 'August', 'September', 'October', 'November', 'December'];
+          monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
+          
+          // Get first day of month and total days
+          const firstDay = new Date(year, month, 1).getDay();
+          const daysInMonth = new Date(year, month + 1, 0).getDate();
+          
+          // Get days from previous month
+          const prevMonthDays = new Date(year, month, 0).getDate();
+          
+          // Create days from previous month
+          for (let i = firstDay - 1; i >= 0; i--) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day empty-day';
+            dayElement.textContent = prevMonthDays - i;
+            calendarDays.appendChild(dayElement);
+          }
+          
+          // Create days for current month
+          const today = new Date();
+          const currentDate = today.getDate();
+          const currentMonth = today.getMonth();
+          const currentYear = today.getFullYear();
+          
+          // Sample events data - in a real app, this would come from your backend
+          const events = {
+            5: { type: 'meeting' },
+            12: { type: 'event' },
+            15: { type: 'reminder' },
+            19: { type: 'meeting' },
+            22: { type: 'event' },
+            27: { type: 'reminder' }
+          };
+          
+          for (let i = 1; i <= daysInMonth; i++) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day';
+            dayElement.textContent = i;
+            
+            // Highlight current day
+            if (i === currentDate && month === currentMonth && year === currentYear) {
+              dayElement.classList.add('current');
+            }
+            
+            // Add event indicator
+            if (events[i]) {
+              dayElement.classList.add('event-day');
+              
+              // Add tooltip with event info
+              dayElement.setAttribute('data-bs-toggle', 'tooltip');
+              dayElement.setAttribute('data-bs-placement', 'top');
+              dayElement.setAttribute('title', `${events[i].type.charAt(0).toUpperCase() + events[i].type.slice(1)} scheduled`);
+            }
+            
+            calendarDays.appendChild(dayElement);
+          }
+          
+          // Calculate days needed from next month
+          const totalCells = firstDay + daysInMonth;
+          const remainingCells = totalCells > 35 ? 42 - totalCells : 35 - totalCells;
+          
+          // Create days for next month
+          for (let i = 1; i <= remainingCells; i++) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day empty-day';
+            dayElement.textContent = i;
+            calendarDays.appendChild(dayElement);
+          }
+          
+          // Initialize tooltips
+          const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+          tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+          });
+        }
+
+        // Initialize calendar with current month
+        const currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        generateCalendar(currentMonth, currentYear);
+
+        // Navigation between months
+        document.querySelector('.prev-month').addEventListener('click', function() {
+          currentMonth--;
+          if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+          }
+          generateCalendar(currentMonth, currentYear);
+        });
+
+        document.querySelector('.next-month').addEventListener('click', function() {
+          currentMonth++;
+          if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+          }
+          generateCalendar(currentMonth, currentYear);
+        });
+
+        // Add event button
+        document.querySelector('.add-event-btn').addEventListener('click', function() {
+          // In a real app, this would open a modal to add an event
+          alert('Add event functionality would open a form here');
+        });
+        
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', function() {
+          document.body.classList.toggle('dark-mode');
+          const icon = this.querySelector('i');
+          if (document.body.classList.contains('dark-mode')) {
+            icon.classList.remove('bi-moon-fill');
+            icon.classList.add('bi-sun-fill');
+          } else {
+            icon.classList.remove('bi-sun-fill');
+            icon.classList.add('bi-moon-fill');
+          }
+        });
+        
+        // Task list functionality
+        document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+          checkbox.addEventListener('change', function() {
+            const taskText = this.nextElementSibling;
+            if (this.checked) {
+              taskText.classList.add('task-completed');
+            } else {
+              taskText.classList.remove('task-completed');
+            }
+          });
+        });
+        
+        // Animate progress bars on page load
+        document.querySelectorAll('.progress-fill').forEach(el => {
+          const width = el.style.width;
+          el.style.width = '0';
+          setTimeout(() => {
+            el.style.width = width;
+          }, 500);
+        });
+        
+        // Add hover effect to all cards
+        document.querySelectorAll('.dashboard-card').forEach(card => {
+          card.addEventListener('mouseenter', () => {
+            card.classList.add('shadow-lg');
+          });
+          card.addEventListener('mouseleave', () => {
+            card.classList.remove('shadow-lg');
+          });
+        });
+        
+        // Search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        searchInput.addEventListener('input', function() {
+          const searchTerm = this.value.toLowerCase();
+          // You would implement actual search functionality here
+          console.log('Searching for:', searchTerm);
         });
       });
     </script>

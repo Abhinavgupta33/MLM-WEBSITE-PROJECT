@@ -7,6 +7,7 @@
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
         <div class="active-indicator"></div>
+        <div class="nav-link-wave"></div>
       </a>
     </li>
     <!-- End Dashboard Nav -->
@@ -18,6 +19,7 @@
         <i class="bi bi-clock-history"></i>
         <span>Activity Log</span>
         <span class="badge-sidebar pulse">3</span>
+        <div class="nav-link-wave"></div>
       </a>
       <div class="recent-activity-preview">
         <div class="activity-item" onclick="window.location.href='/activity'">
@@ -28,6 +30,7 @@
             <p>System update completed</p>
             <small>2 minutes ago</small>
           </div>
+          <div class="activity-hover-effect"></div>
         </div>
         <div class="activity-item" onclick="window.location.href='/activity'">
           <div class="activity-icon primary">
@@ -37,6 +40,7 @@
             <p>New user registered</p>
             <small>15 minutes ago</small>
           </div>
+          <div class="activity-hover-effect"></div>
         </div>
         <div class="activity-item" onclick="window.location.href='/activity'">
           <div class="activity-icon info">
@@ -46,6 +50,7 @@
             <p>New order received</p>
             <small>1 hour ago</small>
           </div>
+          <div class="activity-hover-effect"></div>
         </div>
         <div class="view-all-activities">
           <a href="/activity">View All Activities <i class="bi bi-arrow-right"></i></a>
@@ -60,30 +65,35 @@
         <i class="bi bi-people"></i>
         <span>User Manager</span>
         <i class="bi bi-chevron-down ms-auto toggle-icon"></i>
+        <div class="nav-link-wave"></div>
       </a>
       <ul id="user-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
           <a href="/adduser">
             <i class="bi bi-person-plus"></i>
             <span>Add User</span>
+            <div class="subitem-wave"></div>
           </a>
         </li>
         <li>
           <a href="/userview">
             <i class="bi bi-person-lines-fill"></i>
             <span>View User</span>
+            <div class="subitem-wave"></div>
           </a>
         </li>
         <li>
           <a href="/userview">
             <i class="bi bi-person-gear"></i>
             <span>Update User</span>
+            <div class="subitem-wave"></div>
           </a>
         </li>
         <li>
           <a href="/userview">
             <i class="bi bi-person-x"></i>
             <span>Delete User</span>
+            <div class="subitem-wave"></div>
           </a>
         </li>
       </ul>
@@ -96,30 +106,35 @@
         <i class="bi bi-box-seam"></i>
         <span>Product Manager</span>
         <i class="bi bi-chevron-down ms-auto toggle-icon"></i>
+        <div class="nav-link-wave"></div>
       </a>
       <ul id="product-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
           <a href="/addproduct">
             <i class="bi bi-plus-circle"></i>
             <span>Add Product</span>
+            <div class="subitem-wave"></div>
           </a>
         </li>
         <li>
           <a href="/viewproduct">
             <i class="bi bi-card-list"></i>
             <span>View Product</span>
+            <div class="subitem-wave"></div>
           </a>
         </li>
         <li>
           <a href="/updateproduct">
             <i class="bi bi-pencil-square"></i>
             <span>Update Product</span>
+            <div class="subitem-wave"></div>
           </a>
         </li>
         <li>
           <a href="/updateproduct">
             <i class="bi bi-trash"></i>
             <span>Delete Product</span>
+            <div class="subitem-wave"></div>
           </a>
         </li>
       </ul>
@@ -132,18 +147,21 @@
         <i class="bi bi-envelope"></i>
         <span>Mail Manager</span>
         <i class="bi bi-chevron-down ms-auto toggle-icon"></i>
+        <div class="nav-link-wave"></div>
       </a>
       <ul id="mail-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
           <a href="/otp_genrate">
             <i class="bi bi-shield-check"></i>
             <span>Verify User</span>
+            <div class="subitem-wave"></div>
           </a>
         </li>
         <li>
           <a href="/mail-open">
             <i class="bi bi-envelope-plus"></i>
             <span>Send Mail</span>
+            <div class="subitem-wave"></div>
           </a>
         </li>
       </ul>
@@ -157,24 +175,28 @@
       <a class="nav-link collapsed" href="/admininfo">
         <i class="bi bi-person-circle"></i>
         <span>Profile</span>
+        <div class="nav-link-wave"></div>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" href="/deposit">
         <i class="bi bi-cash-stack"></i>
         <span>Deposit</span>
+        <div class="nav-link-wave"></div>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" href="/withdraw">
         <i class="bi bi-arrow-down-up"></i>
         <span>Withdraw</span>
+        <div class="nav-link-wave"></div>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" href="/balance">
         <i class="bi bi-wallet2"></i>
         <span>Balance</span>
+        <div class="nav-link-wave"></div>
       </a>
     </li>
     <!-- End Settings Nav -->
@@ -187,6 +209,7 @@
       <span>Dark Mode</span>
       <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" id="darkModeToggle">
+        <label class="form-check-label" for="darkModeToggle"></label>
       </div>
     </div>
   </div>
@@ -203,7 +226,7 @@
     --sidebar-icon-color: #64748b;
     --sidebar-active-icon-color: #4f46e5;
     --sidebar-border-color: #e2e8f0;
-    --sidebar-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --sidebar-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --header-height: 60px;
     --sidebar-width: 280px;
     --sidebar-collapsed-width: 80px;
@@ -232,6 +255,22 @@
     flex-direction: column;
   }
 
+  /* Custom scrollbar */
+  .sidebar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sidebar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+  }
+
+  .sidebar::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+    border: 1px solid #f1f5f9;
+  }
+
   .sidebar-nav {
     padding: 15px 0;
     list-style: none;
@@ -255,6 +294,7 @@
     position: relative;
     font-size: 0.95rem;
     font-weight: 500;
+    overflow: hidden;
   }
 
   .nav-link:hover {
@@ -293,6 +333,45 @@
     color: var(--sidebar-active-icon-color);
   }
 
+  /* Wave effect on hover */
+  .nav-link-wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(79, 70, 229, 0.1) 0%, transparent 70%);
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    pointer-events: none;
+    border-radius: 8px;
+  }
+
+  .nav-link:hover .nav-link-wave {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+
+  .subitem-wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(79, 70, 229, 0.05) 0%, transparent 70%);
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    pointer-events: none;
+    border-radius: 6px;
+  }
+
+  .nav-content li a:hover .subitem-wave {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
   .nav-content {
     padding-left: 12px;
     list-style: none;
@@ -313,6 +392,8 @@
     font-size: 0.9rem;
     border-radius: 6px;
     margin: 2px 0;
+    position: relative;
+    overflow: hidden;
   }
 
   .nav-content li a:hover {
@@ -325,10 +406,12 @@
     font-size: 0.9rem;
     color: var(--sidebar-icon-color);
     margin-right: 10px;
+    transition: var(--sidebar-transition);
   }
 
   .nav-content li a:hover i {
     color: var(--sidebar-active-icon-color);
+    transform: scale(1.1);
   }
 
   .nav-heading {
@@ -340,6 +423,7 @@
     font-weight: 600;
     margin-top: 10px;
     position: relative;
+    transition: all 0.3s ease;
   }
 
   .nav-heading:not(:first-child)::before {
@@ -350,10 +434,11 @@
     right: 24px;
     height: 1px;
     background-color: var(--sidebar-border-color);
+    transition: all 0.3s ease;
   }
 
   .toggle-icon {
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--sidebar-icon-color);
     font-size: 0.9rem;
   }
@@ -367,16 +452,21 @@
   .recent-activity-preview {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-out;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     margin: 0 12px;
     background-color: #f8fafc;
     border-radius: 8px;
     box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, transform 0.3s ease;
   }
 
   .activity-container:hover .recent-activity-preview {
     max-height: 300px;
     padding: 10px;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .activity-item {
@@ -384,18 +474,35 @@
     align-items: flex-start;
     padding: 10px;
     border-bottom: 1px solid #e2e8f0;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     border-radius: 6px;
+    position: relative;
+    overflow: hidden;
   }
 
   .activity-item:hover {
     background-color: rgba(79, 70, 229, 0.05);
-    transform: translateX(2px);
+    transform: translateX(4px);
   }
 
   .activity-item:last-child {
     border-bottom: none;
+  }
+
+  .activity-hover-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.03), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .activity-item:hover .activity-hover-effect {
+    transform: translateX(100%);
   }
 
   .activity-icon {
@@ -407,6 +514,11 @@
     justify-content: center;
     margin-right: 12px;
     flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .activity-item:hover .activity-icon {
+    transform: scale(1.1);
   }
 
   .activity-icon i {
@@ -417,14 +529,17 @@
 
   .activity-icon.success {
     background-color: #10b981;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
   }
 
   .activity-icon.primary {
     background-color: #3b82f6;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
   }
 
   .activity-icon.info {
     background-color: #06b6d4;
+    box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
   }
 
   .activity-details {
@@ -436,6 +551,11 @@
     font-size: 0.85rem;
     color: #334155;
     font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .activity-item:hover .activity-details p {
+    color: var(--sidebar-active-icon-color);
   }
 
   .activity-details small {
@@ -443,6 +563,11 @@
     font-size: 0.75rem;
     color: #64748b;
     margin-top: 3px;
+    transition: color 0.2s ease;
+  }
+
+  .activity-item:hover .activity-details small {
+    color: #64748b;
   }
 
   .view-all-activities {
@@ -450,6 +575,11 @@
     padding: 8px 0 0;
     margin-top: 5px;
     border-top: 1px dashed #e2e8f0;
+    transition: border-color 0.3s ease;
+  }
+
+  .activity-container:hover .view-all-activities {
+    border-top-color: rgba(79, 70, 229, 0.2);
   }
 
   .view-all-activities a {
@@ -459,20 +589,25 @@
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 20px;
   }
 
   .view-all-activities a:hover {
-    color: #4338ca;
+    color: white;
+    background-color: var(--sidebar-active-icon-color);
+    transform: translateX(4px);
   }
 
   .view-all-activities a i {
     margin-left: 5px;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease;
   }
 
   .view-all-activities a:hover i {
-    transform: translateX(3px);
+    transform: translateX(5px);
   }
 
   /* Badge styling */
@@ -487,6 +622,11 @@
     background-color: #ef4444;
     color: white;
     font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-link:hover .badge-sidebar {
+    transform: translateY(-50%) scale(1.1);
   }
 
   .badge-sidebar.pulse {
@@ -496,12 +636,17 @@
   @keyframes pulse {
     0% {
       box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+      transform: translateY(-50%) scale(1);
+    }
+    50% {
+      transform: translateY(-50%) scale(1.1);
     }
     70% {
       box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
     }
     100% {
       box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+      transform: translateY(-50%) scale(1);
     }
   }
 
@@ -510,6 +655,7 @@
     padding: 15px 20px;
     border-top: 1px solid var(--sidebar-border-color);
     margin-top: auto;
+    transition: all 0.3s ease;
   }
 
   .sidebar-theme-toggle {
@@ -518,16 +664,34 @@
     color: var(--sidebar-text);
     font-size: 0.85rem;
     cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 8px;
+  }
+
+  .sidebar-theme-toggle:hover {
+    background-color: var(--sidebar-hover-bg);
   }
 
   .sidebar-theme-toggle i {
     margin-right: 10px;
     color: var(--sidebar-icon-color);
+    transition: all 0.3s ease;
+  }
+
+  .sidebar-theme-toggle:hover i {
+    color: var(--sidebar-active-icon-color);
   }
 
   .sidebar-theme-toggle .form-check-input {
     margin-left: auto;
     cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar-theme-toggle .form-check-input:checked {
+    background-color: var(--sidebar-active-icon-color);
+    border-color: var(--sidebar-active-icon-color);
   }
 
   /* Collapsed state */
@@ -535,6 +699,7 @@
     .sidebar {
       width: var(--sidebar-collapsed-width);
       overflow: hidden;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .sidebar:hover {
@@ -544,10 +709,12 @@
     
     .sidebar:hover span {
       display: inline;
+      animation: fadeIn 0.3s ease forwards;
     }
     
     .sidebar:hover .nav-heading {
       display: block;
+      animation: fadeIn 0.3s ease forwards;
     }
     
     .sidebar:hover .nav-content {
@@ -569,26 +736,35 @@
     .sidebar span {
       display: none;
       opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-    
-    .sidebar:hover span {
-      opacity: 1;
     }
     
     .nav-heading {
       display: none;
+      opacity: 0;
     }
     
     .nav-link {
       justify-content: center;
       margin: 0 8px;
       padding: 12px 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .sidebar:hover .nav-link {
+      justify-content: flex-start;
+      padding: var(--sidebar-item-padding);
+      margin: 0 12px;
     }
     
     .nav-link i {
       margin-right: 0;
       font-size: 1.25rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .sidebar:hover .nav-link i {
+      margin-right: 12px;
+      font-size: 1.15rem;
     }
     
     .nav-content {
@@ -607,6 +783,10 @@
       display: none;
     }
     
+    .sidebar:hover .badge-sidebar {
+      display: block;
+    }
+    
     .sidebar-footer {
       display: none;
     }
@@ -616,49 +796,145 @@
       width: 3px;
       height: 24px;
       border-radius: 0 2px 2px 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .sidebar:hover .nav-link.active .active-indicator {
+      right: -12px;
+      width: 4px;
+      height: 20px;
+      border-radius: 2px 0 0 2px;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 
   /* Smooth collapse animations */
   .nav-content.collapsing {
-    transition: height 0.25s ease;
+    transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Hover effects */
-  .nav-link {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
+  /* Dark mode styles */
+  body.dark-mode .sidebar {
+    --sidebar-bg: #1e293b;
+    --sidebar-text: #e2e8f0;
+    --sidebar-active-bg: rgba(99, 102, 241, 0.1);
+    --sidebar-hover-bg: #334155;
+    --sidebar-icon-color: #94a3b8;
+    --sidebar-active-icon-color: #818cf8;
+    --sidebar-border-color: #334155;
   }
 
-  .nav-link:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.1), transparent);
-    transition: all 0.5s ease;
+  body.dark-mode .recent-activity-preview {
+    background-color: #1e293b;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
   }
 
-  .nav-link:hover:before {
-    left: 100%;
+  body.dark-mode .activity-details p {
+    color: #e2e8f0;
+  }
+
+  body.dark-mode .activity-details small {
+    color: #94a3b8;
+  }
+
+  body.dark-mode .view-all-activities {
+    border-top-color: #334155;
   }
 </style>
 
 <script>
-  // Dark mode toggle
+  // Dark mode toggle with smooth transition
   document.getElementById('darkModeToggle').addEventListener('change', function() {
+    document.body.classList.add('transition-colors');
     document.body.classList.toggle('dark-mode');
     document.querySelector('.sidebar-theme-toggle i').classList.toggle('bi-moon');
     document.querySelector('.sidebar-theme-toggle i').classList.toggle('bi-sun');
+    
+    // Store preference in localStorage
+    localStorage.setItem('darkMode', this.checked);
+    
+    setTimeout(() => {
+      document.body.classList.remove('transition-colors');
+    }, 300);
   });
+
+  // Check for saved dark mode preference
+  if (localStorage.getItem('darkMode') === 'true') {
+    document.getElementById('darkModeToggle').checked = true;
+    document.body.classList.add('dark-mode');
+    document.querySelector('.sidebar-theme-toggle i').classList.remove('bi-moon');
+    document.querySelector('.sidebar-theme-toggle i').classList.add('bi-sun');
+  }
 
   // Make entire activity items clickable
   document.querySelectorAll('.activity-item').forEach(item => {
     item.addEventListener('click', function() {
-      window.location.href = '/activity';
+      // Add ripple effect
+      const ripple = document.createElement('span');
+      ripple.classList.add('ripple-effect');
+      this.appendChild(ripple);
+      
+      // Get click position
+      const rect = this.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      
+      // Position ripple
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      // Remove ripple after animation
+      setTimeout(() => {
+        ripple.remove();
+        window.location.href = '/activity';
+      }, 600);
     });
   });
+
+  // Add smooth hover effect to nav items
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateX(4px)';
+    });
+    
+    link.addEventListener('mouseleave', function() {
+      this.style.transform = '';
+    });
+  });
+
+  // Add transition to body for smooth dark mode changes
+  document.head.insertAdjacentHTML('beforeend', '<style>.transition-colors { transition: background-color 0.3s ease, color 0.3s ease; }</style>');
+
+  // Ripple effect style
+  const rippleStyle = document.createElement('style');
+  rippleStyle.textContent = `
+    .ripple-effect {
+      position: absolute;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
+      width: 20px;
+      height: 20px;
+      margin-left: -10px;
+      margin-top: -10px;
+    }
+    
+    @keyframes ripple {
+      to {
+        transform: scale(10);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(rippleStyle);
 </script>

@@ -1,11 +1,12 @@
 let express=require("express");
 
 let app=express();
-
+const mongoose = require('mongoose');
 const tble3 = require("./module/user3.0");
 const tble2 = require("./module/user2.0");
 const tble = require("./module/user");
 const Otp = require("./module/otp");  // import OTP model
+const Meeting = require("./module/meeting");
 const sendOtp = require("./compnents/sendOtp"); // import sendOtp function
 
 const recentactivity = require("./module/recentactivity");
@@ -1480,7 +1481,9 @@ exports.ser_confirm_purchase1 = async(req,res) => {
 
 
 exports.ser_view_user_send_mail = async (req, res) => {
-  try {
+  
+  
+    try {
     const uid = req.user.user_id;
 
     // Fetch user details once instead of twice
@@ -1524,7 +1527,203 @@ exports.ser_view_user_send_mail = async (req, res) => {
   }
 };
 
-    // exports.ser_update = async (req, res) => {
+
+
+exports.ser_meeting= async(req,res)=>{
+
+    try{    let uid = req.user.user_id;
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
+            let abhi = await tble.findOne({user_id:uid});
+            let name = abhi.your_name;
+       
+        res.render("meeting");
+}
+        catch{
+            res.render("error");
+        }
+
+
+
+}
+ // Assuming you have the Meeting model
+exports.ser_create_meeting = async (req, res) => {
+    try {
+        const { title, dateTime, meetingMode, meetingPlatform, meetingLink, meetingAddress, meetingCategory, description } = req.body;
+        const userId = req.user.user_id;
+
+        // Basic validation
+        if (!title || !dateTime || !meetingCategory) {
+            return res.status(400).json({
+                success: false,
+                message: 'Title, date/time, and category are required fields'
+            });
+        }
+
+        // Prepare meeting data
+        const meetingData = {
+            title: title,
+            dateTime: new Date(dateTime),
+            meetingType: meetingMode,
+            category: meetingCategory,
+            description: description || '',
+            createdBy: userId,
+            status: 'scheduled'
+        };
+
+        // Handle location details
+        if (meetingMode === 'online') {
+            if (!meetingPlatform) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Platform is required for online meetings'
+                });
+            }
+            meetingData.locationDetails = {
+                online: {
+                    platform: meetingPlatform,
+                    ...(meetingPlatform === 'other' && meetingLink ? { link: meetingLink } : {})
+                }
+            };
+        } else {
+            if (!meetingAddress) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Address is required for offline meetings'
+                });
+            }
+            meetingData.locationDetails = {
+                offline: {
+                    address: meetingAddress,
+                    coordinates: {
+                        type: 'Point',
+                        coordinates: [0, 0] // You can implement geocoding later
+                    }
+                }
+            };
+        }
+
+        // Create and save the meeting
+        const meeting = new Meeting(meetingData);
+        await meeting.save();
+        
+        // Find users to invite (assuming tble is your User model)
+        let users = await tble.find({ parent_id: userId });
+
+        // Render the selectpeople page with necessary data
+        res.render("selectpeople", {
+            users: users,
+            meetingId: meeting._id,
+            currentUserId: userId,
+            meetingTitle: meeting.title,
+            meetingDateTime: meeting.dateTime.toLocaleString()
+        });
+
+    } catch (error) {
+        console.error("Error creating meeting:", error);
+        res.render("error", { message: "Failed to create meeting" });
+    }
+};
+
+
+// Configure Nodemailer transporter
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+// Send invitations endpoint
+
+
+exports.ser_send_invite = async (req, res) => {
+    try {
+        const { recipients, subject, message, meetingId } = req.body;
+        
+        // Validate input
+        if (!recipients || !Array.isArray(recipients)) {
+            return res.status(400).json({ 
+                success: false,
+                error: 'Recipients must be provided as an array' 
+            });
+        }
+
+        // Filter out invalid emails
+        const validEmails = recipients.filter(email => 
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+        );
+        
+        if (validEmails.length === 0) {
+            return res.status(400).json({ 
+                success: false,
+                error: 'No valid email addresses provided' 
+            });
+        }
+
+        // Send email using BCC for privacy
+        const mailOptions = {
+            from: `"Meeting Scheduler" <${process.env.EMAIL_USER}>`,
+            bcc: validEmails,
+            subject: subject,
+            html: message
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        
+        // Save invitation records to database if meetingId is provided
+        if (meetingId) {
+            try {
+                await Meeting.findByIdAndUpdate(meetingId, {
+                    $addToSet: { invitees: validEmails },
+                    $set: { lastInvited: new Date() }
+                }, { new: true });
+            } catch (dbError) {
+                console.error('Database update error:', dbError);
+                // Continue even if DB update fails
+            }
+        }
+        
+        res.status(200).json({ 
+            success: true, 
+            message: 'Invitations sent successfully',
+            info: info 
+        });
+        
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: 'Failed to send invitations',
+            details: error.message 
+        });
+    }
+};
+
+
+
+
+exports.ser_success_meeting_create= async(req,res)=>{
+
+    try{
+    let uid = req.user.user_id;
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
+            let abhi = await tble.findOne({user_id:uid});
+            let name = abhi.your_name;
+       
+        res.render("successmeetingcreate",{name,user_image});
+    }
+
+    catch(error){
+    
+        res.render("error");
+    }
+
+}
+
+// exports.ser_update = async (req, res) => {
        
     //     try {
     //         let userId = req.body.id; 

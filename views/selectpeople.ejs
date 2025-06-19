@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select People for Meeting</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .meeting-info {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .user-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .user-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        .user-card:hover {
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        .user-details {
+            flex: 1;
+        }
+        .user-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .user-id {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .checkbox-container {
+            margin-left: 15px;
+        }
+        .actions {
+            margin-top: 30px;
+            text-align: right;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+            margin-right: 10px;
+        }
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .select-all {
+            margin-bottom: 15px;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .alert-success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .alert-error {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Select People to Invite</h1>
+        
+        <div id="alertContainer"></div>
+        
+        <div class="meeting-info">
+            <h2><%= meetingTitle %></h2>
+            <p><strong>Date & Time:</strong> <%= meetingDateTime %></p>
+        </div>
+        
+        <h3>Your Team Members</h3>
+        
+        <div class="select-all">
+            <input type="checkbox" id="selectAll">
+            <label for="selectAll">Select All</label>
+        </div>
+        
+        <form id="inviteForm">
+            <input type="hidden" name="meetingId" value="<%= meetingId %>">
+            
+            <div class="user-list">
+                <% users.forEach(user => { %>
+                    <div class="user-card">
+                        <% if(user.picture) { %>
+                            <img src="<%= user.picture %>" alt="<%= user.your_name %>" class="user-avatar">
+                        <% } else { %>
+                            <div class="user-avatar" style="background-color: #eee; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user" style="font-size: 24px; color: #777;"></i>
+                            </div>
+                        <% } %>
+                        <div class="user-details">
+                            <div class="user-name"><%= user.your_name %></div>
+                            <div class="user-id">ID: <%= user.user_id %></div>
+                            <div class="user-email"><%= user.email %></div>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" name="invitees" value="<%= user.user_id %>" data-email="<%= user.email %>">
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+            
+            <div class="loading" id="loadingIndicator">
+                <i class="fas fa-spinner fa-spin"></i> Sending invitations...
+            </div>
+            
+            <div class="actions">
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Back</button>
+                <button type="submit" class="btn btn-primary">Send Invitations</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Select All functionality
+        document.getElementById('selectAll').addEventListener('change', function(e) {
+            const checkboxes = document.querySelectorAll('input[name="invitees"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = e.target.checked;
+            });
+        });
+
+        // Show alert message
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            alertContainer.appendChild(alertDiv);
+            
+            // Remove alert after 5 seconds
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        document.getElementById('inviteForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get selected users
+            const checkboxes = document.querySelectorAll('input[name="invitees"]:checked');
+            if(checkboxes.length === 0) {
+                showAlert('Please select at least one person to invite', 'error');
+                return;
+            }
+            
+            // Show loading indicator
+            document.getElementById('loadingIndicator').style.display = 'block';
+            
+            // Collect selected user data
+            const selectedUsers = Array.from(checkboxes).map(cb => {
+                return {
+                    id: cb.value,
+                    email: cb.dataset.email
+                };
+            });
+            
+            // Prepare request data
+            const formData = {
+                meetingId: document.querySelector('input[name="meetingId"]').value,
+                recipients: selectedUsers.map(user => user.email),
+                subject: `Invitation to Meeting: <%= meetingTitle %>`,
+                message: `
+                    <h2>Meeting Invitation</h2>
+                    <p>You are invited to attend:</p>
+                    <p><strong><%= meetingTitle %></strong></p>
+                    <p><strong>Date & Time:</strong> <%= meetingDateTime %></p>
+                    <p>Please let us know if you can attend.</p>
+                `
+            };
+            
+            try {
+                const response = await fetch('/send_invite', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if(data.success) {
+                    showAlert('Invitations sent successfully!');
+                    // Optional: Redirect after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/successmeetingcreate'; // Redirect to meetings page
+                    }, 2000);
+                } else {
+                    showAlert('Error: ' + (data.error || 'Failed to send invitations'), 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to send invitations. Please try again.', 'error');
+            } finally {
+                document.getElementById('loadingIndicator').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
