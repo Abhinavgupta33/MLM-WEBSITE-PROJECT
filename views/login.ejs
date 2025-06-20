@@ -20,6 +20,8 @@
       --white: #ffffff;
       --gray: #6c757d;
       --light-gray: #e9ecef;
+      --error: #ff3860;
+      --success: #4BB543;
       --border-radius: 20px;
       --box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
       --transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
@@ -33,7 +35,7 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #e4f2fe 100%);
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -92,6 +94,24 @@
     @keyframes grid-pulse {
       0%, 100% { opacity: 0.3; }
       50% { opacity: 0.7; }
+    }
+
+    /* Cyberpunk neon glow effect */
+    .cyberpunk-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(76, 201, 240, 0.15) 0%, transparent 70%);
+      z-index: -1;
+      opacity: 0;
+      animation: cyberpunk-pulse 8s infinite alternate;
+    }
+
+    @keyframes cyberpunk-pulse {
+      0%, 100% { opacity: 0.1; transform: scale(0.95); }
+      50% { opacity: 0.3; transform: scale(1.05); }
     }
 
     /* Main login container - Enhanced reveal */
@@ -334,6 +354,31 @@
       }
     }
 
+    /* Error state for inputs */
+    .form-control.error {
+      border: 1px solid var(--error);
+      box-shadow: 0 0 0 3px rgba(255, 56, 96, 0.3);
+      animation: error-pulse 1.5s infinite;
+    }
+
+    @keyframes error-pulse {
+      0%, 100% { 
+        box-shadow: 0 0 0 3px rgba(255, 56, 96, 0.3); 
+      }
+      50% { 
+        box-shadow: 0 0 0 3px rgba(255, 56, 96, 0.5),
+                    0 0 15px rgba(255, 56, 96, 0.2); 
+      }
+    }
+
+    .error-message {
+      color: var(--error);
+      font-size: 0.85rem;
+      margin-top: 8px;
+      display: none;
+      animation: fade-in 0.3s ease-out;
+    }
+
     .input-icon {
       position: absolute;
       right: 25px;
@@ -352,6 +397,11 @@
       text-shadow: 0 0 10px rgba(67, 97, 238, 0.3);
     }
 
+    .form-control.error ~ .input-icon {
+      color: var(--error);
+      animation: icon-shake 0.5s ease-in-out;
+    }
+
     @keyframes icon-float {
       0% { 
         transform: translateY(-50%) translateZ(0);
@@ -360,6 +410,12 @@
         transform: translateY(-60%) translateZ(5px);
         text-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
       }
+    }
+
+    @keyframes icon-shake {
+      0%, 100% { transform: translateY(-50%) translateX(0); }
+      20%, 60% { transform: translateY(-50%) translateX(-5px); }
+      40%, 80% { transform: translateY(-50%) translateX(5px); }
     }
 
     /* Holographic button with enhanced energy pulse */
@@ -520,6 +576,29 @@
       }
     }
 
+    /* Status message */
+    .status-message {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 15px 30px;
+      border-radius: 50px;
+      background: var(--primary);
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(67, 97, 238, 0.4);
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      pointer-events: none;
+    }
+
+    .status-message.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     /* Responsive adjustments */
     @media (max-width: 600px) {
       .login-container {
@@ -540,6 +619,12 @@
   <!-- Holographic grid background -->
   <div class="holographic-grid"></div>
   
+  <!-- Cyberpunk glow effect -->
+  <div class="cyberpunk-glow"></div>
+  
+  <!-- Status message -->
+  <div class="status-message" id="statusMessage"></div>
+  
   <!-- Quantum particles will be added by JavaScript -->
   
   <div class="login-container">
@@ -556,6 +641,7 @@
               <input type="email" id="yourUsername" name="email" class="form-control" required placeholder="Email Address">
               <i class="fas fa-envelope input-icon"></i>
             </div>
+            <div class="error-message" id="emailError">Please enter a valid email address</div>
           </div>
 
           <div class="form-group">
@@ -563,9 +649,10 @@
               <input type="password" id="yourPassword" name="pass" class="form-control" required placeholder="Password">
               <i class="fas fa-lock input-icon"></i>
             </div>
+            <div class="error-message" id="passwordError">Password must be at least 6 characters</div>
           </div>
 
-          <button type="submit" class="btn-login">
+          <button type="submit" class="btn-login" id="loginButton">
             <span class="btn-content">
               <i class="fas fa-fingerprint"></i> Authenticate
             </span>
@@ -617,13 +704,89 @@
       }
     }
 
+    // Show status message
+    function showStatusMessage(message, type = 'info', duration = 3000) {
+      const statusMessage = document.getElementById('statusMessage');
+      statusMessage.textContent = message;
+      statusMessage.className = 'status-message show';
+      
+      // Set color based on type
+      if (type === 'error') {
+        statusMessage.style.background = 'var(--error)';
+        statusMessage.style.boxShadow = '0 10px 30px rgba(255, 56, 96, 0.4)';
+      } else if (type === 'success') {
+        statusMessage.style.background = 'var(--success)';
+        statusMessage.style.boxShadow = '0 10px 30px rgba(75, 181, 67, 0.4)';
+      } else {
+        statusMessage.style.background = 'var(--primary)';
+        statusMessage.style.boxShadow = '0 10px 30px rgba(67, 97, 238, 0.4)';
+      }
+      
+      // Hide after duration
+      setTimeout(() => {
+        statusMessage.className = 'status-message';
+      }, duration);
+    }
+
+    // Validate email format
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(String(email).toLowerCase());
+    }
+
+    // Validate password (at least 6 characters)
+    function validatePassword(password) {
+      return password.length >= 6;
+    }
+
+    // Show error for input field
+    function showError(input, errorElement, message) {
+      input.classList.add('error');
+      errorElement.textContent = message;
+      errorElement.style.display = 'block';
+    }
+
+    // Hide error for input field
+    function hideError(input, errorElement) {
+      input.classList.remove('error');
+      errorElement.style.display = 'none';
+    }
+
     // Enhanced cyberpunk authentication sequence
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const btn = document.querySelector('.btn-login');
+      
+      // Get form elements
+      const emailInput = document.getElementById('yourUsername');
+      const passwordInput = document.getElementById('yourPassword');
+      const emailError = document.getElementById('emailError');
+      const passwordError = document.getElementById('passwordError');
+      const btn = document.getElementById('loginButton');
       const icon = document.querySelector('.btn-content i');
       const text = document.querySelector('.btn-content');
       const form = this;
+      
+      // Validate inputs
+      let isValid = true;
+      
+      if (!emailInput.value || !validateEmail(emailInput.value)) {
+        showError(emailInput, emailError, 'Please enter a valid email address');
+        isValid = false;
+      } else {
+        hideError(emailInput, emailError);
+      }
+      
+      if (!passwordInput.value || !validatePassword(passwordInput.value)) {
+        showError(passwordInput, passwordError, 'Password must be at least 6 characters');
+        isValid = false;
+      } else {
+        hideError(passwordInput, passwordError);
+      }
+      
+      if (!isValid) {
+        showStatusMessage('Please fix the errors in the form', 'error');
+        return;
+      }
       
       // Start cyberpunk authentication sequence
       btn.style.pointerEvents = 'none';
@@ -646,16 +809,19 @@
           // Phase 3: Granting Access with success effect
           icon.className = 'fas fa-check-circle';
           text.innerHTML = '<i class="fas fa-check-circle"></i> Access Granted';
-          btn.style.background = 'linear-gradient(135deg, #4BB543, #3a9a33)';
+          btn.style.background = 'linear-gradient(135deg, var(--success), #3a9a33)';
           btn.style.boxShadow = '0 15px 40px rgba(75, 181, 67, 0.5), 0 0 0 15px rgba(75, 181, 67, 0)';
           
           // Create success particles
           createSuccessParticles(btn);
           
+          // Show success message
+          showStatusMessage('Login successful! Redirecting...', 'success');
+          
           // Submit form after animation
           setTimeout(() => {
             form.submit();
-          }, 1000);
+          }, 1500);
         }, 2000);
       }, 2000);
     });
@@ -779,6 +945,18 @@
           particle.style.transform = `translate(${x}px, ${y}px) translateZ(${speed}px)`;
         });
       });
+      
+      // Check for URL parameters to show messages
+      const urlParams = new URLSearchParams(window.location.search);
+      const status = urlParams.get('status');
+      
+      if (status === 'error') {
+        showStatusMessage('Login failed. Please try again.', 'error');
+      } else if (status === 'logout') {
+        showStatusMessage('You have been logged out successfully.', 'success');
+      } else if (status === 'session_expired') {
+        showStatusMessage('Your session has expired. Please login again.', 'error');
+      }
     });
   </script>
 </body>
