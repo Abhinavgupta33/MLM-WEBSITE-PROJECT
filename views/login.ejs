@@ -52,7 +52,7 @@
       color: var(--dark-gray);
     }
 
-    /* Optimized Quantum Bubble Particles */
+    /* Enhanced Quantum Bubble Particles */
     .quantum-bubble {
       position: absolute;
       border-radius: 50%;
@@ -68,8 +68,6 @@
       transform-style: preserve-3d;
       will-change: transform, opacity;
       pointer-events: none;
-      backface-visibility: hidden;
-      transform: translate3d(0, 0, 0);
     }
 
     @keyframes bubble-float {
@@ -116,7 +114,7 @@
       50% { opacity: 0.7; }
     }
 
-    /* Floating bubbles decoration - Optimized */
+    /* Floating bubbles decoration - Enhanced */
     .floating-bubble {
       position: absolute;
       border-radius: 50%;
@@ -127,8 +125,6 @@
       transform-style: preserve-3d;
       will-change: transform, opacity;
       pointer-events: none;
-      backface-visibility: hidden;
-      transform: translate3d(0, 0, 0);
     }
 
     .bubble-1 {
@@ -168,10 +164,10 @@
     }
 
     @keyframes float {
-      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-      25% { transform: translate3d(10px, 15px, 0) rotate(5deg); }
-      50% { transform: translate3d(20px, 5px, 0) rotate(-5deg); }
-      75% { transform: translate3d(15px, 10px, 0) rotate(3deg); }
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(10px, 15px) rotate(5deg); }
+      50% { transform: translate(20px, 5px) rotate(-5deg); }
+      75% { transform: translate(15px, 10px) rotate(3deg); }
     }
 
     /* Main login container - Enhanced reveal with depth */
@@ -804,14 +800,14 @@
     /* Enhanced bubble animations */
     @keyframes bubble-rise {
       0% {
-        transform: translate3d(0, 0, 0) scale(0.8);
+        transform: translateY(0) scale(0.8);
         opacity: 0;
       }
       20% {
         opacity: 0.8;
       }
       100% {
-        transform: translate3d(0, -100vh, 0) scale(1.2);
+        transform: translateY(-100vh) scale(1.2);
         opacity: 0;
       }
     }
@@ -828,36 +824,6 @@
       100% {
         transform: rotate(360deg) translateX(100px) rotate(-360deg) scale(0.8);
         opacity: 0;
-      }
-    }
-
-    /* New bubble animations */
-    @keyframes bubble-morph {
-      0%, 100% {
-        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-      }
-      50% {
-        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-      }
-    }
-
-    @keyframes bubble-twinkle {
-      0%, 100% {
-        opacity: 0.7;
-        box-shadow: 0 0 10px 5px rgba(76, 201, 240, 0.3);
-      }
-      50% {
-        opacity: 1;
-        box-shadow: 0 0 20px 10px rgba(76, 201, 240, 0.5);
-      }
-    }
-
-    @keyframes bubble-spin {
-      0% {
-        transform: rotate(0deg) scale(1);
-      }
-      100% {
-        transform: rotate(360deg) scale(1.2);
       }
     }
   </style>
@@ -941,15 +907,8 @@
   </div>
 
   <script>
-    // Performance optimization flags
-    let animationEnabled = true;
-    let lastAnimationTime = 0;
-    const animationThrottle = 100; // ms between animations
-    
     // Enhanced quantum bubbles with multiple animation types
     function createQuantumBubbles() {
-      if (!animationEnabled) return;
-      
       const colors = [
         'rgba(67, 97, 238, 0.7)',
         'rgba(76, 201, 240, 0.7)',
@@ -958,7 +917,7 @@
         'rgba(114, 9, 183, 0.7)'
       ];
       const body = document.body;
-      const bubbleCount = Math.min(Math.floor(window.innerWidth / 15), 40); // Reduced to 40 bubbles max
+      const bubbleCount = Math.min(Math.floor(window.innerWidth / 10), 60); // Limit to 60 bubbles
       
       // Remove existing bubbles if any
       document.querySelectorAll('.quantum-bubble').forEach(el => el.remove());
@@ -968,42 +927,37 @@
         bubble.className = 'quantum-bubble';
         
         // Random properties with enhanced effects
-        const size = Math.random() * 15 + 5; // Smaller bubbles
+        const size = Math.random() * 20 + 10;
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
-        const tx = (Math.random() - 0.5) * 200; // Reduced movement
-        const ty = (Math.random() - 0.5) * 200;
-        const duration = Math.random() * 20 + 15; // Longer duration
-        const delay = Math.random() * 15;
+        const tx = (Math.random() - 0.5) * 300;
+        const ty = (Math.random() - 0.5) * 300;
+        const duration = Math.random() * 15 + 10; // Longer duration
+        const delay = Math.random() * 10;
         const color = colors[Math.floor(Math.random() * colors.length)];
         const zIndex = Math.floor(Math.random() * 5) - 2;
-        const opacity = Math.random() * 0.3 + 0.1; // Lower opacity
-        const animationType = Math.random() > 0.6 ? 'bubble-float' : 
-                            (Math.random() > 0.3 ? 'bubble-rise' : 'bubble-morph');
+        const opacity = Math.random() * 0.4 + 0.1;
+        const animationType = Math.random() > 0.5 ? 'bubble-float' : 'bubble-rise';
+        const animationCurve = Math.random() > 0.5 ? 'ease-in-out' : 'linear';
         
-        // Apply styles
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
         bubble.style.left = `${posX}%`;
         bubble.style.top = `${posY}%`;
         bubble.style.setProperty('--tx', `${tx}px`);
         bubble.style.setProperty('--ty', `${ty}px`);
-        bubble.style.animation = `${animationType} ${duration}s ease-in-out ${delay}s infinite`;
+        bubble.style.animation = `${animationType} ${duration}s ${animationCurve} ${delay}s infinite`;
         bubble.style.backgroundColor = color;
         bubble.style.zIndex = zIndex;
         bubble.style.opacity = opacity;
+        bubble.style.willChange = 'transform, opacity';
         
         // Add glow effect
-        bubble.style.boxShadow = `0 0 ${size}px ${size/3}px ${color.replace('0.7', '0.3')}`;
+        bubble.style.boxShadow = `0 0 ${size/2}px ${size/4}px ${color.replace('0.7', '0.3')}`;
         
-        // Random bubble shape and additional animations
-        if (Math.random() > 0.5) {
-          bubble.style.borderRadius = '30% 70% 70% 30% / 30% 30% 70% 70%';
-          bubble.style.animation += `, bubble-morph ${duration * 2}s ease-in-out infinite`;
-        }
-        
+        // Random bubble shape variation
         if (Math.random() > 0.7) {
-          bubble.style.animation += `, bubble-twinkle ${duration / 2}s ease-in-out infinite`;
+          bubble.style.borderRadius = '30% 70% 70% 30% / 30% 30% 70% 70%';
         }
         
         body.appendChild(bubble);
@@ -1023,29 +977,29 @@
       const centerY = cardRect.top + cardRect.height / 2;
       const radius = Math.max(cardRect.width, cardRect.height) * 0.8;
       
-      for (let i = 0; i < 6; i++) { // Reduced to 6 orbital bubbles
+      for (let i = 0; i < 8; i++) {
         const bubble = document.createElement('div');
         bubble.className = 'quantum-bubble orbital-bubble';
         
-        const size = Math.random() * 12 + 8; // Smaller size
-        const angle = (i * 60) * (Math.PI / 180);
+        const size = Math.random() * 15 + 10;
+        const angle = (i * 45) * (Math.PI / 180);
         const startX = centerX + Math.cos(angle) * radius - size/2;
         const startY = centerY + Math.sin(angle) * radius - size/2;
-        const duration = Math.random() * 25 + 25; // Longer duration
+        const duration = Math.random() * 20 + 20;
         const delay = Math.random() * 5;
         const color = `rgba(${Math.floor(Math.random() * 100 + 155)}, 
                           ${Math.floor(Math.random() * 100 + 155)}, 
-                          ${Math.floor(Math.random() * 100 + 155)}, 0.5)`; // Lower opacity
+                          ${Math.floor(Math.random() * 100 + 155)}, 0.6)`;
         
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
         bubble.style.left = `${startX}px`;
         bubble.style.top = `${startY}px`;
-        bubble.style.animation = `bubble-orbital ${duration}s linear ${delay}s infinite, bubble-twinkle ${duration / 3}s ease-in-out infinite`;
+        bubble.style.animation = `bubble-orbital ${duration}s linear ${delay}s infinite`;
         bubble.style.backgroundColor = color;
         bubble.style.zIndex = '-1';
-        bubble.style.opacity = '0.4';
-        bubble.style.boxShadow = `0 0 ${size}px ${size/3}px ${color.replace('0.5', '0.2')}`;
+        bubble.style.opacity = '0.5';
+        bubble.style.boxShadow = `0 0 ${size}px ${size/2}px ${color.replace('0.6', '0.2')}`;
         
         document.body.appendChild(bubble);
       }
@@ -1165,119 +1119,85 @@
     
     // Create success bubbles effect
     function createSuccessBubbles(element) {
-      const now = Date.now();
-      if (now - lastAnimationTime < animationThrottle) return;
-      lastAnimationTime = now;
-      
       const rect = element.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       
-      // Create a container for performance
-      const bubbleContainer = document.createElement('div');
-      bubbleContainer.style.position = 'fixed';
-      bubbleContainer.style.top = '0';
-      bubbleContainer.style.left = '0';
-      bubbleContainer.style.width = '100%';
-      bubbleContainer.style.height = '100%';
-      bubbleContainer.style.pointerEvents = 'none';
-      bubbleContainer.style.zIndex = '1000';
-      document.body.appendChild(bubbleContainer);
-      
-      for (let i = 0; i < 20; i++) { // Reduced number of bubbles
+      for (let i = 0; i < 30; i++) {
         const bubble = document.createElement('div');
+        bubble.className = 'success-bubble';
         
-        const size = Math.random() * 12 + 5; // Smaller bubbles
+        const size = Math.random() * 15 + 5;
         const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 80 + 40; // Reduced distance
-        const duration = Math.random() * 1 + 0.5; // Shorter duration
-        const delay = Math.random() * 0.3;
-        const color = `rgba(76, 201, 240, ${Math.random() * 0.4 + 0.3})`; // Lower opacity
+        const distance = Math.random() * 100 + 50;
+        const duration = Math.random() * 1.5 + 0.5;
+        const delay = Math.random() * 0.5;
+        const color = `rgba(76, 201, 240, ${Math.random() * 0.5 + 0.3})`;
         
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
         bubble.style.background = color;
         bubble.style.borderRadius = '50%';
-        bubble.style.position = 'absolute';
+        bubble.style.position = 'fixed';
         bubble.style.left = `${centerX}px`;
         bubble.style.top = `${centerY}px`;
-        bubble.style.opacity = '0.7';
+        bubble.style.opacity = '0.8';
         bubble.style.filter = 'blur(1px)';
         bubble.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
         bubble.style.animation = `success-bubble-fade ${duration}s ease-out ${delay}s forwards, bubble-pulse ${duration/2}s ease-in-out infinite`;
+        bubble.style.zIndex = '1000';
+        bubble.style.pointerEvents = 'none';
         bubble.style.willChange = 'transform, opacity';
-        bubble.style.boxShadow = `0 0 ${size}px ${size/3}px rgba(76, 201, 240, 0.3)`;
+        bubble.style.boxShadow = `0 0 ${size}px ${size/2}px rgba(76, 201, 240, 0.3)`;
         
-        bubbleContainer.appendChild(bubble);
+        document.body.appendChild(bubble);
         
         // Remove bubble after animation
         setTimeout(() => {
           bubble.remove();
         }, (duration + delay) * 1000);
       }
-      
-      // Remove container after all animations complete
-      setTimeout(() => {
-        bubbleContainer.remove();
-      }, 2000);
     }
     
     // Create error bubbles effect
     function createErrorBubbles(element) {
-      const now = Date.now();
-      if (now - lastAnimationTime < animationThrottle) return;
-      lastAnimationTime = now;
-      
       const rect = element.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       
-      // Create a container for performance
-      const bubbleContainer = document.createElement('div');
-      bubbleContainer.style.position = 'fixed';
-      bubbleContainer.style.top = '0';
-      bubbleContainer.style.left = '0';
-      bubbleContainer.style.width = '100%';
-      bubbleContainer.style.height = '100%';
-      bubbleContainer.style.pointerEvents = 'none';
-      bubbleContainer.style.zIndex = '1000';
-      document.body.appendChild(bubbleContainer);
-      
-      for (let i = 0; i < 15; i++) { // Reduced number of bubbles
+      for (let i = 0; i < 20; i++) {
         const bubble = document.createElement('div');
+        bubble.className = 'error-bubble';
         
-        const size = Math.random() * 10 + 3;
+        const size = Math.random() * 12 + 3;
         const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 50 + 20;
-        const duration = Math.random() * 0.6 + 0.3;
-        const color = `rgba(247, 37, 133, ${Math.random() * 0.4 + 0.3})`;
+        const distance = Math.random() * 60 + 30;
+        const duration = Math.random() * 0.8 + 0.3;
+        const color = `rgba(247, 37, 133, ${Math.random() * 0.5 + 0.3})`;
         
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
         bubble.style.background = color;
         bubble.style.borderRadius = '50%';
-        bubble.style.position = 'absolute';
+        bubble.style.position = 'fixed';
         bubble.style.left = `${centerX}px`;
         bubble.style.top = `${centerY}px`;
-        bubble.style.opacity = '0.7';
+        bubble.style.opacity = '0.8';
         bubble.style.filter = 'blur(1px)';
         bubble.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
         bubble.style.animation = `error-bubble-fade ${duration}s ease-out forwards`;
+        bubble.style.zIndex = '1000';
+        bubble.style.pointerEvents = 'none';
         bubble.style.willChange = 'transform, opacity';
-        bubble.style.boxShadow = `0 0 ${size}px ${size/3}px rgba(247, 37, 133, 0.3)`;
+        bubble.style.boxShadow = `0 0 ${size}px ${size/2}px rgba(247, 37, 133, 0.3)`;
         
-        bubbleContainer.appendChild(bubble);
+        document.body.appendChild(bubble);
         
         // Remove bubble after animation
         setTimeout(() => {
           bubble.remove();
         }, duration * 1000);
       }
-      
-      // Remove container after all animations complete
-      setTimeout(() => {
-        bubbleContainer.remove();
-      }, 1000);
     }
 
     // Add CSS for bubble animations
@@ -1286,26 +1206,26 @@
       @keyframes success-bubble-fade {
         0% {
           transform: translate(0, 0) scale(0.8);
-          opacity: 0.7;
+          opacity: 0.8;
         }
         50% {
           opacity: 1;
           filter: blur(0);
         }
         100% {
-          transform: translate(var(--tx, 0), var(--ty, 0)) scale(1.2);
+          transform: translate(var(--tx, 0), var(--ty, 0)) scale(1.5);
           opacity: 0;
-          filter: blur(1px);
+          filter: blur(2px);
         }
       }
       
       @keyframes error-bubble-fade {
         0% {
           transform: translate(0, 0) scale(0.8);
-          opacity: 0.7;
+          opacity: 0.8;
         }
         100% {
-          transform: translate(var(--tx, 0), var(--ty, 0)) scale(1.1);
+          transform: translate(var(--tx, 0), var(--ty, 0)) scale(1.2);
           opacity: 0;
         }
       }
@@ -1313,106 +1233,32 @@
       /* Bubble pulse animation */
       @keyframes bubble-pulse {
         0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-      }
-      
-      /* Morphing bubbles */
-      @keyframes bubble-morph {
-        0%, 100% {
-          border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-        }
-        50% {
-          border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-        }
-      }
-      
-      /* Twinkling effect */
-      @keyframes bubble-twinkle {
-        0%, 100% {
-          opacity: 0.6;
-          box-shadow: 0 0 10px 5px rgba(76, 201, 240, 0.2);
-        }
-        50% {
-          opacity: 0.9;
-          box-shadow: 0 0 15px 7px rgba(76, 201, 240, 0.4);
-        }
+        50% { transform: scale(1.2); }
       }
     `;
     document.head.appendChild(style);
 
     // Initialize everything when page loads
     document.addEventListener('DOMContentLoaded', function() {
-      // Check for reduced motion preference
-      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      animationEnabled = !motionQuery.matches;
+      createQuantumBubbles();
       
-      if (animationEnabled) {
-        createQuantumBubbles();
-        
-        // Add optimized parallax effect to quantum bubbles
-        let lastMouseX = 0;
-        let lastMouseY = 0;
-        
-        document.addEventListener('mousemove', function(e) {
-          const now = Date.now();
-          if (now - lastAnimationTime < animationThrottle) return;
-          lastAnimationTime = now;
-          
-          const deltaX = e.clientX - lastMouseX;
-          const deltaY = e.clientY - lastMouseY;
-          lastMouseX = e.clientX;
-          lastMouseY = e.clientY;
-          
-          const bubbles = document.querySelectorAll('.quantum-bubble:not(.orbital-bubble)');
-          bubbles.forEach(bubble => {
-            const speed = parseFloat(bubble.style.zIndex || 0) * 0.5; // Reduced movement
-            const x = deltaX * speed;
-            const y = deltaY * speed;
-            bubble.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-          });
+      // Add parallax effect to quantum bubbles
+      document.addEventListener('mousemove', function(e) {
+        const bubbles = document.querySelectorAll('.quantum-bubble:not(.orbital-bubble)');
+        bubbles.forEach(bubble => {
+          const speed = parseFloat(bubble.style.zIndex || 0) * 1.5;
+          const x = (e.clientX - window.innerWidth / 2) / 100 * speed;
+          const y = (e.clientY - window.innerHeight / 2) / 100 * speed;
+          bubble.style.transform = `translate(${x}px, ${y}px) translateZ(${speed}px)`;
         });
-        
-        // Recreate bubbles on resize (with debounce)
-        let resizeTimeout;
-        window.addEventListener('resize', function() {
-          clearTimeout(resizeTimeout);
-          resizeTimeout = setTimeout(createQuantumBubbles, 300);
-        });
-        
-        // Periodically add some floating bubbles (with throttling)
-        setInterval(() => {
-          const now = Date.now();
-          if (now - lastAnimationTime < animationThrottle * 2) return;
-          lastAnimationTime = now;
-          
-          const floatingBubble = document.createElement('div');
-          floatingBubble.className = 'quantum-bubble floating';
-          
-          const size = Math.random() * 20 + 10;
-          const startX = Math.random() * window.innerWidth;
-          const duration = Math.random() * 8 + 8;
-          const color = `rgba(${Math.floor(Math.random() * 100 + 155)}, 
-                       ${Math.floor(Math.random() * 100 + 155)}, 
-                       ${Math.floor(Math.random() * 100 + 155)}, 0.5)`;
-          
-          floatingBubble.style.width = `${size}px`;
-          floatingBubble.style.height = `${size}px`;
-          floatingBubble.style.left = `${startX}px`;
-          floatingBubble.style.bottom = `-${size}px`;
-          floatingBubble.style.animation = `bubble-rise ${duration}s linear forwards, bubble-twinkle ${duration / 2}s ease-in-out infinite`;
-          floatingBubble.style.backgroundColor = color;
-          floatingBubble.style.zIndex = '-1';
-          floatingBubble.style.opacity = '0.6';
-          floatingBubble.style.boxShadow = `0 0 ${size}px ${size/3}px ${color.replace('0.5', '0.2')}`;
-          
-          document.body.appendChild(floatingBubble);
-          
-          // Remove bubble after animation
-          setTimeout(() => {
-            floatingBubble.remove();
-          }, duration * 1000);
-        }, 1500); // Reduced frequency
-      }
+      });
+      
+      // Recreate bubbles on resize (with debounce)
+      let resizeTimeout;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(createQuantumBubbles, 200);
+      });
       
       // Check for error messages in URL (for redirects from other pages)
       const urlParams = new URLSearchParams(window.location.search);
@@ -1426,16 +1272,36 @@
       if (successMessage) {
         showStatusMessage(decodeURIComponent(successMessage), 'success');
       }
-    });
-    
-    // Handle reduced motion preference changes
-    window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
-      animationEnabled = !e.matches;
-      if (animationEnabled) {
-        createQuantumBubbles();
-      } else {
-        document.querySelectorAll('.quantum-bubble').forEach(el => el.remove());
-      }
+      
+      // Periodically add some floating bubbles
+      setInterval(() => {
+        const floatingBubble = document.createElement('div');
+        floatingBubble.className = 'quantum-bubble floating';
+        
+        const size = Math.random() * 30 + 10;
+        const startX = Math.random() * window.innerWidth;
+        const duration = Math.random() * 10 + 10;
+        const color = `rgba(${Math.floor(Math.random() * 100 + 155)}, 
+                         ${Math.floor(Math.random() * 100 + 155)}, 
+                         ${Math.floor(Math.random() * 100 + 155)}, 0.6)`;
+        
+        floatingBubble.style.width = `${size}px`;
+        floatingBubble.style.height = `${size}px`;
+        floatingBubble.style.left = `${startX}px`;
+        floatingBubble.style.bottom = `-${size}px`;
+        floatingBubble.style.animation = `bubble-rise ${duration}s linear forwards`;
+        floatingBubble.style.backgroundColor = color;
+        floatingBubble.style.zIndex = '-1';
+        floatingBubble.style.opacity = '0.7';
+        floatingBubble.style.boxShadow = `0 0 ${size}px ${size/2}px ${color.replace('0.6', '0.2')}`;
+        
+        document.body.appendChild(floatingBubble);
+        
+        // Remove bubble after animation
+        setTimeout(() => {
+          floatingBubble.remove();
+        }, duration * 1000);
+      }, 1000);
     });
   </script>
 </body>
