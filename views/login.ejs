@@ -17,14 +17,20 @@
       --primary: #4361ee;
       --primary-light: #4cc9f0;
       --primary-dark: #3a56d4;
+      --secondary: #f72585;
+      --success: #4cc9f0;
       --white: #ffffff;
+      --light: #f8f9fa;
+      --lighter: #f1f3f5;
       --gray: #6c757d;
       --light-gray: #e9ecef;
-      --error: #ff3860;
-      --success: #4BB543;
-      --border-radius: 20px;
-      --box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-      --transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      --dark-gray: #495057;
+      --border-radius: 16px;
+      --border-radius-sm: 8px;
+      --box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
+      --box-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      --transition-fast: all 0.2s ease;
     }
 
     * {
@@ -35,7 +41,7 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      background: linear-gradient(135deg, var(--light) 0%, var(--lighter) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -43,40 +49,53 @@
       padding: 20px;
       position: relative;
       overflow: hidden;
+      color: var(--dark-gray);
     }
 
-    /* Quantum particles background - Enhanced */
-    .quantum-particle {
+    /* Optimized Quantum Bubble Particles */
+    .quantum-bubble {
       position: absolute;
-      width: 8px;
-      height: 8px;
       border-radius: 50%;
-      background: var(--primary-light);
+      background: radial-gradient(circle at center, 
+                  rgba(76, 201, 240, 0.8) 0%, 
+                  rgba(76, 201, 240, 0.4) 70%, 
+                  transparent 100%);
+      box-shadow: 0 0 15px 5px rgba(76, 201, 240, 0.3);
       opacity: 0;
-      filter: blur(1px);
       z-index: -1;
-      animation: quantum-drift linear infinite;
+      filter: blur(1px);
+      animation: bubble-float linear infinite;
       transform-style: preserve-3d;
+      will-change: transform, opacity;
+      pointer-events: none;
+      backface-visibility: hidden;
+      transform: translate3d(0, 0, 0);
     }
 
-    @keyframes quantum-drift {
+    @keyframes bubble-float {
       0% {
-        transform: translate3d(0, 0, 0) scale(0.3);
+        transform: translate3d(0, 0, 0) scale(0.2);
         opacity: 0;
       }
-      10% {
+      20% {
         opacity: 0.8;
       }
-      90% {
+      80% {
         opacity: 0.6;
       }
       100% {
-        transform: translate3d(var(--tx, 100px), var(--ty, 100px), 0) scale(1.8);
+        transform: translate3d(var(--tx, 200px), var(--ty, 200px), 0) scale(1.5);
         opacity: 0;
       }
     }
 
-    /* Holographic grid background */
+    /* Bubble pulse effect */
+    @keyframes bubble-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    /* Holographic grid background - Lighter version */
     .holographic-grid {
       position: absolute;
       top: 0;
@@ -84,11 +103,12 @@
       width: 100%;
       height: 100%;
       background: 
-        linear-gradient(rgba(67, 97, 238, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(67, 97, 238, 0.05) 1px, transparent 1px);
+        linear-gradient(rgba(67, 97, 238, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(67, 97, 238, 0.03) 1px, transparent 1px);
       background-size: 40px 40px;
       z-index: -2;
-      animation: grid-pulse 8s infinite alternate;
+      animation: grid-pulse 12s infinite alternate;
+      opacity: 0.5;
     }
 
     @keyframes grid-pulse {
@@ -96,65 +116,107 @@
       50% { opacity: 0.7; }
     }
 
-    /* Cyberpunk neon glow effect */
-    .cyberpunk-glow {
+    /* Floating bubbles decoration - Optimized */
+    .floating-bubble {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, rgba(76, 201, 240, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(30px);
+      opacity: 0.2;
       z-index: -1;
-      opacity: 0;
-      animation: cyberpunk-pulse 8s infinite alternate;
+      animation: float 15s infinite ease-in-out, bubble-pulse 8s infinite ease-in-out;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
+      pointer-events: none;
+      backface-visibility: hidden;
+      transform: translate3d(0, 0, 0);
     }
 
-    @keyframes cyberpunk-pulse {
-      0%, 100% { opacity: 0.1; transform: scale(0.95); }
-      50% { opacity: 0.3; transform: scale(1.05); }
+    .bubble-1 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle at 30% 30%, var(--primary), var(--primary-dark));
+      top: -50px;
+      left: -50px;
+      animation-delay: 0s;
     }
 
-    /* Main login container - Enhanced reveal */
+    .bubble-2 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle at 70% 30%, var(--primary-light), var(--success));
+      bottom: -100px;
+      right: -100px;
+      animation-delay: 2s;
+    }
+
+    .bubble-3 {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle at 50% 70%, var(--secondary), #f72585cc);
+      top: 30%;
+      right: 10%;
+      animation-delay: 4s;
+    }
+
+    .bubble-4 {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle at 40% 60%, #7209b7, #3a0ca3);
+      bottom: 20%;
+      left: 10%;
+      animation-delay: 1s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+      25% { transform: translate3d(10px, 15px, 0) rotate(5deg); }
+      50% { transform: translate3d(20px, 5px, 0) rotate(-5deg); }
+      75% { transform: translate3d(15px, 10px, 0) rotate(3deg); }
+    }
+
+    /* Main login container - Enhanced reveal with depth */
     .login-container {
       max-width: 500px;
       width: 100%;
-      perspective: 1000px;
+      perspective: 1200px;
       opacity: 0;
-      transform: scale(0.8) rotateY(30deg);
-      animation: cyberpunk-reveal 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s forwards;
+      transform: scale(0.9) rotateY(15deg);
+      animation: cyberpunk-reveal 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s forwards;
+      will-change: transform, opacity;
     }
 
     @keyframes cyberpunk-reveal {
       0% {
         opacity: 0;
-        transform: scale(0.8) rotateY(30deg) translateY(50px);
-        filter: blur(10px) hue-rotate(90deg);
+        transform: scale(0.9) rotateY(15deg) translateY(30px);
+        filter: blur(5px);
       }
       60% {
-        filter: blur(2px) hue-rotate(0deg);
+        filter: blur(0);
       }
       100% {
         opacity: 1;
         transform: scale(1) rotateY(0) translateY(0);
-        filter: blur(0) hue-rotate(0deg);
       }
     }
 
-    /* Neon card with enhanced scanline effect */
+    /* Glass card with enhanced depth effect */
     .login-card {
       border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      background: rgba(255, 255, 255, 0.97);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      box-shadow: var(--box-shadow-lg);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       overflow: hidden;
       transition: var(--transition);
       transform-style: preserve-3d;
       position: relative;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       transform: translateZ(0);
+      will-change: transform, box-shadow;
     }
 
+    /* Subtle scanline effect */
     .login-card::before {
       content: '';
       position: absolute;
@@ -165,15 +227,17 @@
       background: linear-gradient(
         to bottom,
         transparent 95%,
-        rgba(76, 201, 240, 0.15) 96%,
+        rgba(76, 201, 240, 0.08) 96%,
         transparent 97%
       );
-      background-size: 100% 8px;
+      background-size: 100% 10px;
       pointer-events: none;
-      animation: scanline 6s linear infinite;
+      animation: scanline 8s linear infinite;
       z-index: 2;
+      opacity: 0.5;
     }
 
+    /* Subtle gradient overlay */
     .login-card::after {
       content: '';
       position: absolute;
@@ -183,12 +247,13 @@
       height: 100%;
       background: linear-gradient(
         135deg,
-        rgba(255, 255, 255, 0.03) 0%,
+        rgba(255, 255, 255, 0.1) 0%,
         rgba(255, 255, 255, 0) 50%,
-        rgba(255, 255, 255, 0.03) 100%
+        rgba(255, 255, 255, 0.1) 100%
       );
       pointer-events: none;
       z-index: 1;
+      opacity: 0.3;
     }
 
     @keyframes scanline {
@@ -196,42 +261,27 @@
       100% { background-position: 0 100%; }
     }
 
+    /* Hover effect with 3D tilt and depth */
     .login-card:hover {
-      transform: translateY(-10px) rotateX(1deg) rotateY(1deg) translateZ(20px);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25), 
-                  0 0 0 2px rgba(76, 201, 240, 0.4),
-                  0 0 30px rgba(76, 201, 240, 0.3);
+      transform: translateY(-8px) rotateX(1deg) rotateY(1deg) translateZ(20px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 
+                  0 0 0 1px rgba(76, 201, 240, 0.3),
+                  0 0 20px rgba(76, 201, 240, 0.1);
     }
 
-    /* Header with enhanced digital rain effect */
+    /* Header with subtle digital effect */
     .login-header {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: var(--white);
-      padding: 3rem;
+      padding: 2.5rem;
       text-align: center;
       position: relative;
       overflow: hidden;
       transform: translateZ(40px);
     }
 
+    /* Digital rain effect - more subtle */
     .login-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(255, 255, 255, 0.08) 50%,
-        transparent 100%
-      );
-      animation: digital-rain 4s linear infinite;
-      opacity: 0.6;
-    }
-
-    .login-header::after {
       content: '';
       position: absolute;
       top: 0;
@@ -244,7 +294,7 @@
         rgba(255, 255, 255, 0.05) 50%,
         transparent 100%
       );
-      animation: digital-rain 6s linear infinite reverse;
+      animation: digital-rain 6s linear infinite;
       opacity: 0.4;
     }
 
@@ -253,47 +303,44 @@
       100% { transform: translateY(100%); }
     }
 
+    /* Header content with glitch effect */
     .login-header h2 {
       font-weight: 600;
       margin-bottom: 0.5rem;
-      font-size: 2.2rem;
+      font-size: 2rem;
       position: relative;
       animation: text-glitch 1s cubic-bezier(0.25, 1, 0.5, 1) both;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     @keyframes text-glitch {
       0% {
         opacity: 0;
-        transform: translateY(-20px) scaleX(0.9);
-        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-      }
-      50% {
-        text-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 
-                     0 0 10px rgba(67, 97, 238, 0.5);
+        transform: translateY(-10px);
       }
       100% {
         opacity: 1;
-        transform: translateY(0) scaleX(1);
+        transform: translateY(0);
       }
     }
 
     .login-header p {
       font-weight: 300;
       opacity: 0.9;
+      font-size: 0.95rem;
       position: relative;
       animation: fade-in 1s 0.3s cubic-bezier(0.25, 1, 0.5, 1) both;
     }
 
-    /* Login body with floating inputs - Enhanced */
+    /* Login body with floating inputs */
     .login-body {
-      padding: 3rem;
+      padding: 2.5rem;
       position: relative;
       transform: translateZ(20px);
     }
 
     .form-group {
-      margin-bottom: 2rem;
+      margin-bottom: 1.8rem;
       position: relative;
       animation: input-appear 1s 0.5s cubic-bezier(0.25, 1, 0.5, 1) both;
     }
@@ -301,7 +348,7 @@
     @keyframes input-appear {
       0% {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px);
       }
       100% {
         opacity: 1;
@@ -313,93 +360,62 @@
       position: relative;
       transition: var(--transition);
       transform-style: preserve-3d;
+      will-change: transform;
     }
 
     .input-container:hover {
-      transform: translateY(-5px) translateZ(10px);
+      transform: translateY(-3px) translateZ(5px);
     }
 
+    /* Input field styling */
     .form-control {
       width: 100%;
-      height: 60px;
-      border-radius: var(--border-radius);
+      height: 56px;
+      border-radius: var(--border-radius-sm);
       border: none;
-      padding: 0 60px 0 25px;
-      font-size: 1rem;
-      transition: var(--transition);
-      background: rgba(233, 236, 239, 0.6);
-      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.08);
+      padding: 0 55px 0 20px;
+      font-size: 0.95rem;
+      transition: var(--transition-fast);
+      background: rgba(233, 236, 239, 0.5);
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
       font-weight: 500;
-      border: 1px solid rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      color: var(--dark-gray);
       transform: translateZ(0);
+      will-change: transform, box-shadow;
     }
 
     .form-control:focus {
       background: var(--white);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3), 
-                  inset 0 2px 10px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2), 
+                  inset 0 1px 3px rgba(0, 0, 0, 0.05);
       outline: none;
-      animation: input-pulse 2s infinite;
-      border: 1px solid rgba(67, 97, 238, 0.3);
+      border-color: rgba(67, 97, 238, 0.3);
       transform: translateZ(5px);
     }
 
-    @keyframes input-pulse {
-      0%, 100% { 
-        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3); 
-      }
-      50% { 
-        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.5),
-                    0 0 15px rgba(67, 97, 238, 0.2); 
-      }
+    .form-control::placeholder {
+      color: var(--gray);
+      opacity: 0.6;
+      font-weight: 400;
     }
 
-    /* Error state for inputs */
-    .form-control.error {
-      border: 1px solid var(--error);
-      box-shadow: 0 0 0 3px rgba(255, 56, 96, 0.3);
-      animation: error-pulse 1.5s infinite;
-    }
-
-    @keyframes error-pulse {
-      0%, 100% { 
-        box-shadow: 0 0 0 3px rgba(255, 56, 96, 0.3); 
-      }
-      50% { 
-        box-shadow: 0 0 0 3px rgba(255, 56, 96, 0.5),
-                    0 0 15px rgba(255, 56, 96, 0.2); 
-      }
-    }
-
-    .error-message {
-      color: var(--error);
-      font-size: 0.85rem;
-      margin-top: 8px;
-      display: none;
-      animation: fade-in 0.3s ease-out;
-    }
-
+    /* Input icon styling */
     .input-icon {
       position: absolute;
-      right: 25px;
+      right: 20px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--gray);
-      transition: var(--transition);
+      transition: var(--transition-fast);
       pointer-events: none;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       transform-style: preserve-3d;
     }
 
     .form-control:focus ~ .input-icon {
       color: var(--primary);
       animation: icon-float 1.5s infinite alternate;
-      text-shadow: 0 0 10px rgba(67, 97, 238, 0.3);
-    }
-
-    .form-control.error ~ .input-icon {
-      color: var(--error);
-      animation: icon-shake 0.5s ease-in-out;
     }
 
     @keyframes icon-float {
@@ -407,45 +423,137 @@
         transform: translateY(-50%) translateZ(0);
       }
       100% { 
-        transform: translateY(-60%) translateZ(5px);
-        text-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
+        transform: translateY(-55%) translateZ(3px);
       }
     }
 
-    @keyframes icon-shake {
-      0%, 100% { transform: translateY(-50%) translateX(0); }
-      20%, 60% { transform: translateY(-50%) translateX(-5px); }
-      40%, 80% { transform: translateY(-50%) translateX(5px); }
+    /* Password visibility toggle */
+    .password-toggle {
+      position: absolute;
+      right: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      font-size: 1rem;
+      opacity: 0.6;
+      z-index: 2;
     }
 
-    /* Holographic button with enhanced energy pulse */
+    .password-toggle:hover {
+      opacity: 1;
+      color: var(--primary);
+    }
+
+    /* Remember me checkbox */
+    .remember-me {
+      display: flex;
+      align-items: center;
+      margin: 1.5rem 0;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      animation: fade-in 1s 0.7s both;
+    }
+
+    .remember-me input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    .checkmark {
+      position: relative;
+      height: 18px;
+      width: 18px;
+      background-color: rgba(233, 236, 239, 0.5);
+      border-radius: 4px;
+      transition: var(--transition-fast);
+      margin-right: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .remember-me:hover .checkmark {
+      background-color: rgba(233, 236, 239, 0.8);
+    }
+
+    .remember-me input:checked ~ .checkmark {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 6px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .remember-me input:checked ~ .checkmark:after {
+      display: block;
+    }
+
+    .remember-me-label {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    /* Forgot password link */
+    .forgot-password {
+      text-align: right;
+      margin-top: -1.8rem;
+      margin-bottom: 1.5rem;
+      animation: fade-in 1s 0.7s both;
+    }
+
+    .forgot-password a {
+      color: var(--gray);
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+
+    .forgot-password a:hover {
+      color: var(--primary);
+    }
+
+    /* Login button with enhanced effects */
     .btn-login {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       border: none;
-      height: 60px;
-      border-radius: var(--border-radius);
+      height: 56px;
+      border-radius: var(--border-radius-sm);
       width: 100%;
       font-weight: 600;
-      font-size: 1.1rem;
+      font-size: 1rem;
       cursor: pointer;
       transition: var(--transition);
-      margin-top: 1rem;
+      margin-top: 0.5rem;
       position: relative;
       overflow: hidden;
       animation: btn-appear 1s 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
-      box-shadow: 0 10px 30px rgba(67, 97, 238, 0.4),
-                  0 0 0 0 rgba(76, 201, 240, 0.7);
+      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       transform-style: preserve-3d;
       z-index: 1;
+      will-change: transform, box-shadow;
     }
 
     @keyframes btn-appear {
       0% {
         opacity: 0;
-        transform: translateY(40px) scale(0.8);
+        transform: translateY(20px) scale(0.95);
       }
       100% {
         opacity: 1;
@@ -455,27 +563,16 @@
 
     .btn-login:hover {
       background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      box-shadow: 0 15px 40px rgba(67, 97, 238, 0.5),
-                  0 0 0 10px rgba(76, 201, 240, 0);
-      transform: translateY(-5px) translateZ(10px);
-      animation: energy-pulse 2.5s infinite;
-    }
-
-    @keyframes energy-pulse {
-      0%, 100% {
-        box-shadow: 0 15px 40px rgba(67, 97, 238, 0.5),
-                    0 0 0 0 rgba(76, 201, 240, 0.8);
-      }
-      50% {
-        box-shadow: 0 15px 40px rgba(67, 97, 238, 0.5),
-                    0 0 0 15px rgba(76, 201, 240, 0);
-      }
+      box-shadow: 0 12px 25px rgba(67, 97, 238, 0.4);
+      transform: translateY(-3px) translateZ(5px);
     }
 
     .btn-login:active {
-      transform: translateY(0) translateZ(5px);
+      transform: translateY(1px) translateZ(0);
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
     }
 
+    /* Button shine effect */
     .btn-login::before {
       content: '';
       position: absolute;
@@ -486,34 +583,15 @@
       background: linear-gradient(
         90deg, 
         transparent, 
-        rgba(255, 255, 255, 0.4), 
+        rgba(255, 255, 255, 0.2), 
         transparent
       );
-      transition: 0.8s;
+      transition: 0.6s;
       z-index: -1;
     }
 
     .btn-login:hover::before {
       left: 100%;
-    }
-
-    .btn-login::after {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      border-radius: var(--border-radius);
-      background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-dark));
-      z-index: -2;
-      filter: blur(5px);
-      opacity: 0;
-      transition: 0.5s;
-    }
-
-    .btn-login:hover::after {
-      opacity: 0.6;
     }
 
     .btn-content {
@@ -522,81 +600,167 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 10px;
+    }
+
+    /* Social login options */
+    .social-login {
+      margin: 2rem 0;
+      text-align: center;
+      position: relative;
+      animation: fade-in 1s 0.9s both;
+    }
+
+    .social-login p {
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .social-login p::before,
+    .social-login p::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .social-login p::before {
+      left: 0;
+    }
+
+    .social-login p::after {
+      right: 0;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
       gap: 15px;
     }
 
-    /* Signup link with enhanced digital trace */
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--white);
+      color: var(--gray);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      transition: var(--transition-fast);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .social-icon:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .social-icon.facebook:hover {
+      color: #1877f2;
+      background: rgba(24, 119, 242, 0.1);
+    }
+
+    .social-icon.google:hover {
+      color: #ea4335;
+      background: rgba(234, 67, 53, 0.1);
+    }
+
+    .social-icon.linkedin:hover {
+      color: #0a66c2;
+      background: rgba(10, 102, 194, 0.1);
+    }
+
+    /* Signup link with enhanced effect */
     .signup-link {
       text-align: center;
-      margin-top: 2.5rem;
+      margin-top: 1.5rem;
       color: var(--gray);
-      animation: fade-in 1s 0.9s cubic-bezier(0.25, 1, 0.5, 1) both;
-      position: relative;
+      font-size: 0.95rem;
+      animation: fade-in 1s 1s both;
     }
 
     .signup-link a {
       color: var(--primary);
       text-decoration: none;
       font-weight: 500;
-      transition: var(--transition);
+      transition: var(--transition-fast);
       position: relative;
     }
 
     .signup-link a::before {
       content: '';
       position: absolute;
-      bottom: -5px;
+      bottom: -2px;
       left: 0;
       width: 0;
-      height: 2px;
-      background: var(--primary-dark);
-      transition: var(--transition);
-      border-radius: 2px;
+      height: 1px;
+      background: var(--primary);
+      transition: var(--transition-fast);
     }
 
     .signup-link a:hover::before {
       width: 100%;
-      animation: digital-trace 0.8s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    @keyframes digital-trace {
+    /* Status message styling */
+    .status-message {
+      padding: 12px 20px;
+      border-radius: var(--border-radius-sm);
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      animation: slide-down 0.5s ease-out;
+      transform-origin: top;
+    }
+
+    @keyframes slide-down {
       0% {
-        width: 0;
-        box-shadow: 0 0 10px var(--primary-light);
-      }
-      50% {
-        width: 100%;
-        box-shadow: 0 0 20px var(--primary-light);
-        background: var(--primary-light);
+        opacity: 0;
+        transform: translateY(-20px);
       }
       100% {
-        width: 100%;
-        box-shadow: 0 0 0 var(--primary-light);
-        background: var(--primary-dark);
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
-    /* Status message */
-    .status-message {
-      position: fixed;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 15px 30px;
-      border-radius: 50px;
-      background: var(--primary);
-      color: white;
-      font-weight: 500;
-      box-shadow: 0 10px 30px rgba(67, 97, 238, 0.4);
-      z-index: 1000;
-      opacity: 0;
-      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      pointer-events: none;
+    .status-message.error {
+      background: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+      border-left: 3px solid #dc3545;
     }
 
-    .status-message.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+    .status-message.success {
+      background: rgba(25, 135, 84, 0.1);
+      color: #198754;
+      border-left: 3px solid #198754;
+    }
+
+    .status-message i {
+      margin-right: 10px;
+    }
+
+    /* Loading spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--white);
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     /* Responsive adjustments */
@@ -606,60 +770,170 @@
       }
       
       .login-header {
-        padding: 2rem;
+        padding: 2rem 1.5rem;
       }
       
       .login-body {
-        padding: 2rem;
+        padding: 2rem 1.5rem;
+      }
+      
+      .bubble-1, .bubble-2, .bubble-3, .bubble-4 {
+        display: none;
+      }
+    }
+
+    /* Accessibility focus styles */
+    .form-control:focus-visible,
+    .btn-login:focus-visible,
+    .social-icon:focus-visible,
+    .password-toggle:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Utility classes */
+    .hidden {
+      display: none !important;
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Enhanced bubble animations */
+    @keyframes bubble-rise {
+      0% {
+        transform: translate3d(0, 0, 0) scale(0.8);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translate3d(0, -100vh, 0) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    @keyframes bubble-orbital {
+      0% {
+        transform: rotate(0deg) translateX(100px) rotate(0deg) scale(0.8);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.8;
+        transform: rotate(180deg) translateX(100px) rotate(-180deg) scale(1);
+      }
+      100% {
+        transform: rotate(360deg) translateX(100px) rotate(-360deg) scale(0.8);
+        opacity: 0;
+      }
+    }
+
+    /* New bubble animations */
+    @keyframes bubble-morph {
+      0%, 100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      }
+      50% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+      }
+    }
+
+    @keyframes bubble-twinkle {
+      0%, 100% {
+        opacity: 0.7;
+        box-shadow: 0 0 10px 5px rgba(76, 201, 240, 0.3);
+      }
+      50% {
+        opacity: 1;
+        box-shadow: 0 0 20px 10px rgba(76, 201, 240, 0.5);
+      }
+    }
+
+    @keyframes bubble-spin {
+      0% {
+        transform: rotate(0deg) scale(1);
+      }
+      100% {
+        transform: rotate(360deg) scale(1.2);
       }
     }
   </style>
 </head>
 <body>
-  <!-- Holographic grid background -->
+  <!-- Background elements -->
   <div class="holographic-grid"></div>
+  <div class="floating-bubble bubble-1"></div>
+  <div class="floating-bubble bubble-2"></div>
+  <div class="floating-bubble bubble-3"></div>
+  <div class="floating-bubble bubble-4"></div>
   
-  <!-- Cyberpunk glow effect -->
-  <div class="cyberpunk-glow"></div>
-  
-  <!-- Status message -->
-  <div class="status-message" id="statusMessage"></div>
-  
-  <!-- Quantum particles will be added by JavaScript -->
+  <!-- Quantum bubbles will be added by JavaScript -->
   
   <div class="login-container">
     <div class="login-card">
       <div class="login-header">
         <h2><i class="fas fa-graduation-cap"></i> Alumni Portal</h2>
-        <p>Welcome back to your alumni community</p>
+        <p>Connect with your alma mater and fellow graduates</p>
       </div>
 
       <div class="login-body">
-        <form id="loginForm" action="/loginrout" method="post">
+        <!-- Status message container (initially hidden) -->
+        <div id="statusMessage" class="status-message hidden"></div>
+        
+        <form id="loginForm" novalidate>
           <div class="form-group">
             <div class="input-container">
-              <input type="email" id="yourUsername" name="email" class="form-control" required placeholder="Email Address">
+              <input type="email" id="email" name="email" class="form-control" required placeholder="Email Address">
               <i class="fas fa-envelope input-icon"></i>
             </div>
-            <div class="error-message" id="emailError">Please enter a valid email address</div>
           </div>
 
           <div class="form-group">
             <div class="input-container">
-              <input type="password" id="yourPassword" name="pass" class="form-control" required placeholder="Password">
+              <input type="password" id="password" name="password" class="form-control" required placeholder="Password" minlength="6">
               <i class="fas fa-lock input-icon"></i>
+              <span class="password-toggle" id="togglePassword">
+                <i class="far fa-eye"></i>
+              </span>
             </div>
-            <div class="error-message" id="passwordError">Password must be at least 6 characters</div>
+          </div>
+
+          <div class="remember-me">
+            <input type="checkbox" id="remember" name="remember">
+            <span class="checkmark"></span>
+            <span class="remember-me-label">Remember me</span>
+          </div>
+
+          <div class="forgot-password">
+            <a href="/forgot-password">Forgot password?</a>
           </div>
 
           <button type="submit" class="btn-login" id="loginButton">
             <span class="btn-content">
-              <i class="fas fa-fingerprint"></i> Authenticate
+              <span id="buttonText">Sign In</span>
             </span>
           </button>
 
+          <div class="social-login">
+            <p>Or sign in with</p>
+            <div class="social-icons">
+              <a href="#" class="social-icon facebook" aria-label="Sign in with Facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="social-icon google" aria-label="Sign in with Google">
+                <i class="fab fa-google"></i>
+              </a>
+              <a href="#" class="social-icon linkedin" aria-label="Sign in with LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+
           <div class="signup-link">
-            New to our community? <a href="/signup_page">Join as alumni</a>
+            Not an alumni yet? <a href="/signup">Register now</a>
           </div>
         </form>
       </div>
@@ -667,265 +941,400 @@
   </div>
 
   <script>
-    // Enhanced quantum particles with 3D effect
-    function createQuantumParticles() {
-      const colors = ['#4361ee', '#4cc9f0', '#3a56d4', '#4895ef', '#3a0ca3'];
-      const body = document.body;
-      const particleCount = Math.floor(window.innerWidth / 20);
+    // Performance optimization flags
+    let animationEnabled = true;
+    let lastAnimationTime = 0;
+    const animationThrottle = 100; // ms between animations
+    
+    // Enhanced quantum bubbles with multiple animation types
+    function createQuantumBubbles() {
+      if (!animationEnabled) return;
       
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'quantum-particle';
+      const colors = [
+        'rgba(67, 97, 238, 0.7)',
+        'rgba(76, 201, 240, 0.7)',
+        'rgba(58, 86, 212, 0.7)',
+        'rgba(247, 37, 133, 0.7)',
+        'rgba(114, 9, 183, 0.7)'
+      ];
+      const body = document.body;
+      const bubbleCount = Math.min(Math.floor(window.innerWidth / 15), 40); // Reduced to 40 bubbles max
+      
+      // Remove existing bubbles if any
+      document.querySelectorAll('.quantum-bubble').forEach(el => el.remove());
+      
+      for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'quantum-bubble';
         
-        // Random properties with enhanced 3D effect
-        const size = Math.random() * 8 + 4;
+        // Random properties with enhanced effects
+        const size = Math.random() * 15 + 5; // Smaller bubbles
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
-        const tx = (Math.random() - 0.5) * 300;
-        const ty = (Math.random() - 0.5) * 300;
-        const duration = Math.random() * 15 + 10;
-        const delay = Math.random() * 10;
+        const tx = (Math.random() - 0.5) * 200; // Reduced movement
+        const ty = (Math.random() - 0.5) * 200;
+        const duration = Math.random() * 20 + 15; // Longer duration
+        const delay = Math.random() * 15;
         const color = colors[Math.floor(Math.random() * colors.length)];
-        const zIndex = Math.floor(Math.random() * 10) - 5;
+        const zIndex = Math.floor(Math.random() * 5) - 2;
+        const opacity = Math.random() * 0.3 + 0.1; // Lower opacity
+        const animationType = Math.random() > 0.6 ? 'bubble-float' : 
+                            (Math.random() > 0.3 ? 'bubble-rise' : 'bubble-morph');
         
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${posX}%`;
-        particle.style.top = `${posY}%`;
-        particle.style.setProperty('--tx', `${tx}px`);
-        particle.style.setProperty('--ty', `${ty}px`);
-        particle.style.animationDuration = `${duration}s`;
-        particle.style.animationDelay = `${delay}s`;
-        particle.style.backgroundColor = color;
-        particle.style.zIndex = zIndex;
-        particle.style.opacity = Math.random() * 0.5 + 0.1;
+        // Apply styles
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${posX}%`;
+        bubble.style.top = `${posY}%`;
+        bubble.style.setProperty('--tx', `${tx}px`);
+        bubble.style.setProperty('--ty', `${ty}px`);
+        bubble.style.animation = `${animationType} ${duration}s ease-in-out ${delay}s infinite`;
+        bubble.style.backgroundColor = color;
+        bubble.style.zIndex = zIndex;
+        bubble.style.opacity = opacity;
         
-        body.appendChild(particle);
+        // Add glow effect
+        bubble.style.boxShadow = `0 0 ${size}px ${size/3}px ${color.replace('0.7', '0.3')}`;
+        
+        // Random bubble shape and additional animations
+        if (Math.random() > 0.5) {
+          bubble.style.borderRadius = '30% 70% 70% 30% / 30% 30% 70% 70%';
+          bubble.style.animation += `, bubble-morph ${duration * 2}s ease-in-out infinite`;
+        }
+        
+        if (Math.random() > 0.7) {
+          bubble.style.animation += `, bubble-twinkle ${duration / 2}s ease-in-out infinite`;
+        }
+        
+        body.appendChild(bubble);
+      }
+      
+      // Create some orbital bubbles around the login card
+      createOrbitalBubbles();
+    }
+    
+    // Create orbital bubbles that circle around the login card
+    function createOrbitalBubbles() {
+      const loginCard = document.querySelector('.login-card');
+      if (!loginCard) return;
+      
+      const cardRect = loginCard.getBoundingClientRect();
+      const centerX = cardRect.left + cardRect.width / 2;
+      const centerY = cardRect.top + cardRect.height / 2;
+      const radius = Math.max(cardRect.width, cardRect.height) * 0.8;
+      
+      for (let i = 0; i < 6; i++) { // Reduced to 6 orbital bubbles
+        const bubble = document.createElement('div');
+        bubble.className = 'quantum-bubble orbital-bubble';
+        
+        const size = Math.random() * 12 + 8; // Smaller size
+        const angle = (i * 60) * (Math.PI / 180);
+        const startX = centerX + Math.cos(angle) * radius - size/2;
+        const startY = centerY + Math.sin(angle) * radius - size/2;
+        const duration = Math.random() * 25 + 25; // Longer duration
+        const delay = Math.random() * 5;
+        const color = `rgba(${Math.floor(Math.random() * 100 + 155)}, 
+                          ${Math.floor(Math.random() * 100 + 155)}, 
+                          ${Math.floor(Math.random() * 100 + 155)}, 0.5)`; // Lower opacity
+        
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${startX}px`;
+        bubble.style.top = `${startY}px`;
+        bubble.style.animation = `bubble-orbital ${duration}s linear ${delay}s infinite, bubble-twinkle ${duration / 3}s ease-in-out infinite`;
+        bubble.style.backgroundColor = color;
+        bubble.style.zIndex = '-1';
+        bubble.style.opacity = '0.4';
+        bubble.style.boxShadow = `0 0 ${size}px ${size/3}px ${color.replace('0.5', '0.2')}`;
+        
+        document.body.appendChild(bubble);
       }
     }
 
-    // Show status message
-    function showStatusMessage(message, type = 'info', duration = 3000) {
-      const statusMessage = document.getElementById('statusMessage');
-      statusMessage.textContent = message;
-      statusMessage.className = 'status-message show';
+    // Password visibility toggle
+    document.getElementById('togglePassword').addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const icon = this.querySelector('i');
       
-      // Set color based on type
-      if (type === 'error') {
-        statusMessage.style.background = 'var(--error)';
-        statusMessage.style.boxShadow = '0 10px 30px rgba(255, 56, 96, 0.4)';
-      } else if (type === 'success') {
-        statusMessage.style.background = 'var(--success)';
-        statusMessage.style.boxShadow = '0 10px 30px rgba(75, 181, 67, 0.4)';
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
       } else {
-        statusMessage.style.background = 'var(--primary)';
-        statusMessage.style.boxShadow = '0 10px 30px rgba(67, 97, 238, 0.4)';
+        passwordInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
       }
-      
-      // Hide after duration
-      setTimeout(() => {
-        statusMessage.className = 'status-message';
-      }, duration);
-    }
+    });
 
-    // Validate email format
-    function validateEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return re.test(String(email).toLowerCase());
-    }
-
-    // Validate password (at least 6 characters)
-    function validatePassword(password) {
-      return password.length >= 6;
-    }
-
-    // Show error for input field
-    function showError(input, errorElement, message) {
-      input.classList.add('error');
-      errorElement.textContent = message;
-      errorElement.style.display = 'block';
-    }
-
-    // Hide error for input field
-    function hideError(input, errorElement) {
-      input.classList.remove('error');
-      errorElement.style.display = 'none';
-    }
-
-    // Enhanced cyberpunk authentication sequence
+    // Form validation
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
-      // Get form elements
-      const emailInput = document.getElementById('yourUsername');
-      const passwordInput = document.getElementById('yourPassword');
-      const emailError = document.getElementById('emailError');
-      const passwordError = document.getElementById('passwordError');
-      const btn = document.getElementById('loginButton');
-      const icon = document.querySelector('.btn-content i');
-      const text = document.querySelector('.btn-content');
-      const form = this;
+      const email = document.getElementById('email');
+      const password = document.getElementById('password');
+      const loginButton = document.getElementById('loginButton');
+      const buttonText = document.getElementById('buttonText');
+      const statusMessage = document.getElementById('statusMessage');
+      
+      // Reset status message
+      statusMessage.className = 'status-message hidden';
       
       // Validate inputs
-      let isValid = true;
-      
-      if (!emailInput.value || !validateEmail(emailInput.value)) {
-        showError(emailInput, emailError, 'Please enter a valid email address');
-        isValid = false;
-      } else {
-        hideError(emailInput, emailError);
-      }
-      
-      if (!passwordInput.value || !validatePassword(passwordInput.value)) {
-        showError(passwordInput, passwordError, 'Password must be at least 6 characters');
-        isValid = false;
-      } else {
-        hideError(passwordInput, passwordError);
-      }
-      
-      if (!isValid) {
-        showStatusMessage('Please fix the errors in the form', 'error');
+      if (!email.value || !password.value) {
+        showStatusMessage('Please fill in all fields', 'error');
         return;
       }
       
-      // Start cyberpunk authentication sequence
-      btn.style.pointerEvents = 'none';
-      btn.style.animation = 'none';
-      btn.style.boxShadow = '0 15px 40px rgba(67, 97, 238, 0.5)';
+      if (!validateEmail(email.value)) {
+        showStatusMessage('Please enter a valid email address', 'error');
+        return;
+      }
       
-      // Phase 1: Scanning with particle effect
-      icon.className = 'fas fa-redo fa-spin';
-      text.innerHTML = '<i class="fas fa-redo fa-spin"></i> Scanning...';
-      createAuthParticles(btn);
+      if (password.value.length < 6) {
+        showStatusMessage('Password must be at least 6 characters', 'error');
+        return;
+      }
       
+      // Start authentication process
+      loginButton.disabled = true;
+      buttonText.innerHTML = '<span class="spinner"></span> Authenticating';
+      
+      // Simulate API call (replace with actual fetch)
       setTimeout(() => {
-        // Phase 2: Verifying with holographic effect
-        icon.className = 'fas fa-shield-alt';
-        text.innerHTML = '<i class="fas fa-shield-alt"></i> Verifying Credentials';
-        btn.style.boxShadow = '0 15px 40px rgba(67, 97, 238, 0.5), 0 0 0 10px rgba(76, 201, 240, 0.7)';
-        btn.style.background = 'linear-gradient(135deg, #3a0ca3, #4361ee)';
-        
-        setTimeout(() => {
-          // Phase 3: Granting Access with success effect
-          icon.className = 'fas fa-check-circle';
-          text.innerHTML = '<i class="fas fa-check-circle"></i> Access Granted';
-          btn.style.background = 'linear-gradient(135deg, var(--success), #3a9a33)';
-          btn.style.boxShadow = '0 15px 40px rgba(75, 181, 67, 0.5), 0 0 0 15px rgba(75, 181, 67, 0)';
-          
-          // Create success particles
-          createSuccessParticles(btn);
-          
-          // Show success message
-          showStatusMessage('Login successful! Redirecting...', 'success');
-          
-          // Submit form after animation
-          setTimeout(() => {
-            form.submit();
-          }, 1500);
-        }, 2000);
+        // This is where you would normally make an actual API call
+        // For demo purposes, we're simulating a successful login after 2 seconds
+        simulateLogin(email.value, password.value);
       }, 2000);
     });
-
-    // Create authentication particles effect
-    function createAuthParticles(element) {
+    
+    // Email validation helper
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+    
+    // Show status message
+    function showStatusMessage(message, type) {
+      const statusMessage = document.getElementById('statusMessage');
+      statusMessage.textContent = message;
+      statusMessage.className = `status-message ${type}`;
+      statusMessage.innerHTML = `<i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${message}`;
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        statusMessage.classList.add('hidden');
+      }, 5000);
+    }
+    
+    // Simulate login (replace with actual API call)
+    function simulateLogin(email, password) {
+      const loginButton = document.getElementById('loginButton');
+      const buttonText = document.getElementById('buttonText');
+      const statusMessage = document.getElementById('statusMessage');
+      
+      // This is just for demonstration - in a real app, you would:
+      // 1. Make an API call to your authentication endpoint
+      // 2. Handle the response appropriately
+      
+      // For demo purposes, we'll randomly succeed or fail
+      const isSuccess = Math.random() > 0.2; // 80% chance of success
+      
+      if (isSuccess) {
+        // Success case
+        buttonText.innerHTML = '<i class="fas fa-check"></i> Success';
+        showStatusMessage('Login successful! Redirecting...', 'success');
+        
+        // Create success bubbles
+        createSuccessBubbles(loginButton);
+        
+        // Redirect after a delay (in a real app, you might get a token first)
+        setTimeout(() => {
+          window.location.href = '/dashboard'; // Replace with your actual dashboard URL
+        }, 1500);
+      } else {
+        // Error case
+        loginButton.disabled = false;
+        buttonText.textContent = 'Sign In';
+        showStatusMessage('Invalid email or password', 'error');
+        
+        // Create error bubbles
+        createErrorBubbles(loginButton);
+      }
+    }
+    
+    // Create success bubbles effect
+    function createSuccessBubbles(element) {
+      const now = Date.now();
+      if (now - lastAnimationTime < animationThrottle) return;
+      lastAnimationTime = now;
+      
       const rect = element.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       
-      for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'auth-particle';
+      // Create a container for performance
+      const bubbleContainer = document.createElement('div');
+      bubbleContainer.style.position = 'fixed';
+      bubbleContainer.style.top = '0';
+      bubbleContainer.style.left = '0';
+      bubbleContainer.style.width = '100%';
+      bubbleContainer.style.height = '100%';
+      bubbleContainer.style.pointerEvents = 'none';
+      bubbleContainer.style.zIndex = '1000';
+      document.body.appendChild(bubbleContainer);
+      
+      for (let i = 0; i < 20; i++) { // Reduced number of bubbles
+        const bubble = document.createElement('div');
         
-        const size = Math.random() * 6 + 2;
+        const size = Math.random() * 12 + 5; // Smaller bubbles
         const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 50 + 30;
-        const duration = Math.random() * 1 + 0.5;
+        const distance = Math.random() * 80 + 40; // Reduced distance
+        const duration = Math.random() * 1 + 0.5; // Shorter duration
+        const delay = Math.random() * 0.3;
+        const color = `rgba(76, 201, 240, ${Math.random() * 0.4 + 0.3})`; // Lower opacity
         
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.background = '#4cc9f0';
-        particle.style.borderRadius = '50%';
-        particle.style.position = 'fixed';
-        particle.style.left = `${centerX}px`;
-        particle.style.top = `${centerY}px`;
-        particle.style.opacity = '0.8';
-        particle.style.filter = 'blur(1px)';
-        particle.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
-        particle.style.animation = `auth-particle-fade ${duration}s forwards`;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.background = color;
+        bubble.style.borderRadius = '50%';
+        bubble.style.position = 'absolute';
+        bubble.style.left = `${centerX}px`;
+        bubble.style.top = `${centerY}px`;
+        bubble.style.opacity = '0.7';
+        bubble.style.filter = 'blur(1px)';
+        bubble.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+        bubble.style.animation = `success-bubble-fade ${duration}s ease-out ${delay}s forwards, bubble-pulse ${duration/2}s ease-in-out infinite`;
+        bubble.style.willChange = 'transform, opacity';
+        bubble.style.boxShadow = `0 0 ${size}px ${size/3}px rgba(76, 201, 240, 0.3)`;
         
-        document.body.appendChild(particle);
+        bubbleContainer.appendChild(bubble);
         
-        // Remove particle after animation
+        // Remove bubble after animation
         setTimeout(() => {
-          particle.remove();
-        }, duration * 1000);
+          bubble.remove();
+        }, (duration + delay) * 1000);
       }
+      
+      // Remove container after all animations complete
+      setTimeout(() => {
+        bubbleContainer.remove();
+      }, 2000);
     }
-
-    // Create success particles effect
-    function createSuccessParticles(element) {
+    
+    // Create error bubbles effect
+    function createErrorBubbles(element) {
+      const now = Date.now();
+      if (now - lastAnimationTime < animationThrottle) return;
+      lastAnimationTime = now;
+      
       const rect = element.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'success-particle';
+      // Create a container for performance
+      const bubbleContainer = document.createElement('div');
+      bubbleContainer.style.position = 'fixed';
+      bubbleContainer.style.top = '0';
+      bubbleContainer.style.left = '0';
+      bubbleContainer.style.width = '100%';
+      bubbleContainer.style.height = '100%';
+      bubbleContainer.style.pointerEvents = 'none';
+      bubbleContainer.style.zIndex = '1000';
+      document.body.appendChild(bubbleContainer);
+      
+      for (let i = 0; i < 15; i++) { // Reduced number of bubbles
+        const bubble = document.createElement('div');
         
-        const size = Math.random() * 8 + 3;
+        const size = Math.random() * 10 + 3;
         const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 80 + 40;
-        const duration = Math.random() * 1.5 + 0.5;
+        const distance = Math.random() * 50 + 20;
+        const duration = Math.random() * 0.6 + 0.3;
+        const color = `rgba(247, 37, 133, ${Math.random() * 0.4 + 0.3})`;
         
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.background = '#4BB543';
-        particle.style.borderRadius = '50%';
-        particle.style.position = 'fixed';
-        particle.style.left = `${centerX}px`;
-        particle.style.top = `${centerY}px`;
-        particle.style.opacity = '0.8';
-        particle.style.filter = 'blur(1px)';
-        particle.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
-        particle.style.animation = `success-particle-fade ${duration}s forwards`;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.background = color;
+        bubble.style.borderRadius = '50%';
+        bubble.style.position = 'absolute';
+        bubble.style.left = `${centerX}px`;
+        bubble.style.top = `${centerY}px`;
+        bubble.style.opacity = '0.7';
+        bubble.style.filter = 'blur(1px)';
+        bubble.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+        bubble.style.animation = `error-bubble-fade ${duration}s ease-out forwards`;
+        bubble.style.willChange = 'transform, opacity';
+        bubble.style.boxShadow = `0 0 ${size}px ${size/3}px rgba(247, 37, 133, 0.3)`;
         
-        document.body.appendChild(particle);
+        bubbleContainer.appendChild(bubble);
         
-        // Remove particle after animation
+        // Remove bubble after animation
         setTimeout(() => {
-          particle.remove();
+          bubble.remove();
         }, duration * 1000);
       }
+      
+      // Remove container after all animations complete
+      setTimeout(() => {
+        bubbleContainer.remove();
+      }, 1000);
     }
 
-    // Add CSS for particle animations
+    // Add CSS for bubble animations
     const style = document.createElement('style');
     style.textContent = `
-      @keyframes auth-particle-fade {
+      @keyframes success-bubble-fade {
         0% {
-          transform: translate(0, 0);
-          opacity: 0.8;
-        }
-        100% {
-          transform: translate(var(--tx, 0), var(--ty, 0));
-          opacity: 0;
-        }
-      }
-      
-      @keyframes success-particle-fade {
-        0% {
-          transform: translate(0, 0);
-          opacity: 0.8;
-          filter: blur(1px);
+          transform: translate(0, 0) scale(0.8);
+          opacity: 0.7;
         }
         50% {
           opacity: 1;
           filter: blur(0);
         }
         100% {
-          transform: translate(var(--tx, 0), var(--ty, 0));
+          transform: translate(var(--tx, 0), var(--ty, 0)) scale(1.2);
           opacity: 0;
-          filter: blur(2px);
+          filter: blur(1px);
+        }
+      }
+      
+      @keyframes error-bubble-fade {
+        0% {
+          transform: translate(0, 0) scale(0.8);
+          opacity: 0.7;
+        }
+        100% {
+          transform: translate(var(--tx, 0), var(--ty, 0)) scale(1.1);
+          opacity: 0;
+        }
+      }
+      
+      /* Bubble pulse animation */
+      @keyframes bubble-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+      
+      /* Morphing bubbles */
+      @keyframes bubble-morph {
+        0%, 100% {
+          border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        50% {
+          border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+        }
+      }
+      
+      /* Twinkling effect */
+      @keyframes bubble-twinkle {
+        0%, 100% {
+          opacity: 0.6;
+          box-shadow: 0 0 10px 5px rgba(76, 201, 240, 0.2);
+        }
+        50% {
+          opacity: 0.9;
+          box-shadow: 0 0 15px 7px rgba(76, 201, 240, 0.4);
         }
       }
     `;
@@ -933,29 +1342,99 @@
 
     // Initialize everything when page loads
     document.addEventListener('DOMContentLoaded', function() {
-      createQuantumParticles();
+      // Check for reduced motion preference
+      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      animationEnabled = !motionQuery.matches;
       
-      // Add parallax effect to quantum particles
-      document.addEventListener('mousemove', function(e) {
-        const particles = document.querySelectorAll('.quantum-particle');
-        particles.forEach(particle => {
-          const speed = parseFloat(particle.style.zIndex || 0) * 2;
-          const x = (e.clientX - window.innerWidth / 2) / 50 * speed;
-          const y = (e.clientY - window.innerHeight / 2) / 50 * speed;
-          particle.style.transform = `translate(${x}px, ${y}px) translateZ(${speed}px)`;
+      if (animationEnabled) {
+        createQuantumBubbles();
+        
+        // Add optimized parallax effect to quantum bubbles
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        
+        document.addEventListener('mousemove', function(e) {
+          const now = Date.now();
+          if (now - lastAnimationTime < animationThrottle) return;
+          lastAnimationTime = now;
+          
+          const deltaX = e.clientX - lastMouseX;
+          const deltaY = e.clientY - lastMouseY;
+          lastMouseX = e.clientX;
+          lastMouseY = e.clientY;
+          
+          const bubbles = document.querySelectorAll('.quantum-bubble:not(.orbital-bubble)');
+          bubbles.forEach(bubble => {
+            const speed = parseFloat(bubble.style.zIndex || 0) * 0.5; // Reduced movement
+            const x = deltaX * speed;
+            const y = deltaY * speed;
+            bubble.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+          });
         });
-      });
+        
+        // Recreate bubbles on resize (with debounce)
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(createQuantumBubbles, 300);
+        });
+        
+        // Periodically add some floating bubbles (with throttling)
+        setInterval(() => {
+          const now = Date.now();
+          if (now - lastAnimationTime < animationThrottle * 2) return;
+          lastAnimationTime = now;
+          
+          const floatingBubble = document.createElement('div');
+          floatingBubble.className = 'quantum-bubble floating';
+          
+          const size = Math.random() * 20 + 10;
+          const startX = Math.random() * window.innerWidth;
+          const duration = Math.random() * 8 + 8;
+          const color = `rgba(${Math.floor(Math.random() * 100 + 155)}, 
+                       ${Math.floor(Math.random() * 100 + 155)}, 
+                       ${Math.floor(Math.random() * 100 + 155)}, 0.5)`;
+          
+          floatingBubble.style.width = `${size}px`;
+          floatingBubble.style.height = `${size}px`;
+          floatingBubble.style.left = `${startX}px`;
+          floatingBubble.style.bottom = `-${size}px`;
+          floatingBubble.style.animation = `bubble-rise ${duration}s linear forwards, bubble-twinkle ${duration / 2}s ease-in-out infinite`;
+          floatingBubble.style.backgroundColor = color;
+          floatingBubble.style.zIndex = '-1';
+          floatingBubble.style.opacity = '0.6';
+          floatingBubble.style.boxShadow = `0 0 ${size}px ${size/3}px ${color.replace('0.5', '0.2')}`;
+          
+          document.body.appendChild(floatingBubble);
+          
+          // Remove bubble after animation
+          setTimeout(() => {
+            floatingBubble.remove();
+          }, duration * 1000);
+        }, 1500); // Reduced frequency
+      }
       
-      // Check for URL parameters to show messages
+      // Check for error messages in URL (for redirects from other pages)
       const urlParams = new URLSearchParams(window.location.search);
-      const status = urlParams.get('status');
+      const errorMessage = urlParams.get('error');
+      if (errorMessage) {
+        showStatusMessage(decodeURIComponent(errorMessage), 'error');
+      }
       
-      if (status === 'error') {
-        showStatusMessage('Login failed. Please try again.', 'error');
-      } else if (status === 'logout') {
-        showStatusMessage('You have been logged out successfully.', 'success');
-      } else if (status === 'session_expired') {
-        showStatusMessage('Your session has expired. Please login again.', 'error');
+      // Check for success messages in URL
+      const successMessage = urlParams.get('success');
+      if (successMessage) {
+        showStatusMessage(decodeURIComponent(successMessage), 'success');
+      }
+    });
+    
+    // Handle reduced motion preference changes
+    window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+      animationEnabled = !e.matches;
+      if (animationEnabled) {
+        createQuantumBubbles();
+      } else {
+        document.querySelectorAll('.quantum-bubble').forEach(el => el.remove());
       }
     });
   </script>
