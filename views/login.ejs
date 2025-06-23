@@ -7,30 +7,18 @@
   
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Animate.css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   
   <style>
     :root {
       --primary: #4361ee;
       --primary-light: #4cc9f0;
       --primary-dark: #3a56d4;
-      --secondary: #f72585;
-      --success: #4cc9f0;
       --white: #ffffff;
-      --light: #f8f9fa;
-      --lighter: #f1f3f5;
       --gray: #6c757d;
       --light-gray: #e9ecef;
-      --dark-gray: #495057;
-      --border-radius: 16px;
-      --border-radius-sm: 8px;
-      --box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
-      --box-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-      --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-      --transition-fast: all 0.2s ease;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --glass-effect: rgba(255, 255, 255, 0.95);
     }
 
     * {
@@ -41,231 +29,341 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, var(--light) 0%, var(--lighter) 100%);
+      background-color: #f8f9fa;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       padding: 20px;
-      position: relative;
       overflow: hidden;
-      color: var(--dark-gray);
+      position: relative;
     }
 
-    /* Enhanced Quantum Bubble Particles */
-    .quantum-bubble {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle at center, 
-                  rgba(76, 201, 240, 0.8) 0%, 
-                  rgba(76, 201, 240, 0.4) 70%, 
-                  transparent 100%);
-      box-shadow: 0 0 15px 5px rgba(76, 201, 240, 0.3);
-      opacity: 0;
-      z-index: -1;
-      filter: blur(1px);
-      animation: bubble-float linear infinite;
-      transform-style: preserve-3d;
-      will-change: transform, opacity;
-      pointer-events: none;
-    }
-
-    @keyframes bubble-float {
-      0% {
-        transform: translate3d(0, 0, 0) scale(0.2);
-        opacity: 0;
-      }
-      20% {
-        opacity: 0.8;
-      }
-      80% {
-        opacity: 0.6;
-      }
-      100% {
-        transform: translate3d(var(--tx, 200px), var(--ty, 200px), 0) scale(1.5);
-        opacity: 0;
-      }
-    }
-
-    /* Bubble pulse effect */
-    @keyframes bubble-pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
-
-    /* Holographic grid background - Lighter version */
-    .holographic-grid {
-      position: absolute;
+    /* Cosmic Background Animation - Light Theme */
+    .cosmic-bg {
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: 
-        linear-gradient(rgba(67, 97, 238, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(67, 97, 238, 0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
       z-index: -2;
-      animation: grid-pulse 12s infinite alternate;
-      opacity: 0.5;
+      background: linear-gradient(135deg, #e6f0ff, #f0f5ff, #e6ecf5);
+      overflow: hidden;
     }
 
-    @keyframes grid-pulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.7; }
-    }
-
-    /* Floating bubbles decoration - Enhanced */
-    .floating-bubble {
+    /* Animated Gradient Background - Light Theme */
+    .gradient-bg {
       position: absolute;
-      border-radius: 50%;
-      filter: blur(30px);
-      opacity: 0.2;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg, 
+        rgba(67, 97, 238, 0.05) 0%, 
+        rgba(76, 201, 240, 0.08) 25%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        rgba(76, 201, 240, 0.08) 75%, 
+        rgba(67, 97, 238, 0.05) 100%
+      );
+      background-size: 400% 400%;
+      animation: gradientFlow 25s ease infinite;
       z-index: -1;
-      animation: float 15s infinite ease-in-out, bubble-pulse 8s infinite ease-in-out;
-      transform-style: preserve-3d;
-      will-change: transform, opacity;
-      pointer-events: none;
     }
 
-    .bubble-1 {
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle at 30% 30%, var(--primary), var(--primary-dark));
-      top: -50px;
-      left: -50px;
-      animation-delay: 0s;
-    }
-
-    .bubble-2 {
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle at 70% 30%, var(--primary-light), var(--success));
-      bottom: -100px;
-      right: -100px;
-      animation-delay: 2s;
-    }
-
-    .bubble-3 {
-      width: 250px;
-      height: 250px;
-      background: radial-gradient(circle at 50% 70%, var(--secondary), #f72585cc);
-      top: 30%;
-      right: 10%;
-      animation-delay: 4s;
-    }
-
-    .bubble-4 {
-      width: 350px;
-      height: 350px;
-      background: radial-gradient(circle at 40% 60%, #7209b7, #3a0ca3);
-      bottom: 20%;
-      left: 10%;
-      animation-delay: 1s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      25% { transform: translate(10px, 15px) rotate(5deg); }
-      50% { transform: translate(20px, 5px) rotate(-5deg); }
-      75% { transform: translate(15px, 10px) rotate(3deg); }
-    }
-
-    /* Main login container - Enhanced reveal with depth */
-    .login-container {
-      max-width: 500px;
-      width: 100%;
-      perspective: 1200px;
-      opacity: 0;
-      transform: scale(0.9) rotateY(15deg);
-      animation: cyberpunk-reveal 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s forwards;
-      will-change: transform, opacity;
-    }
-
-    @keyframes cyberpunk-reveal {
+    @keyframes gradientFlow {
       0% {
-        opacity: 0;
-        transform: scale(0.9) rotateY(15deg) translateY(30px);
-        filter: blur(5px);
+        background-position: 0% 50%;
       }
-      60% {
-        filter: blur(0);
+      50% {
+        background-position: 100% 50%;
       }
       100% {
-        opacity: 1;
-        transform: scale(1) rotateY(0) translateY(0);
+        background-position: 0% 50%;
       }
     }
 
-    /* Glass card with enhanced depth effect */
-    .login-card {
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow-lg);
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      overflow: hidden;
-      transition: var(--transition);
-      transform-style: preserve-3d;
-      position: relative;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      transform: translateZ(0);
-      will-change: transform, box-shadow;
+    /* Floating Particles - Light Theme */
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
     }
 
-    /* Subtle scanline effect */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(1px);
+      animation: floatParticle linear infinite;
+      background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(67, 97, 238, 0.3) 70%);
+    }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-1000px) translateX(500px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* Floating Bubbles - Light Theme */
+    .bubbles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      background: rgba(67, 97, 238, 0.1);
+      border-radius: 50%;
+      animation: rise linear infinite;
+      box-shadow: inset 0 0 10px rgba(67, 97, 238, 0.2);
+    }
+
+    @keyframes rise {
+      0% {
+        bottom: -100px;
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(100px);
+      }
+      100% {
+        bottom: 1080px;
+        transform: translateX(-200px);
+      }
+    }
+
+    /* Floating Shapes - Light Theme */
+    .floating-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .shape {
+      position: absolute;
+      opacity: 0.1;
+      animation: floatShape linear infinite;
+    }
+
+    .shape.triangle {
+      width: 0;
+      height: 0;
+      border-left: 50px solid transparent;
+      border-right: 50px solid transparent;
+      border-bottom: 100px solid var(--primary);
+    }
+
+    .shape.circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--primary-light);
+    }
+
+    .shape.square {
+      width: 100px;
+      height: 100px;
+      background: var(--primary-dark);
+    }
+
+    @keyframes floatShape {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+      }
+      100% {
+        transform: translateY(-500px) translateX(200px) rotate(360deg);
+      }
+    }
+
+    /* Light Rays - Light Theme */
+    .light-rays {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .light-ray {
+      position: absolute;
+      width: 2px;
+      height: 200%;
+      background: linear-gradient(to bottom, transparent, rgba(67, 97, 238, 0.3), transparent);
+      animation: rayAnimation linear infinite;
+      transform-origin: top center;
+    }
+
+    @keyframes rayAnimation {
+      0% {
+        transform: rotate(0deg) translateY(-50%);
+      }
+      100% {
+        transform: rotate(360deg) translateY(-50%);
+      }
+    }
+
+    /* Starfield Background - Light Theme */
+    .starfield {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      background-color: rgba(67, 97, 238, 0.5);
+      border-radius: 50%;
+      animation: twinkle var(--duration) infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Nebula Effect - Light Theme */
+    .nebula {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.2;
+    }
+
+    .nebula-cloud {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(50px);
+      animation: nebulaFloat linear infinite;
+    }
+
+    @keyframes nebulaFloat {
+      0% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(50px, 50px);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    /* Meteor Shower - Light Theme */
+    .meteor-shower {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .meteor {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: rgba(67, 97, 238, 0.8);
+      border-radius: 50%;
+      box-shadow: 0 0 10px 2px rgba(67, 97, 238, 0.5);
+      animation: meteorFall linear infinite;
+    }
+
+    @keyframes meteorFall {
+      0% {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+      }
+      70% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(1000px) translateY(500px);
+        opacity: 0;
+      }
+    }
+
+    /* Floating Islands - Light Theme */
+    .floating-islands {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .island {
+      position: absolute;
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: islandFloat ease-in-out infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes islandFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(2deg);
+      }
+    }
+
+    /* Login Container */
+    .login-container {
+      max-width: 450px;
+      width: 100%;
+      animation: fadeIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+
+    .login-card {
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      background: var(--glass-effect);
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+      position: relative;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .login-card:hover {
+      transform: translateY(-10px) rotateX(1deg) rotateY(1deg);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
     .login-card::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        transparent 95%,
-        rgba(76, 201, 240, 0.08) 96%,
-        transparent 97%
-      );
-      background-size: 100% 10px;
-      pointer-events: none;
-      animation: scanline 8s linear infinite;
-      z-index: 2;
-      opacity: 0.5;
-    }
-
-    /* Subtle gradient overlay */
-    .login-card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      right: 0;
+      bottom: 0;
       background: linear-gradient(
         135deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0) 50%,
-        rgba(255, 255, 255, 0.1) 100%
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(255, 255, 255, 0.3) 100%
       );
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.3;
+      z-index: -1;
+      border-radius: var(--border-radius);
     }
 
-    @keyframes scanline {
-      0% { background-position: 0 0; }
-      100% { background-position: 0 100%; }
-    }
-
-    /* Hover effect with 3D tilt and depth */
-    .login-card:hover {
-      transform: translateY(-8px) rotateX(1deg) rotateY(1deg) translateZ(20px);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 
-                  0 0 0 1px rgba(76, 201, 240, 0.3),
-                  0 0 20px rgba(76, 201, 240, 0.1);
-    }
-
-    /* Header with subtle digital effect */
     .login-header {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: var(--white);
@@ -273,302 +371,121 @@
       text-align: center;
       position: relative;
       overflow: hidden;
-      transform: translateZ(40px);
+      clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
     }
 
-    /* Digital rain effect - more subtle */
     .login-header::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
       background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(255, 255, 255, 0.05) 50%,
-        transparent 100%
+        to bottom right,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0) 60%
       );
-      animation: digital-rain 6s linear infinite;
-      opacity: 0.4;
+      transform: rotate(30deg);
+      animation: shine 6s infinite;
     }
 
-    @keyframes digital-rain {
-      0% { transform: translateY(-100%); }
-      100% { transform: translateY(100%); }
+    @keyframes shine {
+      0% {
+        transform: rotate(30deg) translate(-30%, -30%);
+      }
+      100% {
+        transform: rotate(30deg) translate(30%, 30%);
+      }
     }
 
-    /* Header content with glitch effect */
     .login-header h2 {
       font-weight: 600;
       margin-bottom: 0.5rem;
       font-size: 2rem;
       position: relative;
-      animation: text-glitch 1s cubic-bezier(0.25, 1, 0.5, 1) both;
-      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      animation: textGlow 3s infinite alternate;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 
-    @keyframes text-glitch {
-      0% {
-        opacity: 0;
-        transform: translateY(-10px);
+    @keyframes textGlow {
+      from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
       }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
+      to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
       }
     }
 
     .login-header p {
       font-weight: 300;
       opacity: 0.9;
-      font-size: 0.95rem;
       position: relative;
-      animation: fade-in 1s 0.3s cubic-bezier(0.25, 1, 0.5, 1) both;
+      font-size: 1.1rem;
     }
 
-    /* Login body with floating inputs */
     .login-body {
       padding: 2.5rem;
-      position: relative;
-      transform: translateZ(20px);
     }
 
     .form-group {
       margin-bottom: 1.8rem;
       position: relative;
-      animation: input-appear 1s 0.5s cubic-bezier(0.25, 1, 0.5, 1) both;
     }
 
-    @keyframes input-appear {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 500;
+      color: var(--gray);
+      transition: all 0.3s ease;
+      font-size: 1rem;
     }
 
-    .input-container {
-      position: relative;
-      transition: var(--transition);
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-
-    .input-container:hover {
-      transform: translateY(-3px) translateZ(5px);
-    }
-
-    /* Input field styling */
     .form-control {
       width: 100%;
-      height: 56px;
-      border-radius: var(--border-radius-sm);
-      border: none;
-      padding: 0 55px 0 20px;
-      font-size: 0.95rem;
-      transition: var(--transition-fast);
-      background: rgba(233, 236, 239, 0.5);
+      height: 55px;
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0 20px;
+      font-size: 1rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      background: rgba(255, 255, 255, 0.8);
       box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-      font-weight: 500;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      color: var(--dark-gray);
-      transform: translateZ(0);
-      will-change: transform, box-shadow;
     }
 
     .form-control:focus {
-      background: var(--white);
-      box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2), 
-                  inset 0 1px 3px rgba(0, 0, 0, 0.05);
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
       outline: none;
-      border-color: rgba(67, 97, 238, 0.3);
-      transform: translateZ(5px);
+      transform: translateY(-3px);
+      background: var(--white);
     }
 
     .form-control::placeholder {
-      color: var(--gray);
-      opacity: 0.6;
-      font-weight: 400;
+      color: #adb5bd;
+      opacity: 0.7;
     }
 
-    /* Input icon styling */
-    .input-icon {
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray);
-      transition: var(--transition-fast);
-      pointer-events: none;
-      font-size: 1.1rem;
-      transform-style: preserve-3d;
-    }
-
-    .form-control:focus ~ .input-icon {
-      color: var(--primary);
-      animation: icon-float 1.5s infinite alternate;
-    }
-
-    @keyframes icon-float {
-      0% { 
-        transform: translateY(-50%) translateZ(0);
-      }
-      100% { 
-        transform: translateY(-55%) translateZ(3px);
-      }
-    }
-
-    /* Password visibility toggle */
-    .password-toggle {
-      position: absolute;
-      right: 50px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray);
-      cursor: pointer;
-      transition: var(--transition-fast);
-      font-size: 1rem;
-      opacity: 0.6;
-      z-index: 2;
-    }
-
-    .password-toggle:hover {
-      opacity: 1;
-      color: var(--primary);
-    }
-
-    /* Remember me checkbox */
-    .remember-me {
-      display: flex;
-      align-items: center;
-      margin: 1.5rem 0;
-      position: relative;
-      cursor: pointer;
-      user-select: none;
-      animation: fade-in 1s 0.7s both;
-    }
-
-    .remember-me input {
-      position: absolute;
-      opacity: 0;
-      cursor: pointer;
-      height: 0;
-      width: 0;
-    }
-
-    .checkmark {
-      position: relative;
-      height: 18px;
-      width: 18px;
-      background-color: rgba(233, 236, 239, 0.5);
-      border-radius: 4px;
-      transition: var(--transition-fast);
-      margin-right: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    .remember-me:hover .checkmark {
-      background-color: rgba(233, 236, 239, 0.8);
-    }
-
-    .remember-me input:checked ~ .checkmark {
-      background-color: var(--primary);
-      border-color: var(--primary);
-    }
-
-    .checkmark:after {
-      content: "";
-      position: absolute;
-      display: none;
-      left: 6px;
-      top: 2px;
-      width: 5px;
-      height: 10px;
-      border: solid white;
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
-    }
-
-    .remember-me input:checked ~ .checkmark:after {
-      display: block;
-    }
-
-    .remember-me-label {
-      font-size: 0.9rem;
-      color: var(--gray);
-    }
-
-    /* Forgot password link */
-    .forgot-password {
-      text-align: right;
-      margin-top: -1.8rem;
-      margin-bottom: 1.5rem;
-      animation: fade-in 1s 0.7s both;
-    }
-
-    .forgot-password a {
-      color: var(--gray);
-      font-size: 0.85rem;
-      text-decoration: none;
-      transition: var(--transition-fast);
-    }
-
-    .forgot-password a:hover {
-      color: var(--primary);
-    }
-
-    /* Login button with enhanced effects */
     .btn-login {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       border: none;
-      height: 56px;
-      border-radius: var(--border-radius-sm);
+      height: 55px;
+      border-radius: var(--border-radius);
       width: 100%;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 1.1rem;
       cursor: pointer;
-      transition: var(--transition);
-      margin-top: 0.5rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      margin-top: 1rem;
       position: relative;
       overflow: hidden;
-      animation: btn-appear 1s 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
-      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transform-style: preserve-3d;
-      z-index: 1;
-      will-change: transform, box-shadow;
+      letter-spacing: 1px;
     }
 
-    @keyframes btn-appear {
-      0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .btn-login:hover {
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      box-shadow: 0 12px 25px rgba(67, 97, 238, 0.4);
-      transform: translateY(-3px) translateZ(5px);
-    }
-
-    .btn-login:active {
-      transform: translateY(1px) translateZ(0);
-      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
-    }
-
-    /* Button shine effect */
     .btn-login::before {
       content: '';
       position: absolute;
@@ -577,329 +494,389 @@
       width: 100%;
       height: 100%;
       background: linear-gradient(
-        90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.2), 
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
         transparent
       );
       transition: 0.6s;
-      z-index: -1;
+    }
+
+    .btn-login:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+      transform: translateY(-3px);
+    }
+
+    .btn-login:active {
+      transform: translateY(1px);
     }
 
     .btn-login:hover::before {
       left: 100%;
     }
 
-    .btn-content {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    /* Social login options */
-    .social-login {
-      margin: 2rem 0;
+    .signup-link {
       text-align: center;
-      position: relative;
-      animation: fade-in 1s 0.9s both;
-    }
-
-    .social-login p {
+      margin-top: 2rem;
       color: var(--gray);
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
       position: relative;
+      font-size: 0.95rem;
     }
 
-    .social-login p::before,
-    .social-login p::after {
+    .signup-link::before,
+    .signup-link::after {
       content: '';
       position: absolute;
       top: 50%;
-      width: 30%;
+      width: 25%;
       height: 1px;
-      background: rgba(0, 0, 0, 0.1);
+      background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.1), transparent);
     }
 
-    .social-login p::before {
+    .signup-link::before {
       left: 0;
     }
 
-    .social-login p::after {
+    .signup-link::after {
       right: 0;
-    }
-
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .social-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--white);
-      color: var(--gray);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-      transition: var(--transition-fast);
-      border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .social-icon:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .social-icon.facebook:hover {
-      color: #1877f2;
-      background: rgba(24, 119, 242, 0.1);
-    }
-
-    .social-icon.google:hover {
-      color: #ea4335;
-      background: rgba(234, 67, 53, 0.1);
-    }
-
-    .social-icon.linkedin:hover {
-      color: #0a66c2;
-      background: rgba(10, 102, 194, 0.1);
-    }
-
-    /* Signup link with enhanced effect */
-    .signup-link {
-      text-align: center;
-      margin-top: 1.5rem;
-      color: var(--gray);
-      font-size: 0.95rem;
-      animation: fade-in 1s 1s both;
     }
 
     .signup-link a {
       color: var(--primary);
       text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition-fast);
+      font-weight: 600;
+      transition: all 0.3s ease;
       position: relative;
+      padding: 0 5px;
     }
 
-    .signup-link a::before {
+    .signup-link a::after {
       content: '';
       position: absolute;
       bottom: -2px;
       left: 0;
       width: 0;
-      height: 1px;
-      background: var(--primary);
-      transition: var(--transition-fast);
+      height: 2px;
+      background: var(--primary-dark);
+      transition: width 0.4s ease;
     }
 
-    .signup-link a:hover::before {
+    .signup-link a:hover {
+      color: var(--primary-dark);
+    }
+
+    .signup-link a:hover::after {
       width: 100%;
     }
 
-    /* Status message styling */
-    .status-message {
-      padding: 12px 20px;
-      border-radius: var(--border-radius-sm);
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      animation: slide-down 0.5s ease-out;
-      transform-origin: top;
+    /* Floating label effect */
+    .form-group.focused label {
+      transform: translateY(-25px);
+      font-size: 0.85rem;
+      color: var(--primary);
     }
 
-    @keyframes slide-down {
-      0% {
+    /* Ripple effect */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
+    }
+
+    @keyframes ripple {
+      to {
+        transform: scale(4);
         opacity: 0;
-        transform: translateY(-20px);
       }
-      100% {
-        opacity: 1;
+    }
+
+    /* Micro-interactions */
+    @keyframes microBounce {
+      0%, 100% {
         transform: translateY(0);
       }
+      50% {
+        transform: translateY(-5px);
+      }
     }
 
-    .status-message.error {
-      background: rgba(220, 53, 69, 0.1);
-      color: #dc3545;
-      border-left: 3px solid #dc3545;
+    .micro-interaction {
+      animation: microBounce 2s infinite ease-in-out;
     }
 
-    .status-message.success {
-      background: rgba(25, 135, 84, 0.1);
-      color: #198754;
-      border-left: 3px solid #198754;
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px) rotateX(10deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+      }
     }
 
-    .status-message i {
-      margin-right: 10px;
+    /* Aurora Effect - Light Theme */
+    .aurora {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
     }
 
-    /* Loading spinner */
-    .spinner {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255, 255, 255, 0.3);
+    .aurora-band {
+      position: absolute;
+      height: 200px;
+      width: 200%;
+      background: linear-gradient(90deg, 
+        rgba(67, 97, 238, 0.05) 0%, 
+        rgba(76, 201, 240, 0.1) 50%, 
+        rgba(67, 97, 238, 0.05) 100%);
       border-radius: 50%;
-      border-top-color: var(--white);
-      animation: spin 1s ease-in-out infinite;
-      margin-right: 10px;
+      filter: blur(30px);
+      animation: auroraFlow linear infinite;
+      opacity: 0.5;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    @keyframes auroraFlow {
+      0% {
+        transform: translateX(-50%);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    /* Floating Orbs - Light Theme */
+    .floating-orbs {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(30px);
+      opacity: 0.2;
+      animation: orbFloat ease-in-out infinite;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(50px, 50px);
+      }
     }
 
     /* Responsive adjustments */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .login-container {
-        max-width: 100%;
+        max-width: 90%;
       }
       
       .login-header {
-        padding: 2rem 1.5rem;
+        padding: 2rem;
       }
       
       .login-body {
-        padding: 2rem 1.5rem;
+        padding: 2rem;
+      }
+
+      .signup-link::before,
+      .signup-link::after {
+        width: 20%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-header {
+        padding: 1.8rem;
+        clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
       }
       
-      .bubble-1, .bubble-2, .bubble-3, .bubble-4 {
-        display: none;
+      .login-body {
+        padding: 1.8rem;
+      }
+
+      .signup-link::before,
+      .signup-link::after {
+        width: 15%;
       }
     }
 
-    /* Accessibility focus styles */
-    .form-control:focus-visible,
-    .btn-login:focus-visible,
-    .social-icon:focus-visible,
-    .password-toggle:focus-visible {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
+    /* Additional decorative elements */
+    .corner-decoration {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border: 2px solid rgba(67, 97, 238, 0.1);
+      border-radius: 5px;
     }
 
-    /* Utility classes */
-    .hidden {
-      display: none !important;
+    .corner-decoration.top-left {
+      top: 20px;
+      left: 20px;
+      border-right: none;
+      border-bottom: none;
+      animation: cornerFloat 8s infinite ease-in-out;
     }
 
-    @keyframes fade-in {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .corner-decoration.top-right {
+      top: 20px;
+      right: 20px;
+      border-left: none;
+      border-bottom: none;
+      animation: cornerFloat 10s infinite ease-in-out;
     }
 
-    /* Enhanced bubble animations */
-    @keyframes bubble-rise {
-      0% {
-        transform: translateY(0) scale(0.8);
-        opacity: 0;
-      }
-      20% {
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(-100vh) scale(1.2);
-        opacity: 0;
-      }
+    .corner-decoration.bottom-left {
+      bottom: 20px;
+      left: 20px;
+      border-right: none;
+      border-top: none;
+      animation: cornerFloat 12s infinite ease-in-out;
     }
 
-    @keyframes bubble-orbital {
-      0% {
-        transform: rotate(0deg) translateX(100px) rotate(0deg) scale(0.8);
-        opacity: 0;
+    .corner-decoration.bottom-right {
+      bottom: 20px;
+      right: 20px;
+      border-left: none;
+      border-top: none;
+      animation: cornerFloat 9s infinite ease-in-out;
+    }
+
+    @keyframes cornerFloat {
+      0%, 100% {
+        transform: translate(0, 0);
       }
       50% {
-        opacity: 0.8;
-        transform: rotate(180deg) translateX(100px) rotate(-180deg) scale(1);
+        transform: translate(5px, 5px);
       }
-      100% {
-        transform: rotate(360deg) translateX(100px) rotate(-360deg) scale(0.8);
+    }
+
+    /* Glow effect for form */
+    .form-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: radial-gradient(circle at center, rgba(67, 97, 238, 0.05) 0%, transparent 70%);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .login-card:hover .form-glow {
+      opacity: 0.5;
+    }
+
+    /* Subtle pulse animation */
+    @keyframes subtlePulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.01);
+      }
+    }
+
+    .login-card {
+      animation: subtlePulse 15s infinite ease-in-out;
+    }
+
+    /* Water ripple effect */
+    .water-ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(67, 97, 238, 0.1);
+      transform: scale(0);
+      animation: waterRipple 3s infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes waterRipple {
+      to {
+        transform: scale(2);
         opacity: 0;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Background elements -->
-  <div class="holographic-grid"></div>
-  <div class="floating-bubble bubble-1"></div>
-  <div class="floating-bubble bubble-2"></div>
-  <div class="floating-bubble bubble-3"></div>
-  <div class="floating-bubble bubble-4"></div>
-  
-  <!-- Quantum bubbles will be added by JavaScript -->
-  
+  <!-- Cosmic Background -->
+  <div class="cosmic-bg">
+    <div class="gradient-bg"></div>
+  </div>
+
+  <!-- Starfield Background -->
+  <div class="starfield" id="starfield"></div>
+
+  <!-- Aurora Effect -->
+  <div class="aurora" id="aurora"></div>
+
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Floating Bubbles -->
+  <div class="bubbles" id="bubbles"></div>
+
+  <!-- Floating Shapes -->
+  <div class="floating-shapes" id="floatingShapes"></div>
+
+  <!-- Light Rays -->
+  <div class="light-rays" id="lightRays"></div>
+
+  <!-- Meteor Shower -->
+  <div class="meteor-shower" id="meteorShower"></div>
+
+  <!-- Floating Orbs -->
+  <div class="floating-orbs" id="floatingOrbs"></div>
+
   <div class="login-container">
     <div class="login-card">
+      <!-- Corner Decorations -->
+      <div class="corner-decoration top-left"></div>
+      <div class="corner-decoration top-right"></div>
+      <div class="corner-decoration bottom-left"></div>
+      <div class="corner-decoration bottom-right"></div>
+      
+      <!-- Form Glow Effect -->
+      <div class="form-glow"></div>
+
       <div class="login-header">
-        <h2><i class="fas fa-graduation-cap"></i> Alumni Portal</h2>
-        <p>Connect with your alma mater and fellow graduates</p>
+        <h2 class="micro-interaction">Alumni Portal</h2>
+        <p>Welcome back! Please sign in to continue</p>
       </div>
 
       <div class="login-body">
-        <!-- Status message container (initially hidden) -->
-        <div id="statusMessage" class="status-message hidden"></div>
-        
-        <form id="loginForm" novalidate>
+        <form id="loginForm" action="/loginrout" method="post">
           <div class="form-group">
-            <div class="input-container">
-              <input type="email" id="email" name="email" class="form-control" required placeholder="Email Address">
-              <i class="fas fa-envelope input-icon"></i>
-            </div>
+            <label for="yourUsername">Email Address</label>
+            <input type="email" id="yourUsername" name="email" class="form-control" required placeholder="your@email.com">
           </div>
 
           <div class="form-group">
-            <div class="input-container">
-              <input type="password" id="password" name="password" class="form-control" required placeholder="Password" minlength="6">
-              <i class="fas fa-lock input-icon"></i>
-              <span class="password-toggle" id="togglePassword">
-                <i class="far fa-eye"></i>
-              </span>
-            </div>
+            <label for="yourPassword">Password</label>
+            <input type="password" id="yourPassword" name="pass" class="form-control" required placeholder="••••••••">
           </div>
 
-          <div class="remember-me">
-            <input type="checkbox" id="remember" name="remember">
-            <span class="checkmark"></span>
-            <span class="remember-me-label">Remember me</span>
-          </div>
-
-          <div class="forgot-password">
-            <a href="/forgot-password">Forgot password?</a>
-          </div>
-
-          <button type="submit" class="btn-login" id="loginButton">
-            <span class="btn-content">
-              <span id="buttonText">Sign In</span>
-            </span>
-          </button>
-
-          <div class="social-login">
-            <p>Or sign in with</p>
-            <div class="social-icons">
-              <a href="#" class="social-icon facebook" aria-label="Sign in with Facebook">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" class="social-icon google" aria-label="Sign in with Google">
-                <i class="fab fa-google"></i>
-              </a>
-              <a href="#" class="social-icon linkedin" aria-label="Sign in with LinkedIn">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </div>
-          </div>
+          <button type="submit" class="btn-login">Sign In</button>
 
           <div class="signup-link">
-            Not an alumni yet? <a href="/signup">Register now</a>
+            Not signed up? <a href="/signup_page">Create an account</a>
           </div>
         </form>
       </div>
@@ -907,401 +884,331 @@
   </div>
 
   <script>
-    // Enhanced quantum bubbles with multiple animation types
-    function createQuantumBubbles() {
-      const colors = [
-        'rgba(67, 97, 238, 0.7)',
-        'rgba(76, 201, 240, 0.7)',
-        'rgba(58, 86, 212, 0.7)',
-        'rgba(247, 37, 133, 0.7)',
-        'rgba(114, 9, 183, 0.7)'
-      ];
-      const body = document.body;
-      const bubbleCount = Math.min(Math.floor(window.innerWidth / 10), 60); // Limit to 60 bubbles
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create starfield
+      const starfield = document.getElementById('starfield');
+      const starCount = 200;
       
-      // Remove existing bubbles if any
-      document.querySelectorAll('.quantum-bubble').forEach(el => el.remove());
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        
+        // Random properties
+        const size = Math.random() * 2 + 0.5;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const duration = Math.random() * 5 + 3;
+        const delay = Math.random() * 5;
+        
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${posX}%`;
+        star.style.top = `${posY}%`;
+        star.style.animationDuration = `${duration}s`;
+        star.style.animationDelay = `${delay}s`;
+        star.style.setProperty('--duration', `${duration}s`);
+        
+        starfield.appendChild(star);
+      }
+
+      // Create aurora effect
+      const aurora = document.getElementById('aurora');
+      const auroraBandCount = 5;
+      
+      for (let i = 0; i < auroraBandCount; i++) {
+        const band = document.createElement('div');
+        band.classList.add('aurora-band');
+        
+        // Random properties
+        const height = Math.random() * 200 + 100;
+        const top = Math.random() * 100;
+        const duration = Math.random() * 60 + 120;
+        const delay = Math.random() * 30;
+        const hue = 220 + Math.random() * 30 - 15;
+        
+        band.style.height = `${height}px`;
+        band.style.top = `${top}%`;
+        band.style.animationDuration = `${duration}s`;
+        band.style.animationDelay = `${delay}s`;
+        band.style.background = `linear-gradient(90deg, 
+          hsla(${hue}, 80%, 60%, 0.05) 0%, 
+          hsla(${hue}, 80%, 70%, 0.1) 50%, 
+          hsla(${hue}, 80%, 60%, 0.05) 100%)`;
+        
+        aurora.appendChild(band);
+      }
+
+      // Create particles
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 50;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 5 + 2;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 10;
+        const duration = Math.random() * 30 + 10;
+        const opacity = Math.random() * 0.6 + 0.2;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.opacity = opacity;
+        
+        // Random color variation
+        const hue = 220 + Math.random() * 30 - 15;
+        particle.style.background = `radial-gradient(circle, 
+          rgba(255,255,255,0.9) 0%, 
+          hsla(${hue}, 80%, 70%, ${opacity * 0.5}) 70%)`;
+        
+        particlesContainer.appendChild(particle);
+      }
+
+      // Create bubbles
+      const bubblesContainer = document.getElementById('bubbles');
+      const bubbleCount = 15;
       
       for (let i = 0; i < bubbleCount; i++) {
         const bubble = document.createElement('div');
-        bubble.className = 'quantum-bubble';
+        bubble.classList.add('bubble');
         
-        // Random properties with enhanced effects
-        const size = Math.random() * 20 + 10;
+        // Random properties
+        const size = Math.random() * 100 + 50;
         const posX = Math.random() * 100;
-        const posY = Math.random() * 100;
-        const tx = (Math.random() - 0.5) * 300;
-        const ty = (Math.random() - 0.5) * 300;
-        const duration = Math.random() * 15 + 10; // Longer duration
-        const delay = Math.random() * 10;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const zIndex = Math.floor(Math.random() * 5) - 2;
-        const opacity = Math.random() * 0.4 + 0.1;
-        const animationType = Math.random() > 0.5 ? 'bubble-float' : 'bubble-rise';
-        const animationCurve = Math.random() > 0.5 ? 'ease-in-out' : 'linear';
+        const delay = Math.random() * 15;
+        const duration = Math.random() * 30 + 20;
         
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
         bubble.style.left = `${posX}%`;
-        bubble.style.top = `${posY}%`;
-        bubble.style.setProperty('--tx', `${tx}px`);
-        bubble.style.setProperty('--ty', `${ty}px`);
-        bubble.style.animation = `${animationType} ${duration}s ${animationCurve} ${delay}s infinite`;
-        bubble.style.backgroundColor = color;
-        bubble.style.zIndex = zIndex;
-        bubble.style.opacity = opacity;
-        bubble.style.willChange = 'transform, opacity';
+        bubble.style.animationDelay = `${delay}s`;
+        bubble.style.animationDuration = `${duration}s`;
         
-        // Add glow effect
-        bubble.style.boxShadow = `0 0 ${size/2}px ${size/4}px ${color.replace('0.7', '0.3')}`;
-        
-        // Random bubble shape variation
-        if (Math.random() > 0.7) {
-          bubble.style.borderRadius = '30% 70% 70% 30% / 30% 30% 70% 70%';
-        }
-        
-        body.appendChild(bubble);
+        bubblesContainer.appendChild(bubble);
       }
+
+      // Create floating shapes
+      const shapesContainer = document.getElementById('floatingShapes');
+      const shapeCount = 8;
+      const shapeTypes = ['triangle', 'circle', 'square'];
       
-      // Create some orbital bubbles around the login card
-      createOrbitalBubbles();
-    }
-    
-    // Create orbital bubbles that circle around the login card
-    function createOrbitalBubbles() {
-      const loginCard = document.querySelector('.login-card');
-      if (!loginCard) return;
-      
-      const cardRect = loginCard.getBoundingClientRect();
-      const centerX = cardRect.left + cardRect.width / 2;
-      const centerY = cardRect.top + cardRect.height / 2;
-      const radius = Math.max(cardRect.width, cardRect.height) * 0.8;
-      
-      for (let i = 0; i < 8; i++) {
-        const bubble = document.createElement('div');
-        bubble.className = 'quantum-bubble orbital-bubble';
+      for (let i = 0; i < shapeCount; i++) {
+        const shape = document.createElement('div');
+        const type = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+        shape.classList.add('shape', type);
         
-        const size = Math.random() * 15 + 10;
-        const angle = (i * 45) * (Math.PI / 180);
-        const startX = centerX + Math.cos(angle) * radius - size/2;
-        const startY = centerY + Math.sin(angle) * radius - size/2;
-        const duration = Math.random() * 20 + 20;
+        // Random properties
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100 + 100;
+        const delay = Math.random() * 10;
+        const duration = Math.random() * 60 + 30;
+        const opacity = Math.random() * 0.15 + 0.05;
+        
+        shape.style.left = `${posX}%`;
+        shape.style.top = `${posY}%`;
+        shape.style.animationDelay = `${delay}s`;
+        shape.style.animationDuration = `${duration}s`;
+        shape.style.opacity = opacity;
+        
+        shapesContainer.appendChild(shape);
+      }
+
+      // Create light rays
+      const raysContainer = document.getElementById('lightRays');
+      const rayCount = 8;
+      
+      for (let i = 0; i < rayCount; i++) {
+        const ray = document.createElement('div');
+        ray.classList.add('light-ray');
+        
+        // Random properties
+        const posX = Math.random() * 100;
         const delay = Math.random() * 5;
-        const color = `rgba(${Math.floor(Math.random() * 100 + 155)}, 
-                          ${Math.floor(Math.random() * 100 + 155)}, 
-                          ${Math.floor(Math.random() * 100 + 155)}, 0.6)`;
+        const duration = Math.random() * 60 + 120;
+        const opacity = Math.random() * 0.1 + 0.05;
         
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        bubble.style.left = `${startX}px`;
-        bubble.style.top = `${startY}px`;
-        bubble.style.animation = `bubble-orbital ${duration}s linear ${delay}s infinite`;
-        bubble.style.backgroundColor = color;
-        bubble.style.zIndex = '-1';
-        bubble.style.opacity = '0.5';
-        bubble.style.boxShadow = `0 0 ${size}px ${size/2}px ${color.replace('0.6', '0.2')}`;
+        ray.style.left = `${posX}%`;
+        ray.style.animationDelay = `${delay}s`;
+        ray.style.animationDuration = `${duration}s`;
+        ray.style.opacity = opacity;
         
-        document.body.appendChild(bubble);
+        raysContainer.appendChild(ray);
       }
-    }
 
-    // Password visibility toggle
-    document.getElementById('togglePassword').addEventListener('click', function() {
-      const passwordInput = document.getElementById('password');
-      const icon = this.querySelector('i');
+      // Create meteor shower
+      const meteorContainer = document.getElementById('meteorShower');
+      const meteorCount = 5;
       
-      if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-      } else {
-        passwordInput.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
+      for (let i = 0; i < meteorCount; i++) {
+        const meteor = document.createElement('div');
+        meteor.classList.add('meteor');
+        
+        // Random properties
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 20;
+        const duration = Math.random() * 5 + 1;
+        const size = Math.random() * 3 + 1;
+        
+        meteor.style.left = `${posX}%`;
+        meteor.style.top = `${posY}%`;
+        meteor.style.animationDelay = `${delay}s`;
+        meteor.style.animationDuration = `${duration}s`;
+        meteor.style.width = `${size}px`;
+        meteor.style.height = `${size}px`;
+        
+        meteorContainer.appendChild(meteor);
       }
-    });
 
-    // Form validation
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+      // Create floating orbs
+      const orbsContainer = document.getElementById('floatingOrbs');
+      const orbCount = 5;
       
-      const email = document.getElementById('email');
-      const password = document.getElementById('password');
-      const loginButton = document.getElementById('loginButton');
-      const buttonText = document.getElementById('buttonText');
-      const statusMessage = document.getElementById('statusMessage');
-      
-      // Reset status message
-      statusMessage.className = 'status-message hidden';
-      
-      // Validate inputs
-      if (!email.value || !password.value) {
-        showStatusMessage('Please fill in all fields', 'error');
-        return;
+      for (let i = 0; i < orbCount; i++) {
+        const orb = document.createElement('div');
+        orb.classList.add('orb');
+        
+        // Random properties
+        const size = Math.random() * 300 + 100;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 10;
+        const duration = Math.random() * 30 + 20;
+        const hue = 220 + Math.random() * 40 - 20;
+        
+        orb.style.width = `${size}px`;
+        orb.style.height = `${size}px`;
+        orb.style.left = `${posX}%`;
+        orb.style.top = `${posY}%`;
+        orb.style.animationDelay = `${delay}s`;
+        orb.style.animationDuration = `${duration}s`;
+        orb.style.background = `radial-gradient(circle, 
+          hsla(${hue}, 80%, 70%, 0.2) 0%, 
+          hsla(${hue}, 80%, 60%, 0.1) 100%)`;
+        
+        orbsContainer.appendChild(orb);
       }
-      
-      if (!validateEmail(email.value)) {
-        showStatusMessage('Please enter a valid email address', 'error');
-        return;
+
+      // Add ripple effect to login button
+      const loginBtn = document.querySelector('.btn-login');
+      if (loginBtn) {
+        loginBtn.addEventListener('click', function(e) {
+          const x = e.clientX - e.target.getBoundingClientRect().left;
+          const y = e.clientY - e.target.getBoundingClientRect().top;
+          
+          const ripple = document.createElement('span');
+          ripple.classList.add('ripple');
+          ripple.style.left = `${x}px`;
+          ripple.style.top = `${y}px`;
+          
+          this.appendChild(ripple);
+          
+          setTimeout(() => {
+            ripple.remove();
+          }, 1000);
+        });
       }
-      
-      if (password.value.length < 6) {
-        showStatusMessage('Password must be at least 6 characters', 'error');
-        return;
-      }
-      
-      // Start authentication process
-      loginButton.disabled = true;
-      buttonText.innerHTML = '<span class="spinner"></span> Authenticating';
-      
-      // Simulate API call (replace with actual fetch)
-      setTimeout(() => {
-        // This is where you would normally make an actual API call
-        // For demo purposes, we're simulating a successful login after 2 seconds
-        simulateLogin(email.value, password.value);
-      }, 2000);
-    });
-    
-    // Email validation helper
-    function validateEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return re.test(email);
-    }
-    
-    // Show status message
-    function showStatusMessage(message, type) {
-      const statusMessage = document.getElementById('statusMessage');
-      statusMessage.textContent = message;
-      statusMessage.className = `status-message ${type}`;
-      statusMessage.innerHTML = `<i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${message}`;
-      
-      // Auto-hide after 5 seconds
-      setTimeout(() => {
-        statusMessage.classList.add('hidden');
+
+      // Add water ripple effect to the card randomly
+      const loginCard = document.querySelector('.login-card');
+      setInterval(() => {
+        const ripple = document.createElement('div');
+        ripple.classList.add('water-ripple');
+        
+        // Random position within the card
+        const x = Math.random() * 80 + 10;
+        const y = Math.random() * 80 + 10;
+        
+        ripple.style.left = `${x}%`;
+        ripple.style.top = `${y}%`;
+        
+        loginCard.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 3000);
       }, 5000);
-    }
-    
-    // Simulate login (replace with actual API call)
-    function simulateLogin(email, password) {
-      const loginButton = document.getElementById('loginButton');
-      const buttonText = document.getElementById('buttonText');
-      const statusMessage = document.getElementById('statusMessage');
-      
-      // This is just for demonstration - in a real app, you would:
-      // 1. Make an API call to your authentication endpoint
-      // 2. Handle the response appropriately
-      
-      // For demo purposes, we'll randomly succeed or fail
-      const isSuccess = Math.random() > 0.2; // 80% chance of success
-      
-      if (isSuccess) {
-        // Success case
-        buttonText.innerHTML = '<i class="fas fa-check"></i> Success';
-        showStatusMessage('Login successful! Redirecting...', 'success');
-        
-        // Create success bubbles
-        createSuccessBubbles(loginButton);
-        
-        // Redirect after a delay (in a real app, you might get a token first)
-        setTimeout(() => {
-          window.location.href = '/dashboard'; // Replace with your actual dashboard URL
-        }, 1500);
-      } else {
-        // Error case
-        loginButton.disabled = false;
-        buttonText.textContent = 'Sign In';
-        showStatusMessage('Invalid email or password', 'error');
-        
-        // Create error bubbles
-        createErrorBubbles(loginButton);
-      }
-    }
-    
-    // Create success bubbles effect
-    function createSuccessBubbles(element) {
-      const rect = element.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      for (let i = 0; i < 30; i++) {
-        const bubble = document.createElement('div');
-        bubble.className = 'success-bubble';
-        
-        const size = Math.random() * 15 + 5;
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 100 + 50;
-        const duration = Math.random() * 1.5 + 0.5;
-        const delay = Math.random() * 0.5;
-        const color = `rgba(76, 201, 240, ${Math.random() * 0.5 + 0.3})`;
-        
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        bubble.style.background = color;
-        bubble.style.borderRadius = '50%';
-        bubble.style.position = 'fixed';
-        bubble.style.left = `${centerX}px`;
-        bubble.style.top = `${centerY}px`;
-        bubble.style.opacity = '0.8';
-        bubble.style.filter = 'blur(1px)';
-        bubble.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
-        bubble.style.animation = `success-bubble-fade ${duration}s ease-out ${delay}s forwards, bubble-pulse ${duration/2}s ease-in-out infinite`;
-        bubble.style.zIndex = '1000';
-        bubble.style.pointerEvents = 'none';
-        bubble.style.willChange = 'transform, opacity';
-        bubble.style.boxShadow = `0 0 ${size}px ${size/2}px rgba(76, 201, 240, 0.3)`;
-        
-        document.body.appendChild(bubble);
-        
-        // Remove bubble after animation
-        setTimeout(() => {
-          bubble.remove();
-        }, (duration + delay) * 1000);
-      }
-    }
-    
-    // Create error bubbles effect
-    function createErrorBubbles(element) {
-      const rect = element.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      for (let i = 0; i < 20; i++) {
-        const bubble = document.createElement('div');
-        bubble.className = 'error-bubble';
-        
-        const size = Math.random() * 12 + 3;
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 60 + 30;
-        const duration = Math.random() * 0.8 + 0.3;
-        const color = `rgba(247, 37, 133, ${Math.random() * 0.5 + 0.3})`;
-        
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        bubble.style.background = color;
-        bubble.style.borderRadius = '50%';
-        bubble.style.position = 'fixed';
-        bubble.style.left = `${centerX}px`;
-        bubble.style.top = `${centerY}px`;
-        bubble.style.opacity = '0.8';
-        bubble.style.filter = 'blur(1px)';
-        bubble.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
-        bubble.style.animation = `error-bubble-fade ${duration}s ease-out forwards`;
-        bubble.style.zIndex = '1000';
-        bubble.style.pointerEvents = 'none';
-        bubble.style.willChange = 'transform, opacity';
-        bubble.style.boxShadow = `0 0 ${size}px ${size/2}px rgba(247, 37, 133, 0.3)`;
-        
-        document.body.appendChild(bubble);
-        
-        // Remove bubble after animation
-        setTimeout(() => {
-          bubble.remove();
-        }, duration * 1000);
-      }
-    }
 
-    // Add CSS for bubble animations
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes success-bubble-fade {
-        0% {
-          transform: translate(0, 0) scale(0.8);
-          opacity: 0.8;
-        }
-        50% {
-          opacity: 1;
-          filter: blur(0);
-        }
-        100% {
-          transform: translate(var(--tx, 0), var(--ty, 0)) scale(1.5);
-          opacity: 0;
-          filter: blur(2px);
-        }
-      }
-      
-      @keyframes error-bubble-fade {
-        0% {
-          transform: translate(0, 0) scale(0.8);
-          opacity: 0.8;
-        }
-        100% {
-          transform: translate(var(--tx, 0), var(--ty, 0)) scale(1.2);
-          opacity: 0;
-        }
-      }
-      
-      /* Bubble pulse animation */
-      @keyframes bubble-pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.2); }
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Initialize everything when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      createQuantumBubbles();
-      
-      // Add parallax effect to quantum bubbles
-      document.addEventListener('mousemove', function(e) {
-        const bubbles = document.querySelectorAll('.quantum-bubble:not(.orbital-bubble)');
-        bubbles.forEach(bubble => {
-          const speed = parseFloat(bubble.style.zIndex || 0) * 1.5;
-          const x = (e.clientX - window.innerWidth / 2) / 100 * speed;
-          const y = (e.clientY - window.innerHeight / 2) / 100 * speed;
-          bubble.style.transform = `translate(${x}px, ${y}px) translateZ(${speed}px)`;
+      // Add focus effects to form inputs
+      const inputs = document.querySelectorAll('.form-control');
+      inputs.forEach(input => {
+        const formGroup = input.closest('.form-group');
+        
+        input.addEventListener('focus', () => {
+          formGroup.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', () => {
+          if (!input.value) {
+            formGroup.classList.remove('focused');
+          }
         });
       });
-      
-      // Recreate bubbles on resize (with debounce)
-      let resizeTimeout;
-      window.addEventListener('resize', function() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(createQuantumBubbles, 200);
+
+      // Mouse move parallax effect
+      document.addEventListener('mousemove', function(e) {
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        // Move gradient background
+        const gradientBg = document.querySelector('.gradient-bg');
+        gradientBg.style.transform = `translate(${x * 20 - 10}px, ${y * 20 - 10}px)`;
+        
+        // Move particles slightly
+        const particles = document.querySelectorAll('.particle');
+        particles.forEach(particle => {
+          const speed = parseFloat(particle.style.animationDuration) / 30;
+          particle.style.transform = `translate(${x * speed * 10}px, ${y * speed * 10}px)`;
+        });
+        
+        // Move orbs slightly
+        const orbs = document.querySelectorAll('.orb');
+        orbs.forEach(orb => {
+          const speed = parseFloat(orb.style.animationDuration) / 100;
+          orb.style.transform = `translate(${x * speed * 20}px, ${y * speed * 20}px)`;
+        });
       });
+
+      // Add floating islands effect
+      const islandsContainer = document.createElement('div');
+      islandsContainer.classList.add('floating-islands');
+      document.body.appendChild(islandsContainer);
       
-      // Check for error messages in URL (for redirects from other pages)
-      const urlParams = new URLSearchParams(window.location.search);
-      const errorMessage = urlParams.get('error');
-      if (errorMessage) {
-        showStatusMessage(decodeURIComponent(errorMessage), 'error');
+      const islandCount = 3;
+      for (let i = 0; i < islandCount; i++) {
+        const island = document.createElement('div');
+        island.classList.add('island');
+        
+        // Random properties
+        const size = Math.random() * 200 + 100;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100 + 50;
+        const delay = Math.random() * 10;
+        const duration = Math.random() * 30 + 20;
+        
+        island.style.width = `${size}px`;
+        island.style.height = `${size}px`;
+        island.style.left = `${posX}%`;
+        island.style.top = `${posY}%`;
+        island.style.animationDelay = `${delay}s`;
+        island.style.animationDuration = `${duration}s`;
+        
+        // Random shape
+        if (Math.random() > 0.5) {
+          island.style.backgroundImage = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 50\'><path d=\'M0,50 Q25,0 50,50 Q75,100 100,50 Z\' fill=\'%234361ee\'/></svg>")';
+        } else {
+          island.style.backgroundImage = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 50\'><path d=\'M0,50 Q25,10 50,50 Q75,90 100,50 Z\' fill=\'%234cc9f0\'/></svg>")';
+        }
+        
+        islandsContainer.appendChild(island);
       }
-      
-      // Check for success messages in URL
-      const successMessage = urlParams.get('success');
-      if (successMessage) {
-        showStatusMessage(decodeURIComponent(successMessage), 'success');
-      }
-      
-      // Periodically add some floating bubbles
-      setInterval(() => {
-        const floatingBubble = document.createElement('div');
-        floatingBubble.className = 'quantum-bubble floating';
-        
-        const size = Math.random() * 30 + 10;
-        const startX = Math.random() * window.innerWidth;
-        const duration = Math.random() * 10 + 10;
-        const color = `rgba(${Math.floor(Math.random() * 100 + 155)}, 
-                         ${Math.floor(Math.random() * 100 + 155)}, 
-                         ${Math.floor(Math.random() * 100 + 155)}, 0.6)`;
-        
-        floatingBubble.style.width = `${size}px`;
-        floatingBubble.style.height = `${size}px`;
-        floatingBubble.style.left = `${startX}px`;
-        floatingBubble.style.bottom = `-${size}px`;
-        floatingBubble.style.animation = `bubble-rise ${duration}s linear forwards`;
-        floatingBubble.style.backgroundColor = color;
-        floatingBubble.style.zIndex = '-1';
-        floatingBubble.style.opacity = '0.7';
-        floatingBubble.style.boxShadow = `0 0 ${size}px ${size/2}px ${color.replace('0.6', '0.2')}`;
-        
-        document.body.appendChild(floatingBubble);
-        
-        // Remove bubble after animation
-        setTimeout(() => {
-          floatingBubble.remove();
-        }, duration * 1000);
-      }, 1000);
     });
   </script>
 </body>

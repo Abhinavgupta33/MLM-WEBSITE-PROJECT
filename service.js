@@ -143,7 +143,7 @@ exports.ser_verify_otp = async (req, res) => {
   try {
     const data = await Otp.findOne({ email, otp });
     console.log(email,otp);
-    if (!data) return res.render("wrongotp");
+    if (!data) return res.render("wrongotp",{email});
 
     const user = await tble.findOne({ email:email });
 

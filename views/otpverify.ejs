@@ -10,10 +10,16 @@
     
     :root {
       --primary: #4361ee;
+      --primary-light: #4895ef;
       --primary-dark: #3a0ca3;
       --light: #f8f9fa;
+      --lighter: #ffffff;
       --dark: #212529;
+      --darker: #121416;
       --success: #4cc9f0;
+      --purple: #7209b7;
+      --pink: #f72585;
+      --gray: #e9ecef;
     }
     
     * {
@@ -24,7 +30,7 @@
     }
     
     body {
-      background-color: #f5f7ff;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -33,38 +39,119 @@
       position: relative;
     }
     
-    /* Security pattern background */
-    body::before {
-      content: "";
+    /* Floating Bubbles */
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(67, 97, 238, 0.08) 0%, rgba(67, 97, 238, 0.01) 70%);
+      filter: blur(20px);
+      z-index: 0;
+      animation: bubbleFloat ease-in-out infinite;
+      opacity: 0.8;
+    }
+    
+    @keyframes bubbleFloat {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      50% {
+        transform: translate(0, -40px) rotate(180deg);
+      }
+    }
+    
+    /* Micro Particle Background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(67, 97, 238, 0.1);
+      border-radius: 50%;
+      animation: particleMove linear infinite;
+    }
+    
+    @keyframes particleMove {
+      0% {
+        transform: translate(0, 0) scale(0.5);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translate(100px, -100vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+    
+    /* Floating Shapes */
+    .floating-shape {
+      position: absolute;
+      opacity: 0.1;
+      filter: blur(2px);
+      animation: shapeFloat linear infinite;
+      z-index: 0;
+    }
+    
+    @keyframes shapeFloat {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      100% {
+        transform: translate(50vw, -100vh) rotate(360deg);
+      }
+    }
+    
+    /* Light Wave Effect */
+    .light-wave {
       position: absolute;
       width: 200%;
       height: 200%;
-      top: -50%;
-      left: -50%;
-      background-image: 
-        radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(67, 97, 238, 0.03) 0%, transparent 50%);
-      background-size: 100px 100px;
-      transform: rotate(15deg);
-      z-index: -1;
+      background: radial-gradient(circle at center, 
+        rgba(76, 201, 240, 0.03) 0%, 
+        transparent 70%);
+      animation: waveMove 15s linear infinite;
+      z-index: 0;
     }
     
+    @keyframes waveMove {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+    
+    /* Card Styling */
     .verification-card {
       width: 100%;
       max-width: 420px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 12px 24px rgba(67, 97, 238, 0.1);
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(67, 97, 238, 0.1),
+                  0 0 0 1px rgba(255, 255, 255, 0.9);
       padding: 40px;
       text-align: center;
       position: relative;
       overflow: hidden;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      z-index: 10;
     }
     
     .verification-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 16px 32px rgba(67, 97, 238, 0.15);
+      box-shadow: 0 20px 40px rgba(67, 97, 238, 0.15),
+                  0 0 0 1px rgba(255, 255, 255, 0.9);
     }
     
     .verification-card::after {
@@ -74,7 +161,14 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--success));
+      background: linear-gradient(90deg, var(--primary-light), var(--success), var(--primary-light));
+      background-size: 200% 100%;
+      animation: rainbow 6s linear infinite;
+    }
+    
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
     }
     
     .card-header {
@@ -84,7 +178,7 @@
     .card-header h1 {
       font-size: 24px;
       font-weight: 700;
-      color: var(--dark);
+      color: var(--darker);
       margin-bottom: 8px;
     }
     
@@ -107,6 +201,7 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 32px;
+      gap: 10px;
     }
     
     .otp-input-container input {
@@ -115,49 +210,82 @@
       text-align: center;
       font-size: 20px;
       font-weight: 600;
-      border: 2px solid #e9ecef;
-      border-radius: 8px;
+      border: 2px solid var(--gray);
+      border-radius: 12px;
       outline: none;
       transition: all 0.3s ease;
+      background: var(--lighter);
+      color: var(--darker);
     }
     
     .otp-input-container input:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+      transform: translateY(-2px);
     }
     
     .otp-input-container input.filled {
       border-color: var(--success);
-      animation: pulse 0.5s ease;
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+      background: rgba(76, 201, 240, 0.05);
     }
     
     .verify-btn {
       width: 100%;
-      padding: 14px;
+      padding: 16px;
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
     }
     
     .verify-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
     }
     
     .verify-btn:active {
       transform: translateY(0);
+    }
+    
+    .verify-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.5s;
+      z-index: -1;
+    }
+    
+    .verify-btn:hover::before {
+      left: 100%;
+    }
+    
+    .resend-code {
+      margin-top: 20px;
+      color: #6c757d;
+      font-size: 14px;
+    }
+    
+    .resend-code a {
+      color: var(--primary);
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    .resend-code a:hover {
+      color: var(--primary-dark);
     }
     
     .security-badge {
@@ -174,35 +302,6 @@
       fill: var(--success);
     }
     
-    /* Animated circles decoration */
-    .circle {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(67, 97, 238, 0.05);
-      z-index: -1;
-    }
-    
-    .circle-1 {
-      width: 300px;
-      height: 300px;
-      top: -150px;
-      right: -150px;
-      animation: float 12s infinite ease-in-out;
-    }
-    
-    .circle-2 {
-      width: 200px;
-      height: 200px;
-      bottom: -100px;
-      left: -100px;
-      animation: float 8s infinite ease-in-out reverse;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(20px, 20px); }
-    }
-    
     /* Responsive adjustments */
     @media (max-width: 480px) {
       .verification-card {
@@ -210,27 +309,44 @@
         margin: 0 16px;
       }
       
+      .otp-input-container {
+        gap: 6px;
+      }
+      
       .otp-input-container input {
         width: 40px;
         height: 40px;
         font-size: 18px;
       }
+      
+      .verify-btn {
+        padding: 14px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Decorative circles -->
-  <div class="circle circle-1"></div>
-  <div class="circle circle-2"></div>
+  <!-- Background Elements -->
+  <div class="particles" id="particles"></div>
+  <div class="light-wave"></div>
+  
+  <!-- Floating Bubbles -->
+  <div class="bubble" style="width: 300px; height: 300px; top: 10%; left: 5%; animation-duration: 15s;"></div>
+  <div class="bubble" style="width: 200px; height: 200px; top: 70%; left: 80%; animation-duration: 12s; animation-delay: 2s;"></div>
+  <div class="bubble" style="width: 250px; height: 250px; top: 30%; left: 70%; animation-duration: 18s; animation-delay: 1s;"></div>
+  
+  <!-- Floating Shapes -->
+  <div class="floating-shape" style="width: 100px; height: 100px; background: conic-gradient(from 45deg, #f72585, #7209b7); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); top: 20%; left: 10%; animation-duration: 40s;"></div>
+  <div class="floating-shape" style="width: 150px; height: 150px; background: conic-gradient(from 90deg, #4361ee, #4cc9f0); clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); top: 70%; left: 80%; animation-duration: 50s;"></div>
   
   <div class="verification-card animate__animated animate__fadeIn">
     <div class="card-header">
       <h1>Verify Your Identity</h1>
-      <p>We've sent a 6-digit code to <span class="email"><%= email %></span></p>
+      <p>We've sent a 6-digit code to <span class="email">user@example.com</span></p>
     </div>
     
     <form action="/verifyotp" method="POST" class="otp-form">
-      <input type="hidden" name="email" value="<%= email %>">
+      <input type="hidden" name="email" value="user@example.com">
       
       <div class="otp-input-container" id="otpContainer">
         <input type="text" name="otp1" maxlength="1" pattern="\d" required>
@@ -242,6 +358,10 @@
       </div>
       
       <button type="submit" class="verify-btn">Verify & Continue</button>
+      
+      <div class="resend-code">
+        Didn't receive code? <a href="#">Resend code</a>
+      </div>
     </form>
     
     <div class="security-badge">
@@ -289,6 +409,110 @@
       
       // Auto-focus first input
       otpInputs[0].focus();
+      
+      // Create micro particles
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 100;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 4 + 1;
+        const posX = Math.random() * 100;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 10;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}vw`;
+        particle.style.bottom = `-${size}px`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+        
+        // Random color
+        const colors = ['#4361ee', '#4cc9f0', '#7209b7', '#f72585'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.backgroundColor = color;
+        
+        particlesContainer.appendChild(particle);
+      }
+      
+      // Add ripple effect to button
+      const verifyBtn = document.querySelector('.verify-btn');
+      verifyBtn.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple-effect');
+        ripple.style.position = 'absolute';
+        ripple.style.borderRadius = '50%';
+        ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
+        ripple.style.transform = 'scale(0)';
+        ripple.style.animation = 'ripple 0.6s linear';
+        ripple.style.pointerEvents = 'none';
+        
+        this.appendChild(ripple);
+        
+        // Position the ripple
+        const rect = this.getBoundingClientRect();
+        ripple.style.width = ripple.style.height = `${Math.max(rect.width, rect.height)}px`;
+        ripple.style.left = `${e.clientX - rect.left - Math.max(rect.width, rect.height)/2}px`;
+        ripple.style.top = `${e.clientY - rect.top - Math.max(rect.width, rect.height)/2}px`;
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+      
+      // Add keyframe for ripple effect
+      const styleSheet = document.styleSheets[0];
+      styleSheet.insertRule(`
+        @keyframes ripple {
+          to {
+            transform: scale(2);
+            opacity: 0;
+          }
+        }
+      `, styleSheet.cssRules.length);
+      
+      // Create connection lines
+      const card = document.querySelector('.verification-card');
+      const connections = document.createElement('div');
+      connections.className = 'connections';
+      connections.style.position = 'absolute';
+      connections.style.top = '0';
+      connections.style.left = '0';
+      connections.style.width = '100%';
+      connections.style.height = '100%';
+      connections.style.overflow = 'hidden';
+      connections.style.zIndex = '0';
+      card.appendChild(connections);
+      
+      for (let i = 0; i < 6; i++) {
+        const line = document.createElement('div');
+        line.style.position = 'absolute';
+        line.style.backgroundColor = `rgba(67, 97, 238, ${Math.random() * 0.05 + 0.03})`;
+        line.style.width = `${Math.random() * 80 + 40}px`;
+        line.style.height = '1px';
+        line.style.transformOrigin = 'left center';
+        line.style.transform = `rotate(${Math.random() * 360}deg)`;
+        line.style.animation = `pulse ${Math.random() * 4 + 2}s ease-in-out infinite alternate`;
+        
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        line.style.left = `${x}%`;
+        line.style.top = `${y}%`;
+        
+        connections.appendChild(line);
+      }
+      
+      // Add pulse animation
+      styleSheet.insertRule(`
+        @keyframes pulse {
+          0% { opacity: 0.3; }
+          100% { opacity: 0.1; }
+        }
+      `, styleSheet.cssRules.length);
     });
   </script>
 </body>
