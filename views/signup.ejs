@@ -24,10 +24,12 @@
       --dark-gray: #343a40;
       --border-radius: 16px;
       --border-radius-sm: 8px;
-      --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-      --box-shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.15);
+      --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+      --box-shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.1);
       --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       --transition-fast: all 0.2s ease-out;
+      --background: #f9fafb;
+      --card-bg: rgba(255, 255, 255, 0.98);
     }
 
     * {
@@ -46,20 +48,21 @@
       position: relative;
       overflow: hidden;
       color: var(--dark-gray);
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      background-color: var(--background);
     }
 
-    /* Animated Gradient Background */
+    /* Enhanced Animated Gradient Background */
     .gradient-bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
       z-index: -3;
-      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #3a56d4);
+      background: linear-gradient(135deg, #f3f4f6, #e5e7eb, #f9fafb, #e5e7eb, #d1d5db, #e5e7eb, #f3f4f6);
       background-size: 400% 400%;
-      animation: gradient-shift 15s ease infinite;
+      animation: gradient-shift 20s ease infinite;
+      opacity: 0.8;
     }
 
     @keyframes gradient-shift {
@@ -68,113 +71,234 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Floating Bubbles Background */
-    .bubbles {
+    /* Enhanced Floating Geometric Shapes */
+    .floating-shapes {
       position: absolute;
       width: 100%;
       height: 100%;
       z-index: -2;
       overflow: hidden;
+    }
+
+    .shape {
+      position: absolute;
+      opacity: 0.15;
+      animation: float-shape linear infinite;
+      filter: blur(0.5px);
+      mix-blend-mode: overlay;
+    }
+
+    .shape-circle {
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--primary), transparent);
+    }
+
+    .shape-triangle {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-color: transparent;
+      border-bottom-color: var(--primary);
+    }
+
+    .shape-square {
+      transform: rotate(45deg);
+      background: linear-gradient(45deg, var(--primary), transparent);
+    }
+
+    @keyframes float-shape {
+      0% { 
+        transform: translateY(100vh) rotate(0deg) scale(0.5); 
+        opacity: 0;
+      }
+      10% { opacity: 0.15; }
+      90% { opacity: 0.15; }
+      100% { 
+        transform: translateY(-100px) rotate(360deg) scale(1.2); 
+        opacity: 0;
+      }
+    }
+
+    /* New: Floating Bubbles Background */
+    .bubbles-container {
+      position: fixed;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
     }
 
     .bubble {
       position: absolute;
-      bottom: -100px;
-      background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
-      opacity: 0.5;
-      animation: bubble-float linear infinite;
-      filter: blur(2px);
+      background: rgba(255, 255, 255, 0.8);
+      animation: float-bubble linear infinite;
+      filter: blur(1px);
+      opacity: 0.6;
     }
 
-    @keyframes bubble-float {
+    @keyframes float-bubble {
       0% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(100vh) translateX(0) scale(0.5);
         opacity: 0;
       }
       10% {
-        opacity: 0.5;
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
       }
       100% {
-        transform: translateY(-100vh) rotate(720deg);
+        transform: translateY(-100px) translateX(calc(var(--move-x) * 100px)) scale(1.2);
         opacity: 0;
       }
     }
 
-    /* Floating Particles with 3D effect */
-    .particles {
-      position: absolute;
+    /* New: Floating Particles Network */
+    .particles-network {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       z-index: -1;
     }
 
-    .particle {
+    .particle-node {
       position: absolute;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
-      filter: blur(1px);
-      opacity: 0;
-      animation: particle-float linear infinite;
-      transform-style: preserve-3d;
+      background: rgba(67, 97, 238, 0.3);
+      animation: pulse-node 4s ease infinite;
     }
 
-    @keyframes particle-float {
+    @keyframes pulse-node {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.5); opacity: 0.6; }
+    }
+
+    .particle-connection {
+      position: absolute;
+      height: 1px;
+      background: rgba(67, 97, 238, 0.1);
+      transform-origin: left center;
+      animation: fade-connection 8s linear infinite;
+    }
+
+    @keyframes fade-connection {
+      0%, 100% { opacity: 0; }
+      10%, 90% { opacity: 0.1; }
+    }
+
+    /* New: Floating Wavy Lines */
+    .wavy-lines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .wavy-line {
+      position: absolute;
+      height: 100%;
+      width: 2px;
+      background: transparent;
+      animation: wave-line 20s linear infinite;
+    }
+
+    .wavy-line::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(67, 97, 238, 0.1), transparent);
+      animation: wave-move 8s linear infinite;
+    }
+
+    @keyframes wave-line {
+      0% { transform: translateY(100vh); }
+      100% { transform: translateY(-100vh); }
+    }
+
+    @keyframes wave-move {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100%); }
+    }
+
+    /* New: Floating Micro Particles */
+    .micro-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .micro-particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: rgba(67, 97, 238, 0.1);
+      animation: float-micro linear infinite;
+    }
+
+    @keyframes float-micro {
       0% {
-        transform: translate3d(0, 0, 0) scale(0.5) rotate(0deg);
+        transform: translateY(100vh) translateX(0);
         opacity: 0;
       }
       10% {
-        opacity: 0.8;
+        opacity: 0.3;
+      }
+      90% {
+        opacity: 0.3;
       }
       100% {
-        transform: translate3d(var(--tx, 200px), var(--ty, 200px), var(--tz, 100px)) scale(1.8) rotate(360deg);
+        transform: translateY(-100px) translateX(calc(var(--drift) * 50px));
         opacity: 0;
       }
     }
 
-    /* Floating Card with 3D Tilt Effect */
+    /* Floating Card without Hover Effects */
     .signup-container {
       max-width: 640px;
       width: 100%;
-      perspective: 2000px;
       animation: card-enter 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     @keyframes card-enter {
       0% {
         opacity: 0;
-        transform: translateY(80px) rotateX(10deg) scale(0.95);
+        transform: translateY(80px) scale(0.95);
       }
       100% {
         opacity: 1;
-        transform: translateY(0) rotateX(0) scale(1);
+        transform: translateY(0) scale(1);
       }
     }
 
     .signup-card {
       border-radius: var(--border-radius);
       box-shadow: var(--box-shadow-lg);
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
+      background: var(--card-bg);
       overflow: hidden;
-      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.8s ease;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transform-style: preserve-3d;
-      will-change: transform;
+      transition: var(--transition);
+      border: 1px solid rgba(0, 0, 0, 0.05);
       position: relative;
       backface-visibility: hidden;
     }
 
-    /* 3D Tilt Effect */
-    .signup-card:hover {
-      transform: translateY(-10px) rotateX(1deg) rotateY(1deg);
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Header with Parallax Wave Animation */
+    /* Header with Animation */
     .signup-header {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: var(--white);
@@ -294,11 +418,6 @@
     .input-container {
       position: relative;
       transition: var(--transition);
-      transform-style: preserve-3d;
-    }
-
-    .input-container:hover {
-      transform: translateY(-3px) translateZ(10px);
     }
 
     .form-control {
@@ -309,7 +428,7 @@
       padding: 0 18px;
       font-size: 1rem;
       transition: var(--transition-fast);
-      background: rgba(255, 255, 255, 0.8);
+      background: var(--white);
       font-family: 'Poppins', sans-serif;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
     }
@@ -319,7 +438,6 @@
       box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
       outline: none;
       background: var(--white);
-      transform: translateZ(10px);
     }
 
     /* Floating Label Animation */
@@ -331,7 +449,7 @@
       color: var(--text-gray);
       pointer-events: none;
       transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.8);
+      background: var(--white);
       padding: 0 5px;
       border-radius: 4px;
     }
@@ -374,15 +492,13 @@
       position: relative;
       overflow: hidden;
       animation: fade-in 1s 1s both;
-      box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
-      transform-style: preserve-3d;
-      will-change: transform;
+      box-shadow: 0 10px 25px rgba(67, 97, 238, 0.2);
     }
 
     .btn-signup:hover {
       background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
-      box-shadow: 0 15px 35px rgba(67, 97, 238, 0.4);
-      transform: translateY(-5px) translateZ(10px);
+      box-shadow: 0 15px 35px rgba(67, 97, 238, 0.3);
+      transform: translateY(-3px);
     }
 
     .btn-signup:active {
@@ -523,28 +639,48 @@
       }
     }
 
-    /* Glowing Border Effect */
-    .glow-border {
+    /* Floating Digit Particles */
+    .digit-particle {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: var(--border-radius);
-      box-shadow: 0 0 20px rgba(67, 97, 238, 0.3);
-      opacity: 0;
-      transition: opacity 0.5s ease;
+      background: var(--primary-light);
+      border-radius: 50%;
       pointer-events: none;
+      z-index: 100;
+      animation: floatUp 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      filter: blur(1px);
     }
 
-    .signup-card:hover .glow-border {
-      opacity: 1;
-      animation: glow-pulse 2s infinite alternate;
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-120px) scale(0); opacity: 0; }
     }
 
-    @keyframes glow-pulse {
-      0% { box-shadow: 0 0 20px rgba(67, 97, 238, 0.3); }
-      100% { box-shadow: 0 0 30px rgba(67, 97, 238, 0.5); }
+    /* New Background Particles */
+    .bg-particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      animation: float-particle linear infinite;
+      filter: blur(1px);
+    }
+
+    @keyframes float-particle {
+      0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100px) translateX(100px) rotate(360deg);
+        opacity: 0;
+      }
     }
 
     /* Responsive Design */
@@ -583,14 +719,16 @@
   </style>
 </head>
 <body>
-  <!-- Animated Background Elements -->
+  <!-- Enhanced Animated Background Elements -->
   <div class="gradient-bg"></div>
-  <div class="bubbles" id="bubbles"></div>
-  <div class="particles" id="particles"></div>
+  <div class="floating-shapes" id="floatingShapes"></div>
+  <div class="bubbles-container" id="bubblesContainer"></div>
+  <div class="particles-network" id="particlesNetwork"></div>
+  <div class="wavy-lines" id="wavyLines"></div>
+  <div class="micro-particles" id="microParticles"></div>
   
   <div class="signup-container">
     <div class="signup-card">
-      <div class="glow-border"></div>
       <div class="signup-header">
         <h2><i class="fas fa-graduation-cap"></i> Alumni Portal</h2>
         <p>Join our growing alumni community</p>
@@ -703,21 +841,65 @@
   </div>
 
   <script>
-    // Create floating bubbles background
-    function createBubbles() {
-      const bubblesContainer = document.getElementById('bubbles');
-      const colors = ['rgba(76, 201, 240, 0.3)', 'rgba(114, 9, 183, 0.3)', 'rgba(247, 37, 133, 0.3)'];
+    // Create floating geometric shapes with enhanced animation
+    function createFloatingShapes() {
+      const shapesContainer = document.getElementById('floatingShapes');
+      const shapes = ['circle', 'triangle', 'square'];
+      const colors = ['#4361ee', '#4cc9f0', '#7209b7', '#f72585'];
       
       for (let i = 0; i < 20; i++) {
+        const shape = document.createElement('div');
+        const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
+        shape.className = `shape shape-${shapeType}`;
+        
+        // Random properties
+        const size = Math.random() * 150 + 50;
+        const left = Math.random() * 100;
+        const top = Math.random() * 100 + 100; // Start below viewport
+        const duration = Math.random() * 30 + 20;
+        const delay = Math.random() * 15;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const opacity = Math.random() * 0.15 + 0.05;
+        
+        shape.style.width = `${size}px`;
+        shape.style.height = `${size}px`;
+        shape.style.left = `${left}%`;
+        shape.style.top = `${top}%`;
+        shape.style.animationDuration = `${duration}s`;
+        shape.style.animationDelay = `${delay}s`;
+        shape.style.opacity = opacity;
+        
+        if (shapeType === 'circle') {
+          shape.style.background = `radial-gradient(circle, ${color}, transparent)`;
+        } else if (shapeType === 'triangle') {
+          shape.style.borderBottom = `${size}px solid ${color}`;
+          shape.style.borderLeft = `${size/2}px solid transparent`;
+          shape.style.borderRight = `${size/2}px solid transparent`;
+          shape.style.background = 'none';
+        } else if (shapeType === 'square') {
+          shape.style.background = `linear-gradient(45deg, ${color}, transparent)`;
+        }
+        
+        shapesContainer.appendChild(shape);
+      }
+    }
+
+    // Create floating bubbles background
+    function createBubbles() {
+      const container = document.getElementById('bubblesContainer');
+      const colors = ['rgba(67, 97, 238, 0.1)', 'rgba(76, 201, 240, 0.1)', 'rgba(114, 9, 183, 0.1)', 'rgba(247, 37, 133, 0.1)'];
+      
+      for (let i = 0; i < 30; i++) {
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
         
         // Random properties
-        const size = Math.random() * 100 + 50;
+        const size = Math.random() * 120 + 30;
         const left = Math.random() * 100;
-        const duration = Math.random() * 20 + 10;
-        const delay = Math.random() * 15;
+        const duration = Math.random() * 20 + 15;
+        const delay = Math.random() * 10;
         const color = colors[Math.floor(Math.random() * colors.length)];
+        const moveX = Math.random() * 2 - 1; // -1 to 1
         
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
@@ -725,51 +907,148 @@
         bubble.style.backgroundColor = color;
         bubble.style.animationDuration = `${duration}s`;
         bubble.style.animationDelay = `${delay}s`;
+        bubble.style.setProperty('--move-x', moveX);
         
-        bubblesContainer.appendChild(bubble);
+        container.appendChild(bubble);
       }
     }
 
-    // Create enhanced floating particles with 3D effect
-    function createParticles() {
-      const particlesContainer = document.getElementById('particles');
-      const colors = ['#4361ee', '#4cc9f0', '#7209b7', '#f72585', '#3a56d4', '#4895ef'];
+    // Create particles network
+    function createParticlesNetwork() {
+      const container = document.getElementById('particlesNetwork');
+      const nodeCount = 15;
+      const nodes = [];
       
-      for (let i = 0; i < 80; i++) {
+      // Create nodes
+      for (let i = 0; i < nodeCount; i++) {
+        const node = document.createElement('div');
+        node.className = 'particle-node';
+        
+        const left = Math.random() * 100;
+        const top = Math.random() * 100;
+        const delay = Math.random() * 4;
+        
+        node.style.left = `${left}%`;
+        node.style.top = `${top}%`;
+        node.style.animationDelay = `${delay}s`;
+        
+        container.appendChild(node);
+        nodes.push({ element: node, left, top });
+      }
+      
+      // Create connections between nearby nodes
+      for (let i = 0; i < nodeCount; i++) {
+        for (let j = i + 1; j < nodeCount; j++) {
+          const node1 = nodes[i];
+          const node2 = nodes[j];
+          
+          // Calculate distance between nodes
+          const dx = node2.left - node1.left;
+          const dy = node2.top - node1.top;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          // Only connect nodes that are relatively close
+          if (distance < 40) {
+            const connection = document.createElement('div');
+            connection.className = 'particle-connection';
+            
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            const length = distance;
+            
+            connection.style.width = `${length}%`;
+            connection.style.left = `${node1.left}%`;
+            connection.style.top = `${node1.top}%`;
+            connection.style.transform = `rotate(${angle}deg)`;
+            connection.style.animationDelay = `${Math.random() * 4}s`;
+            
+            container.appendChild(connection);
+          }
+        }
+      }
+    }
+
+    // Create wavy lines background
+    function createWavyLines() {
+      const container = document.getElementById('wavyLines');
+      const lineCount = 8;
+      
+      for (let i = 0; i < lineCount; i++) {
+        const line = document.createElement('div');
+        line.className = 'wavy-line';
+        
+        const left = Math.random() * 100;
+        const delay = Math.random() * 20;
+        const duration = Math.random() * 10 + 15;
+        
+        line.style.left = `${left}%`;
+        line.style.animationDelay = `${delay}s`;
+        line.style.animationDuration = `${duration}s`;
+        
+        container.appendChild(line);
+      }
+    }
+
+    // Create micro particles background
+    function createMicroParticles() {
+      const container = document.getElementById('microParticles');
+      const particleCount = 200;
+      
+      for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
-        particle.className = 'particle';
+        particle.className = 'micro-particle';
+        
+        const left = Math.random() * 100;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 15;
+        const drift = Math.random() * 2 - 1; // -1 to 1
+        
+        particle.style.left = `${left}%`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.setProperty('--drift', drift);
+        
+        container.appendChild(particle);
+      }
+    }
+
+    // Create digit particles animation
+    function createDigitParticles(element) {
+      const rect = element.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'digit-particle';
         
         // Random properties
-        const size = Math.random() * 15 + 5;
-        const posX = Math.random() * 100;
-        const posY = Math.random() * 100;
-        const tx = (Math.random() - 0.5) * 800;
-        const ty = (Math.random() - 0.5) * 800;
-        const tz = (Math.random() * 200) - 100;
-        const duration = Math.random() * 25 + 15;
-        const delay = Math.random() * 20;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const blur = Math.random() * 3 + 1;
+        const size = Math.random() * 12 + 6;
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 50 + 30;
+        const x = centerX + Math.cos(angle) * distance;
+        const y = centerY + Math.sin(angle) * distance;
+        const duration = Math.random() * 1 + 0.5;
+        const color = `hsl(${200 + Math.random() * 60}, 80%, 65%)`;
         
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        particle.style.left = `${posX}%`;
-        particle.style.top = `${posY}%`;
-        particle.style.setProperty('--tx', `${tx}px`);
-        particle.style.setProperty('--ty', `${ty}px`);
-        particle.style.setProperty('--tz', `${tz}px`);
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        particle.style.backgroundColor = color;
         particle.style.animationDuration = `${duration}s`;
-        particle.style.animationDelay = `${delay}s`;
-        particle.style.background = `radial-gradient(circle, ${color} 0%, transparent 70%)`;
-        particle.style.filter = `blur(${blur}px)`;
         
-        particlesContainer.appendChild(particle);
+        document.body.appendChild(particle);
+        
+        // Remove after animation
+        setTimeout(() => {
+          particle.remove();
+        }, 1200);
       }
     }
 
     // Create confetti effect
     function createConfetti() {
-      const colors = ['#4361ee', '#4cc9f0', '#7209b7', '#f72585', '#3a56d4', '#4895ef'];
+      const colors = ['#4361ee', '#4cc9f0', '#7209b7', '#f72585'];
       const container = document.querySelector('.signup-container');
       
       for (let i = 0; i < 150; i++) {
@@ -891,32 +1170,13 @@
       }, 1500);
     });
 
-    // Add 3D tilt effect to card
-    function addTiltEffect() {
-      const card = document.querySelector('.signup-card');
-      const container = document.querySelector('.signup-container');
-      
-      container.addEventListener('mousemove', (e) => {
-        const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-        const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-      });
-      
-      // Reset on mouse leave
-      container.addEventListener('mouseleave', () => {
-        card.style.transform = 'rotateY(0deg) rotateX(0deg)';
-        card.style.transition = 'transform 0.5s ease';
-        setTimeout(() => {
-          card.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.8s ease';
-        }, 500);
-      });
-    }
-
     // Initialize everything when page loads
     document.addEventListener('DOMContentLoaded', function() {
+      createFloatingShapes();
       createBubbles();
-      createParticles();
-      addTiltEffect();
+      createParticlesNetwork();
+      createWavyLines();
+      createMicroParticles();
       
       // Add floating label functionality
       const inputs = document.querySelectorAll('.form-control');
@@ -944,7 +1204,14 @@
             label.style.top = '50%';
             label.style.transform = 'translateY(-50%)';
             label.style.color = 'var(--text-gray)';
-            label.style.background = 'rgba(255, 255, 255, 0.8)';
+            label.style.background = 'var(--white)';
+          }
+        });
+
+        // Add particles animation on input
+        input.addEventListener('input', () => {
+          if (input.value.length > 0) {
+            createDigitParticles(input);
           }
         });
       });

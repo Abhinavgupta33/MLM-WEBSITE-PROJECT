@@ -6,366 +6,1141 @@
   <title>Secure OTP Verification</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
     
     :root {
-      --primary: #4361ee;
-      --primary-light: #4895ef;
-      --primary-dark: #3a0ca3;
-      --light: #f8f9fa;
-      --lighter: #ffffff;
-      --dark: #212529;
-      --darker: #121416;
-      --success: #4cc9f0;
-      --purple: #7209b7;
-      --pink: #f72585;
-      --gray: #e9ecef;
+      --primary: #5e72e4;
+      --primary-dark: #4a5acf;
+      --primary-light: #7b9aff;
+      --primary-extra-light: #ebf0ff;
+      --light: #ffffff;
+      --dark: #2d3748;
+      --gray: #718096;
+      --light-gray: #f7fafc;
+      --success: #48bb78;
+      --error: #f56565;
+      --warning: #ed8936;
+      --particle-count: 50;
+      --secondary: #11cdef;
+      --tertiary: #2dce89;
     }
     
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Poppins', sans-serif;
     }
     
     body {
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      background-color: var(--light-gray);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       overflow: hidden;
       position: relative;
+      perspective: 1000px;
     }
     
-    /* Floating Bubbles */
-    .bubble {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(67, 97, 238, 0.08) 0%, rgba(67, 97, 238, 0.01) 70%);
-      filter: blur(20px);
-      z-index: 0;
-      animation: bubbleFloat ease-in-out infinite;
+    /* Enhanced animated gradient background */
+    .gradient-bg {
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, 
+        var(--primary-extra-light) 0%, 
+        var(--light) 25%,
+        var(--secondary) 50%, 
+        var(--light) 75%,
+        var(--primary-extra-light) 100%);
+      background-size: 400% 400%;
+      z-index: -3;
+      animation: gradientFlow 20s ease infinite;
       opacity: 0.8;
     }
     
-    @keyframes bubbleFloat {
-      0%, 100% {
-        transform: translate(0, 0) rotate(0deg);
-      }
-      50% {
-        transform: translate(0, -40px) rotate(180deg);
-      }
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     
-    /* Micro Particle Background */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
+    /* New floating bubbles background */
+    .bubbles {
+      position: absolute;
       width: 100%;
       height: 100%;
-      z-index: 0;
+      z-index: -2;
       overflow: hidden;
     }
     
-    .particle {
+    .bubble {
       position: absolute;
-      background: rgba(67, 97, 238, 0.1);
+      bottom: -100px;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
-      animation: particleMove linear infinite;
+      filter: blur(5px);
+      animation: bubble-float linear infinite;
+      opacity: 0.5;
     }
     
-    @keyframes particleMove {
+    @keyframes bubble-float {
       0% {
-        transform: translate(0, 0) scale(0.5);
+        transform: translateY(0) rotate(0deg);
         opacity: 0;
       }
-      50% {
-        opacity: 0.3;
+      10% {
+        opacity: 0.5;
       }
       100% {
-        transform: translate(100px, -100vh) scale(1.2);
+        transform: translateY(-100vh) rotate(360deg);
         opacity: 0;
       }
     }
     
-    /* Floating Shapes */
+    /* Floating geometric shapes with more variety */
     .floating-shape {
       position: absolute;
       opacity: 0.1;
-      filter: blur(2px);
-      animation: shapeFloat linear infinite;
-      z-index: 0;
+      z-index: -1;
+      animation: floatAnimation linear infinite;
+      filter: blur(1px);
     }
     
-    @keyframes shapeFloat {
-      0% {
-        transform: translate(0, 0) rotate(0deg);
-      }
-      100% {
-        transform: translate(50vw, -100vh) rotate(360deg);
-      }
+    .shape-circle {
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--primary), transparent);
     }
     
-    /* Light Wave Effect */
-    .light-wave {
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at center, 
-        rgba(76, 201, 240, 0.03) 0%, 
-        transparent 70%);
-      animation: waveMove 15s linear infinite;
-      z-index: 0;
+    .shape-triangle {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-color: transparent;
+      border-bottom-color: var(--primary);
     }
     
-    @keyframes waveMove {
-      0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-      }
-      100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-      }
+    .shape-square {
+      transform: rotate(45deg);
+      background: linear-gradient(45deg, var(--primary), transparent);
     }
     
-    /* Card Styling */
+    .shape-hexagon {
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+    
+    .shape-star {
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      background: linear-gradient(135deg, var(--tertiary), var(--primary-light));
+    }
+    
+    @keyframes floatAnimation {
+      0% { transform: translateY(0) rotate(0deg) scale(1); }
+      50% { transform: translateY(-50vh) rotate(180deg) scale(1.2); }
+      100% { transform: translateY(-100vh) rotate(360deg) scale(1); }
+    }
+    
+    /* Enhanced verification card with glass morphism */
     .verification-card {
       width: 100%;
-      max-width: 420px;
+      max-width: 480px;
       background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 15px 30px rgba(67, 97, 238, 0.1),
-                  0 0 0 1px rgba(255, 255, 255, 0.9);
-      padding: 40px;
+      border-radius: 28px;
+      box-shadow: 0 25px 60px -15px rgba(94, 114, 228, 0.2),
+                  0 8px 30px -10px rgba(0, 0, 0, 0.1);
+      padding: 48px 40px;
       text-align: center;
       position: relative;
       overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      backdrop-filter: blur(8px);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.8);
       z-index: 10;
+      animation: cardEntrance 0.8s cubic-bezier(0.215, 0.610, 0.355, 1) both;
+      transform-style: preserve-3d;
     }
     
-    .verification-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(67, 97, 238, 0.15),
-                  0 0 0 1px rgba(255, 255, 255, 0.9);
+    @keyframes cardEntrance {
+      0% { opacity: 0; transform: translateY(30px) scale(0.96) rotateX(10deg); }
+      100% { opacity: 1; transform: translateY(0) scale(1) rotateX(0); }
     }
     
-    .verification-card::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary-light), var(--success), var(--primary-light));
-      background-size: 200% 100%;
-      animation: rainbow 6s linear infinite;
-    }
-    
-    @keyframes rainbow {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 200% 50%; }
-    }
-    
+    /* Card header styles with improved typography */
     .card-header {
-      margin-bottom: 32px;
+      margin-bottom: 36px;
+      position: relative;
     }
     
     .card-header h1 {
-      font-size: 24px;
+      font-size: 30px;
       font-weight: 700;
-      color: var(--darker);
-      margin-bottom: 8px;
+      color: var(--dark);
+      margin-bottom: 12px;
+      position: relative;
+      display: inline-block;
+      animation: fadeInUp 0.8s ease both 0.2s;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .card-header h1::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 4px;
+      animation: underlineGrow 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) both 0.4s;
+    }
+    
+    @keyframes underlineGrow {
+      0% { width: 0; opacity: 0; }
+      100% { width: 60px; opacity: 1; }
     }
     
     .card-header p {
-      color: #6c757d;
-      font-size: 14px;
+      color: var(--gray);
+      font-size: 16px;
+      margin-top: 16px;
+      line-height: 1.6;
+      animation: fadeIn 1s ease 0.4s both;
     }
     
     .card-header .email {
       color: var(--primary);
-      font-weight: 500;
+      font-weight: 600;
       word-break: break-all;
+      display: inline-block;
+      transition: all 0.3s ease;
+      position: relative;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     
+    .card-header .email::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+    
+    .card-header .email:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    
+    /* Enhanced OTP input styles */
     .otp-form {
-      margin-top: 24px;
+      margin-top: 28px;
+      position: relative;
     }
     
     .otp-input-container {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 32px;
-      gap: 10px;
+      margin-bottom: 36px;
+      gap: 12px;
     }
     
     .otp-input-container input {
-      width: 50px;
-      height: 50px;
+      flex: 1;
+      min-width: 0;
+      height: 64px;
       text-align: center;
-      font-size: 20px;
-      font-weight: 600;
-      border: 2px solid var(--gray);
-      border-radius: 12px;
+      font-size: 26px;
+      font-weight: 700;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
       outline: none;
-      transition: all 0.3s ease;
-      background: var(--lighter);
-      color: var(--darker);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: rgba(255, 255, 255, 0.95);
+      color: var(--dark);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03),
+                  inset 0 1px 2px rgba(255, 255, 255, 0.8);
+      animation: inputFadeIn 0.8s cubic-bezier(0.215, 0.610, 0.355, 1) both;
+      animation-delay: calc(var(--i) * 0.1s);
+    }
+    
+    @keyframes inputFadeIn {
+      0% { opacity: 0; transform: translateY(20px) scale(0.9) rotateX(10deg); }
+      100% { opacity: 1; transform: translateY(0) scale(1) rotateX(0); }
     }
     
     .otp-input-container input:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-      transform: translateY(-2px);
+      box-shadow: 0 0 0 4px rgba(94, 114, 228, 0.2),
+                  inset 0 1px 2px rgba(255, 255, 255, 0.8);
+      transform: translateY(-3px);
     }
     
     .otp-input-container input.filled {
-      border-color: var(--success);
-      background: rgba(76, 201, 240, 0.05);
+      border-color: var(--primary-light);
+      background-color: var(--primary-extra-light);
+      animation: digitPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 4px 20px rgba(94, 114, 228, 0.15),
+                  inset 0 1px 2px rgba(255, 255, 255, 0.8);
     }
     
+    @keyframes digitPop {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    /* Enhanced verify button with 3D effect */
     .verify-btn {
       width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      padding: 18px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
       border: none;
-      border-radius: 12px;
-      font-size: 16px;
+      border-radius: 14px;
+      font-size: 18px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 25px rgba(94, 114, 228, 0.3),
+                  0 5px 10px rgba(0, 0, 0, 0.1),
+                  inset 0 -2px 5px rgba(0, 0, 0, 0.1);
       position: relative;
       overflow: hidden;
-      z-index: 1;
-    }
-    
-    .verify-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
-    }
-    
-    .verify-btn:active {
-      transform: translateY(0);
+      animation: fadeInUp 1s ease 0.6s both;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transform-style: preserve-3d;
     }
     
     .verify-btn::before {
       content: '';
       position: absolute;
       top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: 0.5s;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+      opacity: 0;
+      transition: opacity 0.3s ease;
       z-index: -1;
     }
     
-    .verify-btn:hover::before {
-      left: 100%;
+    .verify-btn:hover {
+      transform: translateY(-3px) translateZ(10px);
+      box-shadow: 0 15px 30px rgba(94, 114, 228, 0.4),
+                  0 8px 15px rgba(0, 0, 0, 0.1),
+                  inset 0 -2px 5px rgba(0, 0, 0, 0.1);
     }
     
-    .resend-code {
-      margin-top: 20px;
-      color: #6c757d;
-      font-size: 14px;
+    .verify-btn:active {
+      transform: translateY(1px) translateZ(5px);
+      box-shadow: 0 5px 15px rgba(94, 114, 228, 0.4),
+                  inset 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     
-    .resend-code a {
-      color: var(--primary);
-      font-weight: 500;
-      text-decoration: none;
-      transition: color 0.2s;
+    /* Enhanced ripple effect */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
     }
     
-    .resend-code a:hover {
-      color: var(--primary-dark);
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
     }
     
+    /* Security badge with animation */
     .security-badge {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 24px;
-      color: #6c757d;
-      font-size: 13px;
+      margin-top: 28px;
+      color: var(--gray);
+      font-size: 15px;
+      animation: fadeIn 1.2s ease 0.8s both;
     }
     
     .security-badge svg {
-      margin-right: 8px;
-      fill: var(--success);
+      margin-right: 10px;
+      fill: var(--primary-light);
+      animation: pulse 2s infinite;
     }
     
-    /* Responsive adjustments */
-    @media (max-width: 480px) {
+    /* Resend code section with improved styling */
+    .resend-code {
+      margin-top: 24px;
+      font-size: 15px;
+      color: var(--gray);
+      animation: fadeIn 1s ease 0.8s both;
+    }
+    
+    .resend-code a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .resend-code a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+    
+    .resend-code a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    
+    .resend-code a.disabled {
+      color: var(--gray);
+      pointer-events: none;
+      background: none;
+      -webkit-text-fill-color: var(--gray);
+    }
+    
+    /* Countdown timer with animation */
+    .countdown {
+      display: inline-block;
+      margin-left: 6px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+    
+    /* Loading overlay with enhanced animation */
+    .loader {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 24px;
+      z-index: 20;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.4s ease both;
+      backdrop-filter: blur(10px);
+    }
+    
+    .spinner {
+      width: 70px;
+      height: 70px;
+      border: 5px solid rgba(94, 114, 228, 0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      margin-bottom: 20px;
+      position: relative;
+      box-shadow: 0 0 20px rgba(94, 114, 228, 0.2);
+    }
+    
+    .spinner::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border: 5px solid transparent;
+      border-top-color: var(--secondary);
+      border-radius: 50%;
+      animation: spin 1.5s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      opacity: 0.7;
+    }
+    
+    .spinner::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border: 5px solid transparent;
+      border-top-color: var(--tertiary);
+      border-radius: 50%;
+      animation: spin 2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      opacity: 0.4;
+    }
+    
+    .loader-text {
+      color: var(--dark);
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 10px;
+      text-align: center;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Enhanced success animation */
+    .success-animation {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .success-animation .checkmark {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: block;
+      stroke-width: 6;
+      stroke: var(--primary-light);
+      stroke-miterlimit: 10;
+      box-shadow: 0 0 40px rgba(123, 154, 255, 0.4);
+      animation: scaleCheck 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+      filter: drop-shadow(0 4px 12px rgba(94, 114, 228, 0.3));
+    }
+    
+    .success-animation .checkmark-circle {
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      stroke-width: 6;
+      stroke-miterlimit: 10;
+      stroke: var(--primary-light);
+      fill: none;
+      animation: stroke 0.8s cubic-bezier(0.65, 0, 0.45, 1) both;
+    }
+    
+    .success-animation .checkmark-check {
+      transform-origin: 50% 50%;
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: stroke 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.8s both;
+    }
+    
+    @keyframes stroke {
+      100% { stroke-dashoffset: 0; }
+    }
+    
+    @keyframes scaleCheck {
+      0%, 100% { transform: none; }
+      50% { transform: scale3d(1.1, 1.1, 1); }
+    }
+    
+    /* Enhanced error animation */
+    .error-animation {
+      animation: shakeError 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+      20%, 40%, 60%, 80% { transform: translateX(8px); }
+    }
+    
+    /* Enhanced digit particles */
+    .digit-particle {
+      position: absolute;
+      background: var(--primary-light);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 100;
+      animation: floatUp 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      filter: blur(1px);
+      transform-origin: center;
+    }
+    
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-120px) scale(0) rotate(360deg); opacity: 0; }
+    }
+    
+    /* Enhanced holographic effect for card */
+    .verification-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(94, 114, 228, 0) 0%,
+        rgba(94, 114, 228, 0) 35%,
+        rgba(94, 114, 228, 0.1) 45%,
+        rgba(94, 114, 228, 0) 55%,
+        rgba(94, 114, 228, 0) 100%
+      );
+      transform: rotate(30deg);
+      z-index: -1;
+      animation: holographicEffect 8s linear infinite;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    
+    @keyframes holographicEffect {
+      0% { transform: rotate(30deg) translateY(0); }
+      100% { transform: rotate(30deg) translateY(-100%); }
+    }
+    
+    /* Micro-interaction for inputs */
+    .otp-input-container input::placeholder {
+      color: #cbd5e0;
+      transition: all 0.3s ease;
+      font-weight: 400;
+    }
+    
+    .otp-input-container input:focus::placeholder {
+      opacity: 0;
+    }
+    
+    /* Responsive adjustments with better mobile support */
+    @media (max-width: 576px) {
       .verification-card {
-        padding: 32px 24px;
-        margin: 0 16px;
+        padding: 36px 24px;
+        margin: 0 20px;
+        border-radius: 22px;
+        max-width: 92%;
+      }
+      
+      .card-header h1 {
+        font-size: 26px;
+      }
+      
+      .card-header p {
+        font-size: 15px;
       }
       
       .otp-input-container {
-        gap: 6px;
+        gap: 8px;
+        margin-bottom: 30px;
       }
       
       .otp-input-container input {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
+        height: 56px;
+        font-size: 24px;
+        border-radius: 14px;
       }
       
       .verify-btn {
-        padding: 14px;
+        padding: 16px;
+        font-size: 17px;
       }
+      
+      :root {
+        --particle-count: 30;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      .otp-input-container input {
+        height: 50px;
+        font-size: 22px;
+      }
+      
+      .verification-card {
+        padding: 32px 20px;
+      }
+    }
+    
+    /* Special animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeInUp {
+      from { 
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* New wave animation for background */
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 120px;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%235e72e4" opacity=".1"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%235e72e4" opacity=".2"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%235e72e4" opacity=".3"/></svg>');
+      background-repeat: repeat-x;
+      z-index: -1;
+      opacity: 0.6;
+      animation: waveAnimation 20s linear infinite;
+    }
+    
+    @keyframes waveAnimation {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    /* New glass morphism effect for card */
+    .verification-card::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.4) 0%, 
+        rgba(255, 255, 255, 0.1) 100%);
+      border-radius: 30px;
+      z-index: -2;
+      filter: blur(20px);
+      opacity: 0.8;
+    }
+    
+    /* New input glow effect */
+    .otp-input-container input {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .otp-input-container input::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 16px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .otp-input-container input:focus::before {
+      opacity: 0.3;
+    }
+    
+    /* Enhanced success message animation */
+    .success-message {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 24px;
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.6s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .success-message.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .success-message h2 {
+      font-size: 28px;
+      margin-top: 24px;
+      color: var(--dark);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .success-message p {
+      color: var(--gray);
+      margin-top: 12px;
+      font-size: 16px;
+    }
+    
+    /* Decorative corner elements with animation */
+    .corner-decoration {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      opacity: 0.2;
+      transition: all 0.4s ease;
+    }
+    
+    .corner-decoration.top-left {
+      top: 0;
+      left: 0;
+      border-top: 3px solid var(--primary);
+      border-left: 3px solid var(--primary);
+      border-top-left-radius: 24px;
+      animation: cornerGlow 4s ease infinite;
+    }
+    
+    .corner-decoration.top-right {
+      top: 0;
+      right: 0;
+      border-top: 3px solid var(--secondary);
+      border-right: 3px solid var(--secondary);
+      border-top-right-radius: 24px;
+      animation: cornerGlow 4s ease infinite 0.5s;
+    }
+    
+    .corner-decoration.bottom-left {
+      bottom: 0;
+      left: 0;
+      border-bottom: 3px solid var(--tertiary);
+      border-left: 3px solid var(--tertiary);
+      border-bottom-left-radius: 24px;
+      animation: cornerGlow 4s ease infinite 1s;
+    }
+    
+    .corner-decoration.bottom-right {
+      bottom: 0;
+      right: 0;
+      border-bottom: 3px solid var(--primary-light);
+      border-right: 3px solid var(--primary-light);
+      border-bottom-right-radius: 24px;
+      animation: cornerGlow 4s ease infinite 1.5s;
+    }
+    
+    @keyframes cornerGlow {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.6; }
+    }
+    
+    /* New floating particles background */
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -2;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      filter: blur(1px);
+      animation: floatParticle linear infinite;
+      opacity: 0;
+    }
+    
+    @keyframes floatParticle {
+      0% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-100vh) translateX(20vw); opacity: 0; }
+    }
+    
+    /* New animated grid background */
+    .grid-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(94, 114, 228, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(94, 114, 228, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -3;
+      opacity: 0.5;
+      animation: gridScroll 100s linear infinite;
+    }
+    
+    @keyframes gridScroll {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+    
+    /* New animated gradient border */
+    .verification-card {
+      position: relative;
+    }
+    
+    .verification-card::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, 
+        var(--primary) 0%, 
+        var(--secondary) 50%, 
+        var(--tertiary) 100%);
+      z-index: -3;
+      border-radius: 30px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      animation: borderPulse 4s ease infinite;
+    }
+    
+    .verification-card:hover::after {
+      opacity: 0.3;
+    }
+    
+    @keyframes borderPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+    
+    /* New animated floating label */
+    .floating-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-extra-light);
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: -1;
+      animation: floatLabel 8s ease-in-out infinite;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    @keyframes floatLabel {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+      25% { transform: translate(-50%, -60%) scale(1.05); opacity: 0.4; }
+      50% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+      75% { transform: translate(-50%, -40%) scale(0.95); opacity: 0.2; }
+    }
+    
+    /* New animated noise texture */
+    .noise {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.05 0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.2"/></svg>');
+      z-index: -1;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+    
+    /* New animated gradient overlay */
+    .gradient-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, 
+        rgba(94, 114, 228, 0.1) 0%, 
+        rgba(17, 205, 239, 0.1) 50%, 
+        rgba(45, 206, 137, 0.1) 100%);
+      z-index: -2;
+      opacity: 0.3;
+      animation: gradientRotate 20s ease infinite;
+    }
+    
+    @keyframes gradientRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* New animated floating islands */
+    .floating-island {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(30px);
+      opacity: 0.1;
+      z-index: -2;
+      animation: floatIsland linear infinite;
+    }
+    
+    @keyframes floatIsland {
+      0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+      10% { opacity: 0.1; }
+      90% { opacity: 0.1; }
+      100% { transform: translateY(-100vh) translateX(20vw) scale(1.2); opacity: 0; }
+    }
+    
+    /* New animated floating orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(20px);
+      opacity: 0.1;
+      z-index: -2;
+      animation: floatOrb linear infinite;
+    }
+    
+    @keyframes floatOrb {
+      0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+      20% { opacity: 0.2; }
+      80% { opacity: 0.2; }
+      100% { transform: translateY(-100vh) translateX(10vw) scale(0.8); opacity: 0; }
+    }
+    
+    /* New animated connection lines */
+    .connection-lines {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+    
+    .line {
+      position: absolute;
+      background: linear-gradient(90deg, rgba(94, 114, 228, 0.1), transparent);
+      height: 1px;
+      transform-origin: left center;
+      animation: lineExtend 10s linear infinite;
+    }
+    
+    @keyframes lineExtend {
+      0% { transform: scaleX(0); opacity: 0; }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.3; }
+      100% { transform: scaleX(1); opacity: 0; }
+    }
+    
+    /* New animated floating text */
+    .floating-text {
+      position: absolute;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(94, 114, 228, 0.3);
+      z-index: -2;
+      animation: floatText linear infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes floatText {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.5; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-100vh) translateX(20px) rotate(10deg); opacity: 0; }
+    }
+    
+    /* New animated floating emojis */
+    .floating-emoji {
+      position: absolute;
+      font-size: 24px;
+      z-index: -2;
+      animation: floatEmoji linear infinite;
+      pointer-events: none;
+      opacity: 0.1;
+    }
+    
+    @keyframes floatEmoji {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.2; }
+      90% { opacity: 0.2; }
+      100% { transform: translateY(-100vh) translateX(30px) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <!-- Background Elements -->
+  <!-- Background elements -->
+  <div class="gradient-bg"></div>
+  <div class="grid-bg"></div>
+  <div class="gradient-overlay"></div>
+  <div class="noise"></div>
+  <div class="bubbles" id="bubbles"></div>
   <div class="particles" id="particles"></div>
-  <div class="light-wave"></div>
+  <div class="connection-lines" id="connectionLines"></div>
+  <div class="wave"></div>
   
-  <!-- Floating Bubbles -->
-  <div class="bubble" style="width: 300px; height: 300px; top: 10%; left: 5%; animation-duration: 15s;"></div>
-  <div class="bubble" style="width: 200px; height: 200px; top: 70%; left: 80%; animation-duration: 12s; animation-delay: 2s;"></div>
-  <div class="bubble" style="width: 250px; height: 250px; top: 30%; left: 70%; animation-duration: 18s; animation-delay: 1s;"></div>
-  
-  <!-- Floating Shapes -->
-  <div class="floating-shape" style="width: 100px; height: 100px; background: conic-gradient(from 45deg, #f72585, #7209b7); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); top: 20%; left: 10%; animation-duration: 40s;"></div>
-  <div class="floating-shape" style="width: 150px; height: 150px; background: conic-gradient(from 90deg, #4361ee, #4cc9f0); clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); top: 70%; left: 80%; animation-duration: 50s;"></div>
-  
-  <div class="verification-card animate__animated animate__fadeIn">
-    <div class="card-header">
-      <h1>Verify Your Identity</h1>
-      <p>We've sent a 6-digit code to <span class="email">user@example.com</span></p>
+  <!-- Main verification card -->
+  <div class="verification-card">
+    <!-- Corner decorations -->
+    <div class="corner-decoration top-left"></div>
+    <div class="corner-decoration top-right"></div>
+    <div class="corner-decoration bottom-left"></div>
+    <div class="corner-decoration bottom-right"></div>
+    
+    <!-- Loading overlay -->
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      <div class="loader-text">Verifying OTP...</div>
     </div>
     
-    <form action="/verifyotp" method="POST" class="otp-form">
-      <input type="hidden" name="email" value="user@example.com">
+    <!-- Success message (hidden by default) -->
+    <div class="success-message" id="successMessage">
+      <div class="success-animation">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      <h2>Verified Successfully!</h2>
+      <p>You will be redirected shortly</p>
+    </div>
+    
+    <div class="card-header">
+      <h1>Verify Your Identity</h1>
+      <p>We've sent a 6-digit code to <span class="email"><%= email %></span></p>
+    </div>
+    
+    <form action="/verifyotp" method="POST" class="otp-form" id="otpForm">
+      <input type="hidden" name="email" value="<%= email %>">
       
       <div class="otp-input-container" id="otpContainer">
-        <input type="text" name="otp1" maxlength="1" pattern="\d" required>
-        <input type="text" name="otp2" maxlength="1" pattern="\d" required>
-        <input type="text" name="otp3" maxlength="1" pattern="\d" required>
-        <input type="text" name="otp4" maxlength="1" pattern="\d" required>
-        <input type="text" name="otp5" maxlength="1" pattern="\d" required>
-        <input type="text" name="otp6" maxlength="1" pattern="\d" required>
+        <input type="text" name="otp1" maxlength="1" pattern="\d" required autocomplete="off" style="--i:0">
+        <input type="text" name="otp2" maxlength="1" pattern="\d" required autocomplete="off" style="--i:1">
+        <input type="text" name="otp3" maxlength="1" pattern="\d" required autocomplete="off" style="--i:2">
+        <input type="text" name="otp4" maxlength="1" pattern="\d" required autocomplete="off" style="--i:3">
+        <input type="text" name="otp5" maxlength="1" pattern="\d" required autocomplete="off" style="--i:4">
+        <input type="text" name="otp6" maxlength="1" pattern="\d" required autocomplete="off" style="--i:5">
+        <div class="floating-label">OTP</div>
       </div>
       
-      <button type="submit" class="verify-btn">Verify & Continue</button>
+      <button type="submit" class="verify-btn">
+        <span class="btn-text">Verify & Continue</span>
+      </button>
       
       <div class="resend-code">
-        Didn't receive code? <a href="#">Resend code</a>
+        Didn't receive code? <a href="#" id="resendLink">Resend Code</a>
+        <span class="countdown" id="countdown">(60s)</span>
       </div>
     </form>
     
     <div class="security-badge">
-      <svg width="16" height="16" viewBox="0 0 24 24">
+      <svg width="20" height="20" viewBox="0 0 24 24">
         <path d="M12,1L3,5v6c0,5.55 3.84,10.74 9,12c5.16-1.26 9-6.45 9-12V5L12,1z M12,11.99h7c-0.53,4.12-3.28,7.79-7,8.94V12H5V6.3l7-3.11V11.99z"/>
       </svg>
       <span>Secure verification process</span>
@@ -375,144 +1150,571 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const otpInputs = document.querySelectorAll('.otp-input-container input');
-      const form = document.querySelector('.otp-form');
+      const form = document.getElementById('otpForm');
+      const loader = document.getElementById('loader');
+      const resendLink = document.getElementById('resendLink');
+      const countdown = document.getElementById('countdown');
+      const card = document.querySelector('.verification-card');
+      const successMessage = document.getElementById('successMessage');
+      const bubblesContainer = document.getElementById('bubbles');
+      const particlesContainer = document.getElementById('particles');
+      const connectionLines = document.getElementById('connectionLines');
       
-      // Auto-focus and move between inputs
+      // Create floating bubbles
+      function createBubbles() {
+        const bubbleCount = 20;
+        
+        for (let i = 0; i < bubbleCount; i++) {
+          const bubble = document.createElement('div');
+          bubble.classList.add('bubble');
+          
+          // Random properties
+          const size = Math.random() * 100 + 50;
+          bubble.style.width = `${size}px`;
+          bubble.style.height = `${size}px`;
+          bubble.style.left = `${Math.random() * 100}vw`;
+          
+          // Random animation
+          const duration = Math.random() * 30 + 20;
+          bubble.style.animationDuration = `${duration}s`;
+          bubble.style.animationDelay = `${Math.random() * 10}s`;
+          
+          // Random color (blue/purple range)
+          const hue = Math.random() * 60 + 200;
+          bubble.style.backgroundColor = `hsla(${hue}, 80%, 70%, ${Math.random() * 0.2 + 0.1})`;
+          
+          bubblesContainer.appendChild(bubble);
+        }
+      }
+      
+      // Create particles
+      function createParticles() {
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.classList.add('particle');
+          
+          // Random properties
+          const size = Math.random() * 5 + 2;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          particle.style.left = `${Math.random() * 100}vw`;
+          particle.style.top = `${Math.random() * 100 + 100}vh`;
+          
+          // Random animation
+          const duration = Math.random() * 20 + 10;
+          particle.style.animationDuration = `${duration}s`;
+          particle.style.animationDelay = `${Math.random() * 5}s`;
+          
+          // Random color (blue/purple range)
+          const hue = Math.random() * 60 + 200;
+          particle.style.backgroundColor = `hsla(${hue}, 80%, 70%, ${Math.random() * 0.3 + 0.1})`;
+          
+          particlesContainer.appendChild(particle);
+        }
+      }
+      
+      // Create connection lines
+      function createConnectionLines() {
+        const lineCount = 10;
+        
+        for (let i = 0; i < lineCount; i++) {
+          const line = document.createElement('div');
+          line.classList.add('line');
+          
+          // Random properties
+          const width = Math.random() * 200 + 100;
+          line.style.width = `${width}px`;
+          line.style.left = `${Math.random() * 100}vw`;
+          line.style.top = `${Math.random() * 100}vh`;
+          
+          // Random animation
+          const duration = Math.random() * 20 + 10;
+          line.style.animationDuration = `${duration}s`;
+          line.style.animationDelay = `${Math.random() * 5}s`;
+          
+          // Random color (blue/purple range)
+          const hue = Math.random() * 60 + 200;
+          line.style.background = `linear-gradient(90deg, hsla(${hue}, 80%, 70%, 0.3), transparent)`;
+          
+          connectionLines.appendChild(line);
+        }
+      }
+      
+      // Create floating islands
+      function createFloatingIslands() {
+        const islandCount = 5;
+        
+        for (let i = 0; i < islandCount; i++) {
+          const island = document.createElement('div');
+          island.classList.add('floating-island');
+          
+          // Random properties
+          const width = Math.random() * 300 + 200;
+          const height = Math.random() * 100 + 50;
+          island.style.width = `${width}px`;
+          island.style.height = `${height}px`;
+          island.style.left = `${Math.random() * 100}vw`;
+          island.style.top = `${Math.random() * 100 + 100}vh`;
+          
+          // Random animation
+          const duration = Math.random() * 60 + 40;
+          island.style.animationDuration = `${duration}s`;
+          island.style.animationDelay = `${Math.random() * 20}s`;
+          
+          // Random color (blue/purple range)
+          const hue = Math.random() * 60 + 200;
+          island.style.backgroundColor = `hsla(${hue}, 80%, 70%, 0.1)`;
+          
+          document.body.appendChild(island);
+        }
+      }
+      
+      // Create floating orbs
+      function createFloatingOrbs() {
+        const orbCount = 8;
+        
+        for (let i = 0; i < orbCount; i++) {
+          const orb = document.createElement('div');
+          orb.classList.add('orb');
+          
+          // Random properties
+          const size = Math.random() * 150 + 50;
+          orb.style.width = `${size}px`;
+          orb.style.height = `${size}px`;
+          orb.style.left = `${Math.random() * 100}vw`;
+          orb.style.top = `${Math.random() * 100 + 100}vh`;
+          
+          // Random animation
+          const duration = Math.random() * 40 + 20;
+          orb.style.animationDuration = `${duration}s`;
+          orb.style.animationDelay = `${Math.random() * 10}s`;
+          
+          // Random color (blue/purple range)
+          const hue = Math.random() * 60 + 200;
+          orb.style.backgroundColor = `hsla(${hue}, 80%, 70%, 0.1)`;
+          
+          document.body.appendChild(orb);
+        }
+      }
+      
+      // Create floating text
+      function createFloatingText() {
+        const texts = ['SECURE', 'VERIFIED', 'OTP', 'AUTH', 'CODE', '2FA', 'SAFE', 'LOGIN'];
+        const textCount = 8;
+        
+        for (let i = 0; i < textCount; i++) {
+          const text = document.createElement('div');
+          text.classList.add('floating-text');
+          text.textContent = texts[Math.floor(Math.random() * texts.length)];
+          
+          // Random properties
+          text.style.left = `${Math.random() * 100}vw`;
+          text.style.top = `${Math.random() * 100 + 100}vh`;
+          
+          // Random animation
+          const duration = Math.random() * 40 + 20;
+          text.style.animationDuration = `${duration}s`;
+          text.style.animationDelay = `${Math.random() * 10}s`;
+          
+          // Random color (blue/purple range)
+          const hue = Math.random() * 60 + 200;
+          text.style.color = `hsla(${hue}, 80%, 70%, 0.3)`;
+          
+          document.body.appendChild(text);
+        }
+      }
+      
+      // Create floating emojis
+      function createFloatingEmojis() {
+        const emojis = ['🔒', '🔑', '🛡️', '✅', '📱', '✉️', '🔢', '📲'];
+        const emojiCount = 10;
+        
+        for (let i = 0; i < emojiCount; i++) {
+          const emoji = document.createElement('div');
+          emoji.classList.add('floating-emoji');
+          emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          
+          // Random properties
+          emoji.style.left = `${Math.random() * 100}vw`;
+          emoji.style.top = `${Math.random() * 100 + 100}vh`;
+          
+          // Random animation
+          const duration = Math.random() * 30 + 15;
+          emoji.style.animationDuration = `${duration}s`;
+          emoji.style.animationDelay = `${Math.random() * 10}s`;
+          
+          document.body.appendChild(emoji);
+        }
+      }
+      
+      // Initialize all background elements
+      createBubbles();
+      createParticles();
+      createConnectionLines();
+      createFloatingIslands();
+      createFloatingOrbs();
+      createFloatingText();
+      createFloatingEmojis();
+      
+      // Auto-focus and move between OTP inputs
       otpInputs.forEach((input, index) => {
         input.addEventListener('input', (e) => {
           if (e.target.value.length === 1) {
-            if (index < otpInputs.length - 1) {
-              otpInputs[index + 1].focus();
-            }
+            // Add filled state and animation
             e.target.classList.add('filled');
+            
+            // Create digit particles
+            createDigitParticles(e.target);
+            
+            // Focus next input
+            if (index < otpInputs.length - 1) {
+              setTimeout(() => {
+                otpInputs[index + 1].focus();
+              }, 50);
+            }
           } else {
             e.target.classList.remove('filled');
           }
         });
         
+        // Handle backspace
         input.addEventListener('keydown', (e) => {
           if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
-            otpInputs[index - 1].focus();
+            setTimeout(() => {
+              otpInputs[index - 1].focus();
+              otpInputs[index - 1].value = '';
+              otpInputs[index - 1].classList.remove('filled');
+            }, 50);
+          }
+        });
+        
+        // Handle paste
+        input.addEventListener('paste', (e) => {
+          e.preventDefault();
+          const pasteData = e.clipboardData.getData('text').trim();
+          if (/^\d{6}$/.test(pasteData)) {
+            pasteData.split('').forEach((char, i) => {
+              if (otpInputs[i]) {
+                otpInputs[i].value = char;
+                otpInputs[i].classList.add('filled');
+                createDigitParticles(otpInputs[i]);
+              }
+            });
+            otpInputs[5].focus();
           }
         });
       });
       
-      // Combine OTP digits before form submission
+      // Create particles when digit is entered
+      function createDigitParticles(input) {
+        const rect = input.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        for (let i = 0; i < 15; i++) {
+          const particle = document.createElement('div');
+          particle.classList.add('digit-particle');
+          
+          // Random size and position
+          const size = Math.random() * 12 + 6;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          
+          // Position around the digit
+          const angle = Math.random() * Math.PI * 2;
+          const distance = Math.random() * 50 + 30;
+          const x = centerX + Math.cos(angle) * distance;
+          const y = centerY + Math.sin(angle) * distance;
+          
+          particle.style.left = `${x}px`;
+          particle.style.top = `${y}px`;
+          
+          // Random color variation
+          const hue = 200 + Math.random() * 60;
+          particle.style.backgroundColor = `hsl(${hue}, 80%, 65%)`;
+          
+          // Random animation duration
+          particle.style.animationDuration = `${Math.random() * 1 + 0.5}s`;
+          
+          document.body.appendChild(particle);
+          
+          // Remove after animation
+          setTimeout(() => {
+            particle.remove();
+          }, 1200);
+        }
+      }
+      
+      // Form submission
       form.addEventListener('submit', (e) => {
+        e.preventDefault();
         const otp = Array.from(otpInputs).map(input => input.value).join('');
+        
+        if (otp.length !== 6) {
+          // Error animation
+          otpInputs.forEach(input => {
+            if (!input.value) {
+              input.animate([
+                { borderColor: '#e2e8f0' },
+                { borderColor: 'var(--error)' },
+                { borderColor: '#e2e8f0' }
+              ], {
+                duration: 300,
+                iterations: 3
+              });
+            }
+          });
+          
+          // Shake the card
+          card.classList.add('error-animation');
+          setTimeout(() => {
+            card.classList.remove('error-animation');
+          }, 600);
+          
+          return;
+        }
+        
+        // Add combined OTP to form
         const hiddenInput = document.createElement('input');
         hiddenInput.type = 'hidden';
         hiddenInput.name = 'otp';
         hiddenInput.value = otp;
         form.appendChild(hiddenInput);
+        
+        // Show loading animation
+        loader.style.display = 'flex';
+        
+        // Simulate verification process (for demo)
+        setTimeout(() => {
+          loader.style.display = 'none';
+          showSuccessAnimation();
+        }, 2000);
       });
+      
+      // Show success animation
+      function showSuccessAnimation() {
+        successMessage.classList.add('active');
+        
+        // Create confetti effect
+        createConfetti();
+        
+        // Redirect after showing success (for demo)
+        setTimeout(() => {
+          form.submit();
+        }, 3000);
+      }
+      
+      // Create confetti effect
+      function createConfetti() {
+        for (let i = 0; i < 150; i++) {
+          const confetti = document.createElement('div');
+          confetti.classList.add('digit-particle');
+          confetti.style.animation = 'floatUp 3s ease-out forwards';
+          
+          // Random properties
+          const size = Math.random() * 15 + 8;
+          const shape = Math.random() > 0.5 ? '50%' : '0';
+          confetti.style.width = `${size}px`;
+          confetti.style.height = `${size}px`;
+          confetti.style.borderRadius = shape;
+          confetti.style.left = `${Math.random() * 100}vw`;
+          
+          // Random color
+          const hue = 200 + Math.random() * 60;
+          confetti.style.backgroundColor = `hsl(${hue}, 80%, 65%)`;
+          
+          // Random rotation
+          confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+          
+          // Random animation delay
+          confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+          
+          document.body.appendChild(confetti);
+          
+          // Remove after animation
+          setTimeout(() => {
+            confetti.remove();
+          }, 3000);
+        }
+      }
+      
+      // Resend OTP functionality
+      resendLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Disable resend during countdown
+        if (resendLink.classList.contains('disabled')) return;
+        
+        // Show sending state
+        const originalText = resendLink.textContent;
+        resendLink.textContent = 'Sending...';
+        
+        // Create particles animation
+        createResendParticles();
+        
+        // Simulate API call
+        setTimeout(() => {
+          // Reset countdown
+          startCountdown();
+          
+          // Show success feedback
+          resendLink.textContent = 'Code Sent!';
+          setTimeout(() => {
+            resendLink.textContent = originalText;
+          }, 2000);
+        }, 1500);
+      });
+      
+      // Create particles for resend animation
+      function createResendParticles() {
+        const rect = resendLink.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        for (let i = 0; i < 30; i++) {
+          const particle = document.createElement('div');
+          particle.classList.add('digit-particle');
+          
+          // Random size and position
+          const size = Math.random() * 10 + 5;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          
+          // Position around the link
+          const angle = Math.random() * Math.PI * 2;
+          const distance = Math.random() * 60 + 40;
+          const x = centerX + Math.cos(angle) * distance;
+          const y = centerY + Math.sin(angle) * distance;
+          
+          particle.style.left = `${x}px`;
+          particle.style.top = `${y}px`;
+          
+          // Random color variation
+          const hue = 200 + Math.random() * 60;
+          particle.style.backgroundColor = `hsl(${hue}, 80%, 65%)`;
+          
+          // Random animation duration
+          particle.style.animationDuration = `${Math.random() * 1 + 0.5}s`;
+          
+          document.body.appendChild(particle);
+          
+          // Remove after animation
+          setTimeout(() => {
+            particle.remove();
+          }, 1500);
+        }
+      }
+      
+      // Start countdown timer
+      function startCountdown() {
+        let timeLeft = 60;
+        countdown.textContent = `(${timeLeft}s)`;
+        resendLink.classList.add('disabled');
+        
+        const timer = setInterval(() => {
+          timeLeft--;
+          countdown.textContent = `(${timeLeft}s)`;
+          
+          if (timeLeft <= 0) {
+            clearInterval(timer);
+            countdown.textContent = '';
+            resendLink.classList.remove('disabled');
+          }
+        }, 1000);
+      }
+      
+      // Start initial countdown
+      startCountdown();
       
       // Auto-focus first input
-      otpInputs[0].focus();
+      setTimeout(() => {
+        otpInputs[0].focus();
+      }, 500);
       
-      // Create micro particles
-      const particlesContainer = document.getElementById('particles');
-      const particleCount = 100;
-      
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        // Random properties
-        const size = Math.random() * 4 + 1;
-        const posX = Math.random() * 100;
-        const duration = Math.random() * 15 + 10;
-        const delay = Math.random() * 10;
-        
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${posX}vw`;
-        particle.style.bottom = `-${size}px`;
-        particle.style.animationDuration = `${duration}s`;
-        particle.style.animationDelay = `${delay}s`;
-        
-        // Random color
-        const colors = ['#4361ee', '#4cc9f0', '#7209b7', '#f72585'];
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.backgroundColor = color;
-        
-        particlesContainer.appendChild(particle);
-      }
-      
-      // Add ripple effect to button
+      // Enhanced ripple effect for verify button
       const verifyBtn = document.querySelector('.verify-btn');
       verifyBtn.addEventListener('click', function(e) {
-        const ripple = document.createElement('span');
-        ripple.classList.add('ripple-effect');
-        ripple.style.position = 'absolute';
-        ripple.style.borderRadius = '50%';
-        ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
-        ripple.style.transform = 'scale(0)';
-        ripple.style.animation = 'ripple 0.6s linear';
-        ripple.style.pointerEvents = 'none';
-        
-        this.appendChild(ripple);
-        
-        // Position the ripple
         const rect = this.getBoundingClientRect();
-        ripple.style.width = ripple.style.height = `${Math.max(rect.width, rect.height)}px`;
-        ripple.style.left = `${e.clientX - rect.left - Math.max(rect.width, rect.height)/2}px`;
-        ripple.style.top = `${e.clientY - rect.top - Math.max(rect.width, rect.height)/2}px`;
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
         
-        setTimeout(() => {
-          ripple.remove();
-        }, 600);
+        // Create multiple ripples
+        for (let i = 0; i < 3; i++) {
+          const ripple = document.createElement('span');
+          ripple.classList.add('ripple');
+          ripple.style.left = `${x}px`;
+          ripple.style.top = `${y}px`;
+          ripple.style.width = `${i * 20 + 10}px`;
+          ripple.style.height = `${i * 20 + 10}px`;
+          ripple.style.animationDelay = `${i * 0.2}s`;
+          this.appendChild(ripple);
+          
+          setTimeout(() => {
+            ripple.remove();
+          }, 1000);
+        }
       });
       
-      // Add keyframe for ripple effect
-      const styleSheet = document.styleSheets[0];
-      styleSheet.insertRule(`
-        @keyframes ripple {
-          to {
-            transform: scale(2);
-            opacity: 0;
+      // Add subtle hover effect to card
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 20;
+        const rotateY = (centerX - x) / 20;
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+      
+      // Create floating geometric shapes
+      function createFloatingShapes() {
+        const shapes = ['circle', 'triangle', 'square', 'hexagon', 'star'];
+        const shapeCount = 12;
+        
+        for (let i = 0; i < shapeCount; i++) {
+          const shape = document.createElement('div');
+          const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
+          shape.classList.add('floating-shape', `shape-${shapeType}`);
+          
+          // Position and size
+          const size = Math.random() * 120 + 60;
+          shape.style.width = `${size}px`;
+          shape.style.height = `${size}px`;
+          shape.style.left = `${Math.random() * 100}vw`;
+          shape.style.top = `${Math.random() * 100 + 100}vh`;
+          
+          // Animation
+          const duration = Math.random() * 50 + 30;
+          shape.style.animationDuration = `${duration}s`;
+          shape.style.animationDelay = `${Math.random() * 20}s`;
+          
+          // Color
+          const hue = 200 + Math.random() * 60;
+          shape.style.backgroundColor = `hsla(${hue}, 80%, 70%, 0.1)`;
+          
+          if (shapeType === 'triangle') {
+            shape.style.borderBottomWidth = `${size}px`;
+            shape.style.borderLeftWidth = `${size/2}px`;
+            shape.style.borderRightWidth = `${size/2}px`;
+            shape.style.borderBottomColor = `hsla(${hue}, 80%, 70%, 0.1)`;
+            shape.style.background = 'none';
           }
+          
+          document.body.appendChild(shape);
         }
-      `, styleSheet.cssRules.length);
-      
-      // Create connection lines
-      const card = document.querySelector('.verification-card');
-      const connections = document.createElement('div');
-      connections.className = 'connections';
-      connections.style.position = 'absolute';
-      connections.style.top = '0';
-      connections.style.left = '0';
-      connections.style.width = '100%';
-      connections.style.height = '100%';
-      connections.style.overflow = 'hidden';
-      connections.style.zIndex = '0';
-      card.appendChild(connections);
-      
-      for (let i = 0; i < 6; i++) {
-        const line = document.createElement('div');
-        line.style.position = 'absolute';
-        line.style.backgroundColor = `rgba(67, 97, 238, ${Math.random() * 0.05 + 0.03})`;
-        line.style.width = `${Math.random() * 80 + 40}px`;
-        line.style.height = '1px';
-        line.style.transformOrigin = 'left center';
-        line.style.transform = `rotate(${Math.random() * 360}deg)`;
-        line.style.animation = `pulse ${Math.random() * 4 + 2}s ease-in-out infinite alternate`;
-        
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        line.style.left = `${x}%`;
-        line.style.top = `${y}%`;
-        
-        connections.appendChild(line);
       }
       
-      // Add pulse animation
-      styleSheet.insertRule(`
-        @keyframes pulse {
-          0% { opacity: 0.3; }
-          100% { opacity: 0.1; }
-        }
-      `, styleSheet.cssRules.length);
+      createFloatingShapes();
     });
   </script>
 </body>
