@@ -3,497 +3,882 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
+  <title>Premium Header Component</title>
   <style>
-    /* Reset and Base Styles */
+    /* Modern CSS Reset with Smooth Scrolling */
+    :root {
+      --header-height: 90px;
+      --header-scrolled-height: 70px;
+      --header-bg: rgba(255, 255, 255, 0.98);
+      --header-scrolled-bg: rgba(255, 255, 255, 0.96);
+      --header-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+      --header-scrolled-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+      --primary-color: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      --text-color: #1e293b;
+      --text-muted: #64748b;
+      --glass-effect: backdrop-filter: blur(12px);
+      --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      --transition-elastic: all 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    }
+    
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     }
     
-    body {
-      background-color: #f8fafc;
-      padding-top: 70px;
+    html {
+      scroll-behavior: smooth;
     }
-    
-    /* Header Styles */
+
+    /* Header Styles with Glass Morphism */
     .header {
-      background: white;
-      height: 70px;
-      padding: 0 25px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
+      height: var(--header-height);
+      background: var(--header-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--header-shadow);
       z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: all 0.3s ease;
-      border-bottom: 1px solid #f1f5f9;
+      padding: 0 2.5rem;
+      transition: var(--transition-smooth);
+      will-change: transform, height, box-shadow, backdrop-filter;
     }
-    
+
     .header.scrolled {
-      height: 60px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      height: var(--header-scrolled-height);
+      background: var(--header-scrolled-bg);
+      box-shadow: var(--header-scrolled-shadow);
     }
-    
-    .d-flex {
-      display: flex;
-    }
-    
-    .align-items-center {
-      align-items: center;
-    }
-    
-    .justify-content-between {
-      justify-content: space-between;
-    }
-    
-    /* Logo */
+
+    /* Logo with 3D Tilt Effect */
     .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
       text-decoration: none;
-      color: #1e293b;
+      color: var(--text-color);
       font-weight: 700;
-      font-size: 1.4rem;
-      letter-spacing: 0.5px;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+      transition: var(--transition-smooth);
+      perspective: 1000px;
     }
-    
+
     .logo:hover {
-      color: #3b82f6;
+      color: var(--primary-hover);
     }
-    
+
     .logo-img {
-      height: 36px;
+      height: 2.5rem;
       width: auto;
-      transition: all 0.3s ease;
+      transition: var(--transition-elastic);
+      transform-style: preserve-3d;
     }
-    
+
     .logo:hover .logo-img {
-      transform: scale(1.05);
+      transform: rotateY(15deg) scale(1.1);
     }
-    
-    /* Navigation */
-    .header-nav ul {
-      list-style: none;
-      gap: 15px;
-    }
-    
-    .nav-item {
+
+    .logo-text {
       position: relative;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      padding-bottom: 0.25rem;
     }
     
-    .nav-link {
-      color: #64748b;
-      text-decoration: none;
-      padding: 10px 15px;
+    .logo-text::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary-gradient);
+      transition: width 0.4s ease-out;
+    }
+    
+    .logo:hover .logo-text::after {
+      width: 100%;
+    }
+
+    /* Navigation */
+    .header-nav {
       display: flex;
       align-items: center;
-      transition: all 0.3s ease;
-      border-radius: 8px;
-      font-weight: 500;
+      gap: 1.5rem;
     }
-    
-    .nav-link:hover {
-      color: #3b82f6;
-      background: #f8fafc;
-    }
-    
-    .nav-icon {
-      font-size: 1.3rem;
-    }
-    
-    /* Badge */
-    .badge {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #ef4444;
-      color: white;
-      border-radius: 50%;
-      font-size: 0.7rem;
-      width: 20px;
-      height: 20px;
+
+    /* Action Buttons with Floating Effect */
+    .action-btn {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 0.75rem;
+      color: var(--text-muted);
+      transition: var(--transition-bounce);
+      background: rgba(241, 245, 249, 0.5);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .action-btn:hover {
+      background: rgba(241, 245, 249, 0.9);
+      color: var(--primary-hover);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .action-btn i {
+      font-size: 1.375rem;
+    }
+
+    /* Badge - Modern Floating Design */
+    .action-badge {
+      position: absolute;
+      top: -0.25rem;
+      right: -0.25rem;
+      min-width: 1.375rem;
+      height: 1.375rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: white;
+      background: var(--primary-color);
+      border-radius: 999px;
+      border: 2px solid var(--header-bg);
+      padding: 0 0.375rem;
+      transform: scale(1);
+      transition: var(--transition-bounce);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .action-badge.notification {
+      background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+    }
+
+    .action-badge.cart {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .action-btn:hover .action-badge {
+      transform: translateY(-3px) scale(1.15);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Profile Button with Floating Avatar */
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+      border-radius: 1.5rem;
+      transition: var(--transition-bounce);
+      background: rgba(241, 245, 249, 0.5);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .profile-btn:hover {
+      background: rgba(241, 245, 249, 0.9);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-img {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(226, 232, 240, 0.8);
+      transition: var(--transition-bounce);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-btn:hover .profile-img {
+      border-color: var(--primary-hover);
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-name {
+      font-weight: 600;
+      color: var(--text-color);
+      font-size: 0.9375rem;
+      transition: var(--transition-smooth);
     }
     
-    /* Dropdown */
+    .profile-btn:hover .profile-name {
+      color: var(--primary-hover);
+    }
+
+    /* Dropdown Menu with Glass Morphism - Enhanced */
+    .dropdown {
+      position: relative;
+    }
+    
     .dropdown-menu {
       position: absolute;
       right: 0;
-      top: calc(100% + 5px);
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-      min-width: 280px;
-      padding: 8px 0;
-      display: none;
+      top: calc(100% + 0.75rem);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 1rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      min-width: 22rem;
       opacity: 0;
-      transform: translateY(5px);
-      transition: all 0.2s ease;
-      border: 1px solid #f1f5f9;
+      visibility: hidden;
+      transform: translateY(15px);
+      transition: var(--transition-smooth);
+      z-index: 1001;
+      overflow: hidden;
+      border: none;
     }
-    
+
     .dropdown:hover .dropdown-menu {
-      display: block;
       opacity: 1;
+      visibility: visible;
       transform: translateY(0);
     }
-    
-    .dropdown-menu-arrow::before {
+
+    .dropdown-menu::before {
       content: '';
       position: absolute;
-      top: -10px;
-      right: 15px;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 10px solid white;
-      filter: drop-shadow(0 -2px 2px rgba(0,0,0,0.03));
+      top: -0.5rem;
+      right: 1.25rem;
+      width: 1rem;
+      height: 1rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transform: rotate(45deg);
+      z-index: -1;
+      box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.05);
     }
-    
-    .dropdown-header {
-      padding: 12px 20px;
-      font-weight: 700;
-      color: #1e293b;
-      font-size: 1rem;
-      border-bottom: 1px solid #f1f5f9;
-    }
-    
-    .dropdown-item {
-      padding: 10px 20px;
-      text-decoration: none;
-      color: #475569;
+
+    /* Notification Dropdown - Enhanced */
+    .notification-header {
       display: flex;
-      gap: 12px;
+      justify-content: space-between;
       align-items: center;
-      transition: all 0.2s ease;
-      font-size: 0.95rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
     }
-    
-    .dropdown-item:hover {
-      background: #f8fafc;
-      color: #3b82f6;
+
+    .notification-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--text-color);
+      letter-spacing: -0.01em;
     }
-    
-    .dropdown-divider {
-      border-top: 1px solid #f1f5f9;
-      margin: 6px 0;
+
+    .view-all-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      background: var(--primary-gradient);
+      color: white;
+      text-decoration: none;
+      transition: var(--transition-bounce);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border: none;
+      outline: none;
+      cursor: pointer;
     }
-    
-    /* Notification items */
+
+    .view-all-btn:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
     .notification-item {
       display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px 20px;
-      transition: all 0.2s ease;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      transition: var(--transition-smooth);
+      position: relative;
+      z-index: 1;
     }
-    
+
+    .notification-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 1.5rem;
+      right: 1.5rem;
+      height: 1px;
+      background: rgba(226, 232, 240, 0.3);
+    }
+
     .notification-item:hover {
-      background: #f8fafc;
+      background: rgba(248, 250, 252, 0.7);
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px -5px rgba(99, 102, 241, 0.3);
+    }
+
+    .notification-icon {
+      font-size: 1.25rem;
+      margin-top: 0.125rem;
+      flex-shrink: 0;
+      background: rgba(241, 245, 249, 0.7);
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.75rem;
+      transition: var(--transition-smooth);
     }
     
-    .notification-item i {
-      font-size: 1.3rem;
-      margin-top: 3px;
+    .notification-item:hover .notification-icon {
+      transform: scale(1.1);
+      background: rgba(236, 253, 245, 0.7);
     }
-    
-    .notification-item div h4 {
-      font-size: 0.95rem;
-      margin-bottom: 4px;
-      color: #1e293b;
+
+    .notification-content {
+      flex: 1;
+    }
+
+    .notification-title {
+      font-size: 0.9375rem;
       font-weight: 600;
+      color: var(--text-color);
+      margin-bottom: 0.375rem;
     }
-    
-    .notification-item div p {
-      font-size: 0.85rem;
-      color: #64748b;
-      margin-bottom: 3px;
+
+    .notification-text {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 0.375rem;
     }
-    
-    .notification-item div p:last-child {
+
+    .notification-time {
       font-size: 0.75rem;
       color: #94a3b8;
-    }
-    
-    /* Images */
-    .rounded-circle {
-      border-radius: 50%;
-      width: 38px;
-      height: 38px;
-      object-fit: cover;
-      border: 2px solid #e2e8f0;
-      transition: all 0.3s ease;
-    }
-    
-    .nav-profile:hover .rounded-circle {
-      border-color: #3b82f6;
-    }
-    
-    /* Profile dropdown */
-    .profile .dropdown-header {
       display: flex;
-      flex-direction: column;
       align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .notification-time::before {
+      content: '';
+      display: inline-block;
+      width: 0.25rem;
+      height: 0.25rem;
+      background: #94a3b8;
+      border-radius: 50%;
+    }
+
+    /* Profile Dropdown - Enhanced */
+    .profile-dropdown-header {
+      padding: 2rem;
       text-align: center;
-      padding: 20px;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+      position: relative;
+      overflow: hidden;
     }
     
-    .profile .dropdown-header img {
-      width: 70px;
-      height: 70px;
-      margin-bottom: 10px;
-      border: 3px solid #e2e8f0;
+    .profile-dropdown-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--primary-gradient);
+    }
+
+    .profile-dropdown-img {
+      width: 5.5rem;
+      height: 5.5rem;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(226, 232, 240, 0.8);
+      margin-bottom: 1rem;
+      transition: var(--transition-smooth);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
     
-    .profile .dropdown-header h6 {
-      font-size: 1.05rem;
-      margin-bottom: 5px;
+    .dropdown:hover .profile-dropdown-img {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    .profile-dropdown-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .profile-dropdown-role {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      background: rgba(241, 245, 249, 0.7);
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text-muted);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dropdown-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--primary-color);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s ease-out;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(248, 250, 252, 0.7);
+      color: var(--primary-hover);
+      padding-left: 1.75rem;
+      box-shadow: 0 5px 15px -5px rgba(99, 102, 241, 0.3);
+    }
+
+    .dropdown-item:hover::before {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+
+    .dropdown-item i {
+      font-size: 1.125rem;
+      width: 1.5rem;
+      text-align: center;
+      transition: var(--transition-smooth);
     }
     
-    .profile .dropdown-header span {
-      font-size: 0.85rem;
-      color: #64748b;
+    .dropdown-item:hover i {
+      transform: scale(1.2);
     }
-    
-    /* Responsive */
+
+    /* Responsive Design */
     @media (max-width: 992px) {
-      .d-none.d-lg-block {
-        display: none;
-      }
-      
       .header {
-        padding: 0 15px;
-      }
-      
-      .header-nav ul {
-        gap: 10px;
+        padding: 0 1.5rem;
+        --header-height: 80px;
+        --header-scrolled-height: 65px;
       }
       
       .logo-text {
         display: none;
       }
       
-      .logo-img {
-        height: 32px;
+      .profile-name {
+        display: none;
+      }
+      
+      .action-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+      
+      .profile-btn {
+        padding: 0.5rem;
+      }
+      
+      .dropdown-menu {
+        min-width: 18rem;
+        right: -1rem;
       }
     }
-    
-    /* Icons */
-    .bi {
-      font-size: 1.25rem;
+
+    /* Animation Keyframes - Enhanced */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
     }
     
-    .text-warning { color: #f59e0b; }
-    .text-danger { color: #ef4444; }
-    .text-success { color: #10b981; }
-    .text-primary { color: #3b82f6; }
-    
-    /* View all badge */
-    .rounded-pill {
-      border-radius: 50px;
-      padding: 4px 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: #3b82f6;
-      color: white;
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0px); }
     }
     
-    /* Dropdown footer */
-    .dropdown-footer {
-      text-align: center;
-      padding: 10px;
+    @keyframes tilt {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(5deg); }
+      75% { transform: rotate(-5deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+    }
+
+    @keyframes shimmer {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    .pulse {
+      animation: pulse 1.5s infinite;
     }
     
-    .dropdown-footer a {
-      color: #3b82f6;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 0.85rem;
+    .float {
+      animation: float 3s ease-in-out infinite;
     }
     
-    .dropdown-footer a:hover {
-      text-decoration: underline;
+    .tilt {
+      animation: tilt 6s ease-in-out infinite;
     }
-    
-    /* Shopping cart icon */
-    .bi-cart3 {
-      color: #64748b;
-      transition: color 0.2s ease;
+
+    .fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
     }
-    
-    .nav-link:hover .bi-cart3 {
-      color: #3b82f6;
+
+    .glow {
+      animation: glow 1.5s infinite;
+    }
+
+    /* Ripple effect */
+    .ripple-effect {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
+    }
+
+    /* Main content styles to prevent overlap */
+    main {
+      margin-top: var(--header-height);
+      padding: 2rem;
+      min-height: calc(100vh - var(--header-height));
     }
   </style>
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for additional icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <!-- Header -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="/dashboard" class="logo">
-        <img src="/logo/site_logo.png" alt="ChainCore Logo" class="logo-img">
-        <span class="logo-text d-none d-lg-block">ChainCore</span>
-      </a>
-    </div>
+  <!-- Premium Header Component -->
+  <header class="header">
+    <a href="/dashboard" class="logo">
+      <img src="/logo/site_logo.png" alt="ChainCore Logo" class="logo-img float">
+      <span class="logo-text">ChainCore</span>
+    </a>
     
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle" href="#">
-            <i class="bi bi-search"></i>
-          </a>
-        </li>
-
-        <!-- Notifications -->
-        <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-danger badge-number">4</span>
+    <nav class="header-nav">
+      <!-- Notifications -->
+      <div class="dropdown">
+        <button class="action-btn">
+          <i class="bi bi-bell"></i>
+          <span class="action-badge notification pulse">4</span>
+        </button>
+        
+        <div class="dropdown-menu">
+          <div class="notification-header">
+            <h3 class="notification-title">Notifications</h3>
+            <a href="#" class="view-all-btn">
+              View All
+              <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="notification-item fade-in" style="animation-delay: 0.1s">
+            <div class="notification-icon text-warning">
+              <i class="bi bi-exclamation-circle"></i>
+            </div>
+            <div class="notification-content">
+              <h4 class="notification-title">System Alert</h4>
+              <p class="notification-text">Server maintenance scheduled for tonight at 2:00 AM</p>
+              <p class="notification-time">30 min. ago</p>
+            </div>
+          </div>
+          
+          <div class="notification-item fade-in" style="animation-delay: 0.2s">
+            <div class="notification-icon text-danger">
+              <i class="bi bi-x-circle"></i>
+            </div>
+            <div class="notification-content">
+              <h4 class="notification-title">Failed Login Attempt</h4>
+              <p class="notification-text">Unsuccessful login attempt from unknown IP address</p>
+              <p class="notification-time">1 hr. ago</p>
+            </div>
+          </div>
+          
+          <div class="notification-item fade-in" style="animation-delay: 0.3s">
+            <div class="notification-icon text-success">
+              <i class="bi bi-check-circle"></i>
+            </div>
+            <div class="notification-content">
+              <h4 class="notification-title">Backup Completed</h4>
+              <p class="notification-text">Database backup was completed successfully</p>
+              <p class="notification-time">2 hrs. ago</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Shopping Cart -->
+      <a href="/shopping" class="action-btn">
+        <i class="bi bi-cart3"></i>
+        <span class="action-badge cart pulse">3</span>
+      </a>
+      
+      <!-- User Profile -->
+      <div class="dropdown">
+        <button class="profile-btn">
+          <img src="<%=user_image %>" alt="Profile" class="profile-img">
+          <span class="profile-name">Admin</span>
+        </button>
+        
+        <div class="dropdown-menu">
+          <div class="profile-dropdown-header">
+            <img src="<%=user_image %>" alt="Profile" class="profile-dropdown-img tilt">
+            <h3 class="profile-dropdown-name">Admin User</h3>
+            <p class="profile-dropdown-role">Administrator</p>
+          </div>
+          
+          <a href="/admininfo" class="dropdown-item fade-in" style="animation-delay: 0.1s">
+            <i class="bi bi-person"></i>
+            <span>My Profile</span>
           </a>
           
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            <li class="dropdown-header">
-              You have 4 new notifications
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-
-            <li class="notification-item">
-              <i class="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>System Alert</h4>
-                <p>Server maintenance scheduled for tonight</p>
-                <p>30 min. ago</p>
-              </div>
-            </li>
-
-            <li><hr class="dropdown-divider" /></li>
-
-            <li class="notification-item">
-              <i class="bi bi-x-circle text-danger"></i>
-              <div>
-                <h4>Failed Login Attempt</h4>
-                <p>Unsuccessful login from unknown device</p>
-                <p>1 hr. ago</p>
-              </div>
-            </li>
-
-            <li><hr class="dropdown-divider" /></li>
-
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Backup Completed</h4>
-                <p>Database backup was successful</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
-
-            <li><hr class="dropdown-divider" /></li>
-
-            <li class="notification-item">
-              <i class="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>New User Registered</h4>
-                <p>John Doe has created an account</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
-
-            <li><hr class="dropdown-divider" /></li>
-            <li class="dropdown-footer">
-              <a href="#">Show all notifications</a>
-            </li>
-          </ul>
-        </li>
-
-        <!-- Shopping Cart -->
-        <li class="nav-item dropdown pe-3">
-          <a class="nav-link nav-icon" href="/shopping">
-            <i class="bi bi-cart3"></i>
-            <span class="badge bg-success badge-number" style="right: -2px;">3</span>
-          </a>
-        </li>
-
-        <!-- User Profile -->
-        <li class="nav-item dropdown pe-3">
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="<%=user_image %>" alt="Profile" class="rounded-circle" />
-            <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
+          <a href="/change_pass_page" class="dropdown-item fade-in" style="animation-delay: 0.15s">
+            <i class="bi bi-shield-lock"></i>
+            <span>Change Password</span>
           </a>
           
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <img src="<%=user_image %>" alt="Profile" class="rounded-circle mb-2" />
-              <h6>Admin User</h6>
-              <span>Administrator</span>
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="/admininfo">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="/change_pass_page">
-                <i class="bi bi-shield-lock"></i>
-                <span>Change Password</span>
-              </a>
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="/logout">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li>
-          </ul>
-        </li>
-      </ul>
+          <a href="/settings" class="dropdown-item fade-in" style="animation-delay: 0.2s">
+            <i class="bi bi-gear"></i>
+            <span>Settings</span>
+          </a>
+          
+          <a href="/logout" class="dropdown-item fade-in" style="animation-delay: 0.25s">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Sign Out</span>
+          </a>
+        </div>
+      </div>
     </nav>
   </header>
 
   <script>
-    // Add scroll effect to header
+    // Enhanced Header scroll effect with parallax
     window.addEventListener('scroll', function() {
       const header = document.querySelector('.header');
-      if (window.scrollY > 10) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
+      const scrollPosition = window.scrollY;
+      
+      header.classList.toggle('scrolled', scrollPosition > 10);
+      
+      // Parallax effect on logo
+      const logo = document.querySelector('.logo-img');
+      if (logo) {
+        logo.style.transform = `translateY(${Math.min(scrollPosition * 0.2, 10)}px) rotateY(${Math.min(scrollPosition * 0.5, 15)}deg)`;
       }
     });
     
-    // Simulate dynamic notification count
+    // Dynamic notification count with enhanced animation
     setInterval(function() {
-      const badge = document.querySelector('.notifications .badge-number');
-      const count = parseInt(badge.textContent);
-      // Randomly change notification count (for demo purposes)
+      const badge = document.querySelector('.action-badge.notification');
       if (Math.random() > 0.7) {
-        const newCount = Math.max(0, count + (Math.random() > 0.5 ? 1 : -1));
-        badge.textContent = newCount;
-        badge.style.backgroundColor = newCount > 3 ? '#ef4444' : '#3b82f6';
+        const count = parseInt(badge.textContent);
+        const newCount = Math.max(0, Math.min(99, count + (Math.random() > 0.5 ? 1 : -1)));
+        
+        // Add animation class
+        badge.classList.add('pulse');
+        
+        // Change color based on count
+        if (newCount > 5) {
+          badge.style.background = 'linear-gradient(135deg, #ef4444 0%, #f97316 100%)';
+        } else if (newCount > 2) {
+          badge.style.background = 'linear-gradient(135deg, #f59e0b 0%, #f97316 100%)';
+        } else {
+          badge.style.background = 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)';
+        }
+        
+        setTimeout(() => {
+          badge.textContent = newCount;
+          setTimeout(() => badge.classList.remove('pulse'), 500);
+        }, 300);
       }
-    }, 5000);
+    }, 8000);
+    
+    // Enhanced cart badge animation on hover
+    const cartBtn = document.querySelector('.action-btn[href="/shopping"]');
+    if (cartBtn) {
+      cartBtn.addEventListener('mouseenter', function() {
+        const badge = this.querySelector('.action-badge');
+        badge.classList.add('pulse');
+        
+        // Add floating items animation
+        const cartIcon = this.querySelector('i');
+        cartIcon.style.transform = 'translateY(-3px) rotate(-10deg)';
+        
+        // Add glow effect
+        this.classList.add('glow');
+      });
+      
+      cartBtn.addEventListener('mouseleave', function() {
+        const badge = this.querySelector('.action-badge');
+        badge.classList.remove('pulse');
+        
+        const cartIcon = this.querySelector('i');
+        cartIcon.style.transform = '';
+        
+        // Remove glow effect
+        this.classList.remove('glow');
+      });
+    }
+    
+    // Smooth dropdown transitions with delay and staggered animations
+    document.querySelectorAll('.dropdown').forEach(dropdown => {
+      let timeout;
+      
+      dropdown.addEventListener('mouseenter', function() {
+        clearTimeout(timeout);
+        const menu = this.querySelector('.dropdown-menu');
+        menu.style.display = 'block';
+        menu.style.opacity = '0';
+        menu.style.transform = 'translateY(15px)';
+        
+        setTimeout(() => {
+          menu.style.opacity = '1';
+          menu.style.transform = 'translateY(0)';
+          
+          // Animate dropdown items sequentially
+          const items = menu.querySelectorAll('.fade-in');
+          items.forEach((item, index) => {
+            item.style.animationDelay = `${index * 0.05}s`;
+          });
+        }, 10);
+      });
+      
+      dropdown.addEventListener('mouseleave', function() {
+        const menu = this.querySelector('.dropdown-menu');
+        menu.style.opacity = '0';
+        menu.style.transform = 'translateY(15px)';
+        
+        timeout = setTimeout(() => {
+          menu.style.display = 'none';
+        }, 300);
+      });
+    });
+    
+    // Add ripple effect to buttons
+    document.querySelectorAll('.action-btn, .profile-btn, .view-all-btn').forEach(button => {
+      button.addEventListener('click', function(e) {
+        // Remove any existing ripple
+        const existingRipple = this.querySelector('.ripple-effect');
+        if (existingRipple) {
+          existingRipple.remove();
+        }
+        
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple-effect';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    });
+    
+    // Add subtle hover effect to all interactive elements
+    document.querySelectorAll('a, button, .dropdown-item').forEach(element => {
+      element.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-1px)';
+      });
+      
+      element.addEventListener('mouseleave', function() {
+        this.style.transform = '';
+      });
+    });
+    
+    // Initialize animations when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add initial animation to header
+      const header = document.querySelector('.header');
+      if (header) {
+        header.style.opacity = '0';
+        header.style.transform = 'translateY(-20px)';
+        
+        setTimeout(() => {
+          header.style.transition = 'opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+          header.style.opacity = '1';
+          header.style.transform = 'translateY(0)';
+        }, 100);
+      }
+      
+      // Add animation to logo text
+      const logoText = document.querySelector('.logo-text');
+      if (logoText) {
+        setTimeout(() => {
+          logoText.style.animation = 'fadeIn 0.8s ease-out forwards';
+        }, 300);
+      }
+    });
   </script>
 </body>
 </html>
