@@ -607,38 +607,57 @@
         font-size: 0.7rem;
       }
       
-      /* Customer Reviews Section */
-      .reviews-container {
+      /* Enhanced Customer Reviews Section */
+      .reviews-section {
         margin-top: 30px;
       }
       
-      .review-card {
-        background: white;
+      .reviews-carousel {
+        position: relative;
+        overflow: hidden;
         border-radius: var(--card-radius);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        padding: 20px;
-        margin-bottom: 20px;
-        transition: all 0.3s ease;
       }
       
-      .review-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      .reviews-track {
+        display: flex;
+        transition: transform 0.5s ease;
+        will-change: transform;
+      }
+      
+      .review-card {
+        min-width: 100%;
+        padding: 25px;
+        background: white;
+        transition: all 0.3s ease;
+        position: relative;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border-radius: var(--card-radius);
+      }
+      
+      .review-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
       }
       
       .review-header {
         display: flex;
         align-items: center;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
       }
       
       .review-avatar {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
         object-fit: cover;
-        margin-right: 15px;
+        margin-right: 20px;
         border: 3px solid var(--primary-light);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       }
       
       .review-user {
@@ -646,7 +665,14 @@
       }
       
       .review-user h5 {
-        margin-bottom: 0;
+        margin-bottom: 5px;
+        font-weight: 600;
+      }
+      
+      .review-user .review-position {
+        font-size: 0.8rem;
+        color: #6c757d;
+        display: block;
       }
       
       .review-date {
@@ -656,18 +682,89 @@
       
       .review-rating {
         color: var(--warning-color);
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
       }
       
       .review-content {
         color: #495057;
-        line-height: 1.6;
+        line-height: 1.7;
+        font-size: 0.95rem;
+        position: relative;
+        padding-left: 20px;
+      }
+      
+      .review-content::before {
+        content: '"';
+        position: absolute;
+        left: 0;
+        top: -10px;
+        font-size: 3rem;
+        color: rgba(99, 102, 241, 0.1);
+        font-family: Georgia, serif;
+        line-height: 1;
       }
       
       .review-highlight {
         background-color: rgba(99, 102, 241, 0.1);
         padding: 2px 5px;
         border-radius: 4px;
+        font-weight: 500;
+      }
+      
+      /* Review Navigation */
+      .reviews-nav {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      
+      .review-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        margin: 0 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .review-dot.active {
+        background-color: var(--primary-color);
+        transform: scale(1.2);
+      }
+      
+      .review-nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: white;
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .review-nav-btn:hover {
+        background-color: var(--primary-color);
+        color: white;
+      }
+      
+      .review-prev {
+        left: 15px;
+      }
+      
+      .review-next {
+        right: 15px;
       }
       
       /* Review Animation */
@@ -686,12 +783,6 @@
         animation: fadeInUp 0.6s ease forwards;
       }
       
-      .review-card:nth-child(1) { animation-delay: 0.1s; }
-      .review-card:nth-child(2) { animation-delay: 0.2s; }
-      .review-card:nth-child(3) { animation-delay: 0.3s; }
-      .review-card:nth-child(4) { animation-delay: 0.4s; }
-      .review-card:nth-child(5) { animation-delay: 0.5s; }
-      
       /* Dark mode adjustments */
       body.dark-mode .review-card {
         background-color: #1e1e1e;
@@ -701,12 +792,31 @@
         color: #e9ecef;
       }
       
-      body.dark-mode .review-date {
+      body.dark-mode .review-date,
+      body.dark-mode .review-user .review-position {
         color: #adb5bd;
       }
       
       body.dark-mode .review-highlight {
         background-color: rgba(99, 102, 241, 0.2);
+      }
+      
+      body.dark-mode .review-nav-btn {
+        background-color: #2d2d2d;
+        color: var(--primary-light);
+      }
+      
+      body.dark-mode .review-nav-btn:hover {
+        background-color: var(--primary-color);
+        color: white;
+      }
+      
+      body.dark-mode .review-dot {
+        background-color: #444;
+      }
+      
+      body.dark-mode .review-dot.active {
+        background-color: var(--primary-color);
       }
       
       /* Responsive Adjustments */
@@ -725,6 +835,16 @@
         .quick-actions {
           grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         }
+        
+        .review-header {
+          flex-direction: column;
+          text-align: center;
+        }
+        
+        .review-avatar {
+          margin-right: 0;
+          margin-bottom: 15px;
+        }
       }
       
       @media (max-width: 768px) {
@@ -741,14 +861,18 @@
           padding: 10px;
         }
         
-        .review-header {
-          flex-direction: column;
-          align-items: flex-start;
+        .review-nav-btn {
+          width: 30px;
+          height: 30px;
+          font-size: 1rem;
         }
         
-        .review-avatar {
-          margin-bottom: 10px;
-          margin-right: 0;
+        .review-prev {
+          left: 5px;
+        }
+        
+        .review-next {
+          right: 5px;
         }
       }
     </style>
@@ -1283,7 +1407,7 @@
               <!-- End Calendar Widget -->
             </div>
 
-            <!-- Customer Reviews Section -->
+            <!-- Enhanced Customer Reviews Section -->
             <div class="row mt-4">
               <div class="col-12">
                 <div class="card dashboard-card hover-grow" data-aos="fade-up">
@@ -1293,15 +1417,20 @@
                       <a href="#" class="btn btn-sm btn-outline-primary">View All Reviews</a>
                     </div>
                     
-                    <div class="reviews-container">
-                      <div class="row">
-                        <!-- Review 1 -->
-                        <div class="col-md-6 col-lg-4">
+                    <div class="reviews-section">
+                      <div class="reviews-carousel">
+                        <button class="review-nav-btn review-prev">
+                          <i class="bi bi-chevron-left"></i>
+                        </button>
+                        
+                        <div class="reviews-track">
+                          <!-- Review 1 -->
                           <div class="review-card">
                             <div class="review-header">
                               <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Customer" class="review-avatar">
                               <div class="review-user">
                                 <h5>Sarah Johnson</h5>
+                                <span class="review-position">Marketing Director</span>
                                 <div class="review-date">June 15, 2023</div>
                               </div>
                             </div>
@@ -1313,18 +1442,17 @@
                               <i class="bi bi-star-fill"></i>
                             </div>
                             <div class="review-content">
-                              "Absolutely love the premium features! The dashboard is so intuitive and the <span class="review-highlight">customer support</span> team was incredibly helpful when I had questions. Highly recommend to anyone looking for a professional solution."
+                              Absolutely love the premium features! The dashboard is so intuitive and the <span class="review-highlight">customer support</span> team was incredibly helpful when I had questions. The analytics tools have transformed how we track our business metrics. Highly recommend to anyone looking for a professional solution.
                             </div>
                           </div>
-                        </div>
-                        
-                        <!-- Review 2 -->
-                        <div class="col-md-6 col-lg-4">
+                          
+                          <!-- Review 2 -->
                           <div class="review-card">
                             <div class="review-header">
                               <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Customer" class="review-avatar">
                               <div class="review-user">
                                 <h5>Michael Chen</h5>
+                                <span class="review-position">CTO, TechStart</span>
                                 <div class="review-date">June 10, 2023</div>
                               </div>
                             </div>
@@ -1336,18 +1464,17 @@
                               <i class="bi bi-star-half"></i>
                             </div>
                             <div class="review-content">
-                              "The analytics tools have transformed how we track our business metrics. The <span class="review-highlight">custom reporting</span> features saved us countless hours. Only minor UI improvements could make it perfect."
+                              The analytics tools have transformed how we track our business metrics. The <span class="review-highlight">custom reporting</span> features saved us countless hours. The mobile app needs some improvements though - sometimes it's slow to load data, but the desktop version works flawlessly. Only minor UI improvements could make it perfect.
                             </div>
                           </div>
-                        </div>
-                        
-                        <!-- Review 3 -->
-                        <div class="col-md-6 col-lg-4">
+                          
+                          <!-- Review 3 -->
                           <div class="review-card">
                             <div class="review-header">
                               <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Customer" class="review-avatar">
                               <div class="review-user">
                                 <h5>Emily Rodriguez</h5>
+                                <span class="review-position">Product Manager</span>
                                 <div class="review-date">June 5, 2023</div>
                               </div>
                             </div>
@@ -1359,18 +1486,17 @@
                               <i class="bi bi-star"></i>
                             </div>
                             <div class="review-content">
-                              "Great platform overall! The <span class="review-highlight">mobile app</span> needs some improvements though. Sometimes it's a bit slow to load data, but the desktop version works flawlessly."
+                              Great platform overall! The <span class="review-highlight">mobile app</span> needs some improvements though. Sometimes it's a bit slow to load data, but the desktop version works flawlessly. The integration with other tools we use is fantastic and setup was straightforward. We were up and running in no time.
                             </div>
                           </div>
-                        </div>
-                        
-                        <!-- Review 4 -->
-                        <div class="col-md-6 col-lg-4">
+                          
+                          <!-- Review 4 -->
                           <div class="review-card">
                             <div class="review-header">
                               <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Customer" class="review-avatar">
                               <div class="review-user">
                                 <h5>David Wilson</h5>
+                                <span class="review-position">CEO, Wilson & Co</span>
                                 <div class="review-date">May 28, 2023</div>
                               </div>
                             </div>
@@ -1382,18 +1508,17 @@
                               <i class="bi bi-star-fill"></i>
                             </div>
                             <div class="review-content">
-                              "The <span class="review-highlight">integration capabilities</span> with other tools we use are fantastic. Setup was straightforward and we were up and running in no time. Excellent value for money!"
+                              The <span class="review-highlight">integration capabilities</span> with other tools we use are fantastic. Setup was straightforward and we were up and running in no time. Excellent value for money! The real-time data helps me make quick decisions and the team is very responsive to feedback and suggestions.
                             </div>
                           </div>
-                        </div>
-                        
-                        <!-- Review 5 -->
-                        <div class="col-md-6 col-lg-4">
+                          
+                          <!-- Review 5 -->
                           <div class="review-card">
                             <div class="review-header">
                               <img src="https://randomuser.me/api/portraits/women/51.jpg" alt="Customer" class="review-avatar">
                               <div class="review-user">
                                 <h5>Jennifer Lee</h5>
+                                <span class="review-position">Small Business Owner</span>
                                 <div class="review-date">May 20, 2023</div>
                               </div>
                             </div>
@@ -1405,10 +1530,22 @@
                               <i class="bi bi-star-fill"></i>
                             </div>
                             <div class="review-content">
-                              "As a small business owner, this dashboard has been a game-changer. The <span class="review-highlight">real-time data</span> helps me make quick decisions. The team is also very responsive to feedback and suggestions."
+                              As a small business owner, this dashboard has been a game-changer. The <span class="review-highlight">real-time data</span> helps me make quick decisions. The team is also very responsive to feedback and suggestions. The custom reporting features saved us countless hours and the integration with other tools is seamless.
                             </div>
                           </div>
                         </div>
+                        
+                        <button class="review-nav-btn review-next">
+                          <i class="bi bi-chevron-right"></i>
+                        </button>
+                      </div>
+                      
+                      <div class="reviews-nav">
+                        <div class="review-dot active"></div>
+                        <div class="review-dot"></div>
+                        <div class="review-dot"></div>
+                        <div class="review-dot"></div>
+                        <div class="review-dot"></div>
                       </div>
                     </div>
                   </div>
@@ -1689,6 +1826,91 @@
           // You would implement actual search functionality here
           console.log('Searching for:', searchTerm);
         });
+
+        // Enhanced Reviews Carousel Functionality
+        const reviewsTrack = document.querySelector('.reviews-track');
+        const reviewCards = document.querySelectorAll('.review-card');
+        const reviewDots = document.querySelectorAll('.review-dot');
+        const prevBtn = document.querySelector('.review-prev');
+        const nextBtn = document.querySelector('.review-next');
+        
+        let currentIndex = 0;
+        const cardCount = reviewCards.length;
+        const cardWidth = 100; // 100% width for each card
+        
+        // Initialize carousel
+        function updateCarousel() {
+          reviewsTrack.style.transform = `translateX(-${currentIndex * cardWidth}%)`;
+          
+          // Update active dot
+          reviewDots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+          });
+        }
+        
+        // Auto slide every 5 seconds
+        let autoSlideInterval = setInterval(() => {
+          currentIndex = (currentIndex + 1) % cardCount;
+          updateCarousel();
+        }, 5000);
+        
+        // Reset auto slide timer on interaction
+        function resetAutoSlide() {
+          clearInterval(autoSlideInterval);
+          autoSlideInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % cardCount;
+            updateCarousel();
+          }, 5000);
+        }
+        
+        // Next button
+        nextBtn.addEventListener('click', () => {
+          currentIndex = (currentIndex + 1) % cardCount;
+          updateCarousel();
+          resetAutoSlide();
+        });
+        
+        // Previous button
+        prevBtn.addEventListener('click', () => {
+          currentIndex = (currentIndex - 1 + cardCount) % cardCount;
+          updateCarousel();
+          resetAutoSlide();
+        });
+        
+        // Dot navigation
+        reviewDots.forEach((dot, index) => {
+          dot.addEventListener('click', () => {
+            currentIndex = index;
+            updateCarousel();
+            resetAutoSlide();
+          });
+        });
+        
+        // Swipe functionality for touch devices
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        reviewsTrack.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+        
+        reviewsTrack.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+          resetAutoSlide();
+        }, {passive: true});
+        
+        function handleSwipe() {
+          const difference = touchStartX - touchEndX;
+          if (difference > 50) {
+            // Swipe left - next
+            currentIndex = (currentIndex + 1) % cardCount;
+          } else if (difference < -50) {
+            // Swipe right - previous
+            currentIndex = (currentIndex - 1 + cardCount) % cardCount;
+          }
+          updateCarousel();
+        }
 
         // Theme switch functionality (connected to sidebar)
         function toggleDarkMode() {
