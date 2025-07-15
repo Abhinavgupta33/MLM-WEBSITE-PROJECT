@@ -7,21 +7,23 @@
   <style>
     /* Modern CSS Reset with Smooth Scrolling */
     :root {
-      --header-height: 90px;
+      --header-height: 80px;
       --header-scrolled-height: 70px;
       --header-bg: rgba(255, 255, 255, 0.98);
       --header-scrolled-bg: rgba(255, 255, 255, 0.96);
       --header-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
       --header-scrolled-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-      --primary-color: #6366f1;
-      --primary-hover: #4f46e5;
-      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      --primary-color: #4361ee;
+      --primary-dark: #3a0ca3;
+      --primary-light: #4895ef;
+      --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
       --text-color: #1e293b;
       --text-muted: #64748b;
       --glass-effect: backdrop-filter: blur(12px);
       --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       --transition-elastic: all 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+      --sidebar-width: 280px;
     }
     
     * {
@@ -39,20 +41,34 @@
     .header {
       position: fixed;
       top: 0;
-      left: 0;
+      left: var(--sidebar-width);
       right: 0;
       height: var(--header-height);
       background: var(--header-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       box-shadow: var(--header-shadow);
-      z-index: 1000;
+      z-index: 999;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 2.5rem;
       transition: var(--transition-smooth);
       will-change: transform, height, box-shadow, backdrop-filter;
+    }
+
+    /* Adjust for collapsed sidebar */
+    @media (max-width: 992px) {
+      .header {
+        left: 80px;
+      }
+    }
+
+    /* Adjust for mobile */
+    @media (max-width: 768px) {
+      .header {
+        left: 0;
+      }
     }
 
     .header.scrolled {
@@ -76,7 +92,7 @@
     }
 
     .logo:hover {
-      color: var(--primary-hover);
+      color: var(--primary-dark);
     }
 
     .logo-img {
@@ -141,7 +157,7 @@
 
     .action-btn:hover {
       background: rgba(241, 245, 249, 0.9);
-      color: var(--primary-hover);
+      color: var(--primary-dark);
       transform: translateY(-3px) scale(1.05);
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
@@ -217,7 +233,7 @@
     }
 
     .profile-btn:hover .profile-img {
-      border-color: var(--primary-hover);
+      border-color: var(--primary-dark);
       transform: scale(1.1) rotate(5deg);
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
     }
@@ -230,7 +246,7 @@
     }
     
     .profile-btn:hover .profile-name {
-      color: var(--primary-hover);
+      color: var(--primary-dark);
     }
 
     /* Dropdown Menu with Glass Morphism - Enhanced */
@@ -339,7 +355,7 @@
     .notification-item:hover {
       background: rgba(248, 250, 252, 0.7);
       transform: translateX(5px);
-      box-shadow: 0 5px 15px -5px rgba(99, 102, 241, 0.3);
+      box-shadow: 0 5px 15px -5px rgba(67, 97, 238, 0.3);
     }
 
     .notification-icon {
@@ -473,9 +489,9 @@
 
     .dropdown-item:hover {
       background: rgba(248, 250, 252, 0.7);
-      color: var(--primary-hover);
+      color: var(--primary-dark);
       padding-left: 1.75rem;
-      box-shadow: 0 5px 15px -5px rgba(99, 102, 241, 0.3);
+      box-shadow: 0 5px 15px -5px rgba(67, 97, 238, 0.3);
     }
 
     .dropdown-item:hover::before {
@@ -551,9 +567,9 @@
     }
 
     @keyframes glow {
-      0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+      0% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(67, 97, 238, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
     }
 
     @keyframes shimmer {
@@ -602,8 +618,70 @@
     /* Main content styles to prevent overlap */
     main {
       margin-top: var(--header-height);
+      margin-left: var(--sidebar-width);
       padding: 2rem;
       min-height: calc(100vh - var(--header-height));
+      transition: var(--transition-smooth);
+    }
+
+    /* Adjust for collapsed sidebar */
+    @media (max-width: 992px) {
+      main {
+        margin-left: 80px;
+      }
+    }
+
+    /* Adjust for mobile */
+    @media (max-width: 768px) {
+      main {
+        margin-left: 0;
+      }
+    }
+
+    /* Dark mode styles */
+    .dark-mode .header {
+      --header-bg: rgba(15, 23, 42, 0.98);
+      --header-scrolled-bg: rgba(15, 23, 42, 0.96);
+      --header-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      --header-scrolled-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+      --text-color: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+
+    .dark-mode .action-btn {
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    .dark-mode .action-btn:hover {
+      background: rgba(30, 41, 59, 0.9);
+    }
+
+    .dark-mode .profile-btn {
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    .dark-mode .profile-btn:hover {
+      background: rgba(30, 41, 59, 0.9);
+    }
+
+    .dark-mode .dropdown-menu {
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .dark-mode .dropdown-menu::before {
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .dark-mode .notification-item:hover {
+      background: rgba(30, 41, 59, 0.7);
+    }
+
+    .dark-mode .notification-icon {
+      background: rgba(30, 41, 59, 0.7);
+    }
+
+    .dark-mode .dropdown-item:hover {
+      background: rgba(30, 41, 59, 0.7);
     }
   </style>
   <!-- Bootstrap Icons -->
@@ -748,7 +826,7 @@
         } else if (newCount > 2) {
           badge.style.background = 'linear-gradient(135deg, #f59e0b 0%, #f97316 100%)';
         } else {
-          badge.style.background = 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)';
+          badge.style.background = 'var(--primary-gradient)';
         }
         
         setTimeout(() => {
@@ -877,6 +955,40 @@
         setTimeout(() => {
           logoText.style.animation = 'fadeIn 0.8s ease-out forwards';
         }, 300);
+      }
+    });
+
+    // Dark mode toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const darkModeToggle = document.createElement('button');
+      darkModeToggle.className = 'action-btn dark-mode-toggle';
+      darkModeToggle.innerHTML = '<i class="bi bi-moon"></i>';
+      darkModeToggle.style.marginRight = '10px';
+      
+      darkModeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        
+        const icon = this.querySelector('i');
+        if (document.body.classList.contains('dark-mode')) {
+          icon.classList.remove('bi-moon');
+          icon.classList.add('bi-sun');
+        } else {
+          icon.classList.remove('bi-sun');
+          icon.classList.add('bi-moon');
+        }
+      });
+      
+      // Check for saved dark mode preference
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        darkModeToggle.innerHTML = '<i class="bi bi-sun"></i>';
+      }
+      
+      // Insert dark mode toggle button
+      const headerNav = document.querySelector('.header-nav');
+      if (headerNav) {
+        headerNav.insertBefore(darkModeToggle, headerNav.firstChild);
       }
     });
   </script>
