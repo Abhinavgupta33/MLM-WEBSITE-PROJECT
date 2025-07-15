@@ -64,6 +64,7 @@
         flex-direction: column;
         overflow-x: hidden;
         position: relative;
+        transition: background-color 0.5s ease, color 0.5s ease;
       }
       
       /* Animated Background Elements */
@@ -131,6 +132,7 @@
         padding: 30px;
         background-color: #f8f9fa;
         width: 100%;
+        transition: background-color 0.5s ease;
       }
       
       /* Dashboard Cards - Enhanced */
@@ -439,29 +441,6 @@
         transform: scale(1.02);
       }
       
-      /* Dark Mode Toggle */
-      .dark-mode-toggle {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 999;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: var(--primary-color);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-        transition: all 0.3s ease;
-      }
-      
-      .dark-mode-toggle:hover {
-        transform: scale(1.1);
-      }
-      
       /* Dark Mode Styles */
       body.dark-mode {
         background-color: #121212;
@@ -628,13 +607,106 @@
         font-size: 0.7rem;
       }
       
-      /* Dark mode calendar adjustments */
-      body.dark-mode .calendar-stats .stat-item {
-        background-color: rgba(30, 30, 30, 0.9);
+      /* Customer Reviews Section */
+      .reviews-container {
+        margin-top: 30px;
       }
       
-      body.dark-mode .calendar-stats .stat-label {
+      .review-card {
+        background: white;
+        border-radius: var(--card-radius);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+      }
+      
+      .review-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .review-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      
+      .review-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+        border: 3px solid var(--primary-light);
+      }
+      
+      .review-user {
+        flex: 1;
+      }
+      
+      .review-user h5 {
+        margin-bottom: 0;
+      }
+      
+      .review-date {
+        color: #6c757d;
+        font-size: 0.8rem;
+      }
+      
+      .review-rating {
+        color: var(--warning-color);
+        margin-bottom: 10px;
+      }
+      
+      .review-content {
+        color: #495057;
+        line-height: 1.6;
+      }
+      
+      .review-highlight {
+        background-color: rgba(99, 102, 241, 0.1);
+        padding: 2px 5px;
+        border-radius: 4px;
+      }
+      
+      /* Review Animation */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .review-card {
+        animation: fadeInUp 0.6s ease forwards;
+      }
+      
+      .review-card:nth-child(1) { animation-delay: 0.1s; }
+      .review-card:nth-child(2) { animation-delay: 0.2s; }
+      .review-card:nth-child(3) { animation-delay: 0.3s; }
+      .review-card:nth-child(4) { animation-delay: 0.4s; }
+      .review-card:nth-child(5) { animation-delay: 0.5s; }
+      
+      /* Dark mode adjustments */
+      body.dark-mode .review-card {
+        background-color: #1e1e1e;
+      }
+      
+      body.dark-mode .review-content {
+        color: #e9ecef;
+      }
+      
+      body.dark-mode .review-date {
         color: #adb5bd;
+      }
+      
+      body.dark-mode .review-highlight {
+        background-color: rgba(99, 102, 241, 0.2);
       }
       
       /* Responsive Adjustments */
@@ -667,6 +739,16 @@
         .leaderboard-item,
         .recent-activity li {
           padding: 10px;
+        }
+        
+        .review-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        
+        .review-avatar {
+          margin-bottom: 10px;
+          margin-right: 0;
         }
       }
     </style>
@@ -1200,17 +1282,146 @@
               </div>
               <!-- End Calendar Widget -->
             </div>
+
+            <!-- Customer Reviews Section -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card dashboard-card hover-grow" data-aos="fade-up">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h5 class="card-title mb-0">Customer Reviews</h5>
+                      <a href="#" class="btn btn-sm btn-outline-primary">View All Reviews</a>
+                    </div>
+                    
+                    <div class="reviews-container">
+                      <div class="row">
+                        <!-- Review 1 -->
+                        <div class="col-md-6 col-lg-4">
+                          <div class="review-card">
+                            <div class="review-header">
+                              <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Customer" class="review-avatar">
+                              <div class="review-user">
+                                <h5>Sarah Johnson</h5>
+                                <div class="review-date">June 15, 2023</div>
+                              </div>
+                            </div>
+                            <div class="review-rating">
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                            </div>
+                            <div class="review-content">
+                              "Absolutely love the premium features! The dashboard is so intuitive and the <span class="review-highlight">customer support</span> team was incredibly helpful when I had questions. Highly recommend to anyone looking for a professional solution."
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- Review 2 -->
+                        <div class="col-md-6 col-lg-4">
+                          <div class="review-card">
+                            <div class="review-header">
+                              <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Customer" class="review-avatar">
+                              <div class="review-user">
+                                <h5>Michael Chen</h5>
+                                <div class="review-date">June 10, 2023</div>
+                              </div>
+                            </div>
+                            <div class="review-rating">
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-half"></i>
+                            </div>
+                            <div class="review-content">
+                              "The analytics tools have transformed how we track our business metrics. The <span class="review-highlight">custom reporting</span> features saved us countless hours. Only minor UI improvements could make it perfect."
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- Review 3 -->
+                        <div class="col-md-6 col-lg-4">
+                          <div class="review-card">
+                            <div class="review-header">
+                              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Customer" class="review-avatar">
+                              <div class="review-user">
+                                <h5>Emily Rodriguez</h5>
+                                <div class="review-date">June 5, 2023</div>
+                              </div>
+                            </div>
+                            <div class="review-rating">
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star"></i>
+                            </div>
+                            <div class="review-content">
+                              "Great platform overall! The <span class="review-highlight">mobile app</span> needs some improvements though. Sometimes it's a bit slow to load data, but the desktop version works flawlessly."
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- Review 4 -->
+                        <div class="col-md-6 col-lg-4">
+                          <div class="review-card">
+                            <div class="review-header">
+                              <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Customer" class="review-avatar">
+                              <div class="review-user">
+                                <h5>David Wilson</h5>
+                                <div class="review-date">May 28, 2023</div>
+                              </div>
+                            </div>
+                            <div class="review-rating">
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                            </div>
+                            <div class="review-content">
+                              "The <span class="review-highlight">integration capabilities</span> with other tools we use are fantastic. Setup was straightforward and we were up and running in no time. Excellent value for money!"
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- Review 5 -->
+                        <div class="col-md-6 col-lg-4">
+                          <div class="review-card">
+                            <div class="review-header">
+                              <img src="https://randomuser.me/api/portraits/women/51.jpg" alt="Customer" class="review-avatar">
+                              <div class="review-user">
+                                <h5>Jennifer Lee</h5>
+                                <div class="review-date">May 20, 2023</div>
+                              </div>
+                            </div>
+                            <div class="review-rating">
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                              <i class="bi bi-star-fill"></i>
+                            </div>
+                            <div class="review-content">
+                              "As a small business owner, this dashboard has been a game-changer. The <span class="review-highlight">real-time data</span> helps me make quick decisions. The team is also very responsive to feedback and suggestions."
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Customer Reviews Section -->
           </section>
         </div>
       </div>
       <!-- End Main Content Column -->
     </main>
     <!-- End #main -->
-
-    <!-- Dark Mode Toggle -->
-    <div class="dark-mode-toggle" id="darkModeToggle">
-      <i class="bi bi-moon-fill"></i>
-    </div>
 
     <%- include("../utils/footer") %>
 
@@ -1440,20 +1651,6 @@
           alert('Add event functionality would open a form here');
         });
         
-        // Dark mode toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        darkModeToggle.addEventListener('click', function() {
-          document.body.classList.toggle('dark-mode');
-          const icon = this.querySelector('i');
-          if (document.body.classList.contains('dark-mode')) {
-            icon.classList.remove('bi-moon-fill');
-            icon.classList.add('bi-sun-fill');
-          } else {
-            icon.classList.remove('bi-sun-fill');
-            icon.classList.add('bi-moon-fill');
-          }
-        });
-        
         // Task list functionality
         document.querySelectorAll('.task-checkbox').forEach(checkbox => {
           checkbox.addEventListener('change', function() {
@@ -1492,6 +1689,20 @@
           // You would implement actual search functionality here
           console.log('Searching for:', searchTerm);
         });
+
+        // Theme switch functionality (connected to sidebar)
+        function toggleDarkMode() {
+          document.body.classList.toggle('dark-mode');
+          localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        // Check for saved theme preference
+        if (localStorage.getItem('darkMode') === 'true') {
+          document.body.classList.add('dark-mode');
+        }
+
+        // Listen for theme switch events from sidebar
+        window.addEventListener('themeToggle', toggleDarkMode);
       });
     </script>
   </body>
