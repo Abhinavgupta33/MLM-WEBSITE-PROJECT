@@ -37,35 +37,38 @@
     <style>
         /* Global Styles */
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #f8f9fc;
-            --accent-color: #2980b9;
-            --text-color: #34495e;
+            --primary-color: #4361ee;
+            --secondary-color: #f8f9fe;
+            --accent-color: #3a0ca3;
+            --text-color: #2b2d42;
             --light-color: #ffffff;
-            --success-color: #2ecc71;
-            --info-color: #3498db;
-            --warning-color: #f39c12;
-            --danger-color: #e74c3c;
-            --dark-color: #2c3e50;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success-color: #4cc9f0;
+            --info-color: #4895ef;
+            --warning-color: #f8961e;
+            --danger-color: #f72585;
+            --dark-color: #1a1a2e;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             --transition: all 0.3s ease;
+            --card-gradient: linear-gradient(135deg, #ffffff 0%, #f8f9fe 100%);
         }
         
         body {
             font-family: 'Nunito', sans-serif;
-            background-color: var(--secondary-color);
+            background: var(--light-color);
             color: var(--text-color);
             margin: 0;
             padding: 0;
             position: relative;
             overflow-x: hidden;
+            background-image: radial-gradient(circle at 15% 50%, rgba(236, 240, 253, 0.5) 0%, rgba(255,255,255,0) 25%),
+                              radial-gradient(circle at 85% 30%, rgba(236, 240, 253, 0.5) 0%, rgba(255,255,255,0) 25%);
         }
 
         /* Animated Background Elements */
         .bg-circle {
             position: fixed;
             border-radius: 50%;
-            background: rgba(52, 152, 219, 0.1);
+            background: rgba(67, 97, 238, 0.05);
             z-index: -1;
             animation: float 15s infinite ease-in-out;
         }
@@ -120,19 +123,20 @@
         /* Pulse Animation for Featured Products */
         @keyframes pulse {
             0% {
-                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4);
+                box-shadow: 0 0 0 0 rgba(76, 201, 240, 0.4);
             }
             70% {
-                box-shadow: 0 0 0 15px rgba(46, 204, 113, 0);
+                box-shadow: 0 0 0 15px rgba(76, 201, 240, 0);
             }
             100% {
-                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+                box-shadow: 0 0 0 0 rgba(76, 201, 240, 0);
             }
         }
 
         .featured {
             position: relative;
             animation: pulse 2s infinite;
+            border: 2px solid var(--primary-color);
         }
 
         .featured::before {
@@ -140,13 +144,14 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background-color: var(--success-color);
+            background-color: var(--primary-color);
             color: white;
             padding: 3px 10px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: bold;
             z-index: 1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .rounded-circle {
@@ -194,9 +199,9 @@
         }
 
         .product {
-            background-color: var(--light-color);
+            background: var(--card-gradient);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: var(--shadow);
             text-align: center;
             position: relative;
@@ -217,7 +222,8 @@
 
         .product:hover {
             transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+            background: var(--light-color);
         }
 
         .product-img-container {
@@ -230,6 +236,11 @@
             border-radius: 8px;
             position: relative;
             background-color: #f5f7fa;
+            transition: var(--transition);
+        }
+
+        .product:hover .product-img-container {
+            background-color: #eef2f7;
         }
 
         .product img {
@@ -320,7 +331,7 @@
         .quantity-container input:focus {
             border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.25);
         }
 
         /* Button Styles */
@@ -337,7 +348,7 @@
             border: none;
             color: white;
             font-size: 0.9rem;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -348,7 +359,7 @@
             align-items: center;
             justify-content: center;
             min-width: 120px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         button::before {
@@ -358,7 +369,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transition: 0.5s;
         }
 
@@ -367,8 +378,8 @@
         }
 
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         button:active {
@@ -383,11 +394,11 @@
         
         .buy-now {
             background-color: var(--success-color);
-            border-bottom: 3px solid #27ae60;
+            border-bottom: 3px solid #3aa8d8;
         }
         
         .buy-now:hover {
-            background-color: #27ae60;
+            background-color: #3aa8d8;
         }
         
         .add-to-cart {
@@ -401,11 +412,11 @@
         
         .quick-view-btn {
             background-color: var(--dark-color);
-            border-bottom: 3px solid #1a252f;
+            border-bottom: 3px solid #0d0d1a;
         }
         
         .quick-view-btn:hover {
-            background-color: #1a252f;
+            background-color: #0d0d1a;
         }
 
         /* Loading Spinner */
@@ -450,7 +461,7 @@
             max-width: 900px;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             display: none;
             overflow: hidden;
@@ -472,7 +483,7 @@
             font-weight: 700;
             text-align: center;
             position: relative;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
         }
 
         .modal-header::after {
@@ -549,7 +560,7 @@
         
         .thumbnail.active {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.3);
         }
         
         .thumbnail img {
@@ -593,7 +604,7 @@
         }
         
         .modal-rating-stars {
-            color: #f39c12;
+            color: #f8961e;
             font-size: 1.2rem;
             margin-right: 10px;
         }
@@ -672,7 +683,7 @@
         .modal-quantity input:focus {
             border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.25);
         }
         
         .modal-actions {
@@ -704,11 +715,11 @@
             cursor: pointer;
             transition: var(--transition);
             font-weight: 600;
-            border-bottom: 3px solid #1a252f;
+            border-bottom: 3px solid #0d0d1a;
         }
 
         .modal-footer button:hover {
-            background-color: #1a252f;
+            background-color: #0d0d1a;
         }
 
         /* Overlay */
@@ -744,7 +755,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             z-index: 99;
             transition: var(--transition);
@@ -755,7 +766,7 @@
         .floating-cart-btn:hover {
             transform: translateY(-5px) scale(1.05);
             background-color: var(--accent-color);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
         
         .floating-cart-btn i {
@@ -792,7 +803,7 @@
         }
 
         .rating i {
-            color: #f39c12;
+            color: #f8961e;
             margin: 0 2px;
             font-size: 1rem;
         }
