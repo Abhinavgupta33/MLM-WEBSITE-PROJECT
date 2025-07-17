@@ -55,6 +55,7 @@
         --card-radius: 16px;
         --transition-speed: 0.3s;
         --sidebar-width: 275px;
+        --header-height: 70px;
       }
       
       body {
@@ -885,6 +886,45 @@
         background-color: var(--primary-color);
       }
       
+      /* Sidebar toggle button for mobile */
+      .sidebar-toggle {
+        display: none;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1050;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+      
+      .sidebar-toggle:hover {
+        transform: scale(1.1);
+      }
+      
+      /* Ripple effect for buttons */
+      .ripple-effect {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.4);
+        transform: scale(0);
+        animation: ripple 0.6s linear;
+        pointer-events: none;
+      }
+      
+      @keyframes ripple {
+        to {
+          transform: scale(4);
+          opacity: 0;
+        }
+      }
+      
       /* Responsive Adjustments */
       @media (max-width: 1200px) {
         .quick-actions {
@@ -915,6 +955,20 @@
           margin-right: 0;
           margin-bottom: 15px;
         }
+        
+        .sidebar-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        body.sidebar-open #main {
+          margin-left: var(--sidebar-width);
+        }
+        
+        body.sidebar-open .sidebar-toggle {
+          left: calc(var(--sidebar-width) - 10px);
+        }
       }
       
       @media (max-width: 768px) {
@@ -944,15 +998,9 @@
         .review-next {
           right: 5px;
         }
-      }
-      
-      @media (max-width: 576px) {
-        .quick-actions {
-          grid-template-columns: 1fr;
-        }
         
         .pagetitle h1 {
-          font-size: 1.5rem;
+          font-size: 1.8rem;
         }
         
         .card-icon-container {
@@ -966,6 +1014,28 @@
           height: 50px;
           font-size: 1.5rem;
         }
+      }
+      
+      @media (max-width: 576px) {
+        .quick-actions {
+          grid-template-columns: 1fr;
+        }
+        
+        .pagetitle h1 {
+          font-size: 1.5rem;
+        }
+        
+        .card-icon-container {
+          width: 45px;
+          height: 45px;
+          font-size: 1.3rem;
+        }
+        
+        .quick-action-icon {
+          width: 45px;
+          height: 45px;
+          font-size: 1.3rem;
+        }
         
         .recent-activity li {
           flex-direction: column;
@@ -976,38 +1046,69 @@
           margin-right: 0;
           margin-bottom: 10px;
         }
-      }
-      
-      /* Sidebar toggle button for mobile */
-      .sidebar-toggle {
-        display: none;
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 1050;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        font-size: 1.2rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      }
-      
-      @media (max-width: 992px) {
-        .sidebar-toggle {
-          display: flex;
-          align-items: center;
-          justify-content: center;
+        
+        .leaderboard-item {
+          flex-direction: column;
+          align-items: flex-start;
         }
         
-        body.sidebar-open #main {
-          margin-left: var(--sidebar-width);
+        .rank {
+          margin-right: 0;
+          margin-bottom: 10px;
         }
         
-        body.sidebar-open .sidebar-toggle {
-          left: calc(var(--sidebar-width) - 10px);
+        .calendar-stats .stat-value {
+          font-size: 0.9rem;
+        }
+        
+        .calendar-stats .stat-label {
+          font-size: 0.6rem;
+        }
+        
+        .calendar-day {
+          padding: 5px 2px;
+          font-size: 0.8rem;
+        }
+        
+        .calendar-day-header {
+          font-size: 0.7rem;
+        }
+      }
+      
+      @media (max-width: 400px) {
+        .pagetitle h1 {
+          font-size: 1.3rem;
+        }
+        
+        .dashboard-card h5 {
+          font-size: 1rem;
+        }
+        
+        .dashboard-card h2 {
+          font-size: 1.5rem;
+        }
+        
+        .quick-action-title {
+          font-size: 0.9rem;
+        }
+        
+        .quick-action-desc {
+          font-size: 0.75rem;
+        }
+        
+        .quick-action-btn {
+          padding: 4px 10px;
+          font-size: 0.7rem;
+        }
+        
+        .recent-activity li {
+          padding: 10px 0;
+        }
+        
+        .activity-icon {
+          width: 35px;
+          height: 35px;
+          font-size: 0.9rem;
         }
       }
       
@@ -1020,49 +1121,13 @@
       .btn, .dropdown-item, .nav-link, .quick-action-btn {
         transition: all 0.3s ease;
       }
-      
-      /* Add ripple effect to buttons */
-      .btn-effect {
-        position: relative;
-        overflow: hidden;
-      }
-      
-      .btn-effect:after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 5px;
-        height: 5px;
-        background: rgba(255, 255, 255, 0.5);
-        opacity: 0;
-        border-radius: 100%;
-        transform: scale(1, 1) translate(-50%);
-        transform-origin: 50% 50%;
-      }
-      
-      .btn-effect:focus:not(:active)::after {
-        animation: ripple 1s ease-out;
-      }
-      
-      @keyframes ripple {
-        0% {
-          transform: scale(0, 0);
-          opacity: 0.5;
-        }
-        20% {
-          transform: scale(25, 25);
-          opacity: 0.3;
-        }
-        100% {
-          opacity: 0;
-          transform: scale(40, 40);
-        }
-      }
     </style>
   </head>
 
   <body>
+    
+  <%- include("../utils/header") %>
+  <%- include("side"); %>
     <!-- Enhanced Animated Background -->
     <div class="bg-animation">
       <span></span>
@@ -1077,8 +1142,6 @@
       <i class="bi bi-list"></i>
     </button>
     
-    <%- include("../utils/header") %>
-    <%- include("side")%>
     
     <main id="main" class="main">
       <!-- Main Content Column -->
@@ -1756,7 +1819,8 @@
     </main>
     <!-- End #main -->
 
-    <%- include("../utils/footer") %>
+   
+  <%- include("../utils/footer"); %>  
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
       <i class="bi bi-arrow-up-short"></i>
@@ -2118,25 +2182,55 @@
           updateCarousel();
         }
 
-        // Theme switch functionality (connected to sidebar)
-        function toggleDarkMode() {
+        // Theme switch functionality
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', function() {
           document.body.classList.toggle('dark-mode');
           localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+          
+          // Update icon
+          const icon = this.querySelector('i');
+          if (document.body.classList.contains('dark-mode')) {
+            icon.classList.remove('bi-moon-stars');
+            icon.classList.add('bi-sun');
+          } else {
+            icon.classList.remove('bi-sun');
+            icon.classList.add('bi-moon-stars');
+          }
+          
           createBubbles(); // Recreate bubbles with new theme settings
-        }
+        });
 
         // Check for saved theme preference
         if (localStorage.getItem('darkMode') === 'true') {
           document.body.classList.add('dark-mode');
+          const icon = themeToggle.querySelector('i');
+          icon.classList.remove('bi-moon-stars');
+          icon.classList.add('bi-sun');
         }
 
-        // Listen for theme switch events from sidebar
-        window.addEventListener('themeToggle', toggleDarkMode);
-        
         // Sidebar toggle functionality for mobile
         const sidebarToggle = document.getElementById('sidebarToggle');
         sidebarToggle.addEventListener('click', function() {
           document.body.classList.toggle('sidebar-open');
+          
+          // Add ripple effect
+          const ripple = document.createElement('span');
+          ripple.classList.add('ripple-effect');
+          this.appendChild(ripple);
+          
+          setTimeout(() => {
+            ripple.remove();
+          }, 1000);
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+          if (window.innerWidth <= 992 && document.body.classList.contains('sidebar-open')) {
+            if (!e.target.closest('#sidebar') && !e.target.closest('#sidebarToggle')) {
+              document.body.classList.remove('sidebar-open');
+            }
+          }
         });
         
         // Add ripple effect to all buttons with btn-effect class
