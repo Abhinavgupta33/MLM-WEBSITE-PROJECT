@@ -54,6 +54,7 @@
         --light-color: #f8fafc;
         --card-radius: 16px;
         --transition-speed: 0.3s;
+        --sidebar-width: 275px;
       }
       
       body {
@@ -67,8 +68,8 @@
         transition: background-color 0.5s ease, color 0.5s ease;
       }
       
-      /* Animated Background Elements */
-      .bg-particles {
+      /* Enhanced Animated Background */
+      .bg-animation {
         position: fixed;
         top: 0;
         left: 0;
@@ -78,21 +79,85 @@
         overflow: hidden;
       }
       
-      .particle {
+      .bg-animation span {
         position: absolute;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: rgba(99, 102, 241, 0.1);
         border-radius: 50%;
-        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-        animation: float 15s infinite ease-in-out;
-        filter: blur(1px);
+        pointer-events: none;
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.2),
+                    0 0 40px rgba(99, 102, 241, 0.2),
+                    0 0 60px rgba(99, 102, 241, 0.2);
+        animation: animate 15s linear infinite;
       }
       
-      @keyframes float {
-        0%, 100% {
+      .bg-animation span:nth-child(1) {
+        top: 20%;
+        left: 20%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 0s;
+        animation-duration: 12s;
+      }
+      
+      .bg-animation span:nth-child(2) {
+        top: 60%;
+        left: 80%;
+        width: 60px;
+        height: 60px;
+        animation-delay: 2s;
+        animation-duration: 18s;
+      }
+      
+      .bg-animation span:nth-child(3) {
+        top: 40%;
+        left: 40%;
+        width: 40px;
+        height: 40px;
+        animation-delay: 4s;
+        animation-duration: 15s;
+      }
+      
+      .bg-animation span:nth-child(4) {
+        top: 80%;
+        left: 30%;
+        width: 50px;
+        height: 50px;
+        animation-delay: 6s;
+        animation-duration: 12s;
+      }
+      
+      .bg-animation span:nth-child(5) {
+        top: 10%;
+        left: 70%;
+        width: 70px;
+        height: 70px;
+        animation-delay: 8s;
+        animation-duration: 20s;
+      }
+      
+      @keyframes animate {
+        0% {
           transform: translateY(0) rotate(0deg);
+          opacity: 1;
         }
         50% {
-          transform: translateY(-20px) rotate(5deg);
+          opacity: 0.5;
         }
+        100% {
+          transform: translateY(-1000px) rotate(720deg);
+          opacity: 0;
+        }
+      }
+      
+      /* Dark mode background adjustments */
+      body.dark-mode .bg-animation span {
+        background: rgba(99, 102, 241, 0.05);
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.1),
+                    0 0 40px rgba(99, 102, 241, 0.1),
+                    0 0 60px rgba(99, 102, 241, 0.1);
       }
       
       /* Glow Effect */
@@ -123,16 +188,17 @@
         display: flex;
         flex: 1;
         padding-top: var(--header-height);
+        margin-left: var(--sidebar-width);
+        transition: margin-left 0.3s ease;
       }
       
       /* Main Content Area - Enhanced */
       .main-content {
-        margin-left: 275px;
         flex: 1;
         padding: 30px;
         background-color: #f8f9fa;
-        width: 100%;
-        transition: background-color 0.5s ease;
+        width: calc(100% - var(--sidebar-width));
+        transition: background-color 0.5s ease, width 0.3s ease;
       }
       
       /* Dashboard Cards - Enhanced */
@@ -827,9 +893,13 @@
       }
       
       @media (max-width: 992px) {
-        .main-content {
-          padding: 20px 15px;
+        #main {
           margin-left: 0;
+        }
+        
+        .main-content {
+          width: 100%;
+          padding: 20px 15px;
         }
         
         .quick-actions {
@@ -853,7 +923,7 @@
         }
         
         .quick-actions {
-          grid-template-columns: 1fr;
+          grid-template-columns: 1fr 1fr;
         }
         
         .leaderboard-item,
@@ -875,15 +945,141 @@
           right: 5px;
         }
       }
+      
+      @media (max-width: 576px) {
+        .quick-actions {
+          grid-template-columns: 1fr;
+        }
+        
+        .pagetitle h1 {
+          font-size: 1.5rem;
+        }
+        
+        .card-icon-container {
+          width: 50px;
+          height: 50px;
+          font-size: 1.5rem;
+        }
+        
+        .quick-action-icon {
+          width: 50px;
+          height: 50px;
+          font-size: 1.5rem;
+        }
+        
+        .recent-activity li {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        
+        .activity-icon {
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+      }
+      
+      /* Sidebar toggle button for mobile */
+      .sidebar-toggle {
+        display: none;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1050;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+      
+      @media (max-width: 992px) {
+        .sidebar-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        body.sidebar-open #main {
+          margin-left: var(--sidebar-width);
+        }
+        
+        body.sidebar-open .sidebar-toggle {
+          left: calc(var(--sidebar-width) - 10px);
+        }
+      }
+      
+      /* Remove unnecessary space before footer */
+      #main {
+        padding-bottom: 0;
+      }
+      
+      /* Add subtle animation to all interactive elements */
+      .btn, .dropdown-item, .nav-link, .quick-action-btn {
+        transition: all 0.3s ease;
+      }
+      
+      /* Add ripple effect to buttons */
+      .btn-effect {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .btn-effect:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%);
+        transform-origin: 50% 50%;
+      }
+      
+      .btn-effect:focus:not(:active)::after {
+        animation: ripple 1s ease-out;
+      }
+      
+      @keyframes ripple {
+        0% {
+          transform: scale(0, 0);
+          opacity: 0.5;
+        }
+        20% {
+          transform: scale(25, 25);
+          opacity: 0.3;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(40, 40);
+        }
+      }
     </style>
   </head>
 
   <body>
-    <!-- Animated Background Particles -->
-    <div class="bg-particles" id="particles-js"></div>
+    <!-- Enhanced Animated Background -->
+    <div class="bg-animation">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    
+    <!-- Sidebar Toggle Button for Mobile -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+      <i class="bi bi-list"></i>
+    </button>
     
     <%- include("../utils/header") %>
     <%- include("side")%>
+    
     <main id="main" class="main">
       <!-- Main Content Column -->
       <div class="main-content">
@@ -900,7 +1096,7 @@
                 </nav>
               </div>
               <div>
-                <button class="btn btn-primary pulse">
+                <button class="btn btn-primary pulse btn-effect">
                   <i class="bi bi-plus-circle me-2"></i>Create New
                 </button>
               </div>
@@ -1183,7 +1379,7 @@
                     </ul>
                     
                     <div class="mt-3">
-                      <button class="btn btn-sm btn-outline-primary w-100">
+                      <button class="btn btn-sm btn-outline-primary w-100 btn-effect">
                         <i class="bi bi-plus-circle me-2"></i>Add New Task
                       </button>
                     </div>
@@ -1266,7 +1462,7 @@
                     </div>
                     
                     <div class="text-center mt-3">
-                      <a href="/leaderboard" class="btn btn-sm btn-outline-primary">View Full Leaderboard</a>
+                      <a href="/leaderboard" class="btn btn-sm btn-outline-primary btn-effect">View Full Leaderboard</a>
                     </div>
                   </div>
                 </div>
@@ -1347,11 +1543,11 @@
               <div class="col-lg-4">
                 <div class="card dashboard-card hover-grow calendar-widget" data-aos="fade-up" data-aos-delay="200">
                   <div class="calendar-header d-flex justify-content-between align-items-center">
-                    <button class="btn btn-sm btn-outline-light prev-month">
+                    <button class="btn btn-sm btn-outline-light prev-month btn-effect">
                       <i class="bi bi-chevron-left"></i>
                     </button>
                     <h5 class="mb-0" id="calendar-month-year">June 2023</h5>
-                    <button class="btn btn-sm btn-outline-light next-month">
+                    <button class="btn btn-sm btn-outline-light next-month btn-effect">
                       <i class="bi bi-chevron-right"></i>
                     </button>
                   </div>
@@ -1397,7 +1593,7 @@
                   
                   <div class="card-footer bg-transparent border-top-0 pt-0">
                     <a href="/meeting">
-                      <button class="btn btn-sm btn-primary w-100 add-event-btn">
+                      <button class="btn btn-sm btn-primary w-100 add-event-btn btn-effect">
                       <i class="bi bi-plus-circle me-2"></i>Add Event
                     </button>
                   </a>
@@ -1414,12 +1610,12 @@
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                       <h5 class="card-title mb-0">Customer Reviews</h5>
-                      <a href="#" class="btn btn-sm btn-outline-primary">View All Reviews</a>
+                      <a href="#" class="btn btn-sm btn-outline-primary btn-effect">View All Reviews</a>
                     </div>
                     
                     <div class="reviews-section">
                       <div class="reviews-carousel">
-                        <button class="review-nav-btn review-prev">
+                        <button class="review-nav-btn review-prev btn-effect">
                           <i class="bi bi-chevron-left"></i>
                         </button>
                         
@@ -1535,7 +1731,7 @@
                           </div>
                         </div>
                         
-                        <button class="review-nav-btn review-next">
+                        <button class="review-nav-btn review-next btn-effect">
                           <i class="bi bi-chevron-right"></i>
                         </button>
                       </div>
@@ -1576,9 +1772,6 @@
     <script src="assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Particles.js -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
     <!-- AOS Animation -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
@@ -1595,27 +1788,40 @@
           once: true
         });
         
-        // Initialize particles.js
-        particlesJS('particles-js', {
-          particles: {
-            number: { value: 30, density: { enable: true, value_area: 800 } },
-            color: { value: "#6366f1" },
-            shape: { type: "circle" },
-            opacity: { value: 0.3, random: true },
-            size: { value: 5, random: true },
-            line_linked: { enable: false },
-            move: {
-              enable: true,
-              speed: 1,
-              direction: "none",
-              random: true,
-              straight: false,
-              out_mode: "out",
-              bounce: false
-            }
-          },
-          interactivity: { detect_on: "canvas", events: { onhover: { enable: false } } }
-        });
+        // Enhanced background animation
+        function createBubbles() {
+          const bgAnimation = document.querySelector('.bg-animation');
+          
+          // Clear existing bubbles
+          bgAnimation.innerHTML = '';
+          
+          // Create bubbles based on theme
+          const isDarkMode = document.body.classList.contains('dark-mode');
+          const bubbleCount = isDarkMode ? 15 : 25;
+          const bubbleSizeMin = isDarkMode ? 40 : 20;
+          const bubbleSizeMax = isDarkMode ? 100 : 80;
+          const bubbleOpacity = isDarkMode ? 0.05 : 0.1;
+          
+          for (let i = 0; i < bubbleCount; i++) {
+            const bubble = document.createElement('span');
+            const size = Math.random() * (bubbleSizeMax - bubbleSizeMin) + bubbleSizeMin;
+            const posX = Math.random() * 100;
+            const delay = Math.random() * 15;
+            const duration = 15 + Math.random() * 15;
+            
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${posX}%`;
+            bubble.style.animationDelay = `${delay}s`;
+            bubble.style.animationDuration = `${duration}s`;
+            bubble.style.opacity = bubbleOpacity;
+            
+            bgAnimation.appendChild(bubble);
+          }
+        }
+        
+        // Initial bubble creation
+        createBubbles();
         
         // Initialize charts
         const usersCtx = document.getElementById('usersChart').getContext('2d');
@@ -1916,6 +2122,7 @@
         function toggleDarkMode() {
           document.body.classList.toggle('dark-mode');
           localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+          createBubbles(); // Recreate bubbles with new theme settings
         }
 
         // Check for saved theme preference
@@ -1925,6 +2132,31 @@
 
         // Listen for theme switch events from sidebar
         window.addEventListener('themeToggle', toggleDarkMode);
+        
+        // Sidebar toggle functionality for mobile
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        sidebarToggle.addEventListener('click', function() {
+          document.body.classList.toggle('sidebar-open');
+        });
+        
+        // Add ripple effect to all buttons with btn-effect class
+        document.querySelectorAll('.btn-effect').forEach(button => {
+          button.addEventListener('click', function(e) {
+            const x = e.clientX - e.target.getBoundingClientRect().left;
+            const y = e.clientY - e.target.getBoundingClientRect().top;
+            
+            const ripple = document.createElement('span');
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            ripple.classList.add('ripple-effect');
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+              ripple.remove();
+            }, 1000);
+          });
+        });
       });
     </script>
   </body>
