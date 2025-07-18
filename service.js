@@ -1171,6 +1171,8 @@ catch{
 
 
 exports.ser_buynow = async(req,res) => {
+
+    try{
     console.log("i am abhi");
     
     let uid = req.user.user_id;
@@ -1181,17 +1183,11 @@ exports.ser_buynow = async(req,res) => {
         
 
     let cart = await tble3.find({addedby:uid}); 
-    let abhi1 = cart.product_quantity;
-    res.cookie("buynowname",product);
-    res.cookie("buynowquantity",quantity);
-    console.log(abhi1);
-    if(abhi1>quantity){
     res.render("buynow",{cart,user_image});
-}
-
-else{
+    }
+    catch{
     res.render("itemnotavailable",{name,user_image})
-}
+    }
 }
 
 

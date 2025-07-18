@@ -17,15 +17,18 @@
       margin: 0 auto;
       padding: 20px;
       background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     .header {
       text-align: center;
       padding: 20px 0;
       background-color: #333;
       color: white;
+      margin-bottom: 30px;
     }
     .product-info {
       padding: 20px;
+      margin-bottom: 30px;
     }
     .product-price {
       font-size: 18px;
@@ -34,6 +37,9 @@
     .form-container {
       max-width: 600px;
       margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
     }
     .form-group {
       margin-bottom: 15px;
@@ -42,15 +48,26 @@
       font-size: 24px;
       font-weight: bold;
       color: #333;
+      text-align: right;
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
     }
     .cart-item {
       border: 1px solid #ddd;
       border-radius: 5px;
       padding: 15px;
       margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cart-item-info {
+      flex: 1;
     }
     .cart-item h4 {
       margin: 0 0 10px;
+      color: #333;
     }
     .button-group {
       display: flex;
@@ -64,9 +81,18 @@
       padding: 10px 20px;
       border-radius: 4px;
       cursor: pointer;
+      transition: background-color 0.3s;
     }
     .razorpay-btn:hover {
       background-color: #1a73e8;
+    }
+    .btn-primary {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+    .btn-primary:hover {
+      background-color: #218838;
+      border-color: #1e7e34;
     }
   </style>
 </head>
@@ -82,44 +108,54 @@
     <div class="product-info">
       <h2>Your Cart Items</h2>
       <div id="cartItems">
-       
-          <div class="cart-item">
-            <h4 id="hello"> <%= cart.product_name %></h4>
-            <p>Price: <%= cart.product_price %></p>
-            <p name="quantity">Quantity: <%=quantity %></p>
-            <p>Subtotal: <%= cart.product_price * quantity %></p>
+        <% if(cart && cart.length > 0) { %>
+          <% let total = 0; %>
+          <% cart.forEach(item => { %>
+            <div class="cart-item">
+              <div class="cart-item-info">
+                <h4><%= item.product_name %></h4>
+                <p>Price: ₹<%= item.product_price %></p>
+                <p>Quantity: <%= item.product_quantity %></p>
+                <p>Subtotal: ₹<%= item.product_price * item.quantity %></p>
+              </div>
+            </div>
+            <% total += item.product_price * item.product_quantity; %>
+          <% }); %>
+          
+          <div class="total-amount">
+            <p>Total Amount: ₹<span id="totalAmount"><%= total %></span></p>
           </div>
-       
-      </div>
-      
-      <div class="total-amount">
-        <p>Total Amount: <span id="totalAmount"><%=  cart.product_price * quantity,  %></span></p>
+        <% } else { %>
+          <p>Your cart is empty</p>
+        <% } %>
       </div>
     </div>
 
     <!-- Form Section -->
-    <h3>Enter Your Details to Confirm Purchase</h3>
-    <form action="/confirm_purchase1" method="POST" class="form-container">
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label for="address">Address:</label>
-        <textarea id="address" name="address" class="form-control" rows="4" required></textarea>
-      </div>
-      
-      <input type="hidden" id="hiddenTotalAmount" name="totalAmount" value="">
-      
-      <div class="button-group">
-        <button type="submit" class="btn btn-primary">Confirm Purchase</button>
-        <button type="button" id="rzp-button1" class="razorpay-btn">Pay with Razorpay</button>
-      </div>
-    </form>
+    <div class="form-container">
+      <h3>Enter Your Details to Confirm Purchase</h3>
+      <form action="/confirm_purchase1" method="POST">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Address:</label>
+          <textarea id="address" name="address" class="form-control" rows="4" required></textarea>
+        </div>
+        
+        <input type="hidden" id="hiddenTotalAmount" name="totalAmount" value="">
+        
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Confirm Purchase</button>
+          <button type="button" id="rzp-button1" class="razorpay-btn">Pay with Razorpay</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- Include Bootstrap JS and dependencies -->
@@ -156,7 +192,7 @@
           "currency": "INR",
           "name": "Your Company Name",
           "description": "Purchase Payment",
-          "image": "https://example.com/your_logo.jpg",
+          "image": "<%= user_image || '/default-image.jpg' %>",
           "prefill": {
             "name": name,
             "email": email,
@@ -173,6 +209,12 @@
             alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
             // You can submit the form programmatically here if needed
             document.querySelector('form').submit();
+          },
+          "modal": {
+            "ondismiss": function() {
+              // This function is called when the payment popup is closed
+              console.log('Payment popup closed');
+            }
           }
         };
         
