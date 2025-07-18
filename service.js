@@ -1009,10 +1009,18 @@ exports.ser_shopping = async(req,res) => {
 
     let uid = req.user.user_id;
   
+let user = await tble.findOne({user_id:uid}); 
+let name = user.your_name;
+console.log(name);
+
+    //console.log(data)
+    let image = await tble.findOne({user_id:uid});
+    let user_image = image.picture;
+        
 
     let cart = await tble3.find({addedby:uid});
     //console.log(data)
-    res.render("addtocart",{cart});
+    res.render("addtocart",{cart,user_image});
 
 
    
@@ -1171,18 +1179,14 @@ exports.ser_buynow = async(req,res) => {
     let image = await tble.findOne({user_id:uid});
     let user_image = image.picture;
         
-    let quantity = await parseInt(req.query.quantity);
-    let product = await req.query.product_no;
-    console.log(quantity);
-    console.log(uid);
 
-    let cart = await tble2.findOne({product_no:product})
+    let cart = await tble3.find({addedby:uid}); 
     let abhi1 = cart.product_quantity;
     res.cookie("buynowname",product);
     res.cookie("buynowquantity",quantity);
     console.log(abhi1);
     if(abhi1>quantity){
-    res.render("buynow1",{quantity,cart});
+    res.render("buynow",{cart,user_image});
 }
 
 else{
@@ -1229,6 +1233,16 @@ else{
 
 
 
+exports.ser_update_quantity = async(req,res) => {
+
+    let quantity = req.body.quantity;
+    let product_name = req.body.productId;
+    await tble3.updateOne({product_name:product_name},{product_quantity:quantity});
+    res.redirect("/shopping")
+
+
+
+}
 
 
 

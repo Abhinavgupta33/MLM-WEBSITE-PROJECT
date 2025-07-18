@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Light Theme */
             --primary-color: #4361ee;
             --primary-light: #eef2ff;
             --secondary-color: #3f37c9;
@@ -20,18 +21,73 @@
             --dark-gray: #495057;
             --text-color: #2b2d42;
             --white: #ffffff;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --pagination-bg: var(--white);
+            --pagination-hover: var(--light-gray);
+            --pagination-active: var(--primary-color);
+            --pagination-text: var(--text-color);
+            --pagination-active-text: var(--white);
+            
+            /* Dark Theme - will be applied when dark class is added to body */
+            --dark-primary-color: #5e72e4;
+            --dark-primary-light: #1a237e;
+            --dark-secondary-color: #3949ab;
+            --dark-accent-color: #00acc1;
+            --dark-success-color: #388e3c;
+            --dark-warning-color: #ffa000;
+            --dark-danger-color: #d32f2f;
+            --dark-light-gray: #121212;
+            --dark-medium-gray: #1e1e1e;
+            --dark-dark-gray: #bdbdbd;
+            --dark-text-color: #e0e0e0;
+            --dark-white: #121212;
+            --dark-bg-color: #121212;
+            --dark-card-bg: #1e1e1e;
+            --dark-border-color: rgba(255, 255, 255, 0.1);
+            --dark-pagination-bg: var(--dark-card-bg);
+            --dark-pagination-hover: var(--dark-medium-gray);
+            --dark-pagination-active: var(--dark-primary-color);
+            --dark-pagination-text: var(--dark-text-color);
+            --dark-pagination-active-text: var(--dark-text-color);
         }
         
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--light-gray);
+            background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Dark theme styles */
+        body.dark {
+            --primary-color: var(--dark-primary-color);
+            --primary-light: var(--dark-primary-light);
+            --secondary-color: var(--dark-secondary-color);
+            --accent-color: var(--dark-accent-color);
+            --success-color: var(--dark-success-color);
+            --warning-color: var(--dark-warning-color);
+            --danger-color: var(--dark-danger-color);
+            --light-gray: var(--dark-light-gray);
+            --medium-gray: var(--dark-medium-gray);
+            --dark-gray: var(--dark-dark-gray);
+            --text-color: var(--dark-text-color);
+            --white: var(--dark-white);
+            --bg-color: var(--dark-bg-color);
+            --card-bg: var(--dark-card-bg);
+            --border-color: var(--dark-border-color);
+            --pagination-bg: var(--dark-pagination-bg);
+            --pagination-hover: var(--dark-pagination-hover);
+            --pagination-active: var(--dark-pagination-active);
+            --pagination-text: var(--dark-pagination-text);
+            --pagination-active-text: var(--dark-pagination-active-text);
         }
 
         /* Layout wrapper to prevent overlap */
@@ -41,34 +97,45 @@
             padding-top: 60px; /* Space for header */
         }
 
-        /* Sidebar styling (preserving your existing sidebar structure) */
+        /* Sidebar styling */
         .sidebar {
             width: 250px;
-            background-color: var(--white);
+            background-color: var(--card-bg);
             padding: 20px;
             position: fixed;
-            top: 60px; /* Below header */
+            top: 60px;
             left: 0;
             bottom: 0;
             overflow-y: auto;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        body.dark .sidebar {
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
         }
 
         /* Main content area */
         .main-content {
             flex: 1;
-            margin-left: 250px; /* Same as sidebar width */
+            margin-left: 250px;
             padding: 20px;
+            transition: margin-left 0.3s ease;
         }
         
         .container {
             max-width: 1200px;
             margin: 20px auto;
-            background: var(--white);
+            background: var(--card-bg);
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        body.dark .container {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
         
         .profile-header {
@@ -76,7 +143,7 @@
             align-items: center;
             margin-bottom: 40px;
             padding-bottom: 20px;
-            border-bottom: 1px solid var(--medium-gray);
+            border-bottom: 1px solid var(--border-color);
         }
         
         .profile-pic {
@@ -87,6 +154,11 @@
             margin-right: 25px;
             border: 4px solid var(--accent-color);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        body.dark .profile-pic {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
         .profile-name {
@@ -94,12 +166,14 @@
             font-weight: 600;
             margin: 0 0 5px 0;
             color: var(--primary-color);
+            transition: color 0.3s ease;
         }
         
         .profile-subtitle {
             font-size: 16px;
             color: var(--dark-gray);
             margin: 0;
+            transition: color 0.3s ease;
         }
         
         .activity-header {
@@ -107,6 +181,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         
         .activity-title {
@@ -115,11 +191,13 @@
             display: flex;
             align-items: center;
             margin: 0;
+            transition: color 0.3s ease;
         }
         
         .activity-title i {
             margin-right: 12px;
             color: var(--accent-color);
+            transition: color 0.3s ease;
         }
         
         .refresh-btn {
@@ -133,25 +211,50 @@
             display: flex;
             align-items: center;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
         
         .refresh-btn:hover {
             background-color: var(--secondary-color);
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .refresh-btn:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
         .refresh-btn i {
             margin-right: 6px;
+        }
+
+        /* Ripple effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
         }
         
         .activity-list {
             display: flex;
             flex-direction: column;
             gap: 15px;
+            margin-bottom: 30px;
         }
         
         .activity-card {
-            background: var(--white);
+            background: var(--card-bg);
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -159,11 +262,20 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+        }
+
+        body.dark .activity-card {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
         
         .activity-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .activity-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .activity-card::before {
@@ -174,6 +286,7 @@
             width: 4px;
             height: 100%;
             background: var(--primary-color);
+            transition: background-color 0.3s ease;
         }
         
         .activity-content {
@@ -193,6 +306,7 @@
             color: var(--primary-color);
             font-size: 18px;
             flex-shrink: 0;
+            transition: all 0.3s ease;
         }
         
         .activity-info {
@@ -203,12 +317,14 @@
             font-weight: 500;
             margin: 0 0 5px 0;
             color: var(--text-color);
+            transition: color 0.3s ease;
         }
         
         .activity-detail {
             color: var(--dark-gray);
             font-size: 14px;
             margin: 0 0 10px 0;
+            transition: color 0.3s ease;
         }
         
         .activity-meta {
@@ -217,6 +333,7 @@
             justify-content: space-between;
             font-size: 12px;
             color: var(--dark-gray);
+            transition: color 0.3s ease;
         }
         
         .activity-time {
@@ -227,6 +344,7 @@
         .activity-time i {
             margin-right: 5px;
             font-size: 12px;
+            color: var(--dark-gray);
         }
         
         .activity-badge {
@@ -234,11 +352,16 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+            transition: all 0.3s ease;
         }
         
         .badge-new {
             background-color: rgba(67, 97, 238, 0.1);
             color: var(--primary-color);
+        }
+
+        body.dark .badge-new {
+            background-color: rgba(67, 97, 238, 0.3);
         }
         
         .no-activity {
@@ -247,22 +370,34 @@
             background-color: var(--light-gray);
             border-radius: 10px;
             color: var(--dark-gray);
+            transition: all 0.3s ease;
+        }
+
+        body.dark .no-activity {
+            background-color: var(--medium-gray);
         }
         
         .no-activity i {
             font-size: 48px;
             color: var(--medium-gray);
             margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        body.dark .no-activity i {
+            color: var(--dark-gray);
         }
         
         .no-activity h3 {
             margin: 0 0 10px 0;
             font-weight: 500;
+            color: var(--text-color);
         }
         
         .no-activity p {
             margin: 0;
             font-size: 14px;
+            color: var(--dark-gray);
         }
         
         /* Activity type indicators */
@@ -274,6 +409,10 @@
             background-color: rgba(76, 175, 80, 0.1);
             color: var(--success-color);
         }
+
+        body.dark .activity-login .activity-icon {
+            background-color: rgba(76, 175, 80, 0.3);
+        }
         
         .activity-update {
             border-left-color: var(--warning-color);
@@ -282,6 +421,10 @@
         .activity-update .activity-icon {
             background-color: rgba(255, 152, 0, 0.1);
             color: var(--warning-color);
+        }
+
+        body.dark .activity-update .activity-icon {
+            background-color: rgba(255, 152, 0, 0.3);
         }
         
         .activity-error {
@@ -292,27 +435,177 @@
             background-color: rgba(244, 67, 54, 0.1);
             color: var(--danger-color);
         }
+
+        body.dark .activity-error .activity-icon {
+            background-color: rgba(244, 67, 54, 0.3);
+        }
         
-        .activity-info {
+        .activity-info-type {
             border-left-color: var(--accent-color);
         }
         
-        .activity-info .activity-icon {
+        .activity-info-type .activity-icon {
             background-color: rgba(76, 201, 240, 0.1);
             color: var(--accent-color);
         }
+
+        body.dark .activity-info-type .activity-icon {
+            background-color: rgba(76, 201, 240, 0.3);
+        }
         
+        /* Pagination styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .page-item {
+            list-style: none;
+        }
+
+        .page-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            padding: 0 12px;
+            border-radius: 6px;
+            background-color: var(--pagination-bg);
+            color: var(--pagination-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .page-link:hover {
+            background-color: var(--pagination-hover);
+        }
+
+        .page-item.active .page-link {
+            background-color: var(--pagination-active);
+            color: var(--pagination-active-text);
+            border-color: var(--pagination-active);
+        }
+
+        .page-item.disabled .page-link {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .page-link i {
+            font-size: 12px;
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes cardHover {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(-3px); }
         }
         
         .activity-card {
             animation: fadeIn 0.4s ease forwards;
             opacity: 0;
         }
-        
+
+        .activity-card:hover {
+            animation: cardHover 0.3s ease forwards;
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark .theme-toggle {
+            background-color: var(--accent-color);
+        }
+
+        /* Loading skeletons */
+        .skeleton {
+            animation: skeleton-loading 1.5s infinite ease-in-out;
+            border-radius: 4px;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-color: var(--light-gray); }
+            50% { background-color: var(--medium-gray); }
+            100% { background-color: var(--light-gray); }
+        }
+
+        body.dark .skeleton {
+            animation: skeleton-loading-dark 1.5s infinite ease-in-out;
+        }
+
+        @keyframes skeleton-loading-dark {
+            0% { background-color: var(--medium-gray); }
+            50% { background-color: var(--dark-gray); }
+            100% { background-color: var(--medium-gray); }
+        }
+
+        .skeleton-card {
+            display: flex;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .skeleton-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .skeleton-content {
+            flex: 1;
+        }
+
+        .skeleton-line {
+            height: 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+
+        .skeleton-line.short {
+            width: 60%;
+        }
+
+        .skeleton-line.medium {
+            width: 80%;
+        }
+
         /* Responsive styles */
         @media (max-width: 992px) {
             .sidebar {
@@ -358,6 +651,42 @@
             .activity-card {
                 padding: 15px;
             }
+
+            .pagination {
+                gap: 5px;
+            }
+
+            .page-link {
+                min-width: 35px;
+                height: 35px;
+                padding: 0 8px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-pic {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .page-link {
+                min-width: 30px;
+                height: 30px;
+                padding: 0 6px;
+                font-size: 13px;
+            }
         }
         
         /* Loading animation */
@@ -374,16 +703,47 @@
             border-radius: 50%;
             border-top-color: var(--primary-color);
             animation: spin 1s ease-in-out infinite;
+            transition: border-color 0.3s ease;
         }
         
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Floating notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--success-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-20px);
+        }
+
+        .notification i {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
-    <%- include("../utils/header")%> 
-    <%- include("side")%>
+    
+  <%- include("../utils/header") %>
+  <%- include("side"); %>     
     <div class="layout-wrapper">
         <div class="main-content">
             <div class="container">
@@ -414,8 +774,18 @@
 
                 <% if(recent_activity && recent_activity.length > 0) { %>
                     <div class="activity-list" id="activityList">
-                        <% for(let i = 0; i < recent_activity.length; i++) { 
-                            let activity = recent_activity[i];
+                        <% 
+                        // Pagination variables
+                        const pageQuery = typeof query !== 'undefined' && query.page ? query.page : 1;
+                        const activitiesPerPage = 15;
+                        const currentPage = parseInt(pageQuery) || 1;
+                        const startIndex = (currentPage - 1) * activitiesPerPage;
+                        const endIndex = Math.min(startIndex + activitiesPerPage, recent_activity.length);
+                        const paginatedActivities = recent_activity.slice(startIndex, endIndex);
+                        const totalPages = Math.ceil(recent_activity.length / activitiesPerPage);
+                        
+                        for(let i = 0; i < paginatedActivities.length; i++) { 
+                            let activity = paginatedActivities[i];
                             let iconClass, activityTypeClass, icon;
                             
                             // Determine icon and activity type based on activity content
@@ -430,7 +800,7 @@
                                 activityTypeClass = 'activity-error';
                             } else {
                                 iconClass = 'fas fa-info-circle';
-                                activityTypeClass = 'activity-info';
+                                activityTypeClass = 'activity-info-type';
                             }
                             
                             // Check if activity is recent (last 15 minutes)
@@ -460,6 +830,72 @@
                             </div>
                         <% } %>
                     </div>
+
+                    <% if(totalPages > 1) { %>
+                        <nav class="pagination-container">
+                            <ul class="pagination" id="pagination">
+                                <% if(currentPage > 1) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= currentPage - 1 %>">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </span>
+                                    </li>
+                                <% } %>
+
+                                <% 
+                                // Show first page and ellipsis if needed
+                                if(currentPage > 3) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1">1</a>
+                                    </li>
+                                    <% if(currentPage > 4) { %>
+                                        <li class="page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    <% } 
+                                }
+
+                                // Show page numbers around current page
+                                for(let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) { %>
+                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                                    </li>
+                                <% }
+
+                                // Show last page and ellipsis if needed
+                                if(currentPage < totalPages - 2) { 
+                                    if(currentPage < totalPages - 3) { %>
+                                        <li class="page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    <% } %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= totalPages %>"><%= totalPages %></a>
+                                    </li>
+                                <% } %>
+
+                                <% if(currentPage < totalPages) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= currentPage + 1 %>">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </span>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    <% } %>
                 <% } else { %>
                     <div class="no-activity">
                         <i class="far fa-calendar-times"></i>
@@ -471,26 +907,139 @@
         </div>
     </div>
 
+    <!-- Theme toggle button -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Notification element -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationMessage">Activities refreshed successfully!</span>
+    </div>
+    
+  <%- include("../utils/footer"); %>  
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const refreshBtn = document.getElementById('refreshActivities');
             const activityList = document.getElementById('activityList');
+            const themeToggle = document.getElementById('themeToggle');
+            const notification = document.getElementById('notification');
+            const notificationMessage = document.getElementById('notificationMessage');
             
-            // Refresh activities
+            // Check for saved theme preference or use preferred color scheme
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.body.classList.add('dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            // Theme toggle functionality
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark');
+                
+                if (document.body.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+            
+            // Ripple effect for buttons
+            function createRipple(event) {
+                const button = event.currentTarget;
+                const circle = document.createElement("span");
+                const diameter = Math.max(button.clientWidth, button.clientHeight);
+                const radius = diameter / 2;
+                
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+                circle.classList.add("ripple");
+                
+                const ripple = button.getElementsByClassName("ripple")[0];
+                if (ripple) {
+                    ripple.remove();
+                }
+                
+                button.appendChild(circle);
+            }
+            
+            // Add ripple effect to all buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('click', createRipple);
+            });
+            
+            // Show notification
+            function showNotification(message, type = 'success') {
+                notificationMessage.textContent = message;
+                
+                // Set notification color based on type
+                switch(type) {
+                    case 'success':
+                        notification.style.backgroundColor = 'var(--success-color)';
+                        break;
+                    case 'error':
+                        notification.style.backgroundColor = 'var(--danger-color)';
+                        break;
+                    case 'warning':
+                        notification.style.backgroundColor = 'var(--warning-color)';
+                        break;
+                    case 'info':
+                        notification.style.backgroundColor = 'var(--accent-color)';
+                        break;
+                }
+                
+                notification.classList.add('show');
+                
+                // Hide after 3 seconds
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Refresh activities with skeleton loading
             refreshBtn.addEventListener('click', function() {
                 // Show loading state
                 refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
                 refreshBtn.disabled = true;
                 
+                // Create skeleton loading cards
+                const skeletonCount = Math.min(5, document.querySelectorAll('.activity-card').length) || 3;
+                const skeletonHtml = `
+                    <div class="skeleton-card">
+                        <div class="skeleton-icon skeleton"></div>
+                        <div class="skeleton-content">
+                            <div class="skeleton-line short skeleton"></div>
+                            <div class="skeleton-line medium skeleton"></div>
+                            <div class="skeleton-line skeleton" style="width: 40%"></div>
+                        </div>
+                    </div>
+                `.repeat(skeletonCount);
+                
+                if (activityList) {
+                    activityList.innerHTML = skeletonHtml;
+                }
+                
                 // Simulate loading (in a real app, this would be an AJAX call)
                 setTimeout(() => {
                     window.location.reload();
-                }, 1000);
+                    // In a real app, you would update the DOM with new data instead of reloading
+                    // showNotification('Activities refreshed successfully!', 'success');
+                }, 1500);
             });
             
             // Highlight new activities on page load
             const activities = document.querySelectorAll('.activity-card');
-            activities.forEach(activity => {
+            activities.forEach((activity, index) => {
+                // Add staggered animation delay
+                activity.style.animationDelay = `${index * 0.1}s`;
+                
                 // Add click handler for each activity
                 activity.addEventListener('click', function() {
                     // You could expand this to show more details
@@ -500,8 +1049,19 @@
             
             // Auto-refresh every 2 minutes
             setInterval(() => {
-                refreshBtn.click();
+                if (!document.hidden) { // Only refresh if page is visible
+                    if (refreshBtn) {
+                        refreshBtn.click();
+                    }
+                }
             }, 120000);
+            
+            // Detect page visibility for auto-refresh
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    // Page became visible, could trigger refresh if needed
+                }
+            });
         });
     </script>
 </body>
