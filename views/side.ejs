@@ -6,6 +6,8 @@
     <title>Responsive Sidebar</title>
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
             --sidebar-bg: #ffffff;
@@ -1258,7 +1260,7 @@
 
             <!-- User Manager Nav with Floating Submenu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#user-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="user-manager-nav">
+                <a class="nav-link collapsed" data-bs-toggle="collapse" href="#user-manager-nav" aria-expanded="false" aria-controls="user-manager-nav">
                     <div class="nav-icon">
                         <i class="bi bi-people"></i>
                         <div class="icon-aura"></div>
@@ -1318,7 +1320,7 @@
 
             <!-- Product Manager Nav -->
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#product-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="product-manager-nav">
+                <a class="nav-link collapsed" data-bs-toggle="collapse" href="#product-manager-nav" aria-expanded="false" aria-controls="product-manager-nav">
                     <div class="nav-icon">
                         <i class="bi bi-box-seam"></i>
                         <div class="icon-aura"></div>
@@ -1378,7 +1380,7 @@
 
             <!-- Mail Manager Nav -->
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#mail-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="mail-manager-nav">
+                <a class="nav-link collapsed" data-bs-toggle="collapse" href="#mail-manager-nav" aria-expanded="false" aria-controls="mail-manager-nav">
                     <div class="nav-icon">
                         <i class="bi bi-envelope"></i>
                         <div class="icon-aura"></div>
@@ -1501,7 +1503,16 @@
     </aside>
     <!-- End Sidebar -->
 
-  
+    <!-- Main Content -->
+    <main id="main">
+        <div class="container-fluid">
+            <h1>Dashboard Content</h1>
+            <p>This is the main content area that will be pushed when the sidebar is toggled.</p>
+        </div>
+    </main>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Enhanced Dark mode toggle with smooth transition
         document.getElementById('darkModeToggle').addEventListener('change', function() {

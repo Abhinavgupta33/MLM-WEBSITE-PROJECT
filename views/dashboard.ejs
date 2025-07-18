@@ -908,6 +908,19 @@
         transform: scale(1.1);
       }
       
+      /* Sidebar styles */
+      #sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: var(--sidebar-width);
+        height: 100vh;
+        z-index: 1000;
+        transition: transform 0.3s ease;
+        background: white;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      }
+      
       /* Ripple effect for buttons */
       .ripple-effect {
         position: absolute;
@@ -942,6 +955,14 @@
           padding: 20px 15px;
         }
         
+        #sidebar {
+          transform: translateX(-100%);
+        }
+        
+        body.sidebar-open #sidebar {
+          transform: translateX(0);
+        }
+        
         .quick-actions {
           grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         }
@@ -962,12 +983,23 @@
           justify-content: center;
         }
         
-        body.sidebar-open #main {
-          margin-left: var(--sidebar-width);
-        }
-        
         body.sidebar-open .sidebar-toggle {
           left: calc(var(--sidebar-width) - 10px);
+        }
+        
+        body.sidebar-open {
+          overflow: hidden;
+        }
+        
+        body.sidebar-open::after {
+          content: '';
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 999;
         }
       }
       
@@ -1127,7 +1159,10 @@
   <body>
     
   <%- include("../utils/header") %>
+  
+  <!-- Sidebar -->
   <%- include("side"); %>
+  
     <!-- Enhanced Animated Background -->
     <div class="bg-animation">
       <span></span>
@@ -2184,45 +2219,52 @@
 
         // Theme switch functionality
         const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', function() {
-          document.body.classList.toggle('dark-mode');
-          localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-          
-          // Update icon
-          const icon = this.querySelector('i');
-          if (document.body.classList.contains('dark-mode')) {
-            icon.classList.remove('bi-moon-stars');
-            icon.classList.add('bi-sun');
-          } else {
-            icon.classList.remove('bi-sun');
-            icon.classList.add('bi-moon-stars');
-          }
-          
-          createBubbles(); // Recreate bubbles with new theme settings
-        });
+        if (themeToggle) {
+          themeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            
+            // Update icon
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+              icon.classList.remove('bi-moon-stars');
+              icon.classList.add('bi-sun');
+            } else {
+              icon.classList.remove('bi-sun');
+              icon.classList.add('bi-moon-stars');
+            }
+            
+            createBubbles(); // Recreate bubbles with new theme settings
+          });
+        }
 
         // Check for saved theme preference
         if (localStorage.getItem('darkMode') === 'true') {
           document.body.classList.add('dark-mode');
-          const icon = themeToggle.querySelector('i');
-          icon.classList.remove('bi-moon-stars');
-          icon.classList.add('bi-sun');
+          const icon = themeToggle ? themeToggle.querySelector('i') : null;
+          if (icon) {
+            icon.classList.remove('bi-moon-stars');
+            icon.classList.add('bi-sun');
+          }
         }
 
         // Sidebar toggle functionality for mobile
         const sidebarToggle = document.getElementById('sidebarToggle');
-        sidebarToggle.addEventListener('click', function() {
-          document.body.classList.toggle('sidebar-open');
-          
-          // Add ripple effect
-          const ripple = document.createElement('span');
-          ripple.classList.add('ripple-effect');
-          this.appendChild(ripple);
-          
-          setTimeout(() => {
-            ripple.remove();
-          }, 1000);
-        });
+        if (sidebarToggle) {
+          sidebarToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.body.classList.toggle('sidebar-open');
+            
+            // Add ripple effect
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple-effect');
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+              ripple.remove();
+            }, 1000);
+          });
+        }
         
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', function(e) {
