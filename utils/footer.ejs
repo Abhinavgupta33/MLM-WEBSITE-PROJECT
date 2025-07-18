@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
       :root {
         /* Light Theme */
@@ -59,6 +61,138 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+        position: relative;
+        overflow-x: hidden;
+      }
+      
+      /* Animated Background Elements */
+      .background-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+      
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(67, 97, 238, 0.05);
+        animation: float 15s infinite linear;
+      }
+      
+      .circle:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        top: 10%;
+        left: 5%;
+        animation-delay: 0s;
+        animation-duration: 20s;
+      }
+      
+      .circle:nth-child(2) {
+        width: 200px;
+        height: 200px;
+        top: 60%;
+        left: 15%;
+        animation-delay: 2s;
+        animation-duration: 15s;
+      }
+      
+      .circle:nth-child(3) {
+        width: 250px;
+        height: 250px;
+        top: 30%;
+        right: 10%;
+        animation-delay: 4s;
+        animation-duration: 18s;
+      }
+      
+      .circle:nth-child(4) {
+        width: 180px;
+        height: 180px;
+        bottom: 10%;
+        right: 20%;
+        animation-delay: 1s;
+        animation-duration: 12s;
+      }
+      
+      .circle:nth-child(5) {
+        width: 350px;
+        height: 350px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-delay: 3s;
+        animation-duration: 25s;
+      }
+      
+      .grid-lines {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          linear-gradient(rgba(67, 97, 238, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(67, 97, 238, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: gridMove 20s linear infinite;
+      }
+      
+      .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(67, 97, 238, 0.2);
+        border-radius: 50%;
+        animation: particleMove 10s linear infinite;
+      }
+      
+      @keyframes float {
+        0% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+          transform: translate(10px, 15px) rotate(5deg);
+        }
+        50% {
+          transform: translate(20px, 5px) rotate(0deg);
+        }
+        75% {
+          transform: translate(10px, -5px) rotate(-5deg);
+        }
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+      }
+      
+      @keyframes gridMove {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: 50px 50px;
+        }
+      }
+      
+      @keyframes particleMove {
+        0% {
+          transform: translate(0, 0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translate(100px, -50px);
+          opacity: 0;
+        }
       }
       
       .page-wrapper {
@@ -83,308 +217,20 @@
     </style>
 </head>
 <body>
+  <!-- Animated Background Elements -->
+  <div class="background-animation">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="grid-lines"></div>
+  </div>
+
   <div class="page-wrapper">
-    <!-- Sidebar -->
-    <aside id="sidebar" class="sidebar">
-      <!-- Sidebar Brand -->
-      <div class="sidebar-brand">
-        <div class="brand-logo">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="logo-svg">
-            <path class="logo-path" d="M12 2L4 7v10l8 5 8-5V7l-8-5z" fill="currentColor"/>
-            <path class="logo-accent" d="M12 12l-8-5v10l8 5v-10z" fill="currentColor"/>
-          </svg>
-          <span class="logo-badge">PRO</span>
-        </div>
-        <span class="brand-name">ChainCore</span>
-        <div class="brand-wave"></div>
-      </div>
+   
 
       <ul class="sidebar-nav" id="sidebar-nav">
-        <!-- Dashboard Nav -->
-        <li class="nav-item">
-          <a class="nav-link active" href="/dashboard">
-            <div class="nav-icon">
-              <i class="bi bi-grid"></i>
-            </div>
-            <span>Dashboard</span>
-            <div class="active-indicator"></div>
-            <div class="nav-link-wave"></div>
-          </a>
-        </li>
-        <!-- End Dashboard Nav -->
-
-        <!-- Recent Activity Section -->
-        <li class="nav-heading">
-          <span>Recent Activity</span>
-          <div class="heading-line"></div>
-        </li>
-        <li class="nav-item activity-container">
-          <a href="/activity" class="nav-link" id="activity-main-link">
-            <div class="nav-icon">
-              <i class="bi bi-clock-history"></i>
-              <span class="notification-badge pulse">3</span>
-            </div>
-            <span>Activity Log</span>
-            <div class="nav-link-wave"></div>
-          </a>
-          <div class="recent-activity-preview">
-            <div class="activity-item" onclick="window.location.href='/activity'">
-              <div class="activity-icon success">
-                <i class="bi bi-check-circle-fill"></i>
-              </div>
-              <div class="activity-details">
-                <p>System update completed</p>
-                <small>2 minutes ago</small>
-              </div>
-              <div class="activity-hover-effect"></div>
-            </div>
-            <div class="activity-item" onclick="window.location.href='/activity'">
-              <div class="activity-icon primary">
-                <i class="bi bi-person-plus-fill"></i>
-              </div>
-              <div class="activity-details">
-                <p>New user registered</p>
-                <small>15 minutes ago</small>
-              </div>
-              <div class="activity-hover-effect"></div>
-            </div>
-            <div class="activity-item" onclick="window.location.href='/activity'">
-              <div class="activity-icon info">
-                <i class="bi bi-cart-check-fill"></i>
-              </div>
-              <div class="activity-details">
-                <p>New order received</p>
-                <small>1 hour ago</small>
-              </div>
-              <div class="activity-hover-effect"></div>
-            </div>
-            <div class="view-all-activities">
-              <a href="/activity">
-                <span>View All Activities</span>
-                <i class="bi bi-arrow-right"></i>
-                <div class="button-wave"></div>
-              </a>
-            </div>
-          </div>
-        </li>
-        <!-- End Recent Activity Section -->
-
-        <!-- User Manager Nav -->
-        <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#user-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="user-manager-nav">
-            <div class="nav-icon">
-              <i class="bi bi-people"></i>
-            </div>
-            <span>User Manager</span>
-            <i class="bi bi-chevron-down ms-auto toggle-icon"></i>
-            <div class="nav-link-wave"></div>
-          </a>
-          <ul id="user-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-            <li>
-              <a href="/adduser">
-                <div class="nav-icon">
-                  <i class="bi bi-person-plus"></i>
-                </div>
-                <span>Add User</span>
-                <div class="subitem-wave"></div>
-              </a>
-            </li>
-            <li>
-              <a href="/userview">
-                <div class="nav-icon">
-                  <i class="bi bi-person-lines-fill"></i>
-                </div>
-                <span>View User</span>
-                <div class="subitem-wave"></div>
-              </a>
-            </li>
-            <li>
-              <a href="/userview">
-                <div class="nav-icon">
-                  <i class="bi bi-person-gear"></i>
-                </div>
-                <span>Update User</span>
-                <div class="subitem-wave"></div>
-              </a>
-            </li>
-            <li>
-              <a href="/userview">
-                <div class="nav-icon">
-                  <i class="bi bi-person-x"></i>
-                </div>
-                <span>Delete User</span>
-                <div class="subitem-wave"></div>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <!-- End User Manager Nav -->
-
-        <!-- Product Manager Nav -->
-        <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#product-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="product-manager-nav">
-            <div class="nav-icon">
-              <i class="bi bi-box-seam"></i>
-            </div>
-            <span>Product Manager</span>
-            <i class="bi bi-chevron-down ms-auto toggle-icon"></i>
-            <div class="nav-link-wave"></div>
-          </a>
-          <ul id="product-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-            <li>
-              <a href="/addproduct">
-                <div class="nav-icon">
-                  <i class="bi bi-plus-circle"></i>
-                </div>
-                <span>Add Product</span>
-                <div class="subitem-wave"></div>
-              </a>
-            </li>
-            <li>
-              <a href="/viewproduct">
-                <div class="nav-icon">
-                  <i class="bi bi-card-list"></i>
-                </div>
-                <span>View Product</span>
-                <div class="subitem-wave"></div>
-              </a>
-            </li>
-            <li>
-              <a href="/updateproduct">
-                <div class="nav-icon">
-                  <i class="bi bi-pencil-square"></i>
-                </div>
-                <span>Update Product</span>
-                <div class="subitem-wave"></div>
-              </a>
-            </li>
-            <li>
-              <a href="/updateproduct">
-                <div class="nav-icon">
-                  <i class="bi bi-trash"></i>
-                </div>
-                <span>Delete Product</span>
-                <div class="subitem-wave"></div>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <!-- End Product Manager Nav -->
-
-        <!-- Mail Manager Nav -->
-        <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#mail-manager-nav" data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="mail-manager-nav">
-            <div class="nav-icon">
-              <i class="bi bi-envelope"></i>
-            </div>
-            <span>Mail Manager</span>
-            <i class="bi bi-chevron-down ms-auto toggle-icon"></i>
-            <div class="nav-link-wave"></div>
-          </a>
-          <ul id="mail-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-            <li>
-              <a href="/otp_genrate">
-                <div class="nav-icon">
-                  <i class="bi bi-shield-check"></i>
-                </div>
-                <span>Verify User</span>
-                <div class="subitem-wave"></div>
-              </a>
-            </li>
-            <li>
-              <a href="/mail-open">
-                <div class="nav-icon">
-                  <i class="bi bi-envelope-plus"></i>
-                </div>
-                <span>Send Mail</span>
-                <div class="subitem-wave"></div>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <!-- End Mail Manager Nav -->
-
-        <li class="nav-heading">
-          <span>Settings</span>
-          <div class="heading-line"></div>
-        </li>
-
-        <!-- Settings Nav -->
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="/admininfo">
-            <div class="nav-icon">
-              <i class="bi bi-person-circle"></i>
-            </div>
-            <span>Profile</span>
-            <div class="nav-link-wave"></div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="/deposit">
-            <div class="nav-icon">
-              <i class="bi bi-cash-stack"></i>
-            </div>
-            <span>Deposit</span>
-            <div class="nav-link-wave"></div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="/withdraw">
-            <div class="nav-icon">
-              <i class="bi bi-arrow-down-up"></i>
-            </div>
-            <span>Withdraw</span>
-            <div class="nav-link-wave"></div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="/balance">
-            <div class="nav-icon">
-              <i class="bi bi-wallet2"></i>
-            </div>
-            <span>Balance</span>
-            <div class="nav-link-wave"></div>
-          </a>
-        </li>
-        <!-- End Settings Nav -->
-      </ul>
-      
-      <!-- Sidebar Footer -->
-      <div class="sidebar-footer">
-        <div class="user-profile">
-          <div class="profile-avatar">
-            <img src="https://ui-avatars.com/api/?name=Admin+User&background=4361ee&color=fff" alt="Admin User">
-            <div class="online-status"></div>
-          </div>
-          <div class="profile-info">
-            <div class="profile-name">Admin User</div>
-            <div class="profile-role">System Administrator</div>
-          </div>
-          <div class="profile-menu">
-            <i class="bi bi-three-dots-vertical"></i>
-          </div>
-        </div>
-        <div class="sidebar-theme-toggle">
-          <div class="theme-toggle-content">
-            <i class="bi bi-moon"></i>
-            <span>Dark Mode</span>
-          </div>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="darkModeToggle">
-            <label class="form-check-label" for="darkModeToggle"></label>
-          </div>
-          <div class="theme-wave"></div>
-        </div>
-      </div>
-    </aside>
-    <!-- End Sidebar -->
-
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- Your main page content will be inserted here -->
-      <main>
-        <!-- Content from other pages will be included here -->
-      </main>
 
       <!-- Footer -->
       <footer id="chaincore-footer" class="mlm-footer">
@@ -723,841 +569,7 @@
 
   <!-- Combined Styles -->
   <style>
-    /* ===== Sidebar Styles ===== */
-    .sidebar {
-      background-color: var(--sidebar-bg);
-      color: var(--sidebar-text);
-      min-height: 100vh;
-      width: var(--sidebar-width);
-      position: fixed;
-      left: 0;
-      top: 0;
-      box-shadow: var(--sidebar-shadow);
-      transition: var(--sidebar-transition);
-      z-index: 1000;
-      border-right: 1px solid var(--sidebar-border-color);
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: var(--primary-color) var(--sidebar-bg);
-      display: flex;
-      flex-direction: column;
-      padding-bottom: 20px;
-    }
-
-    /* Custom scrollbar */
-    .sidebar::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .sidebar::-webkit-scrollbar-track {
-      background: var(--sidebar-bg);
-      border-radius: 10px;
-    }
-
-    .sidebar::-webkit-scrollbar-thumb {
-      background-color: var(--primary-color);
-      border-radius: 10px;
-      border: 1px solid var(--sidebar-bg);
-    }
-
-    /* Sidebar Brand */
-    .sidebar-brand {
-      padding: 25px 20px;
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-      border-bottom: 1px solid var(--sidebar-border-color);
-      margin-bottom: 10px;
-    }
-
-    .brand-logo {
-      width: 40px;
-      height: 40px;
-      position: relative;
-      margin-right: 12px;
-      filter: drop-shadow(0 4px 6px rgba(67, 97, 238, 0.2));
-    }
-
-    .logo-svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    .logo-path {
-      color: var(--primary-color);
-      transition: var(--sidebar-transition);
-    }
-
-    .logo-accent {
-      color: var(--accent-color);
-      transition: var(--sidebar-transition);
-    }
-
-    .logo-badge {
-      position: absolute;
-      top: -5px;
-      right: -8px;
-      background: var(--secondary-color);
-      color: white;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 4px;
-      transform: rotate(15deg);
-      animation: float 3s ease-in-out infinite;
-    }
-
-    .brand-name {
-      font-size: 20px;
-      font-weight: 700;
-      background: linear-gradient(to right, var(--primary-dark), var(--primary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
-    }
-
-    .brand-wave {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, rgba(67, 97, 238, 0.05) 0%, transparent 70%);
-      transform: scale(0);
-      opacity: 0;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .sidebar-brand:hover .brand-wave {
-      transform: scale(1.5);
-      opacity: 1;
-    }
-
-    /* Navigation */
-    .sidebar-nav {
-      padding: 15px 0;
-      list-style: none;
-      flex: 1;
-    }
-
-    .nav-item {
-      margin-bottom: 4px;
-      position: relative;
-    }
-
-    .nav-link {
-      color: var(--sidebar-text);
-      padding: var(--sidebar-item-padding);
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      transition: var(--sidebar-transition);
-      border-radius: 8px;
-      margin: 0 12px;
-      position: relative;
-      font-size: 0.95rem;
-      font-weight: 500;
-      overflow: hidden;
-    }
-
-    .nav-link:hover {
-      background-color: var(--sidebar-hover-bg);
-      color: var(--sidebar-active-icon-color);
-      transform: translateX(4px);
-    }
-
-    .nav-link.active {
-      background-color: var(--sidebar-active-bg);
-      color: var(--sidebar-active-icon-color);
-      font-weight: 600;
-    }
-
-    .nav-link.active .active-indicator {
-      position: absolute;
-      right: -12px;
-      height: 20px;
-      width: 4px;
-      background-color: var(--sidebar-active-icon-color);
-      border-radius: 2px 0 0 2px;
-      transition: var(--sidebar-transition);
-    }
-
-    .nav-icon {
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 12px;
-      position: relative;
-      transition: var(--sidebar-transition);
-    }
-
-    .nav-link i {
-      color: var(--sidebar-icon-color);
-      font-size: 1.15rem;
-      transition: var(--sidebar-transition);
-    }
-
-    .nav-link.active i,
-    .nav-link:hover i {
-      color: var(--sidebar-active-icon-color);
-    }
-
-    /* Wave effect on hover */
-    .nav-link-wave {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, rgba(67, 97, 238, 0.1) 0%, transparent 70%);
-      transform: scale(0);
-      opacity: 0;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-      pointer-events: none;
-      border-radius: 8px;
-    }
-
-    .nav-link:hover .nav-link-wave {
-      transform: scale(1.5);
-      opacity: 1;
-    }
-
-    .subitem-wave {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, rgba(67, 97, 238, 0.05) 0%, transparent 70%);
-      transform: scale(0);
-      opacity: 0;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-      pointer-events: none;
-      border-radius: 6px;
-    }
-
-    .nav-content li a:hover .subitem-wave {
-      transform: scale(1.2);
-      opacity: 1;
-    }
-
-    /* Submenu styles */
-    .nav-content {
-      padding-left: 12px;
-      list-style: none;
-      background-color: transparent;
-      margin: 6px 12px;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: var(--sidebar-transition);
-    }
-
-    .nav-content li a {
-      padding: var(--sidebar-subitem-padding);
-      display: flex;
-      align-items: center;
-      color: var(--sidebar-text);
-      text-decoration: none;
-      transition: var(--sidebar-transition);
-      font-size: 0.9rem;
-      border-radius: 6px;
-      margin: 2px 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .nav-content li a:hover {
-      background-color: var(--sidebar-hover-bg);
-      color: var(--sidebar-active-icon-color);
-      padding-left: 48px;
-    }
-
-    .nav-content li a i {
-      font-size: 0.9rem;
-      color: var(--sidebar-icon-color);
-      margin-right: 10px;
-      transition: var(--sidebar-transition);
-    }
-
-    .nav-content li a:hover i {
-      color: var(--sidebar-active-icon-color);
-      transform: scale(1.1);
-    }
-
-    /* Section headings */
-    .nav-heading {
-      padding: 20px 24px 8px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      color: var(--sidebar-icon-color);
-      letter-spacing: 0.5px;
-      font-weight: 600;
-      margin-top: 10px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      transition: all 0.3s ease;
-    }
-
-    .heading-line {
-      flex: 1;
-      height: 1px;
-      background-color: var(--sidebar-border-color);
-      margin-left: 10px;
-    }
-
-    .nav-heading:not(:first-child)::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 24px;
-      right: 24px;
-      height: 1px;
-      background-color: var(--sidebar-border-color);
-      transition: all 0.3s ease;
-    }
-
-    /* Toggle icon animation */
-    .toggle-icon {
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      color: var(--sidebar-icon-color);
-      font-size: 0.9rem;
-    }
-
-    .nav-link:not(.collapsed) .toggle-icon {
-      transform: rotate(180deg);
-      color: var(--sidebar-active-icon-color);
-    }
-
-    /* Recent Activity Styles */
-    .recent-activity-preview {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      margin: 0 12px;
-      background-color: var(--sidebar-hover-bg);
-      border-radius: 8px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    .activity-container:hover .recent-activity-preview {
-      max-height: 300px;
-      padding: 10px;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .activity-item {
-      display: flex;
-      align-items: flex-start;
-      padding: 10px;
-      border-bottom: 1px solid var(--sidebar-border-color);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-      border-radius: 6px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .activity-item:hover {
-      background-color: rgba(67, 97, 238, 0.05);
-      transform: translateX(4px);
-    }
-
-    .activity-item:last-child {
-      border-bottom: none;
-    }
-
-    .activity-hover-effect {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(67, 97, 238, 0.03), transparent);
-      transform: translateX(-100%);
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .activity-item:hover .activity-hover-effect {
-      transform: translateX(100%);
-    }
-
-    .activity-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 12px;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-    }
-
-    .activity-item:hover .activity-icon {
-      transform: scale(1.1);
-    }
-
-    .activity-icon i {
-      margin: 0;
-      font-size: 0.9rem;
-      color: white;
-    }
-
-    .activity-icon.success {
-      background-color: #10b981;
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-    }
-
-    .activity-icon.primary {
-      background-color: var(--primary-color);
-      box-shadow: 0 2px 8px rgba(67, 97, 238, 0.3);
-    }
-
-    .activity-icon.info {
-      background-color: #06b6d4;
-      box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
-    }
-
-    .activity-details {
-      flex: 1;
-    }
-
-    .activity-details p {
-      margin: 0;
-      font-size: 0.85rem;
-      color: var(--sidebar-text);
-      font-weight: 500;
-      transition: color 0.2s ease;
-    }
-
-    .activity-item:hover .activity-details p {
-      color: var(--sidebar-active-icon-color);
-    }
-
-    .activity-details small {
-      display: block;
-      font-size: 0.75rem;
-      color: var(--sidebar-icon-color);
-      margin-top: 3px;
-      transition: color 0.2s ease;
-    }
-
-    .view-all-activities {
-      text-align: center;
-      padding: 8px 0 0;
-      margin-top: 5px;
-      border-top: 1px dashed var(--sidebar-border-color);
-      transition: border-color 0.3s ease;
-    }
-
-    .activity-container:hover .view-all-activities {
-      border-top-color: rgba(67, 97, 238, 0.2);
-    }
-
-    .view-all-activities a {
-      color: var(--sidebar-active-icon-color);
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      padding: 5px 10px;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .view-all-activities a:hover {
-      color: white;
-      background-color: var(--sidebar-active-icon-color);
-      transform: translateX(4px);
-    }
-
-    .view-all-activities a i {
-      margin-left: 5px;
-      transition: transform 0.3s ease;
-    }
-
-    .view-all-activities a:hover i {
-      transform: translateX(5px);
-    }
-
-    .button-wave {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-      transform: scale(0);
-      opacity: 0;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-      pointer-events: none;
-      border-radius: 20px;
-    }
-
-    .view-all-activities a:hover .button-wave {
-      transform: scale(1.5);
-      opacity: 1;
-    }
-
-    /* Notification badge */
-    .notification-badge {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      font-size: 0.7rem;
-      padding: 3px 6px;
-      border-radius: 10px;
-      background-color: #ef4444;
-      color: white;
-      font-weight: 600;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .nav-link:hover .notification-badge {
-      transform: scale(1.1);
-    }
-
-    .notification-badge.pulse {
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.1);
-      }
-      70% {
-        box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
-        transform: scale(1);
-      }
-    }
-
-    /* Sidebar Footer */
-    .sidebar-footer {
-      padding: 15px 20px;
-      border-top: 1px solid var(--sidebar-border-color);
-      margin-top: auto;
-      transition: all 0.3s ease;
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-      padding: 10px;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .user-profile:hover {
-      background-color: var(--sidebar-hover-bg);
-    }
-
-    .profile-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 12px;
-      position: relative;
-    }
-
-    .profile-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    .online-status {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 10px;
-      height: 10px;
-      background-color: #10b981;
-      border-radius: 50%;
-      border: 2px solid var(--sidebar-bg);
-    }
-
-    .profile-info {
-      flex: 1;
-    }
-
-    .profile-name {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--sidebar-text);
-      margin-bottom: 2px;
-    }
-
-    .profile-role {
-      font-size: 0.75rem;
-      color: var(--sidebar-icon-color);
-    }
-
-    .profile-menu {
-      color: var(--sidebar-icon-color);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .profile-menu:hover {
-      color: var(--sidebar-active-icon-color);
-      transform: rotate(90deg);
-    }
-
-    .sidebar-theme-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: var(--sidebar-text);
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      padding: 8px 12px;
-      border-radius: 8px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .sidebar-theme-toggle:hover {
-      background-color: var(--sidebar-hover-bg);
-    }
-
-    .theme-toggle-content {
-      display: flex;
-      align-items: center;
-    }
-
-    .sidebar-theme-toggle i {
-      margin-right: 10px;
-      color: var(--sidebar-icon-color);
-      transition: all 0.3s ease;
-    }
-
-    .sidebar-theme-toggle:hover i {
-      color: var(--sidebar-active-icon-color);
-    }
-
-    .sidebar-theme-toggle .form-check-input {
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .sidebar-theme-toggle .form-check-input:checked {
-      background-color: var(--sidebar-active-icon-color);
-      border-color: var(--sidebar-active-icon-color);
-    }
-
-    .theme-wave {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, rgba(67, 97, 238, 0.1) 0%, transparent 70%);
-      transform: scale(0);
-      opacity: 0;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .sidebar-theme-toggle:hover .theme-wave {
-      transform: scale(1.5);
-      opacity: 1;
-    }
-
-    /* Collapsed state */
-    @media (max-width: 992px) {
-      .sidebar {
-        width: var(--sidebar-collapsed-width);
-        overflow: hidden;
-        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      
-      .sidebar:hover {
-        width: var(--sidebar-width);
-        box-shadow: var(--sidebar-shadow);
-      }
-      
-      .sidebar:hover span {
-        display: inline;
-        animation: fadeIn 0.3s ease forwards;
-      }
-      
-      .sidebar:hover .brand-name {
-        display: inline;
-      }
-      
-      .sidebar:hover .nav-heading {
-        display: flex;
-        animation: fadeIn 0.3s ease forwards;
-      }
-      
-      .sidebar:hover .nav-content {
-        display: block;
-      }
-      
-      .sidebar:hover .toggle-icon {
-        display: inline-block;
-      }
-      
-      .sidebar:hover .recent-activity-preview {
-        display: block;
-      }
-      
-      .sidebar:hover .sidebar-footer {
-        display: block;
-      }
-      
-      .sidebar:hover .profile-info,
-      .sidebar:hover .profile-menu {
-        display: block;
-      }
-      
-      .sidebar span {
-        display: none;
-        opacity: 0;
-      }
-      
-      .brand-name {
-        display: none;
-      }
-      
-      .nav-heading {
-        display: none;
-        opacity: 0;
-      }
-      
-      .nav-link {
-        justify-content: center;
-        margin: 0 8px;
-        padding: 12px 8px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      
-      .sidebar:hover .nav-link {
-        justify-content: flex-start;
-        padding: var(--sidebar-item-padding);
-        margin: 0 12px;
-      }
-      
-      .nav-link i {
-        margin-right: 0;
-        font-size: 1.25rem;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      
-      .sidebar:hover .nav-link i {
-        margin-right: 12px;
-        font-size: 1.15rem;
-      }
-      
-      .nav-content {
-        display: none;
-      }
-      
-      .recent-activity-preview {
-        display: none;
-      }
-      
-      .toggle-icon {
-        display: none;
-      }
-      
-      .notification-badge {
-        display: none;
-      }
-      
-      .sidebar:hover .notification-badge {
-        display: block;
-      }
-      
-      .sidebar-footer {
-        display: none;
-      }
-      
-      .profile-info,
-      .profile-menu {
-        display: none;
-      }
-      
-      .nav-link.active .active-indicator {
-        right: 0;
-        width: 3px;
-        height: 24px;
-        border-radius: 0 2px 2px 0;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      
-      .sidebar:hover .nav-link.active .active-indicator {
-        right: -12px;
-        width: 4px;
-        height: 20px;
-        border-radius: 2px 0 0 2px;
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(15deg); }
-      50% { transform: translateY(-5px) rotate(15deg); }
-    }
-
-    /* Smooth collapse animations */
-    .nav-content.collapsing {
-      transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Ripple effect style */
-    .ripple-effect {
-      position: absolute;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.3);
-      transform: scale(0);
-      animation: ripple 0.6s linear;
-      pointer-events: none;
-      width: 20px;
-      height: 20px;
-      margin-left: -10px;
-      margin-top: -10px;
-    }
-    
-    @keyframes ripple {
-      to {
-        transform: scale(10);
-        opacity: 0;
-      }
-    }
-
+   
     /* ===== Base Footer Styles ===== */
     .mlm-footer {
       background-color: var(--bg-light);
@@ -2826,6 +1838,40 @@
         });
       });
 
+      // Create dynamic particles for background
+      function createParticles() {
+        const background = document.querySelector('.background-animation');
+        const particleCount = 20;
+        
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.classList.add('particle');
+          
+          // Random position
+          const x = Math.random() * 100;
+          const y = Math.random() * 100;
+          
+          // Random size
+          const size = Math.random() * 3 + 1;
+          
+          // Random animation duration
+          const duration = Math.random() * 15 + 10;
+          const delay = Math.random() * 5;
+          
+          particle.style.left = `${x}%`;
+          particle.style.top = `${y}%`;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          particle.style.animationDuration = `${duration}s`;
+          particle.style.animationDelay = `${delay}s`;
+          
+          background.appendChild(particle);
+        }
+      }
+      
+      // Initialize particles
+      createParticles();
+      
       // Add transition to body for smooth dark mode changes
       document.head.insertAdjacentHTML('beforeend', '<style>.transition-colors { transition: background-color 0.3s ease, color 0.3s ease; }</style>');
     });

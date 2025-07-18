@@ -24,12 +24,22 @@
       --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       --transition-elastic: all 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6);
       --sidebar-width: 280px;
+      --notification-count: 4;
+      --cart-count: 3;
       
       /* Dark mode variables */
       --dark-bg: #0f172a;
       --dark-text: #e2e8f0;
       --dark-muted: #94a3b8;
       --dark-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      
+      /* New dropdown variables */
+      --dropdown-border-radius: 16px;
+      --dropdown-item-padding: 14px 20px;
+      --dropdown-icon-size: 20px;
+      --dropdown-divider-color: rgba(226, 232, 240, 0.3);
+      --dropdown-hover-bg: rgba(241, 245, 249, 0.2);
+      --dropdown-active-bg: rgba(67, 97, 238, 0.1);
     }
     
     * {
@@ -45,6 +55,7 @@
 
     body {
       transition: background-color 0.5s ease, color 0.5s ease;
+      background-color: #f8fafc;
     }
 
     /* Dark mode styles */
@@ -58,6 +69,9 @@
       --header-scrolled-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
       --text-color: var(--dark-text);
       --text-muted: var(--dark-muted);
+      --dropdown-divider-color: rgba(100, 116, 139, 0.3);
+      --dropdown-hover-bg: rgba(30, 41, 59, 0.3);
+      --dropdown-active-bg: rgba(67, 97, 238, 0.2);
     }
 
     /* Header Styles with Glass Morphism */
@@ -288,58 +302,72 @@
       color: var(--primary-dark);
     }
 
-    /* Dropdown Menu with Glass Morphism - Enhanced */
+    /* ====================== */
+    /* Enhanced Dropdown Menu */
+    /* ====================== */
     .dropdown {
       position: relative;
+      z-index: 1000;
     }
     
     .dropdown-menu {
       position: absolute;
       right: 0;
-      top: calc(100% + 0.75rem);
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 1rem;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      min-width: 22rem;
+      top: calc(100% + 12px);
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: var(--dropdown-border-radius);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      min-width: 320px;
+      max-height: 0;
       opacity: 0;
       visibility: hidden;
-      transform: translateY(15px);
-      transition: var(--transition-smooth);
+      transform: translateY(10px) scale(0.95);
+      transform-origin: top right;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       z-index: 1001;
       overflow: hidden;
-      border: none;
+      border: 1px solid rgba(226, 232, 240, 0.2);
+      pointer-events: none;
     }
 
     .dark-mode .dropdown-menu {
-      background: rgba(15, 23, 42, 0.95);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(30, 41, 59, 0.3);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
     }
 
     .dropdown:hover .dropdown-menu {
       opacity: 1;
       visibility: visible;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
+      max-height: 80vh;
+      overflow-y: auto;
+      pointer-events: auto;
     }
 
+    /* Dropdown arrow */
     .dropdown-menu::before {
       content: '';
       position: absolute;
-      top: -0.5rem;
-      right: 1.25rem;
-      width: 1rem;
-      height: 1rem;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      top: -6px;
+      right: 20px;
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
       transform: rotate(45deg);
       z-index: -1;
-      box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.05);
+      border-top: 1px solid rgba(226, 232, 240, 0.2);
+      border-left: 1px solid rgba(226, 232, 240, 0.2);
     }
 
     .dark-mode .dropdown-menu::before {
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(15, 23, 42, 0.98);
+      border-top: 1px solid rgba(30, 41, 59, 0.3);
+      border-left: 1px solid rgba(30, 41, 59, 0.3);
     }
 
     /* Notification Dropdown - Enhanced */
@@ -347,12 +375,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.5rem;
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+      padding: 20px;
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 1;
+      border-bottom: 1px solid var(--dropdown-divider-color);
     }
 
     .dark-mode .notification-header {
-      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+      background: rgba(15, 23, 42, 0.85);
     }
 
     .notification-title {
@@ -366,7 +399,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.25rem;
-      padding: 0.5rem 1rem;
+      padding: 8px 16px;
       border-radius: 999px;
       font-size: 0.8125rem;
       font-weight: 600;
@@ -385,41 +418,61 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
 
+    .notification-list {
+      max-height: 400px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100, 116, 139, 0.3) transparent;
+    }
+
+    .notification-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .notification-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .notification-list::-webkit-scrollbar-thumb {
+      background-color: rgba(100, 116, 139, 0.3);
+      border-radius: 3px;
+    }
+
+    .dark-mode .notification-list::-webkit-scrollbar-thumb {
+      background-color: rgba(148, 163, 184, 0.3);
+    }
+
     .notification-item {
       display: flex;
-      gap: 1rem;
-      padding: 1.25rem 1.5rem;
+      gap: 16px;
+      padding: 16px 20px;
       transition: var(--transition-smooth);
       position: relative;
       z-index: 1;
+      cursor: pointer;
     }
 
-    .dark-mode .notification-item {
-      color: var(--dark-text);
+    .notification-item.unread {
+      background: rgba(236, 253, 245, 0.3);
+    }
+
+    .dark-mode .notification-item.unread {
+      background: rgba(6, 78, 59, 0.2);
     }
 
     .notification-item:not(:last-child)::after {
       content: '';
       position: absolute;
       bottom: 0;
-      left: 1.5rem;
-      right: 1.5rem;
+      left: 20px;
+      right: 20px;
       height: 1px;
-      background: rgba(226, 232, 240, 0.3);
-    }
-
-    .dark-mode .notification-item:not(:last-child)::after {
-      background: rgba(100, 116, 139, 0.3);
+      background: var(--dropdown-divider-color);
     }
 
     .notification-item:hover {
-      background: rgba(248, 250, 252, 0.7);
+      background: var(--dropdown-hover-bg);
       transform: translateX(5px);
-      box-shadow: 0 5px 15px -5px rgba(67, 97, 238, 0.3);
-    }
-
-    .dark-mode .notification-item:hover {
-      background: rgba(30, 41, 59, 0.7);
     }
 
     .notification-icon {
@@ -447,20 +500,28 @@
 
     .notification-content {
       flex: 1;
+      min-width: 0;
     }
 
     .notification-title {
       font-size: 0.9375rem;
       font-weight: 600;
       color: var(--text-color);
-      margin-bottom: 0.375rem;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .notification-text {
       font-size: 0.875rem;
       color: var(--text-muted);
       line-height: 1.5;
-      margin-bottom: 0.375rem;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .notification-time {
@@ -468,25 +529,53 @@
       color: #94a3b8;
       display: flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 4px;
     }
     
     .notification-time::before {
       content: '';
       display: inline-block;
-      width: 0.25rem;
-      height: 0.25rem;
+      width: 4px;
+      height: 4px;
       background: #94a3b8;
       border-radius: 50%;
     }
 
+    .notification-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .notification-action-btn {
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      background: rgba(241, 245, 249, 0.7);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .notification-action-btn:hover {
+      background: rgba(226, 232, 240, 0.9);
+    }
+
+    .dark-mode .notification-action-btn {
+      background: rgba(30, 41, 59, 0.7);
+    }
+
+    .dark-mode .notification-action-btn:hover {
+      background: rgba(51, 65, 85, 0.9);
+    }
+
     /* Profile Dropdown - Enhanced */
     .profile-dropdown-header {
-      padding: 2rem;
+      padding: 24px;
       text-align: center;
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
       position: relative;
       overflow: hidden;
+      background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(58, 12, 163, 0.1) 100%);
     }
     
     .profile-dropdown-header::before {
@@ -500,12 +589,12 @@
     }
 
     .profile-dropdown-img {
-      width: 5.5rem;
-      height: 5.5rem;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid rgba(226, 232, 240, 0.8);
-      margin-bottom: 1rem;
+      margin-bottom: 16px;
       transition: var(--transition-smooth);
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
@@ -517,7 +606,7 @@
     .profile-dropdown-name {
       font-size: 1.25rem;
       font-weight: 700;
-      margin-bottom: 0.25rem;
+      margin-bottom: 4px;
       letter-spacing: -0.01em;
       color: var(--text-color);
     }
@@ -527,7 +616,7 @@
       color: var(--text-muted);
       background: rgba(241, 245, 249, 0.7);
       display: inline-block;
-      padding: 0.25rem 0.75rem;
+      padding: 4px 12px;
       border-radius: 999px;
     }
 
@@ -535,56 +624,67 @@
       background: rgba(30, 41, 59, 0.7);
     }
 
+    .dropdown-list {
+      padding: 8px 0;
+    }
+
     .dropdown-item {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.5rem;
+      gap: 16px;
+      padding: var(--dropdown-item-padding);
       text-decoration: none;
       color: var(--text-muted);
       transition: var(--transition-smooth);
       position: relative;
       overflow: hidden;
-    }
-
-    .dropdown-item::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: var(--primary-color);
-      transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 0.3s ease-out;
-    }
-
-    .dropdown-item:hover {
-      background: rgba(248, 250, 252, 0.7);
-      color: var(--primary-dark);
-      padding-left: 1.75rem;
-      box-shadow: 0 5px 15px -5px rgba(67, 97, 238, 0.3);
-    }
-
-    .dark-mode .dropdown-item:hover {
-      background: rgba(30, 41, 59, 0.7);
-    }
-
-    .dropdown-item:hover::before {
-      transform: scaleY(1);
-      transform-origin: top;
+      cursor: pointer;
     }
 
     .dropdown-item i {
-      font-size: 1.125rem;
-      width: 1.5rem;
+      font-size: var(--dropdown-icon-size);
+      width: 24px;
       text-align: center;
       transition: var(--transition-smooth);
     }
-    
+
+    .dropdown-item span {
+      flex: 1;
+      transition: var(--transition-smooth);
+    }
+
+    .dropdown-item .badge {
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+
+    .dropdown-item:hover {
+      background: var(--dropdown-hover-bg);
+      color: var(--primary-dark);
+      padding-left: 24px;
+    }
+
     .dropdown-item:hover i {
       transform: scale(1.2);
+      color: var(--primary-dark);
+    }
+
+    .dropdown-item.active {
+      background: var(--dropdown-active-bg);
+      color: var(--primary-dark);
+    }
+
+    .dropdown-item.active i {
+      color: var(--primary-dark);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--dropdown-divider-color);
+      margin: 8px 0;
     }
 
     /* Dark Mode Toggle Button */
@@ -644,8 +744,20 @@
       }
       
       .dropdown-menu {
-        min-width: 18rem;
-        right: -1rem;
+        min-width: 280px;
+        right: -10px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .dropdown-menu {
+        width: calc(100vw - 40px);
+        right: 20px;
+        left: auto;
+      }
+      
+      .dropdown-menu::before {
+        right: 30px;
       }
     }
 
@@ -703,6 +815,28 @@
       to { transform: rotate(360deg); }
     }
 
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+
+    @keyframes wave {
+      0% { transform: rotate(0deg); }
+      10% { transform: rotate(14deg); }
+      20% { transform: rotate(-8deg); }
+      30% { transform: rotate(14deg); }
+      40% { transform: rotate(-4deg); }
+      50% { transform: rotate(10deg); }
+      60% { transform: rotate(0deg); }
+      100% { transform: rotate(0deg); }
+    }
+
     .pulse {
       animation: pulse 1.5s infinite;
     }
@@ -725,6 +859,20 @@
 
     .rotate {
       animation: rotate 2s linear infinite;
+    }
+
+    .bounce {
+      animation: bounce 0.8s infinite;
+    }
+
+    .shake {
+      animation: shake 0.5s;
+    }
+
+    .wave {
+      animation: wave 1.5s ease infinite;
+      transform-origin: 70% 70%;
+      display: inline-block;
     }
 
     /* Ripple effect */
@@ -763,6 +911,209 @@
         margin-left: 0;
       }
     }
+
+    /* Custom scrollbar for dropdowns */
+    .dropdown-menu::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .dropdown-menu::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .dropdown-menu::-webkit-scrollbar-thumb {
+      background-color: rgba(100, 116, 139, 0.3);
+      border-radius: 3px;
+    }
+
+    .dark-mode .dropdown-menu::-webkit-scrollbar-thumb {
+      background-color: rgba(148, 163, 184, 0.3);
+    }
+
+    /* Loading spinner */
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(67, 97, 238, 0.2);
+      border-top-color: var(--primary-color);
+      border-radius: 50%;
+      animation: rotate 1s linear infinite;
+    }
+
+    /* Tooltip styles */
+    .tooltip {
+      position: absolute;
+      background: var(--text-color);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1002;
+      white-space: nowrap;
+    }
+
+    .tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: var(--text-color) transparent transparent transparent;
+    }
+
+    /* Status indicators */
+    .status-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    .status-online {
+      background: #10b981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+    }
+
+    .status-offline {
+      background: #64748b;
+      box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.3);
+    }
+
+    .status-busy {
+      background: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+    }
+
+    .status-away {
+      background: #f59e0b;
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      height: 4px;
+      background: rgba(226, 232, 240, 0.5);
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary-gradient);
+      width: 0;
+      transition: width 0.6s ease;
+    }
+
+    /* Avatar group */
+    .avatar-group {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar-group .profile-img {
+      border: 2px solid var(--header-bg);
+      margin-left: -10px;
+    }
+
+    .avatar-group .profile-img:first-child {
+      margin-left: 0;
+    }
+
+    /* New dropdown features */
+    .dropdown-search {
+      padding: 12px 16px;
+      position: relative;
+    }
+
+    .dropdown-search input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--dropdown-divider-color);
+      background: rgba(241, 245, 249, 0.5);
+      color: var(--text-color);
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .dark-mode .dropdown-search input {
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    .dropdown-search input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+    }
+
+    .dropdown-search i {
+      position: absolute;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    .dropdown-footer {
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--dropdown-divider-color);
+    }
+
+    /* Context menu */
+    .context-menu {
+      position: absolute;
+      background: var(--header-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      z-index: 1003;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.95);
+      transform-origin: top left;
+      transition: var(--transition-smooth);
+      min-width: 200px;
+      overflow: hidden;
+    }
+
+    .context-menu.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+
+    .context-menu-item {
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .context-menu-item:hover {
+      background: var(--dropdown-hover-bg);
+    }
+
+    .context-menu-item i {
+      width: 20px;
+      text-align: center;
+    }
+
+    .context-menu-divider {
+      height: 1px;
+      background: var(--dropdown-divider-color);
+      margin: 4px 0;
+    }
   </style>
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
@@ -781,105 +1132,249 @@
     
     <nav class="header-nav">
       <!-- Dark Mode Toggle -->
-      <button class="action-btn dark-mode-toggle">
+      <button class="action-btn dark-mode-toggle" aria-label="Toggle dark mode">
         <i class="bi bi-sun"></i>
         <i class="bi bi-moon"></i>
       </button>
       
       <!-- Notifications -->
       <div class="dropdown">
-        <button class="action-btn">
+        <button class="action-btn notification-btn" aria-label="Notifications">
           <i class="bi bi-bell"></i>
           <span class="action-badge notification pulse">4</span>
         </button>
         
-        <div class="dropdown-menu">
+        <div class="dropdown-menu notification-dropdown">
           <div class="notification-header">
             <h3 class="notification-title">Notifications</h3>
-            <a href="#" class="view-all-btn">
+            <a href="/notifications" class="view-all-btn">
               View All
               <i class="bi bi-arrow-right"></i>
             </a>
           </div>
           
-          <div class="notification-item fade-in" style="animation-delay: 0.1s">
-            <div class="notification-icon text-warning">
-              <i class="bi bi-exclamation-circle"></i>
+          <div class="notification-list">
+            <div class="notification-item unread fade-in" style="animation-delay: 0.1s">
+              <div class="notification-icon text-warning">
+                <i class="bi bi-exclamation-circle"></i>
+              </div>
+              <div class="notification-content">
+                <h4 class="notification-title">System Alert</h4>
+                <p class="notification-text">Server maintenance scheduled for tonight at 2:00 AM. Please save your work before this time.</p>
+                <p class="notification-time">30 min. ago</p>
+                <div class="notification-actions">
+                  <button class="notification-action-btn">Dismiss</button>
+                  <button class="notification-action-btn">Remind Later</button>
+                </div>
+              </div>
             </div>
-            <div class="notification-content">
-              <h4 class="notification-title">System Alert</h4>
-              <p class="notification-text">Server maintenance scheduled for tonight at 2:00 AM</p>
-              <p class="notification-time">30 min. ago</p>
+            
+            <div class="notification-item unread fade-in" style="animation-delay: 0.2s">
+              <div class="notification-icon text-danger">
+                <i class="bi bi-x-circle"></i>
+              </div>
+              <div class="notification-content">
+                <h4 class="notification-title">Failed Login Attempt</h4>
+                <p class="notification-text">Unsuccessful login attempt from unknown IP address (192.168.1.45) detected.</p>
+                <p class="notification-time">1 hr. ago</p>
+                <div class="notification-actions">
+                  <button class="notification-action-btn">Dismiss</button>
+                  <button class="notification-action-btn">View Details</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="notification-item fade-in" style="animation-delay: 0.3s">
+              <div class="notification-icon text-success">
+                <i class="bi bi-check-circle"></i>
+              </div>
+              <div class="notification-content">
+                <h4 class="notification-title">Backup Completed</h4>
+                <p class="notification-text">Database backup was completed successfully. Total size: 2.4GB</p>
+                <p class="notification-time">2 hrs. ago</p>
+              </div>
+            </div>
+            
+            <div class="notification-item fade-in" style="animation-delay: 0.4s">
+              <div class="notification-icon text-primary">
+                <i class="bi bi-person-plus"></i>
+              </div>
+              <div class="notification-content">
+                <h4 class="notification-title">New Team Member</h4>
+                <p class="notification-text">Sarah Johnson has joined your team as a Frontend Developer.</p>
+                <p class="notification-time">5 hrs. ago</p>
+              </div>
+            </div>
+            
+            <div class="notification-item fade-in" style="animation-delay: 0.5s">
+              <div class="notification-icon text-info">
+                <i class="bi bi-cloud-arrow-down"></i>
+              </div>
+              <div class="notification-content">
+                <h4 class="notification-title">New Update Available</h4>
+                <p class="notification-text">Version 2.3.0 is ready to download. Includes performance improvements.</p>
+                <p class="notification-time">1 day ago</p>
+              </div>
             </div>
           </div>
           
-          <div class="notification-item fade-in" style="animation-delay: 0.2s">
-            <div class="notification-icon text-danger">
-              <i class="bi bi-x-circle"></i>
-            </div>
-            <div class="notification-content">
-              <h4 class="notification-title">Failed Login Attempt</h4>
-              <p class="notification-text">Unsuccessful login attempt from unknown IP address</p>
-              <p class="notification-time">1 hr. ago</p>
-            </div>
-          </div>
-          
-          <div class="notification-item fade-in" style="animation-delay: 0.3s">
-            <div class="notification-icon text-success">
-              <i class="bi bi-check-circle"></i>
-            </div>
-            <div class="notification-content">
-              <h4 class="notification-title">Backup Completed</h4>
-              <p class="notification-text">Database backup was completed successfully</p>
-              <p class="notification-time">2 hrs. ago</p>
-            </div>
+          <div class="dropdown-footer">
+            <span>You have 2 unread notifications</span>
           </div>
         </div>
       </div>
       
       <!-- Shopping Cart -->
-      <a href="/shopping" class="action-btn">
+      <a href="/shopping" class="action-btn cart-btn" aria-label="Shopping cart">
         <i class="bi bi-cart3"></i>
         <span class="action-badge cart pulse">3</span>
       </a>
       
+      <!-- Messages Dropdown -->
+      <div class="dropdown">
+        <button class="action-btn messages-btn" aria-label="Messages">
+          <i class="bi bi-chat-left-text"></i>
+          <span class="action-badge message pulse">2</span>
+        </button>
+        
+        <div class="dropdown-menu messages-dropdown">
+          <div class="notification-header">
+            <h3 class="notification-title">Messages</h3>
+            <a href="/messages" class="view-all-btn">
+              View All
+              <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dropdown-search">
+            <input type="text" placeholder="Search messages...">
+            <i class="bi bi-search"></i>
+          </div>
+          
+          <div class="notification-list">
+            <a href="/messages/1" class="dropdown-item fade-in" style="animation-delay: 0.1s">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="profile-img" width="40" height="40">
+              <div>
+                <h4>Sarah Johnson <span class="status-indicator status-online"></span></h4>
+                <p class="notification-text">Hey, can you review the latest design...</p>
+                <p class="notification-time">10 min ago</p>
+              </div>
+              <span class="badge">2</span>
+            </a>
+            
+            <a href="/messages/2" class="dropdown-item fade-in" style="animation-delay: 0.15s">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="profile-img" width="40" height="40">
+              <div>
+                <h4>Michael Chen <span class="status-indicator status-away"></span></h4>
+                <p class="notification-text">The API documentation is ready for...</p>
+                <p class="notification-time">1 hr ago</p>
+              </div>
+            </a>
+            
+            <div class="dropdown-divider"></div>
+            
+            <a href="/messages/3" class="dropdown-item fade-in" style="animation-delay: 0.2s">
+              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" class="profile-img" width="40" height="40">
+              <div>
+                <h4>Emma Wilson <span class="status-indicator status-offline"></span></h4>
+                <p class="notification-text">Meeting rescheduled to tomorrow at...</p>
+                <p class="notification-time">3 hrs ago</p>
+              </div>
+            </a>
+          </div>
+          
+          <div class="dropdown-footer">
+            <button class="view-all-btn" style="width: 100%">
+              <i class="bi bi-plus"></i> New Message
+            </button>
+          </div>
+        </div>
+      </div>
+      
       <!-- User Profile -->
       <div class="dropdown">
-        <button class="profile-btn">
+        <button class="profile-btn profile-dropdown-btn">
           <img src="<%=user_image %>" alt="Profile" class="profile-img">
           <span class="profile-name">Admin</span>
         </button>
         
-        <div class="dropdown-menu">
+        <div class="dropdown-menu profile-dropdown">
           <div class="profile-dropdown-header">
             <img src="<%=user_image %>" alt="Profile" class="profile-dropdown-img tilt">
             <h3 class="profile-dropdown-name">Admin User</h3>
             <p class="profile-dropdown-role">Administrator</p>
+            
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 75%"></div>
+            </div>
+            <p class="notification-time">Profile completeness: 75%</p>
           </div>
           
-          <a href="/admininfo" class="dropdown-item fade-in" style="animation-delay: 0.1s">
-            <i class="bi bi-person"></i>
-            <span>My Profile</span>
-          </a>
-          
-          <a href="/change_pass_page" class="dropdown-item fade-in" style="animation-delay: 0.15s">
-            <i class="bi bi-shield-lock"></i>
-            <span>Change Password</span>
-          </a>
-          
-          <a href="/settings" class="dropdown-item fade-in" style="animation-delay: 0.2s">
-            <i class="bi bi-gear"></i>
-            <span>Settings</span>
-          </a>
-          
-          <a href="/logout" class="dropdown-item fade-in" style="animation-delay: 0.25s">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Sign Out</span>
-          </a>
+          <div class="dropdown-list">
+            <a href="/admininfo" class="dropdown-item fade-in" style="animation-delay: 0.1s">
+              <i class="bi bi-person"></i>
+              <span>My Profile</span>
+            </a>
+            
+            <a href="/change_pass_page" class="dropdown-item fade-in" style="animation-delay: 0.15s">
+              <i class="bi bi-shield-lock"></i>
+              <span>Change Password</span>
+            </a>
+            
+            <a href="/settings" class="dropdown-item fade-in" style="animation-delay: 0.2s">
+              <i class="bi bi-gear"></i>
+              <span>Settings</span>
+            </a>
+            
+            <a href="/team" class="dropdown-item fade-in" style="animation-delay: 0.25s">
+              <i class="bi bi-people"></i>
+              <span>Team Members</span>
+            </a>
+            
+            <div class="dropdown-divider"></div>
+            
+            <a href="/help" class="dropdown-item fade-in" style="animation-delay: 0.3s">
+              <i class="bi bi-question-circle"></i>
+              <span>Help Center</span>
+            </a>
+            
+            <a href="/feedback" class="dropdown-item fade-in" style="animation-delay: 0.35s">
+              <i class="bi bi-chat-square-text"></i>
+              <span>Send Feedback</span>
+            </a>
+            
+            <div class="dropdown-divider"></div>
+            
+            <a href="/logout" class="dropdown-item fade-in" style="animation-delay: 0.4s">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Sign Out</span>
+            </a>
+          </div>
         </div>
       </div>
     </nav>
   </header>
+
+  <!-- Context Menu -->
+  <div class="context-menu" id="contextMenu">
+    <div class="context-menu-item">
+      <i class="bi bi-eye"></i>
+      <span>View Details</span>
+    </div>
+    <div class="context-menu-item">
+      <i class="bi bi-pencil"></i>
+      <span>Edit</span>
+    </div>
+    <div class="context-menu-divider"></div>
+    <div class="context-menu-item">
+      <i class="bi bi-files"></i>
+      <span>Copy</span>
+    </div>
+    <div class="context-menu-item">
+      <i class="bi bi-trash"></i>
+      <span>Delete</span>
+    </div>
+  </div>
 
   <script>
     // Enhanced Header scroll effect with parallax
@@ -923,7 +1418,7 @@
     }, 8000);
     
     // Enhanced cart badge animation on hover
-    const cartBtn = document.querySelector('.action-btn[href="/shopping"]');
+    const cartBtn = document.querySelector('.cart-btn');
     if (cartBtn) {
       cartBtn.addEventListener('mouseenter', function() {
         const badge = this.querySelector('.action-badge');
@@ -949,33 +1444,79 @@
       });
     }
     
-    // Smooth dropdown transitions with delay and staggered animations
+    // Enhanced dropdown transitions with delay and staggered animations
     document.querySelectorAll('.dropdown').forEach(dropdown => {
       let timeout;
+      let isAnimating = false;
       
       dropdown.addEventListener('mouseenter', function() {
         clearTimeout(timeout);
+        if (isAnimating) return;
+        
+        isAnimating = true;
         const menu = this.querySelector('.dropdown-menu');
         menu.style.display = 'block';
         menu.style.opacity = '0';
-        menu.style.transform = 'translateY(15px)';
+        menu.style.transform = 'translateY(10px) scale(0.95)';
+        
+        // Add loading spinner for messages dropdown
+        if (this.querySelector('.messages-dropdown')) {
+          const list = this.querySelector('.notification-list');
+          list.innerHTML = `<div style="padding: 20px; text-align: center;"><div class="spinner"></div></div>`;
+          
+          // Simulate loading messages
+          setTimeout(() => {
+            if (list) {
+              list.innerHTML = `
+                <a href="/messages/1" class="dropdown-item">
+                  <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="profile-img" width="40" height="40">
+                  <div>
+                    <h4>Sarah Johnson <span class="status-indicator status-online"></span></h4>
+                    <p class="notification-text">Hey, can you review the latest design...</p>
+                    <p class="notification-time">10 min ago</p>
+                  </div>
+                  <span class="badge">2</span>
+                </a>
+                <a href="/messages/2" class="dropdown-item">
+                  <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="profile-img" width="40" height="40">
+                  <div>
+                    <h4>Michael Chen <span class="status-indicator status-away"></span></h4>
+                    <p class="notification-text">The API documentation is ready for...</p>
+                    <p class="notification-time">1 hr ago</p>
+                  </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="/messages/3" class="dropdown-item">
+                  <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" class="profile-img" width="40" height="40">
+                  <div>
+                    <h4>Emma Wilson <span class="status-indicator status-offline"></span></h4>
+                    <p class="notification-text">Meeting rescheduled to tomorrow at...</p>
+                    <p class="notification-time">3 hrs ago</p>
+                  </div>
+                </a>
+              `;
+            }
+          }, 800);
+        }
         
         setTimeout(() => {
           menu.style.opacity = '1';
-          menu.style.transform = 'translateY(0)';
+          menu.style.transform = 'translateY(0) scale(1)';
           
           // Animate dropdown items sequentially
           const items = menu.querySelectorAll('.fade-in');
           items.forEach((item, index) => {
             item.style.animationDelay = `${index * 0.05}s`;
           });
+          
+          isAnimating = false;
         }, 10);
       });
       
       dropdown.addEventListener('mouseleave', function() {
         const menu = this.querySelector('.dropdown-menu');
         menu.style.opacity = '0';
-        menu.style.transform = 'translateY(15px)';
+        menu.style.transform = 'translateY(10px) scale(0.95)';
         
         timeout = setTimeout(() => {
           menu.style.display = 'none';
@@ -984,7 +1525,7 @@
     });
     
     // Add ripple effect to buttons
-    document.querySelectorAll('.action-btn, .profile-btn, .view-all-btn, .dropdown-item').forEach(button => {
+    document.querySelectorAll('.action-btn, .profile-btn, .view-all-btn, .dropdown-item, .notification-action-btn').forEach(button => {
       button.addEventListener('click', function(e) {
         // Remove any existing ripple
         const existingRipple = this.querySelector('.ripple-effect');
@@ -1010,7 +1551,7 @@
     });
     
     // Add subtle hover effect to all interactive elements
-    document.querySelectorAll('a, button, .dropdown-item').forEach(element => {
+    document.querySelectorAll('a, button, .dropdown-item, .notification-item').forEach(element => {
       element.addEventListener('mouseenter', function() {
         this.style.transform = 'translateY(-1px)';
       });
@@ -1041,6 +1582,14 @@
         setTimeout(() => {
           logoText.style.animation = 'fadeIn 0.8s ease-out forwards';
         }, 300);
+      }
+      
+      // Initialize profile completeness progress
+      const progressFill = document.querySelector('.progress-fill');
+      if (progressFill) {
+        setTimeout(() => {
+          progressFill.style.width = '75%';
+        }, 500);
       }
     });
 
@@ -1101,6 +1650,150 @@
         }
       });
     });
+    
+    // Context menu functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const contextMenu = document.getElementById('contextMenu');
+      
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        
+        // Position the context menu
+        let x = e.clientX;
+        let y = e.clientY;
+        
+        // Adjust position if near window edges
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const menuWidth = contextMenu.offsetWidth;
+        const menuHeight = contextMenu.offsetHeight;
+        
+        if (x + menuWidth > windowWidth) {
+          x = windowWidth - menuWidth - 5;
+        }
+        
+        if (y + menuHeight > windowHeight) {
+          y = windowHeight - menuHeight - 5;
+        }
+        
+        contextMenu.style.left = `${x}px`;
+        contextMenu.style.top = `${y}px`;
+        contextMenu.classList.add('visible');
+      });
+      
+      // Close context menu when clicking elsewhere
+      document.addEventListener('click', function() {
+        contextMenu.classList.remove('visible');
+      });
+      
+      // Prevent closing when clicking inside menu
+      contextMenu.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    });
+    
+    // Notification item click handler
+    document.querySelectorAll('.notification-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        if (!e.target.classList.contains('notification-action-btn')) {
+          // Mark as read
+          this.classList.remove('unread');
+          
+          // Show tooltip
+          const tooltip = document.createElement('div');
+          tooltip.className = 'tooltip';
+          tooltip.textContent = 'Notification marked as read';
+          document.body.appendChild(tooltip);
+          
+          // Position tooltip
+          const rect = this.getBoundingClientRect();
+          tooltip.style.left = `${rect.left + rect.width / 2 - tooltip.offsetWidth / 2}px`;
+          tooltip.style.top = `${rect.top - tooltip.offsetHeight - 10}px`;
+          tooltip.style.opacity = '1';
+          
+          // Remove tooltip after delay
+          setTimeout(() => {
+            tooltip.style.opacity = '0';
+            setTimeout(() => tooltip.remove(), 200);
+          }, 2000);
+        }
+      });
+    });
+    
+    // Profile dropdown item click handler
+    document.querySelectorAll('.profile-dropdown .dropdown-item').forEach(item => {
+      item.addEventListener('click', function() {
+        // Add active class and remove from siblings
+        this.classList.add('active');
+        const siblings = Array.from(this.parentNode.children).filter(child => child !== this);
+        siblings.forEach(sibling => sibling.classList.remove('active'));
+        
+        // Add loading effect
+        const icon = this.querySelector('i');
+        if (icon) {
+          icon.classList.add('rotate');
+          setTimeout(() => icon.classList.remove('rotate'), 1000);
+        }
+      });
+    });
+    
+    // Search functionality for messages dropdown
+    document.querySelectorAll('.dropdown-search input').forEach(input => {
+      input.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const items = this.closest('.dropdown-menu').querySelectorAll('.dropdown-item');
+        
+        items.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          if (text.includes(searchTerm)) {
+            item.style.display = 'flex';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+    
+    // Avatar hover effect
+    document.querySelectorAll('.profile-img').forEach(avatar => {
+      avatar.addEventListener('mouseenter', function() {
+        this.classList.add('wave');
+      });
+      
+      avatar.addEventListener('mouseleave', function() {
+        this.classList.remove('wave');
+      });
+    });
+    
+    // Simulate unread notifications
+    setTimeout(() => {
+      const notificationItems = document.querySelectorAll('.notification-item.unread');
+      if (notificationItems.length > 0) {
+        notificationItems[0].querySelector('.notification-icon').classList.add('shake');
+        setTimeout(() => {
+          notificationItems[0].querySelector('.notification-icon').classList.remove('shake');
+        }, 500);
+      }
+    }, 3000);
+    
+    // Simulate new message arrival
+    setInterval(() => {
+      if (Math.random() > 0.7) {
+        const messagesBtn = document.querySelector('.messages-btn');
+        if (messagesBtn) {
+          messagesBtn.classList.add('shake');
+          setTimeout(() => messagesBtn.classList.remove('shake'), 500);
+          
+          const badge = messagesBtn.querySelector('.action-badge');
+          if (badge) {
+            const count = parseInt(badge.textContent) + 1;
+            badge.textContent = count;
+            badge.classList.add('pulse');
+            setTimeout(() => badge.classList.remove('pulse'), 1000);
+          }
+        }
+      }
+    }, 15000);
   </script>
 </body>
 </html>
