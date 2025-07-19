@@ -1218,7 +1218,7 @@ exports.ser_buynow1 = async(req,res) => {
     res.cookie("buynowquantity",quantity);
     console.log(abhi1);
     if(abhi1>quantity){
-    res.render("buynow1",{quantity,cart});
+    res.render("buynow1",{quantity,cart,user_image});
 }
 
 else{

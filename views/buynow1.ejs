@@ -3,183 +3,585 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buy Now</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <title>Checkout | Chain Core</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    :root {
+      --primary-color: #6366f1;
+      --primary-hover: #4f46e5;
+      --secondary-color: #f59e0b;
+      --success-color: #10b981;
+      --danger-color: #ef4444;
+      --dark-color: #1e293b;
+      --light-color: #f8fafc;
+      --text-dark: #1e293b;
+      --text-light: #64748b;
+      --bg-light: #ffffff;
+      --bg-dark: #0f172a;
+      --card-bg-light: #ffffff;
+      --card-bg-dark: #1e293b;
+      --border-light: #e2e8f0;
+      --border-dark: #334155;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --gradient-start: #6366f1;
+      --gradient-end: #f59e0b;
+    }
+
+    * {
       margin: 0;
       padding: 0;
-      background-color: #f4f4f4;
+      box-sizing: border-box;
     }
-    .main-container {
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8fafc;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Fixed Header */
+    .main-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 70px; /* Header height */
+      left: 0;
+      bottom: 0;
+      width: 250px;
+      background: white;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+      overflow-y: auto;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 250px; /* Sidebar width */
+      margin-top: 70px; /* Header height */
+      padding-bottom: 60px; /* Footer height */
+      flex: 1;
+      min-height: calc(100vh - 130px); /* 100vh - header - footer */
+    }
+
+    /* Checkout Header */
+    .checkout-header {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      animation: gradientShift 10s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .checkout-header h1 {
+      font-weight: 700;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .checkout-header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    /* Main Layout */
+    .checkout-container {
+      display: flex;
+      flex-direction: column;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 20px;
-      background-color: #fff;
+      padding: 0 1rem;
+      width: 100%;
     }
-    .header {
-      text-align: center;
-      padding: 20px 0;
-      background-color: #333;
-      color: white;
+
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
     }
-    .product-info {
-      padding: 20px;
+
+    @media (min-width: 992px) {
+      .checkout-grid {
+        grid-template-columns: 1.5fr 1fr;
+      }
     }
-    .product-price {
-      font-size: 18px;
-      color: #555;
+
+    /* Order Summary */
+    .order-summary {
+      background: var(--card-bg-light);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-light);
     }
-    .form-container {
-      max-width: 600px;
-      margin: 0 auto;
+
+    .order-summary h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .total-amount {
-      font-size: 24px;
-      font-weight: bold;
-      color: #333;
-    }
+
     .cart-item {
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 15px;
-      margin-bottom: 15px;
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
     }
-    .cart-item h4 {
-      margin: 0 0 10px;
+
+    .cart-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    .button-group {
+
+    .product-image-container {
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-info {
+      flex: 1;
+    }
+
+    .product-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .product-meta {
+      display: flex;
+      gap: 1rem;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .order-totals {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px dashed var(--border-light);
+    }
+
+    .total-row {
       display: flex;
       justify-content: space-between;
-      margin-top: 20px;
+      margin-bottom: 0.5rem;
     }
-    .razorpay-btn {
-      background-color: #2d8ff0;
+
+    .grand-total {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 2px solid var(--border-light);
+    }
+
+    /* Checkout Form */
+    .checkout-form {
+      background: var(--card-bg-light);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-light);
+    }
+
+    .checkout-form h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+      outline: none;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
       color: white;
       border: none;
-      padding: 10px 20px;
-      border-radius: 4px;
-      cursor: pointer;
     }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+    }
+
+    .razorpay-btn {
+      background: #2d8ff0;
+      color: white;
+      border: none;
+    }
+
     .razorpay-btn:hover {
-      background-color: #1a73e8;
+      background: #1a73e8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(42, 130, 240, 0.3);
+    }
+
+    .security-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-dark);
+      color: white;
+      padding: 1.5rem 0;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      left: 250px; /* Same as sidebar width */
+      right: 0;
+      z-index: 1000;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 0;
+        overflow: hidden;
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      footer {
+        left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .checkout-header h1 {
+        font-size: 2rem;
+      }
+      
+      .checkout-header p {
+        font-size: 1rem;
+      }
+      
+      .cart-item {
+        flex-direction: column;
+      }
+      
+      .product-image-container {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1/1;
+      }
+      
+      .btn {
+        flex: 100%;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade {
+      animation: fadeIn 0.5s ease forwards;
     }
   </style>
 </head>
 <body>
-  <div class="main-container">
-
-    <!-- Header -->
-    <header class="header">
-      <h1>Confirm Your Purchase</h1>
-    </header>
+  
+  <!-- Header -->
+  <%- include("../utils/header")%> 
+  
+  <!-- Sidebar -->
+  <%- include("side")%>
     
-    <!-- Cart Items Section -->
-    <div class="product-info">
-      <h2>Your Cart Items</h2>
-      <div id="cartItems">
-       
-          <div class="cart-item">
-            <h4 id="hello"> <%= cart.product_name %></h4>
-            <p>Price: <%= cart.product_price %></p>
-            <p name="quantity">Quantity: <%=quantity %></p>
-            <p>Subtotal: <%= cart.product_price * quantity %></p>
-          </div>
-       
-      </div>
-      
-      <div class="total-amount">
-        <p>Total Amount: <span id="totalAmount"><%=  cart.product_price * quantity,  %></span></p>
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Checkout Header -->
+    <div class="checkout-header">
+      <div class="container">
+        <h1>Complete Your Purchase</h1>
+        <p>Review your order and enter your details</p>
       </div>
     </div>
 
-    <!-- Form Section -->
-    <h3>Enter Your Details to Confirm Purchase</h3>
-    <form action="/confirm_purchase1" method="POST" class="form-container">
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" class="form-control" required>
+    <main class="checkout-container">
+      <div class="checkout-grid animate-fade">
+        <!-- Order Summary -->
+        <section class="order-summary">
+          <h2><i class="fas fa-shopping-bag"></i> Order Summary</h2>
+          
+          <div class="cart-item">
+            <div class="product-image-container">
+              <img src="<%= cart.product_image || 'https://via.placeholder.com/400x400?text=Product' %>" 
+                   alt="<%= cart.product_name %>" 
+                   class="product-image">
+            </div>
+            <div class="product-info">
+              <h3 class="product-title"><%= cart.product_name %></h3>
+              <p class="product-price">₹<%= cart.product_price %></p>
+              <div class="product-meta">
+                <span><i class="fas fa-layer-group"></i> Qty: <%= quantity %></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="order-totals">
+            <div class="total-row">
+              <span>Subtotal:</span>
+              <span>₹<%= cart.product_price %></span>
+            </div>
+            <div class="total-row">
+              <span>Shipping:</span>
+              <span>Free</span>
+            </div>
+            <div class="grand-total">
+              <span>Total:</span>
+              <span id="totalAmount">₹<%= cart.product_price * quantity %></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Checkout Form -->
+        <section class="checkout-form">
+          <h2><i class="fas fa-user-edit"></i> Customer Details</h2>
+          
+          <form id="checkoutForm" action="/confirm_purchase1" method="POST">
+            <div class="form-group">
+              <label for="name" class="form-label">Full Name</label>
+              <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="address" class="form-label">Shipping Address</label>
+              <textarea id="address" name="address" class="form-control" rows="4" placeholder="Enter your complete shipping address" required></textarea>
+            </div>
+            
+            <input type="hidden" id="hiddenTotalAmount" name="totalAmount" value="<%= cart.product_price * quantity %>">
+            
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-check-circle"></i> Confirm Order
+              </button>
+              <button type="button" id="rzp-button1" class="btn razorpay-btn">
+                <i class="fas fa-credit-card"></i> Pay Now
+              </button>
+            </div>
+            
+            <div class="security-badge">
+              <i class="fas fa-lock"></i>
+              <span>Secure checkout. Your information is protected.</span>
+            </div>
+          </form>
+        </section>
       </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label for="address">Address:</label>
-        <textarea id="address" name="address" class="form-control" rows="4" required></textarea>
-      </div>
-      
-      <input type="hidden" id="hiddenTotalAmount" name="totalAmount" value="">
-      
-      <div class="button-group">
-        <button type="submit" class="btn btn-primary">Confirm Purchase</button>
-        <button type="button" id="rzp-button1" class="razorpay-btn">Pay with Razorpay</button>
-      </div>
-    </form>
+    </main>
   </div>
 
-  <!-- Include Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <!-- Razorpay checkout script -->
+  <!-- Footer -->
+  <%- include("../utils/footer"); %>  
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   
   <script>
-    // Set the total amount value in the hidden input field
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set total amount in hidden field
       const totalAmount = document.getElementById('totalAmount').textContent.trim();
       document.getElementById('hiddenTotalAmount').value = totalAmount;
       
       // Razorpay payment handler
-      document.getElementById('rzp-button1').onclick = function(e) {
-        // Get form values
+      document.getElementById('rzp-button1').addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Validate form
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const address = document.getElementById('address').value;
         
-        // Validate form before proceeding to payment
         if (!name || !email || !address) {
-          alert('Please fill all the required fields before payment');
+          showAlert('Please fill all required fields', 'danger');
           return;
         }
         
-        const amount = parseFloat(totalAmount) * 100; // Razorpay expects amount in paise
+        const amount = parseFloat(totalAmount.replace(/[^0-9.]/g, '')) * 100;
         
         const options = {
-          "key": "rzp_test_wtrBaXbtEKahAZ", // Replace with your Razorpay key
-          "amount": amount,
-          "currency": "INR",
-          "name": "Chain Core",
-          "description": "Purchase Payment",
-          "image": "https://example.com/your_logo.jpg",
-          "prefill": {
-            "name": name,
-            "email": email,
-            "contact": "9352161854" // You can add a contact field to your form if needed
+          key: "rzp_test_wtrBaXbtEKahAZ",
+          amount: amount,
+          currency: "INR",
+          name: "Chain Core",
+          description: "Order Payment",
+          image: "<%=user_image%>",
+          prefill: {
+            name: name,
+            email: email,
+            contact: "9352161854"
           },
-          "notes": {
-            "address": address
+          notes: {
+            address: address
           },
-          "theme": {
-            "color": "#3399cc"
+          theme: {
+            color: "#6366f1"
           },
-          "handler": function(response) {
-            // This function will be called after successful payment
-            alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
-            // You can submit the form programmatically here if needed
-            document.querySelector('form').submit();
+          handler: function(response) {
+            showAlert('Payment successful! Processing your order...', 'success');
+            
+            // Add payment details to form
+            const form = document.getElementById('checkoutForm');
+            addHiddenInput(form, 'razorpay_payment_id', response.razorpay_payment_id);
+            addHiddenInput(form, 'razorpay_order_id', response.razorpay_order_id || '');
+            addHiddenInput(form, 'razorpay_signature', response.razorpay_signature || '');
+            
+            // Submit form after delay
+            setTimeout(() => {
+              form.submit();
+            }, 1500);
+          },
+          modal: {
+            ondismiss: function() {
+              showAlert('Payment was cancelled', 'info');
+            }
           }
         };
         
         const rzp1 = new Razorpay(options);
         rzp1.open();
-        e.preventDefault();
-      };
+      });
+      
+      // Helper function to show alerts
+      function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} position-fixed top-20 start-50 translate-middle-x mt-3`;
+        alertDiv.style.zIndex = '1100';
+        alertDiv.style.minWidth = '300px';
+        alertDiv.style.textAlign = 'center';
+        alertDiv.style.animation = 'fadeInDown 0.3s';
+        alertDiv.innerHTML = `
+          <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
+          ${message}
+        `;
+        
+        document.body.appendChild(alertDiv);
+        
+        setTimeout(() => {
+          alertDiv.style.animation = 'fadeOutUp 0.3s';
+          setTimeout(() => {
+            alertDiv.remove();
+          }, 300);
+        }, 3000);
+      }
+      
+      // Helper function to add hidden inputs
+      function addHiddenInput(form, name, value) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      }
     });
   </script>
 </body>
