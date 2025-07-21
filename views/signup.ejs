@@ -3,39 +3,63 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alumni Portal | Sign Up</title>
+  <title>Alumni Connect | Sign Up</title>
   
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
+    /* CSS Variables for Theming */
     :root {
       --primary: #4361ee;
-      --primary-light: #4cc9f0;
-      --primary-dark: #3a56d4;
+      --primary-light: #4895ef;
+      --primary-lighter: #4cc9f0;
+      --primary-lightest: #e0fbfc;
+      --primary-dark: #3a0ca3;
+      --primary-darker: #3f37c9;
       --secondary: #7209b7;
+      --secondary-light: #b5179e;
       --accent: #f72585;
+      --accent-light: #ff70a6;
+      --success: #4cc9f0;
+      --success-light: #80ffdb;
+      --warning: #f8961e;
+      --danger: #f94144;
       --white: #ffffff;
       --light-gray: #f8f9fa;
-      --lighter-gray: #e9ecef;
+      --lighter-gray: #f1f3f5;
+      --medium-gray: #e9ecef;
       --text-gray: #6c757d;
-      --dark-gray: #343a40;
-      --border-radius: 16px;
-      --border-radius-sm: 8px;
-      --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-      --box-shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.1);
-      --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-      --transition-fast: all 0.2s ease-out;
-      --background: #f9fafb;
-      --card-bg: rgba(255, 255, 255, 0.98);
+      --dark-gray: #495057;
+      --darker-gray: #212529;
+      --black: #000000;
+      --border-radius: 12px;
+      --border-radius-md: 8px;
+      --border-radius-sm: 4px;
+      --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      --box-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --box-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --box-shadow-xl: 0 15px 25px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --transition-fast: all 0.15s ease;
+      --background: #ffffff;
+      --card-bg: #ffffff;
+      --glass-bg: rgba(255, 255, 255, 0.95);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
     }
 
+    /* Base Styles */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -46,81 +70,17 @@
       min-height: 100vh;
       padding: 20px;
       position: relative;
-      overflow: hidden;
-      color: var(--dark-gray);
+      overflow-x: hidden;
+      color: var(--darker-gray);
       background-color: var(--background);
+      line-height: 1.6;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Enhanced Animated Gradient Background */
-    .gradient-bg {
-      position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      z-index: -3;
-      background: linear-gradient(135deg, #f3f4f6, #e5e7eb, #f9fafb, #e5e7eb, #d1d5db, #e5e7eb, #f3f4f6);
-      background-size: 400% 400%;
-      animation: gradient-shift 20s ease infinite;
-      opacity: 0.8;
-    }
-
-    @keyframes gradient-shift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Enhanced Floating Geometric Shapes */
-    .floating-shapes {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      overflow: hidden;
-    }
-
-    .shape {
-      position: absolute;
-      opacity: 0.15;
-      animation: float-shape linear infinite;
-      filter: blur(0.5px);
-      mix-blend-mode: overlay;
-    }
-
-    .shape-circle {
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--primary), transparent);
-    }
-
-    .shape-triangle {
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-color: transparent;
-      border-bottom-color: var(--primary);
-    }
-
-    .shape-square {
-      transform: rotate(45deg);
-      background: linear-gradient(45deg, var(--primary), transparent);
-    }
-
-    @keyframes float-shape {
-      0% { 
-        transform: translateY(100vh) rotate(0deg) scale(0.5); 
-        opacity: 0;
-      }
-      10% { opacity: 0.15; }
-      90% { opacity: 0.15; }
-      100% { 
-        transform: translateY(-100px) rotate(360deg) scale(1.2); 
-        opacity: 0;
-      }
-    }
-
-    /* New: Floating Bubbles Background */
-    .bubbles-container {
+    /* Enhanced Bubble Background Animation */
+    .bubble-background {
       position: fixed;
       top: 0;
       left: 0;
@@ -133,68 +93,26 @@
     .bubble {
       position: absolute;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.8);
+      background: radial-gradient(circle, rgba(67,97,238,0.15) 0%, rgba(67,97,238,0) 70%);
+      filter: blur(20px);
       animation: float-bubble linear infinite;
-      filter: blur(1px);
       opacity: 0.6;
     }
 
     @keyframes float-bubble {
       0% {
-        transform: translateY(100vh) translateX(0) scale(0.5);
-        opacity: 0;
+        transform: translateY(0) translateX(0);
       }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
+      50% {
+        transform: translateY(-50vh) translateX(20px);
       }
       100% {
-        transform: translateY(-100px) translateX(calc(var(--move-x) * 100px)) scale(1.2);
-        opacity: 0;
+        transform: translateY(-100vh) translateX(0);
       }
     }
 
-    /* New: Floating Particles Network */
-    .particles-network {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    .particle-node {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(67, 97, 238, 0.3);
-      animation: pulse-node 4s ease infinite;
-    }
-
-    @keyframes pulse-node {
-      0%, 100% { transform: scale(1); opacity: 0.3; }
-      50% { transform: scale(1.5); opacity: 0.6; }
-    }
-
-    .particle-connection {
-      position: absolute;
-      height: 1px;
-      background: rgba(67, 97, 238, 0.1);
-      transform-origin: left center;
-      animation: fade-connection 8s linear infinite;
-    }
-
-    @keyframes fade-connection {
-      0%, 100% { opacity: 0; }
-      10%, 90% { opacity: 0.1; }
-    }
-
-    /* New: Floating Wavy Lines */
-    .wavy-lines {
+    /* Particle Animation */
+    .particles {
       position: fixed;
       top: 0;
       left: 0;
@@ -204,109 +122,71 @@
       overflow: hidden;
     }
 
-    .wavy-line {
+    .particle {
       position: absolute;
-      height: 100%;
-      width: 2px;
-      background: transparent;
-      animation: wave-line 20s linear infinite;
-    }
-
-    .wavy-line::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, transparent, rgba(67, 97, 238, 0.1), transparent);
-      animation: wave-move 8s linear infinite;
-    }
-
-    @keyframes wave-line {
-      0% { transform: translateY(100vh); }
-      100% { transform: translateY(-100vh); }
-    }
-
-    @keyframes wave-move {
-      0% { transform: translateY(-100%); }
-      100% { transform: translateY(100%); }
-    }
-
-    /* New: Floating Micro Particles */
-    .micro-particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    .micro-particle {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      border-radius: 50%;
       background: rgba(67, 97, 238, 0.1);
-      animation: float-micro linear infinite;
+      border-radius: 50%;
+      animation: float-particle 15s infinite linear;
     }
 
-    @keyframes float-micro {
+    @keyframes float-particle {
       0% {
-        transform: translateY(100vh) translateX(0);
+        transform: translateY(100vh) translateX(0) rotate(0deg);
         opacity: 0;
       }
       10% {
-        opacity: 0.3;
+        opacity: 0.5;
       }
       90% {
-        opacity: 0.3;
+        opacity: 0.5;
       }
       100% {
-        transform: translateY(-100px) translateX(calc(var(--drift) * 50px));
+        transform: translateY(-100px) translateX(100px) rotate(720deg);
         opacity: 0;
       }
     }
 
-    /* Floating Card without Hover Effects */
+    /* Main Content Container */
     .signup-container {
-      max-width: 640px;
+      max-width: 1000px;
       width: 100%;
-      animation: card-enter 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+      margin: 2rem auto;
+      perspective: 1000px;
+    }
+
+    .signup-card {
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow-xl);
+      background: var(--glass-bg);
+      overflow: hidden;
+      transition: var(--transition);
+      border: 1px solid var(--medium-gray);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transform-style: preserve-3d;
+      animation: card-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     @keyframes card-enter {
       0% {
         opacity: 0;
-        transform: translateY(80px) scale(0.95);
+        transform: translateY(40px) rotateX(10deg);
       }
       100% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0) rotateX(0);
       }
     }
 
-    .signup-card {
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow-lg);
-      background: var(--card-bg);
-      overflow: hidden;
-      transition: var(--transition);
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      position: relative;
-      backface-visibility: hidden;
-    }
-
-    /* Header with Animation */
+    /* Header Section */
     .signup-header {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: var(--white);
-      padding: 3rem;
+      padding: 3.5rem;
       text-align: center;
       position: relative;
       overflow: hidden;
-      z-index: 1;
+      clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
     }
 
     .signup-header::before {
@@ -314,14 +194,13 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 200%;
+      width: 100%;
       height: 100%;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.15)" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-      background-size: 50% 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+      background-size: cover;
       background-position: bottom;
       animation: wave 15s linear infinite;
-      z-index: -1;
-      will-change: transform;
+      z-index: 1;
     }
 
     @keyframes wave {
@@ -330,24 +209,30 @@
     }
 
     .signup-header h2 {
+      font-family: 'Playfair Display', serif;
       font-weight: 600;
-      margin-bottom: 0.5rem;
-      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      font-size: 2.75rem;
       position: relative;
-      animation: text-pop 1s cubic-bezier(0.22, 1, 0.36, 1) both;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 2;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      animation: text-pop 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .signup-header h2 i {
+      margin-right: 12px;
+      font-size: 2.4rem;
+      vertical-align: middle;
     }
 
     @keyframes text-pop {
       0% {
         opacity: 0;
-        transform: translateY(30px) scale(0.8);
-        text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(20px) scale(0.9);
       }
       100% {
         opacity: 1;
         transform: translateY(0) scale(1);
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       }
     }
 
@@ -355,214 +240,255 @@
       font-weight: 300;
       opacity: 0.9;
       position: relative;
-      font-size: 1.1rem;
-      animation: fade-in 1s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+      z-index: 2;
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin: 0 auto;
+      animation: fade-in 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     @keyframes fade-in {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Enhanced Form Animations */
+    /* Form Styles */
     .signup-body {
-      padding: 3rem;
+      padding: 3.5rem;
+      position: relative;
     }
 
     .form-row {
       display: flex;
       gap: 1.5rem;
       margin-bottom: 1.5rem;
+      flex-wrap: wrap;
     }
 
     .form-group {
       flex: 1;
+      min-width: 200px;
       position: relative;
-      animation: form-group-enter 1s cubic-bezier(0.22, 1, 0.36, 1) both;
-      transform-origin: center bottom;
+      animation: form-group-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
+
+    /* Stagger animations for each form group */
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+    .form-group:nth-child(5) { animation-delay: 0.5s; }
+    .form-group:nth-child(6) { animation-delay: 0.6s; }
+    .form-group:nth-child(7) { animation-delay: 0.7s; }
+    .form-group:nth-child(8) { animation-delay: 0.8s; }
 
     @keyframes form-group-enter {
       0% {
         opacity: 0;
-        transform: translateY(40px) scale(0.95);
+        transform: translateY(15px);
       }
       100% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
       }
     }
 
-    /* Stagger animations for each form group */
-    .form-group:nth-child(1) { animation-delay: 0.4s; }
-    .form-group:nth-child(2) { animation-delay: 0.5s; }
-    .form-group:nth-child(3) { animation-delay: 0.6s; }
-    .form-group:nth-child(4) { animation-delay: 0.7s; }
-    .form-group:nth-child(5) { animation-delay: 0.8s; }
-    .form-group:nth-child(6) { animation-delay: 0.9s; }
-
     .form-group label {
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
       font-weight: 500;
-      color: var(--text-gray);
+      color: var(--dark-gray);
       transition: var(--transition-fast);
-      transform-origin: left center;
-    }
-
-    .form-group:focus-within label {
-      color: var(--primary);
-      transform: translateY(-2px);
+      font-size: 0.95rem;
     }
 
     .input-container {
       position: relative;
       transition: var(--transition);
+      border-radius: var(--border-radius-sm);
+      background: var(--white);
+      box-shadow: var(--box-shadow);
+      border: 1px solid var(--medium-gray);
+    }
+
+    .input-container:hover {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px var(--primary-lightest);
+    }
+
+    .input-container:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-lightest);
+    }
+
+    .input-container::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: var(--transition-fast);
+      z-index: 2;
+    }
+
+    .form-group:focus-within .input-container::before {
+      transform: scaleX(1);
     }
 
     .form-control {
       width: 100%;
-      height: 52px;
+      height: 56px;
       border-radius: var(--border-radius-sm);
-      border: 2px solid var(--lighter-gray);
-      padding: 0 18px;
+      border: none;
+      padding: 0 20px;
       font-size: 1rem;
       transition: var(--transition-fast);
-      background: var(--white);
+      background: transparent;
       font-family: 'Poppins', sans-serif;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+      color: var(--darker-gray);
+      box-shadow: none;
     }
 
     .form-control:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+      box-shadow: none;
       outline: none;
-      background: var(--white);
     }
 
     /* Floating Label Animation */
     .floating-label {
       position: absolute;
       top: 50%;
-      left: 18px;
+      left: 20px;
       transform: translateY(-50%);
       color: var(--text-gray);
       pointer-events: none;
-      transition: all 0.3s ease;
-      background: var(--white);
-      padding: 0 5px;
+      transition: var(--transition);
+      background: transparent;
+      padding: 0 8px;
       border-radius: 4px;
+      font-size: 1rem;
+      z-index: 1;
     }
 
     .form-control:focus + .floating-label,
     .form-control:not(:placeholder-shown) + .floating-label {
       top: 0;
-      transform: translateY(-50%) scale(0.9);
+      transform: translateY(-50%) scale(0.85);
       color: var(--primary);
       background: var(--white);
     }
 
     textarea.form-control {
       height: 120px;
-      padding: 15px;
+      padding: 16px;
       resize: vertical;
     }
 
     select.form-control {
       appearance: none;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat;
-      background-position: right 15px center;
+      background-position: right 16px center;
       background-size: 1rem;
     }
 
-    /* Enhanced Button with Morph Animation */
-    .btn-signup {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      border: none;
-      height: 58px;
-      border-radius: var(--border-radius-sm);
-      width: 100%;
-      font-weight: 600;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-      margin-top: 1.5rem;
-      position: relative;
-      overflow: hidden;
-      animation: fade-in 1s 1s both;
-      box-shadow: 0 10px 25px rgba(67, 97, 238, 0.2);
-    }
-
-    .btn-signup:hover {
-      background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
-      box-shadow: 0 15px 35px rgba(67, 97, 238, 0.3);
-      transform: translateY(-3px);
-    }
-
-    .btn-signup:active {
-      transform: translateY(0) scale(0.98);
-    }
-
-    /* Button Liquid Effect */
-    .btn-signup::before {
-      content: '';
+    /* Input Icons */
+    .input-icon {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      transform: translateX(-100%);
-      transition: transform 0.6s ease;
-      z-index: 1;
-    }
-
-    .btn-signup:hover::before {
-      transform: translateX(100%);
-    }
-
-    /* Button Ripple Effect */
-    .btn-signup::after {
-      content: '';
-      position: absolute;
+      right: 16px;
       top: 50%;
-      left: 50%;
-      width: 5px;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.6);
-      opacity: 0;
-      border-radius: 100%;
-      transform: scale(1, 1) translate(-50%);
-      transform-origin: 50% 50%;
-    }
-
-    .btn-signup:focus:not(:active)::after {
-      animation: ripple 1s ease-out;
-    }
-
-    @keyframes ripple {
-      0% { transform: scale(0, 0); opacity: 0.6; }
-      20% { transform: scale(25, 25); opacity: 0.3; }
-      100% { transform: scale(40, 40); opacity: 0; }
-    }
-
-    .btn-content {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
+      transform: translateY(-50%);
+      color: var(--text-gray);
+      transition: var(--transition-fast);
       z-index: 2;
     }
 
-    /* Enhanced Link Animation */
+    .form-control:focus ~ .input-icon {
+      color: var(--primary);
+    }
+
+    /* Password Toggle */
+    .password-toggle {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-gray);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      z-index: 2;
+    }
+
+    .password-toggle:hover {
+      color: var(--primary);
+    }
+
+    /* Button Styles */
+    .btn {
+      border: none;
+      border-radius: var(--border-radius-sm);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 24px;
+      height: 56px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--secondary-light));
+      box-shadow: 0 10px 15px rgba(67, 97, 238, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 5px rgba(67, 97, 238, 0.2);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary-lightest);
+      box-shadow: 0 4px 6px rgba(67, 97, 238, 0.1);
+    }
+
+    .btn-lg {
+      height: 56px;
+      font-size: 1.1rem;
+      padding: 0 32px;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    /* Link Styles */
     .login-link {
       text-align: center;
-      margin-top: 2rem;
+      margin-top: 1.5rem;
       color: var(--text-gray);
-      animation: fade-in 1s 1.1s both;
+      font-size: 0.95rem;
     }
 
     .login-link a {
@@ -571,7 +497,6 @@
       font-weight: 500;
       transition: var(--transition-fast);
       position: relative;
-      display: inline-block;
     }
 
     .login-link a::after {
@@ -581,9 +506,12 @@
       left: 0;
       width: 0;
       height: 2px;
-      background: var(--primary-dark);
-      transition: var(--transition-fast);
-      border-radius: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    .login-link a:hover {
+      text-decoration: none;
     }
 
     .login-link a:hover::after {
@@ -592,37 +520,241 @@
 
     /* Input Validation States */
     .form-group.success .form-control {
-      border-color: #4BB543;
+      border-color: var(--success);
     }
 
     .form-group.error .form-control {
-      border-color: #ff3860;
+      border-color: var(--danger);
     }
 
     .form-group .error-message {
-      color: #ff3860;
-      font-size: 0.8rem;
+      color: var(--danger);
+      font-size: 0.85rem;
       margin-top: 0.5rem;
       display: none;
     }
 
     .form-group.error .error-message {
       display: block;
-      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
     }
 
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    /* Form Steps Indicator */
+    .form-steps {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .step {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--lighter-gray);
+      color: var(--text-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      position: relative;
+      z-index: 2;
+      transition: var(--transition);
+      box-shadow: var(--box-shadow);
+      border: 2px solid var(--white);
+    }
+
+    .step.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .step.completed {
+      background: var(--success);
+      color: var(--white);
+      box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+    }
+
+    .step-connector {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--lighter-gray);
+      z-index: 1;
+      transform: translateY(-50%);
+    }
+
+    .step-progress {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      z-index: 2;
+      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translateY(-50%);
+    }
+
+    /* Password Strength Meter */
+    .password-strength {
+      margin-top: 0.5rem;
+      height: 6px;
+      background: var(--lighter-gray);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .strength-meter {
+      height: 100%;
+      width: 0;
+      transition: all 0.4s ease;
+    }
+
+    .strength-weak { background: var(--danger); width: 25%; }
+    .strength-medium { background: var(--warning); width: 50%; }
+    .strength-strong { background: var(--success); width: 75%; }
+    .strength-very-strong { background: var(--success); width: 100%; }
+
+    .strength-text {
+      font-size: 0.75rem;
+      color: var(--text-gray);
+      margin-top: 0.25rem;
+      text-align: right;
+    }
+
+    /* File Input Styling */
+    .file-input-container {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .file-input-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 16px;
+      height: 56px;
+      border-radius: var(--border-radius-sm);
+      background: var(--white);
+      color: var(--text-gray);
+      border: 1px dashed var(--medium-gray);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .file-input-button:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-lightest);
+    }
+
+    .file-input {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-name {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-gray);
+      display: none;
+    }
+
+    /* Checkbox Styling */
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .checkbox-input {
+      position: absolute;
+      opacity: 0;
+      height: 0;
+      width: 0;
+    }
+
+    .checkbox-custom {
+      position: relative;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: var(--white);
+      border: 1px solid var(--medium-gray);
+      border-radius: 4px;
+      margin-right: 10px;
+      transition: var(--transition-fast);
+    }
+
+    .checkbox-input:checked ~ .checkbox-custom {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .checkbox-input:focus ~ .checkbox-custom {
+      box-shadow: 0 0 0 3px var(--primary-lightest);
+    }
+
+    .checkbox-custom::after {
+      content: '';
+      position: absolute;
+      display: none;
+      left: 7px;
+      top: 3px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .checkbox-input:checked ~ .checkbox-custom::after {
+      display: block;
+    }
+
+    .checkbox-label {
+      font-size: 0.95rem;
+      color: var(--dark-gray);
+      cursor: pointer;
+    }
+
+    .checkbox-label a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+
+    .checkbox-label a:hover {
+      text-decoration: underline;
     }
 
     /* Confetti Animation */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 100;
+    }
+
     .confetti {
       position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: var(--primary);
+      width: 12px;
+      height: 12px;
       opacity: 0;
       z-index: 10;
       animation: confetti-fall 3s ease-in-out forwards;
@@ -630,68 +762,111 @@
 
     @keyframes confetti-fall {
       0% {
-        transform: translateY(-100px) rotate(0deg);
+        transform: translateY(-100px) rotate(0deg) scale(0);
         opacity: 1;
       }
       100% {
-        transform: translateY(1000px) rotate(720deg);
+        transform: translateY(1000px) rotate(720deg) scale(1);
         opacity: 0;
       }
     }
 
-    /* Floating Digit Particles */
-    .digit-particle {
-      position: absolute;
-      background: var(--primary-light);
-      border-radius: 50%;
+    /* Success Animation */
+    .success-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.95);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
       pointer-events: none;
-      z-index: 100;
-      animation: floatUp 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-      filter: blur(1px);
+      transition: var(--transition);
     }
 
-    @keyframes floatUp {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-120px) scale(0); opacity: 0; }
+    .success-animation.active {
+      opacity: 1;
+      pointer-events: all;
     }
 
-    /* New Background Particles */
-    .bg-particle {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.8);
+    .checkmark {
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      pointer-events: none;
-      z-index: -1;
-      animation: float-particle linear infinite;
-      filter: blur(1px);
+      display: block;
+      stroke-width: 4;
+      stroke: var(--success);
+      stroke-miterlimit: 10;
+      margin: 0 auto;
+      box-shadow: 0 0 0 rgba(76, 201, 240, 0.4);
+      animation: checkmark-fill 0.4s ease-in-out 0.4s forwards, checkmark-scale 0.3s ease-in-out 0.9s both;
     }
 
-    @keyframes float-particle {
-      0% {
-        transform: translateY(100vh) translateX(0) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
-      }
+    .checkmark-circle {
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      stroke-width: 4;
+      stroke-miterlimit: 10;
+      stroke: var(--success);
+      fill: none;
+      animation: checkmark-stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+
+    .checkmark-check {
+      transform-origin: 50% 50%;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: checkmark-stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    }
+
+    @keyframes checkmark-stroke {
       100% {
-        transform: translateY(-100px) translateX(100px) rotate(360deg);
-        opacity: 0;
+        stroke-dashoffset: 0;
       }
+    }
+
+    @keyframes checkmark-scale {
+      0%, 100% {
+        transform: none;
+      }
+      50% {
+        transform: scale3d(1.1, 1.1, 1);
+      }
+    }
+
+    @keyframes checkmark-fill {
+      100% {
+        box-shadow: inset 0 0 0 100px rgba(76, 201, 240, 0);
+      }
+    }
+
+    .success-message {
+      text-align: center;
+      margin-top: 2rem;
+      animation: fade-in 0.6s 1.2s both;
+    }
+
+    .success-message h3 {
+      font-size: 1.8rem;
+      color: var(--darker-gray);
+      margin-bottom: 1rem;
+    }
+
+    .success-message p {
+      color: var(--text-gray);
+      max-width: 400px;
+      margin: 0 auto;
     }
 
     /* Responsive Design */
-    @media (max-width: 768px) {
-      .form-row {
-        flex-direction: column;
-        gap: 1rem;
-      }
-      
+    @media (max-width: 992px) {
       .signup-container {
-        max-width: 100%;
+        max-width: 700px;
       }
       
       .signup-header {
@@ -703,9 +878,10 @@
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       .signup-header {
         padding: 2rem;
+        clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
       }
       
       .signup-body {
@@ -713,193 +889,373 @@
       }
       
       .signup-header h2 {
+        font-size: 2rem;
+      }
+      
+      .form-row {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      
+      .form-group {
+        min-width: 100%;
+      }
+    }
+
+    @media (max-width: 576px) {
+      body {
+        padding: 15px;
+      }
+      
+      .signup-header {
+        padding: 1.5rem;
+      }
+      
+      .signup-body {
+        padding: 1.5rem;
+      }
+      
+      .signup-header h2 {
         font-size: 1.8rem;
+      }
+      
+      .signup-header p {
+        font-size: 1rem;
+      }
+      
+      .form-control {
+        height: 52px;
+      }
+      
+      .btn {
+        height: 52px;
+      }
+      
+      .form-steps {
+        margin-bottom: 1.5rem;
+      }
+      
+      .step {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Enhanced Animated Background Elements -->
-  <div class="gradient-bg"></div>
-  <div class="floating-shapes" id="floatingShapes"></div>
-  <div class="bubbles-container" id="bubblesContainer"></div>
-  <div class="particles-network" id="particlesNetwork"></div>
-  <div class="wavy-lines" id="wavyLines"></div>
-  <div class="micro-particles" id="microParticles"></div>
+  <!-- Bubble Background Animation -->
+  <div class="bubble-background" id="bubbleBackground"></div>
   
+  <!-- Particle Animation -->
+  <div class="particles" id="particles"></div>
+  
+  <!-- Main Content -->
   <div class="signup-container">
     <div class="signup-card">
+      <!-- Header Section -->
       <div class="signup-header">
-        <h2><i class="fas fa-graduation-cap"></i> Alumni Portal</h2>
-        <p>Join our growing alumni community</p>
+        <h2><i class="fas fa-graduation-cap"></i> Alumni Connect</h2>
+        <p>Join our global network of alumni and stay connected with your alma mater</p>
       </div>
 
+      <!-- Form Section -->
       <div class="signup-body">
+        <!-- Form Steps Indicator -->
+        <div class="form-steps">
+          <div class="step-connector"></div>
+          <div class="step-progress" id="stepProgress"></div>
+          <div class="step active" data-step="1">1</div>
+          <div class="step" data-step="2">2</div>
+          <div class="step" data-step="3">3</div>
+        </div>
+
         <form id="signupForm" action="/signup" method="post">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="yourName">Your Name</label>
-              <div class="input-container">
-                <input type="text" id="yourName" name="Name" class="form-control" required placeholder="John Doe">
-                <span class="floating-label">Your Name</span>
+          <!-- Step 1: Personal Information -->
+          <div class="form-step" data-step="1">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="yourName">Full Name</label>
+                <div class="input-container">
+                  <input type="text" id="yourName" name="Name" class="form-control" required placeholder="John Doe">
+                  <span class="floating-label">Full Name</span>
+                </div>
+                <div class="error-message">Please enter your full name</div>
               </div>
-              <div class="error-message">Please enter your full name</div>
+              <div class="form-group">
+                <label for="fatherName">Father's Name</label>
+                <div class="input-container">
+                  <input type="text" id="fatherName" name="FatherName" class="form-control" required placeholder="Father's Name">
+                  <span class="floating-label">Father's Name</span>
+                </div>
+                <div class="error-message">Please enter father's name</div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="fatherName">Father's Name</label>
-              <div class="input-container">
-                <input type="text" id="fatherName" name="FatherName" class="form-control" required placeholder="Father's Name">
-                <span class="floating-label">Father's Name</span>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="mobileNo">Mobile Number</label>
+                <div class="input-container">
+                  <input type="tel" id="mobileNo" name="MobileNo" class="form-control" required placeholder="+91 9876543210">
+                  <span class="floating-label">Mobile Number</span>
+                  <i class="fas fa-phone input-icon"></i>
+                </div>
+                <div class="error-message">Please enter a valid mobile number</div>
               </div>
-              <div class="error-message">Please enter father's name</div>
+              <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <div class="input-container">
+                  <input type="date" id="dob" name="Dob" class="form-control" required>
+                  <span class="floating-label">Date of Birth</span>
+                  <i class="fas fa-calendar-day input-icon"></i>
+                </div>
+                <div class="error-message">Please select your date of birth</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-container">
+                  <input type="email" id="email" name="Email" class="form-control" required placeholder="your@email.com">
+                  <span class="floating-label">Email Address</span>
+                  <i class="fas fa-envelope input-icon"></i>
+                </div>
+                <div class="error-message">Please enter a valid email address</div>
+              </div>
+              <div class="form-group">
+                <label for="gender">Gender</label>
+                <div class="input-container">
+                  <select id="gender" name="Gender" class="form-control" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                    <option value="Prefer not to say">Prefer not to say</option>
+                  </select>
+                  <span class="floating-label">Gender</span>
+                </div>
+                <div class="error-message">Please select your gender</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Residential Address</label>
+              <div class="input-container">
+                <textarea id="address" name="ResidentialAddress" class="form-control" rows="3" required placeholder="Your complete address"></textarea>
+                <span class="floating-label">Residential Address</span>
+              </div>
+              <div class="error-message">Please enter your address</div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block next-step" data-next="2">
+              <i class="fas fa-arrow-right"></i> Next: Account Details
+            </button>
+          </div>
+
+          <!-- Step 2: Account Information -->
+          <div class="form-step" data-step="2" style="display: none;">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="batchYear">Batch Year</label>
+                <div class="input-container">
+                  <input type="number" id="batchYear" name="BatchYear" class="form-control" required placeholder="e.g. 2015">
+                  <span class="floating-label">Batch Year</span>
+                </div>
+                <div class="error-message">Please enter your graduation year</div>
+              </div>
+              <div class="form-group">
+                <label for="degree">Degree</label>
+                <div class="input-container">
+                  <input type="text" id="degree" name="Degree" class="form-control" required placeholder="e.g. B.Tech Computer Science">
+                  <span class="floating-label">Degree</span>
+                </div>
+                <div class="error-message">Please enter your degree</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-container">
+                  <input type="text" id="username" name="Username" class="form-control" required placeholder="john_doe">
+                  <span class="floating-label">Username</span>
+                  <i class="fas fa-user input-icon"></i>
+                </div>
+                <div class="error-message">Please choose a username</div>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-container">
+                  <input type="password" id="password" name="Password" class="form-control" required placeholder="••••••••">
+                  <span class="floating-label">Password</span>
+                  <i class="fas fa-lock input-icon"></i>
+                  <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                </div>
+                <div class="password-strength">
+                  <div class="strength-meter" id="strengthMeter"></div>
+                </div>
+                <div class="strength-text" id="strengthText">Password strength</div>
+                <div class="error-message">Password must be at least 8 characters</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="input-container">
+                  <input type="password" id="confirmPassword" name="ConfirmPassword" class="form-control" required placeholder="••••••••">
+                  <span class="floating-label">Confirm Password</span>
+                  <i class="fas fa-lock input-icon"></i>
+                </div>
+                <div class="error-message">Passwords do not match</div>
+              </div>
+              <div class="form-group">
+                <label for="profilePhoto">Profile Photo</label>
+                <div class="file-input-container">
+                  <div class="file-input-button" id="fileInputButton">
+                    <i class="fas fa-camera"></i>
+                    <span>Choose a photo</span>
+                  </div>
+                  <input type="file" id="profilePhoto" name="ProfilePhoto" class="file-input" accept="image/*">
+                  <div class="file-name" id="fileName"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <button type="button" class="btn btn-outline prev-step" data-prev="1">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+              <button type="button" class="btn btn-primary next-step" data-next="3">
+                <i class="fas fa-arrow-right"></i> Next: Payment
+              </button>
             </div>
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="mobileNo">Mobile Number</label>
-              <div class="input-container">
-                <input type="tel" id="mobileNo" name="MobileNo" class="form-control" required placeholder="+91 9876543210">
-                <span class="floating-label">Mobile Number</span>
+          <!-- Step 3: Payment Information -->
+          <div class="form-step" data-step="3" style="display: none;">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="membershipType">Membership Type</label>
+                <div class="input-container">
+                  <select id="membershipType" name="MembershipType" class="form-control" required>
+                    <option value="" disabled selected>Select Membership</option>
+                    <option value="Basic">Basic (Free)</option>
+                    <option value="Premium">Premium ($50/year)</option>
+                    <option value="Lifetime">Lifetime ($200)</option>
+                  </select>
+                  <span class="floating-label">Membership Type</span>
+                </div>
+                <div class="error-message">Please select membership type</div>
               </div>
-              <div class="error-message">Please enter a valid mobile number</div>
-            </div>
-            <div class="form-group">
-              <label for="dob">Date of Birth</label>
-              <div class="input-container">
-                <input type="date" id="dob" name="Dob" class="form-control" required>
-                <span class="floating-label">Date of Birth</span>
+              <div class="form-group">
+                <label for="amount">Amount</label>
+                <div class="input-container">
+                  <input type="number" id="amount" name="Amount" class="form-control" required placeholder="0.00" readonly>
+                  <span class="floating-label">Amount</span>
+                  <i class="fas fa-dollar-sign input-icon"></i>
+                </div>
+                <div class="error-message">Please enter a valid amount</div>
               </div>
-              <div class="error-message">Please select your date of birth</div>
             </div>
-          </div>
 
-          <div class="form-row">
             <div class="form-group">
-              <label for="email">Email Address</label>
+              <label for="paymentMethod">Payment Method</label>
               <div class="input-container">
-                <input type="email" id="email" name="Email" class="form-control" required placeholder="your@email.com">
-                <span class="floating-label">Email Address</span>
-              </div>
-              <div class="error-message">Please enter a valid email address</div>
-            </div>
-            <div class="form-group">
-              <label for="gender">Gender</label>
-              <div class="input-container">
-                <select id="gender" name="Gender" class="form-control" required>
-                  <option value="" disabled selected>Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
+                <select id="paymentMethod" name="PaymentMethod" class="form-control" required>
+                  <option value="" disabled selected>Select Payment Method</option>
+                  <option value="Credit Card">Credit Card</option>
+                  <option value="Debit Card">Debit Card</option>
+                  <option value="PayPal">PayPal</option>
+                  <option value="Bank Transfer">Bank Transfer</option>
                 </select>
-                <span class="floating-label">Gender</span>
+                <span class="floating-label">Payment Method</span>
               </div>
-              <div class="error-message">Please select your gender</div>
+              <div class="error-message">Please select payment method</div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="address">Residential Address</label>
-            <div class="input-container">
-              <textarea id="address" name="ResidentialAddress" class="form-control" rows="3" required placeholder="Your complete address"></textarea>
-              <span class="floating-label">Residential Address</span>
+            <div class="checkbox-container">
+              <input type="checkbox" id="termsAgreement" name="TermsAgreement" class="checkbox-input" required>
+              <label for="termsAgreement" class="checkbox-custom"></label>
+              <label for="termsAgreement" class="checkbox-label">
+                I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>
+              </label>
+              <div class="error-message">You must agree to the terms</div>
             </div>
-            <div class="error-message">Please enter your address</div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="password">Password</label>
-              <div class="input-container">
-                <input type="password" id="password" name="Password" class="form-control" required placeholder="••••••••">
-                <span class="floating-label">Password</span>
-              </div>
-              <div class="error-message">Password must be at least 8 characters</div>
+            <div class="form-row">
+              <button type="button" class="btn btn-outline prev-step" data-prev="2">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+              <button type="submit" class="btn btn-primary" id="submitForm">
+                <i class="fas fa-user-plus"></i> Complete Registration
+              </button>
             </div>
-            <div class="form-group">
-              <label for="amount">Amount</label>
-              <div class="input-container">
-                <input type="number" id="amount" name="Amount" class="form-control" required placeholder="0.00">
-                <span class="floating-label">Amount</span>
-              </div>
-              <div class="error-message">Please enter a valid amount</div>
-            </div>
-          </div>
-
-          <button type="submit" class="btn-signup">
-            <span class="btn-content">
-              <i class="fas fa-user-plus"></i> Create Account
-            </span>
-          </button>
-
-          <div class="login-link">
-            Already have an account? <a href="/">Sign in</a>
           </div>
         </form>
+
+        <div class="login-link">
+          Already have an account? <a href="/login">Sign in</a>
+        </div>
       </div>
     </div>
   </div>
 
-  <script>
-    // Create floating geometric shapes with enhanced animation
-    function createFloatingShapes() {
-      const shapesContainer = document.getElementById('floatingShapes');
-      const shapes = ['circle', 'triangle', 'square'];
-      const colors = ['#4361ee', '#4cc9f0', '#7209b7', '#f72585'];
-      
-      for (let i = 0; i < 20; i++) {
-        const shape = document.createElement('div');
-        const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
-        shape.className = `shape shape-${shapeType}`;
-        
-        // Random properties
-        const size = Math.random() * 150 + 50;
-        const left = Math.random() * 100;
-        const top = Math.random() * 100 + 100; // Start below viewport
-        const duration = Math.random() * 30 + 20;
-        const delay = Math.random() * 15;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const opacity = Math.random() * 0.15 + 0.05;
-        
-        shape.style.width = `${size}px`;
-        shape.style.height = `${size}px`;
-        shape.style.left = `${left}%`;
-        shape.style.top = `${top}%`;
-        shape.style.animationDuration = `${duration}s`;
-        shape.style.animationDelay = `${delay}s`;
-        shape.style.opacity = opacity;
-        
-        if (shapeType === 'circle') {
-          shape.style.background = `radial-gradient(circle, ${color}, transparent)`;
-        } else if (shapeType === 'triangle') {
-          shape.style.borderBottom = `${size}px solid ${color}`;
-          shape.style.borderLeft = `${size/2}px solid transparent`;
-          shape.style.borderRight = `${size/2}px solid transparent`;
-          shape.style.background = 'none';
-        } else if (shapeType === 'square') {
-          shape.style.background = `linear-gradient(45deg, ${color}, transparent)`;
-        }
-        
-        shapesContainer.appendChild(shape);
-      }
-    }
+  <!-- Confetti Container -->
+  <div class="confetti-container" id="confettiContainer"></div>
 
-    // Create floating bubbles background
-    function createBubbles() {
-      const container = document.getElementById('bubblesContainer');
-      const colors = ['rgba(67, 97, 238, 0.1)', 'rgba(76, 201, 240, 0.1)', 'rgba(114, 9, 183, 0.1)', 'rgba(247, 37, 133, 0.1)'];
+  <!-- Success Animation -->
+  <div class="success-animation" id="successAnimation">
+    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+      <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+      <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+    </svg>
+    <div class="success-message">
+      <h3>Registration Successful!</h3>
+      <p>Welcome to our alumni community. You'll receive a confirmation email shortly.</p>
+    </div>
+  </div>
+
+  <script>
+    // DOM Elements
+    const signupForm = document.getElementById('signupForm');
+    const steps = document.querySelectorAll('.form-step');
+    const stepButtons = document.querySelectorAll('.next-step, .prev-step');
+    const stepProgress = document.getElementById('stepProgress');
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+    const strengthMeter = document.getElementById('strengthMeter');
+    const strengthText = document.getElementById('strengthText');
+    const confettiContainer = document.getElementById('confettiContainer');
+    const successAnimation = document.getElementById('successAnimation');
+    const fileInputButton = document.getElementById('fileInputButton');
+    const fileInput = document.getElementById('profilePhoto');
+    const fileName = document.getElementById('fileName');
+    const membershipType = document.getElementById('membershipType');
+    const amountInput = document.getElementById('amount');
+    const particlesContainer = document.getElementById('particles');
+    const bubbleBackground = document.getElementById('bubbleBackground');
+
+    // Create bubbles for background
+    function createBubbles(count = 15) {
+      const colors = [
+        'rgba(67, 97, 238, 0.15)',
+        'rgba(114, 9, 183, 0.15)',
+        'rgba(72, 149, 239, 0.15)',
+        'rgba(247, 37, 133, 0.1)'
+      ];
       
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < count; i++) {
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
         
         // Random properties
-        const size = Math.random() * 120 + 30;
+        const size = Math.random() * 300 + 100;
         const left = Math.random() * 100;
-        const duration = Math.random() * 20 + 15;
-        const delay = Math.random() * 10;
         const color = colors[Math.floor(Math.random() * colors.length)];
-        const moveX = Math.random() * 2 - 1; // -1 to 1
+        const duration = Math.random() * 30 + 20;
+        const delay = Math.random() * 10;
         
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
@@ -907,295 +1263,362 @@
         bubble.style.backgroundColor = color;
         bubble.style.animationDuration = `${duration}s`;
         bubble.style.animationDelay = `${delay}s`;
-        bubble.style.setProperty('--move-x', moveX);
+        bubble.style.opacity = Math.random() * 0.5 + 0.3;
+        bubble.style.bottom = `-${size}px`;
         
-        container.appendChild(bubble);
+        bubbleBackground.appendChild(bubble);
+        
+        // Remove after animation
+        setTimeout(() => {
+          bubble.remove();
+        }, (duration + delay) * 1000);
       }
+      
+      // Keep creating bubbles
+      setTimeout(() => createBubbles(5), 3000);
     }
 
-    // Create particles network
-    function createParticlesNetwork() {
-      const container = document.getElementById('particlesNetwork');
-      const nodeCount = 15;
-      const nodes = [];
+    // Create particles for background
+    function createParticles(count = 30) {
+      const colors = ['rgba(67, 97, 238, 0.1)', 'rgba(114, 9, 183, 0.1)', 'rgba(72, 149, 239, 0.1)'];
       
-      // Create nodes
-      for (let i = 0; i < nodeCount; i++) {
-        const node = document.createElement('div');
-        node.className = 'particle-node';
-        
-        const left = Math.random() * 100;
-        const top = Math.random() * 100;
-        const delay = Math.random() * 4;
-        
-        node.style.left = `${left}%`;
-        node.style.top = `${top}%`;
-        node.style.animationDelay = `${delay}s`;
-        
-        container.appendChild(node);
-        nodes.push({ element: node, left, top });
-      }
-      
-      // Create connections between nearby nodes
-      for (let i = 0; i < nodeCount; i++) {
-        for (let j = i + 1; j < nodeCount; j++) {
-          const node1 = nodes[i];
-          const node2 = nodes[j];
-          
-          // Calculate distance between nodes
-          const dx = node2.left - node1.left;
-          const dy = node2.top - node1.top;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          // Only connect nodes that are relatively close
-          if (distance < 40) {
-            const connection = document.createElement('div');
-            connection.className = 'particle-connection';
-            
-            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-            const length = distance;
-            
-            connection.style.width = `${length}%`;
-            connection.style.left = `${node1.left}%`;
-            connection.style.top = `${node1.top}%`;
-            connection.style.transform = `rotate(${angle}deg)`;
-            connection.style.animationDelay = `${Math.random() * 4}s`;
-            
-            container.appendChild(connection);
-          }
-        }
-      }
-    }
-
-    // Create wavy lines background
-    function createWavyLines() {
-      const container = document.getElementById('wavyLines');
-      const lineCount = 8;
-      
-      for (let i = 0; i < lineCount; i++) {
-        const line = document.createElement('div');
-        line.className = 'wavy-line';
-        
-        const left = Math.random() * 100;
-        const delay = Math.random() * 20;
-        const duration = Math.random() * 10 + 15;
-        
-        line.style.left = `${left}%`;
-        line.style.animationDelay = `${delay}s`;
-        line.style.animationDuration = `${duration}s`;
-        
-        container.appendChild(line);
-      }
-    }
-
-    // Create micro particles background
-    function createMicroParticles() {
-      const container = document.getElementById('microParticles');
-      const particleCount = 200;
-      
-      for (let i = 0; i < particleCount; i++) {
+      for (let i = 0; i < count; i++) {
         const particle = document.createElement('div');
-        particle.className = 'micro-particle';
-        
-        const left = Math.random() * 100;
-        const duration = Math.random() * 15 + 10;
-        const delay = Math.random() * 15;
-        const drift = Math.random() * 2 - 1; // -1 to 1
-        
-        particle.style.left = `${left}%`;
-        particle.style.animationDuration = `${duration}s`;
-        particle.style.animationDelay = `${delay}s`;
-        particle.style.setProperty('--drift', drift);
-        
-        container.appendChild(particle);
-      }
-    }
-
-    // Create digit particles animation
-    function createDigitParticles(element) {
-      const rect = element.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      for (let i = 0; i < 15; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'digit-particle';
+        particle.className = 'particle';
         
         // Random properties
-        const size = Math.random() * 12 + 6;
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 50 + 30;
-        const x = centerX + Math.cos(angle) * distance;
-        const y = centerY + Math.sin(angle) * distance;
-        const duration = Math.random() * 1 + 0.5;
-        const color = `hsl(${200 + Math.random() * 60}, 80%, 65%)`;
+        const size = Math.random() * 20 + 5;
+        const left = Math.random() * 100;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 10 + 10;
         
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        particle.style.left = `${x}px`;
-        particle.style.top = `${y}px`;
+        particle.style.left = `${left}%`;
         particle.style.backgroundColor = color;
+        particle.style.animationDelay = `${delay}s`;
         particle.style.animationDuration = `${duration}s`;
         
-        document.body.appendChild(particle);
+        particlesContainer.appendChild(particle);
         
         // Remove after animation
         setTimeout(() => {
           particle.remove();
-        }, 1200);
+        }, (duration + delay) * 1000);
       }
+      
+      // Keep creating particles
+      setTimeout(() => createParticles(10), 2000);
     }
 
     // Create confetti effect
-    function createConfetti() {
-      const colors = ['#4361ee', '#4cc9f0', '#7209b7', '#f72585'];
-      const container = document.querySelector('.signup-container');
+    function createConfetti(count = 150) {
+      const colors = ['#4361ee', '#4895ef', '#4cc9f0', '#3a0ca3', '#7209b7'];
+      const shapes = ['circle', 'rect', 'triangle'];
       
-      for (let i = 0; i < 150; i++) {
+      for (let i = 0; i < count; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
         
         // Random properties
-        const size = Math.random() * 10 + 5;
+        const size = Math.random() * 12 + 6;
         const left = Math.random() * 100;
         const color = colors[Math.floor(Math.random() * colors.length)];
-        const delay = Math.random() * 2;
-        const duration = Math.random() * 2 + 2;
-        const shape = Math.random() > 0.5 ? '50%' : '0';
-        const rotation = Math.random() * 1080;
+        const delay = Math.random() * 1.5;
+        const duration = Math.random() * 2 + 1.5;
+        const shape = shapes[Math.floor(Math.random() * shapes.length)];
         
         confetti.style.width = `${size}px`;
         confetti.style.height = `${size}px`;
         confetti.style.left = `${left}%`;
         confetti.style.backgroundColor = color;
-        confetti.style.borderRadius = shape;
         confetti.style.animationDelay = `${delay}s`;
         confetti.style.animationDuration = `${duration}s`;
-        confetti.style.setProperty('--rotation', `${rotation}deg`);
         
-        container.appendChild(confetti);
+        // Apply different shapes
+        if (shape === 'circle') {
+          confetti.style.borderRadius = '50%';
+        } else if (shape === 'triangle') {
+          confetti.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+        }
+        
+        confettiContainer.appendChild(confetti);
+        
+        // Remove after animation
+        setTimeout(() => {
+          confetti.remove();
+        }, (duration + delay) * 1000);
       }
     }
 
-    // Form validation
-    function validateForm() {
+    // Check password strength
+    function checkPasswordStrength(password) {
+      let strength = 0;
+      
+      // Length check
+      if (password.length >= 8) strength++;
+      if (password.length >= 12) strength++;
+      
+      // Character variety
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[^A-Za-z0-9]/.test(password)) strength++;
+      
+      return strength;
+    }
+
+    // Update password strength meter
+    function updateStrengthMeter(password) {
+      const strength = checkPasswordStrength(password);
+      
+      strengthMeter.className = 'strength-meter';
+      strengthText.textContent = 'Password strength';
+      
+      if (password.length === 0) {
+        strengthMeter.style.width = '0';
+        return;
+      }
+      
+      switch(strength) {
+        case 0:
+        case 1:
+          strengthMeter.classList.add('strength-weak');
+          strengthText.textContent = 'Weak';
+          strengthText.style.color = 'var(--danger)';
+          break;
+        case 2:
+        case 3:
+          strengthMeter.classList.add('strength-medium');
+          strengthText.textContent = 'Medium';
+          strengthText.style.color = 'var(--warning)';
+          break;
+        case 4:
+          strengthMeter.classList.add('strength-strong');
+          strengthText.textContent = 'Strong';
+          strengthText.style.color = 'var(--success)';
+          break;
+        case 5:
+          strengthMeter.classList.add('strength-very-strong');
+          strengthText.textContent = 'Very Strong';
+          strengthText.style.color = 'var(--success)';
+          break;
+      }
+    }
+
+    // Toggle password visibility
+    function togglePasswordVisibility() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      togglePassword.classList.toggle('fa-eye');
+      togglePassword.classList.toggle('fa-eye-slash');
+    }
+
+    // Handle file input changes
+    function handleFileInputChange(e) {
+      const file = e.target.files[0];
+      if (file) {
+        fileName.textContent = file.name;
+        fileName.style.display = 'block';
+        fileInputButton.innerHTML = `<i class="fas fa-check"></i> <span>Photo selected</span>`;
+        fileInputButton.style.color = 'var(--success)';
+        fileInputButton.style.borderColor = 'var(--success)';
+      } else {
+        fileName.style.display = 'none';
+        fileInputButton.innerHTML = `<i class="fas fa-camera"></i> <span>Choose a photo</span>`;
+        fileInputButton.style.color = '';
+        fileInputButton.style.borderColor = '';
+      }
+    }
+
+    // Update amount based on membership type
+    function updateAmount() {
+      switch(membershipType.value) {
+        case 'Basic':
+          amountInput.value = '0';
+          break;
+        case 'Premium':
+          amountInput.value = '50';
+          break;
+        case 'Lifetime':
+          amountInput.value = '200';
+          break;
+        default:
+          amountInput.value = '';
+      }
+    }
+
+    // Validate form step
+    function validateStep(step) {
       let isValid = true;
-      const form = document.getElementById('signupForm');
+      const inputs = document.querySelectorAll(`.form-step[data-step="${step}"] .form-control[required]`);
       
-      // Validate name
-      const nameInput = document.getElementById('yourName');
-      const nameGroup = nameInput.closest('.form-group');
-      if (nameInput.value.trim() === '') {
-        nameGroup.classList.add('error');
-        isValid = false;
-      } else {
-        nameGroup.classList.remove('error');
-        nameGroup.classList.add('success');
-      }
-      
-      // Validate email
-      const emailInput = document.getElementById('email');
-      const emailGroup = emailInput.closest('.form-group');
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(emailInput.value.trim())) {
-        emailGroup.classList.add('error');
-        isValid = false;
-      } else {
-        emailGroup.classList.remove('error');
-        emailGroup.classList.add('success');
-      }
-      
-      // Validate password
-      const passwordInput = document.getElementById('password');
-      const passwordGroup = passwordInput.closest('.form-group');
-      if (passwordInput.value.length < 8) {
-        passwordGroup.classList.add('error');
-        isValid = false;
-      } else {
-        passwordGroup.classList.remove('error');
-        passwordGroup.classList.add('success');
-      }
+      inputs.forEach(input => {
+        const group = input.closest('.form-group');
+        
+        if (!input.value.trim()) {
+          group.classList.add('error');
+          isValid = false;
+        } else {
+          group.classList.remove('error');
+          
+          // Special validation for email
+          if (input.type === 'email') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(input.value.trim())) {
+              group.classList.add('error');
+              isValid = false;
+            }
+          }
+          
+          // Special validation for password
+          if (input.id === 'password' && input.value.length < 8) {
+            group.classList.add('error');
+            isValid = false;
+          }
+          
+          // Special validation for confirm password
+          if (input.id === 'confirmPassword' && input.value !== passwordInput.value) {
+            group.classList.add('error');
+            isValid = false;
+          }
+        }
+      });
       
       return isValid;
     }
 
-    // Enhanced form submission with progress animation
-    document.getElementById('signupForm').addEventListener('submit', function(e) {
+    // Navigate between form steps
+    function navigateToStep(step) {
+      // Hide all steps
+      steps.forEach(s => s.style.display = 'none');
+      
+      // Show current step
+      document.querySelector(`.form-step[data-step="${step}"]`).style.display = 'block';
+      
+      // Update step indicators
+      document.querySelectorAll('.step').forEach((s, i) => {
+        if (parseInt(s.dataset.step) < step) {
+          s.classList.remove('active');
+          s.classList.add('completed');
+        } else if (parseInt(s.dataset.step) === step) {
+          s.classList.add('active');
+          s.classList.remove('completed');
+        } else {
+          s.classList.remove('active', 'completed');
+        }
+      });
+      
+      // Update progress bar
+      const progress = ((step - 1) / (steps.length - 1)) * 100;
+      stepProgress.style.width = `${progress}%`;
+      
+      // Scroll to top of form
+      signupForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Form submission handler
+    function handleFormSubmit(e) {
       e.preventDefault();
       
-      // Validate form first
-      if (!validateForm()) {
+      // Validate final step
+      if (!validateStep('3')) {
         return;
       }
       
-      const btn = document.querySelector('.btn-signup');
-      const btnContent = document.querySelector('.btn-content');
-      const icon = document.querySelector('.btn-content i');
+      // Check terms agreement
+      const termsCheckbox = document.getElementById('termsAgreement');
+      if (!termsCheckbox.checked) {
+        termsCheckbox.closest('.checkbox-container').classList.add('error');
+        return;
+      } else {
+        termsCheckbox.closest('.checkbox-container').classList.remove('error');
+      }
       
       // Show loading state
-      btn.style.pointerEvents = 'none';
-      btnContent.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      const originalContent = submitButton.innerHTML;
       
-      // Create progress bar
-      const progressBar = document.createElement('div');
-      progressBar.style.position = 'absolute';
-      progressBar.style.bottom = '0';
-      progressBar.style.left = '0';
-      progressBar.style.height = '4px';
-      progressBar.style.background = 'rgba(255,255,255,0.5)';
-      progressBar.style.width = '0%';
-      progressBar.style.transition = 'width 1.5s cubic-bezier(0.22, 1, 0.36, 1)';
-      progressBar.style.borderRadius = '0 0 8px 8px';
-      btn.appendChild(progressBar);
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
       
-      // Animate progress
-      setTimeout(() => {
-        progressBar.style.width = '100%';
-      }, 10);
-      
-      // Simulate account creation
+      // Simulate form processing
       setTimeout(() => {
         // Show success state
-        btnContent.innerHTML = '<i class="fas fa-check"></i> Account Created!';
-        btn.style.background = 'linear-gradient(135deg, #4BB543, #3a9a33)';
-        progressBar.style.background = 'rgba(255,255,255,0.8)';
+        successAnimation.classList.add('active');
         
         // Create confetti celebration
-        createConfetti();
+        createConfetti(200);
         
-        // Submit the form after animation
+        // Reset form after animation
         setTimeout(() => {
-          this.submit();
-        }, 1500);
+          // Reset form
+          signupForm.reset();
+          navigateToStep('1');
+          submitButton.disabled = false;
+          submitButton.innerHTML = originalContent;
+          fileName.style.display = 'none';
+          fileInputButton.innerHTML = `<i class="fas fa-camera"></i> <span>Choose a photo</span>`;
+          fileInputButton.style.color = '';
+          fileInputButton.style.borderColor = '';
+          
+          // Hide success animation after delay
+          setTimeout(() => {
+            successAnimation.classList.remove('active');
+          }, 3000);
+        }, 3000);
       }, 1500);
-    });
+    }
 
-    // Initialize everything when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      createFloatingShapes();
-      createBubbles();
-      createParticlesNetwork();
-      createWavyLines();
-      createMicroParticles();
+    // Initialize event listeners
+    function initEventListeners() {
+      // Password toggle
+      togglePassword.addEventListener('click', togglePasswordVisibility);
       
-      // Add floating label functionality
-      const inputs = document.querySelectorAll('.form-control');
-      inputs.forEach(input => {
+      // Password strength meter
+      passwordInput.addEventListener('input', (e) => {
+        updateStrengthMeter(e.target.value);
+      });
+      
+      // File input change
+      fileInput.addEventListener('change', handleFileInputChange);
+      
+      // Membership type change
+      membershipType.addEventListener('change', updateAmount);
+      
+      // Form step navigation
+      stepButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          const currentStep = button.closest('.form-step').dataset.step;
+          const targetStep = button.classList.contains('next-step') ? 
+            button.dataset.next : button.dataset.prev;
+          
+          if (button.classList.contains('next-step') && !validateStep(currentStep)) {
+            return;
+          }
+          
+          navigateToStep(targetStep);
+        });
+      });
+      
+      // Form submission
+      signupForm.addEventListener('submit', handleFormSubmit);
+      
+      // Input animations
+      document.querySelectorAll('.form-control').forEach(input => {
         // Check if input has value on page load
         if (input.value) {
           const label = input.nextElementSibling;
           label.style.top = '0';
-          label.style.transform = 'translateY(-50%) scale(0.9)';
+          label.style.transform = 'translateY(-50%) scale(0.85)';
           label.style.color = 'var(--primary)';
-          label.style.background = 'var(--white)';
         }
         
         input.addEventListener('focus', () => {
           const label = input.nextElementSibling;
           label.style.top = '0';
-          label.style.transform = 'translateY(-50%) scale(0.9)';
+          label.style.transform = 'translateY(-50%) scale(0.85)';
           label.style.color = 'var(--primary)';
-          label.style.background = 'var(--white)';
         });
         
         input.addEventListener('blur', () => {
@@ -1204,17 +1627,18 @@
             label.style.top = '50%';
             label.style.transform = 'translateY(-50%)';
             label.style.color = 'var(--text-gray)';
-            label.style.background = 'var(--white)';
-          }
-        });
-
-        // Add particles animation on input
-        input.addEventListener('input', () => {
-          if (input.value.length > 0) {
-            createDigitParticles(input);
           }
         });
       });
+    }
+
+    // Initialize everything when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      initEventListeners();
+      navigateToStep('1');
+      createBubbles();
+      createParticles();
+      updateAmount(); // Initialize amount field
     });
   </script>
 </body>
