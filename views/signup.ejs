@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Alumni Connect | Sign Up</title>
   
   <!-- Google Fonts -->
@@ -56,6 +56,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     html {
@@ -68,7 +69,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 20px;
+      padding: 16px;
       position: relative;
       overflow-x: hidden;
       color: var(--darker-gray);
@@ -77,9 +78,10 @@
       font-weight: 400;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      touch-action: manipulation;
     }
 
-    /* Enhanced Bubble Background Animation */
+    /* Optimized Bubble Background Animation */
     .bubble-background {
       position: fixed;
       top: 0;
@@ -88,6 +90,8 @@
       height: 100%;
       z-index: -1;
       overflow: hidden;
+      will-change: transform;
+      transform: translate3d(0,0,0);
     }
 
     .bubble {
@@ -97,6 +101,8 @@
       filter: blur(20px);
       animation: float-bubble linear infinite;
       opacity: 0.6;
+      will-change: transform;
+      transform: translate3d(0,0,0);
     }
 
     @keyframes float-bubble {
@@ -111,7 +117,7 @@
       }
     }
 
-    /* Particle Animation */
+    /* Optimized Particle Animation */
     .particles {
       position: fixed;
       top: 0;
@@ -120,6 +126,8 @@
       height: 100%;
       z-index: -1;
       overflow: hidden;
+      will-change: transform;
+      transform: translate3d(0,0,0);
     }
 
     .particle {
@@ -127,6 +135,8 @@
       background: rgba(67, 97, 238, 0.1);
       border-radius: 50%;
       animation: float-particle 15s infinite linear;
+      will-change: transform;
+      transform: translate3d(0,0,0);
     }
 
     @keyframes float-particle {
@@ -150,8 +160,10 @@
     .signup-container {
       max-width: 1000px;
       width: 100%;
-      margin: 2rem auto;
+      margin: 1rem auto;
       perspective: 1000px;
+      will-change: transform;
+      transform: translate3d(0,0,0);
     }
 
     .signup-card {
@@ -165,6 +177,7 @@
       -webkit-backdrop-filter: blur(8px);
       transform-style: preserve-3d;
       animation: card-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+      will-change: transform;
     }
 
     @keyframes card-enter {
@@ -182,11 +195,11 @@
     .signup-header {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: var(--white);
-      padding: 3.5rem;
+      padding: 2.5rem 1.5rem;
       text-align: center;
       position: relative;
       overflow: hidden;
-      clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
     }
 
     .signup-header::before {
@@ -201,6 +214,7 @@
       background-position: bottom;
       animation: wave 15s linear infinite;
       z-index: 1;
+      will-change: transform;
     }
 
     @keyframes wave {
@@ -211,8 +225,8 @@
     .signup-header h2 {
       font-family: 'Playfair Display', serif;
       font-weight: 600;
-      margin-bottom: 1rem;
-      font-size: 2.75rem;
+      margin-bottom: 0.75rem;
+      font-size: 2rem;
       position: relative;
       z-index: 2;
       text-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -220,8 +234,8 @@
     }
 
     .signup-header h2 i {
-      margin-right: 12px;
-      font-size: 2.4rem;
+      margin-right: 10px;
+      font-size: 1.8rem;
       vertical-align: middle;
     }
 
@@ -241,7 +255,7 @@
       opacity: 0.9;
       position: relative;
       z-index: 2;
-      font-size: 1.25rem;
+      font-size: 1rem;
       max-width: 600px;
       margin: 0 auto;
       animation: fade-in 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -254,22 +268,23 @@
 
     /* Form Styles */
     .signup-body {
-      padding: 3.5rem;
+      padding: 2rem 1.5rem;
       position: relative;
     }
 
     .form-row {
       display: flex;
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
+      gap: 1rem;
+      margin-bottom: 1rem;
       flex-wrap: wrap;
     }
 
     .form-group {
-      flex: 1;
-      min-width: 200px;
+      flex: 1 1 100%;
+      min-width: 0;
       position: relative;
       animation: form-group-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+      will-change: transform, opacity;
     }
 
     /* Stagger animations for each form group */
@@ -295,11 +310,11 @@
 
     .form-group label {
       display: block;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
       font-weight: 500;
       color: var(--dark-gray);
       transition: var(--transition-fast);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
     .input-container {
@@ -309,6 +324,7 @@
       background: var(--white);
       box-shadow: var(--box-shadow);
       border: 1px solid var(--medium-gray);
+      will-change: transform;
     }
 
     .input-container:hover {
@@ -341,16 +357,17 @@
 
     .form-control {
       width: 100%;
-      height: 56px;
+      height: 48px;
       border-radius: var(--border-radius-sm);
       border: none;
-      padding: 0 20px;
-      font-size: 1rem;
+      padding: 0 16px;
+      font-size: 0.95rem;
       transition: var(--transition-fast);
       background: transparent;
       font-family: 'Poppins', sans-serif;
       color: var(--darker-gray);
       box-shadow: none;
+      -webkit-appearance: none;
     }
 
     .form-control:focus {
@@ -362,16 +379,20 @@
     .floating-label {
       position: absolute;
       top: 50%;
-      left: 20px;
+      left: 16px;
       transform: translateY(-50%);
       color: var(--text-gray);
       pointer-events: none;
       transition: var(--transition);
       background: transparent;
-      padding: 0 8px;
+      padding: 0 6px;
       border-radius: 4px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       z-index: 1;
+      max-width: calc(100% - 32px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .form-control:focus + .floating-label,
@@ -383,8 +404,8 @@
     }
 
     textarea.form-control {
-      height: 120px;
-      padding: 16px;
+      height: 100px;
+      padding: 12px;
       resize: vertical;
     }
 
@@ -392,19 +413,20 @@
       appearance: none;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat;
-      background-position: right 16px center;
+      background-position: right 12px center;
       background-size: 1rem;
     }
 
     /* Input Icons */
     .input-icon {
       position: absolute;
-      right: 16px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-gray);
       transition: var(--transition-fast);
       z-index: 2;
+      font-size: 0.95rem;
     }
 
     .form-control:focus ~ .input-icon {
@@ -414,13 +436,14 @@
     /* Password Toggle */
     .password-toggle {
       position: absolute;
-      right: 16px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-gray);
       cursor: pointer;
       transition: var(--transition-fast);
       z-index: 2;
+      font-size: 0.95rem;
     }
 
     .password-toggle:hover {
@@ -432,7 +455,7 @@
       border: none;
       border-radius: var(--border-radius-sm);
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.95rem;
       cursor: pointer;
       transition: var(--transition);
       position: relative;
@@ -440,9 +463,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 0 24px;
-      height: 56px;
+      gap: 6px;
+      padding: 0 20px;
+      height: 48px;
+      will-change: transform;
+      transform: translate3d(0,0,0);
     }
 
     .btn-primary {
@@ -486,9 +511,9 @@
     /* Link Styles */
     .login-link {
       text-align: center;
-      margin-top: 1.5rem;
+      margin-top: 1.25rem;
       color: var(--text-gray);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
     .login-link a {
@@ -529,8 +554,8 @@
 
     .form-group .error-message {
       color: var(--danger);
-      font-size: 0.85rem;
-      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      margin-top: 0.4rem;
       display: none;
     }
 
@@ -542,13 +567,13 @@
     .form-steps {
       display: flex;
       justify-content: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       position: relative;
     }
 
     .step {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: var(--lighter-gray);
       color: var(--text-gray);
@@ -561,6 +586,7 @@
       transition: var(--transition);
       box-shadow: var(--box-shadow);
       border: 2px solid var(--white);
+      font-size: 0.9rem;
     }
 
     .step.active {
@@ -600,10 +626,10 @@
 
     /* Password Strength Meter */
     .password-strength {
-      margin-top: 0.5rem;
-      height: 6px;
+      margin-top: 0.4rem;
+      height: 4px;
       background: var(--lighter-gray);
-      border-radius: 3px;
+      border-radius: 2px;
       overflow: hidden;
     }
 
@@ -619,9 +645,9 @@
     .strength-very-strong { background: var(--success); width: 100%; }
 
     .strength-text {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-gray);
-      margin-top: 0.25rem;
+      margin-top: 0.2rem;
       text-align: right;
     }
 
@@ -637,15 +663,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 0 16px;
-      height: 56px;
+      gap: 6px;
+      padding: 0 12px;
+      height: 48px;
       border-radius: var(--border-radius-sm);
       background: var(--white);
       color: var(--text-gray);
       border: 1px dashed var(--medium-gray);
       transition: var(--transition);
       cursor: pointer;
+      font-size: 0.9rem;
     }
 
     .file-input-button:hover {
@@ -665,10 +692,13 @@
     }
 
     .file-name {
-      margin-top: 0.5rem;
-      font-size: 0.85rem;
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
       color: var(--text-gray);
       display: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Checkbox Styling */
@@ -688,13 +718,14 @@
     .checkbox-custom {
       position: relative;
       display: inline-block;
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       background: var(--white);
       border: 1px solid var(--medium-gray);
       border-radius: 4px;
-      margin-right: 10px;
+      margin-right: 8px;
       transition: var(--transition-fast);
+      flex-shrink: 0;
     }
 
     .checkbox-input:checked ~ .checkbox-custom {
@@ -710,10 +741,10 @@
       content: '';
       position: absolute;
       display: none;
-      left: 7px;
-      top: 3px;
-      width: 5px;
-      height: 10px;
+      left: 6px;
+      top: 2px;
+      width: 4px;
+      height: 8px;
       border: solid white;
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
@@ -724,9 +755,10 @@
     }
 
     .checkbox-label {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--dark-gray);
       cursor: pointer;
+      line-height: 1.4;
     }
 
     .checkbox-label a {
@@ -753,11 +785,12 @@
 
     .confetti {
       position: absolute;
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       opacity: 0;
       z-index: 10;
       animation: confetti-fall 3s ease-in-out forwards;
+      will-change: transform, opacity;
     }
 
     @keyframes confetti-fall {
@@ -795,8 +828,8 @@
     }
 
     .checkmark {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       display: block;
       stroke-width: 4;
@@ -847,41 +880,28 @@
 
     .success-message {
       text-align: center;
-      margin-top: 2rem;
+      margin-top: 1.5rem;
       animation: fade-in 0.6s 1.2s both;
+      padding: 0 1rem;
     }
 
     .success-message h3 {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: var(--darker-gray);
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
 
     .success-message p {
       color: var(--text-gray);
-      max-width: 400px;
+      max-width: 300px;
       margin: 0 auto;
+      font-size: 0.95rem;
     }
 
     /* Responsive Design */
-    @media (max-width: 992px) {
-      .signup-container {
-        max-width: 700px;
-      }
-      
+    @media (min-width: 576px) {
       .signup-header {
         padding: 2.5rem;
-      }
-      
-      .signup-body {
-        padding: 2.5rem;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .signup-header {
-        padding: 2rem;
-        clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
       }
       
       .signup-body {
@@ -889,65 +909,121 @@
       }
       
       .signup-header h2 {
-        font-size: 2rem;
-      }
-      
-      .form-row {
-        flex-direction: column;
-        gap: 1.5rem;
-      }
-      
-      .form-group {
-        min-width: 100%;
-      }
-    }
-
-    @media (max-width: 576px) {
-      body {
-        padding: 15px;
-      }
-      
-      .signup-header {
-        padding: 1.5rem;
-      }
-      
-      .signup-body {
-        padding: 1.5rem;
-      }
-      
-      .signup-header h2 {
-        font-size: 1.8rem;
+        font-size: 2.25rem;
       }
       
       .signup-header p {
-        font-size: 1rem;
+        font-size: 1.1rem;
+      }
+      
+      .form-row {
+        gap: 1.25rem;
+        margin-bottom: 1.25rem;
+      }
+      
+      .form-group {
+        flex: 1;
+        min-width: 200px;
       }
       
       .form-control {
         height: 52px;
+        padding: 0 18px;
+      }
+      
+      .floating-label {
+        left: 18px;
+      }
+      
+      .input-icon, .password-toggle {
+        right: 16px;
       }
       
       .btn {
         height: 52px;
       }
       
-      .form-steps {
-        margin-bottom: 1.5rem;
+      .file-input-button {
+        height: 52px;
+        padding: 0 16px;
       }
       
       .step {
-        width: 30px;
-        height: 30px;
-        font-size: 0.9rem;
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      body {
+        padding: 20px;
+      }
+      
+      .signup-header {
+        padding: 3rem;
+        clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+      }
+      
+      .signup-body {
+        padding: 2.5rem;
+      }
+      
+      .signup-header h2 {
+        font-size: 2.5rem;
+      }
+      
+      .form-row {
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .form-control {
+        height: 56px;
+      }
+      
+      .btn {
+        height: 56px;
+      }
+      
+      .file-input-button {
+        height: 56px;
+      }
+      
+      .success-message h3 {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (min-width: 992px) {
+      .signup-header {
+        padding: 3.5rem;
+      }
+      
+      .signup-header h2 {
+        font-size: 2.75rem;
+      }
+      
+      .signup-header p {
+        font-size: 1.25rem;
+      }
+    }
+
+    /* Performance Optimizations */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Bubble Background Animation -->
+  <!-- Optimized Bubble Background Animation -->
   <div class="bubble-background" id="bubbleBackground"></div>
   
-  <!-- Particle Animation -->
+  <!-- Optimized Particle Animation -->
   <div class="particles" id="particles"></div>
   
   <!-- Main Content -->
@@ -1237,8 +1313,18 @@
     const particlesContainer = document.getElementById('particles');
     const bubbleBackground = document.getElementById('bubbleBackground');
 
-    // Create bubbles for background
-    function createBubbles(count = 15) {
+    // Performance optimization variables
+    let lastAnimationTime = 0;
+    const animationInterval = 3000; // 3 seconds between animations
+    const maxBubbles = 8;
+    const maxParticles = 15;
+
+    // Create bubbles for background (optimized)
+    function createBubbles(count = 5) {
+      const now = Date.now();
+      if (now - lastAnimationTime < animationInterval) return;
+      lastAnimationTime = now;
+      
       const colors = [
         'rgba(67, 97, 238, 0.15)',
         'rgba(114, 9, 183, 0.15)',
@@ -1246,16 +1332,22 @@
         'rgba(247, 37, 133, 0.1)'
       ];
       
+      // Remove old bubbles if too many
+      const existingBubbles = bubbleBackground.querySelectorAll('.bubble');
+      if (existingBubbles.length > maxBubbles) {
+        existingBubbles[0].remove();
+      }
+      
       for (let i = 0; i < count; i++) {
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
         
         // Random properties
-        const size = Math.random() * 300 + 100;
+        const size = Math.random() * 200 + 80;
         const left = Math.random() * 100;
         const color = colors[Math.floor(Math.random() * colors.length)];
-        const duration = Math.random() * 30 + 20;
-        const delay = Math.random() * 10;
+        const duration = Math.random() * 20 + 15;
+        const delay = Math.random() * 5;
         
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
@@ -1270,24 +1362,32 @@
         
         // Remove after animation
         setTimeout(() => {
-          bubble.remove();
+          if (bubble.parentNode) {
+            bubble.remove();
+          }
         }, (duration + delay) * 1000);
       }
-      
-      // Keep creating bubbles
-      setTimeout(() => createBubbles(5), 3000);
     }
 
-    // Create particles for background
-    function createParticles(count = 30) {
+    // Create particles for background (optimized)
+    function createParticles(count = 8) {
+      const now = Date.now();
+      if (now - lastAnimationTime < animationInterval) return;
+      
       const colors = ['rgba(67, 97, 238, 0.1)', 'rgba(114, 9, 183, 0.1)', 'rgba(72, 149, 239, 0.1)'];
+      
+      // Remove old particles if too many
+      const existingParticles = particlesContainer.querySelectorAll('.particle');
+      if (existingParticles.length > maxParticles) {
+        existingParticles[0].remove();
+      }
       
       for (let i = 0; i < count; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         
         // Random properties
-        const size = Math.random() * 20 + 5;
+        const size = Math.random() * 15 + 5;
         const left = Math.random() * 100;
         const color = colors[Math.floor(Math.random() * colors.length)];
         const delay = Math.random() * 5;
@@ -1304,25 +1404,27 @@
         
         // Remove after animation
         setTimeout(() => {
-          particle.remove();
+          if (particle.parentNode) {
+            particle.remove();
+          }
         }, (duration + delay) * 1000);
       }
-      
-      // Keep creating particles
-      setTimeout(() => createParticles(10), 2000);
     }
 
-    // Create confetti effect
-    function createConfetti(count = 150) {
+    // Create confetti effect (optimized)
+    function createConfetti(count = 100) {
       const colors = ['#4361ee', '#4895ef', '#4cc9f0', '#3a0ca3', '#7209b7'];
       const shapes = ['circle', 'rect', 'triangle'];
+      
+      // Clear existing confetti
+      confettiContainer.innerHTML = '';
       
       for (let i = 0; i < count; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
         
         // Random properties
-        const size = Math.random() * 12 + 6;
+        const size = Math.random() * 10 + 5;
         const left = Math.random() * 100;
         const color = colors[Math.floor(Math.random() * colors.length)];
         const delay = Math.random() * 1.5;
@@ -1347,7 +1449,9 @@
         
         // Remove after animation
         setTimeout(() => {
-          confetti.remove();
+          if (confetti.parentNode) {
+            confetti.remove();
+          }
         }, (duration + delay) * 1000);
       }
     }
@@ -1548,7 +1652,7 @@
         successAnimation.classList.add('active');
         
         // Create confetti celebration
-        createConfetti(200);
+        createConfetti(100);
         
         // Reset form after animation
         setTimeout(() => {
@@ -1636,10 +1740,29 @@
     document.addEventListener('DOMContentLoaded', function() {
       initEventListeners();
       navigateToStep('1');
-      createBubbles();
-      createParticles();
       updateAmount(); // Initialize amount field
+      
+      // Start animations with delays
+      setTimeout(() => {
+        createBubbles(3);
+        createParticles(5);
+        
+        // Continue animations at intervals
+        setInterval(() => {
+          createBubbles(2);
+          createParticles(3);
+        }, 4000);
+      }, 1000);
     });
+
+    // Optimize for mobile touch events
+    document.addEventListener('touchstart', function() {}, {passive: true});
+    document.addEventListener('touchmove', function(e) {
+      // Prevent scrolling when interacting with form elements
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+        e.preventDefault();
+      }
+    }, {passive: false});
   </script>
 </body>
 </html>
