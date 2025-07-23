@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>Pages / Login - NiceAdmin Bootstrap Template</title>
+    <title>Change Password - NiceAdmin</title>
     <meta content="" name="description" />
     <meta content="" name="keywords" />
 
@@ -34,19 +34,595 @@
     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
     <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet" />
 
-    <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet" />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --primary-light: #667eea;
+        --primary-dark: #764ba2;
+        --card-bg-light: rgba(255, 255, 255, 0.98);
+        --card-bg-dark: rgba(30, 30, 45, 0.98);
+        --text-light: #495057;
+        --text-dark: #e9ecef;
+        --bg-light: #f8f9fa;
+        --bg-dark: #121218;
+        --bubble-light: rgba(255, 255, 255, 0.15);
+        --bubble-dark: rgba(0, 0, 0, 0.15);
+        --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      }
 
-    <!-- =======================================================
-  * Template Name: NiceAdmin - v2.2.0
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+      /* Dark mode styles */
+      body.dark-mode {
+        background-color: var(--bg-dark);
+        color: var(--text-dark);
+      }
+      
+      body.dark-mode .auth-card {
+        background: var(--card-bg-dark);
+        color: var(--text-dark);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      }
+      
+      body.dark-mode .form-control {
+        background-color: rgba(50, 50, 60, 0.8);
+        border-color: #444;
+        color: var(--text-dark);
+      }
+      
+      body.dark-mode .form-control:focus {
+        background-color: rgba(50, 50, 60, 0.8);
+        border-color: var(--primary-light);
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        color: var(--text-dark);
+      }
+      
+      body.dark-mode .bg-bubbles li {
+        background-color: var(--bubble-dark);
+      }
+      
+      body.dark-mode .password-strength {
+        background: rgba(50, 50, 60, 0.8);
+      }
+      
+      body.dark-mode .text-muted {
+        color: #adb5bd !important;
+      }
+
+      /* Background Animation */
+      .bg-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        background: var(--primary-gradient);
+      }
+      
+      .bg-bubbles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      
+      .bg-bubbles li {
+        position: absolute;
+        list-style: none;
+        display: block;
+        width: 40px;
+        height: 40px;
+        background-color: var(--bubble-light);
+        bottom: -160px;
+        animation: square 25s infinite;
+        transition-timing-function: linear;
+        border-radius: 10px;
+        transition: background-color 0.5s ease;
+        opacity: 0.6;
+      }
+      
+      .bg-bubbles li:nth-child(1) {
+        left: 10%;
+      }
+      
+      .bg-bubbles li:nth-child(2) {
+        left: 20%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 2s;
+        animation-duration: 17s;
+      }
+      
+      .bg-bubbles li:nth-child(3) {
+        left: 25%;
+        animation-delay: 4s;
+      }
+      
+      .bg-bubbles li:nth-child(4) {
+        left: 40%;
+        width: 60px;
+        height: 60px;
+        animation-duration: 22s;
+        background-color: rgba(255, 255, 255, 0.25);
+      }
+      
+      .bg-bubbles li:nth-child(5) {
+        left: 70%;
+      }
+      
+      .bg-bubbles li:nth-child(6) {
+        left: 80%;
+        width: 120px;
+        height: 120px;
+        animation-delay: 3s;
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+      
+      .bg-bubbles li:nth-child(7) {
+        left: 32%;
+        width: 160px;
+        height: 160px;
+        animation-delay: 7s;
+      }
+      
+      .bg-bubbles li:nth-child(8) {
+        left: 55%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 15s;
+        animation-duration: 40s;
+      }
+      
+      .bg-bubbles li:nth-child(9) {
+        left: 25%;
+        width: 10px;
+        height: 10px;
+        animation-delay: 2s;
+        animation-duration: 40s;
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+      
+      .bg-bubbles li:nth-child(10) {
+        left: 90%;
+        width: 160px;
+        height: 160px;
+        animation-delay: 11s;
+      }
+      
+      @keyframes square {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(-1000px) rotate(720deg);
+          opacity: 0;
+        }
+      }
+      
+      /* Card Styling with Glass Morphism */
+      .auth-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        background: var(--card-bg-light);
+        backdrop-filter: blur(10px);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1);
+        animation: cardEntrance 0.8s ease-out forwards;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      @keyframes cardEntrance {
+        0% {
+          opacity: 0;
+          transform: perspective(1000px) rotateX(-10deg) translateY(20px) scale(0.95);
+        }
+        100% {
+          opacity: 1;
+          transform: perspective(1000px) rotateX(0deg) translateY(0) scale(1);
+        }
+      }
+      
+      .auth-card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.01);
+      }
+      
+      .auth-header {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 1.8rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .auth-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          to bottom right,
+          rgba(255, 255, 255, 0.3) 0%,
+          rgba(255, 255, 255, 0) 60%
+        );
+        transform: rotate(30deg);
+        pointer-events: none;
+      }
+      
+      .auth-header h3 {
+        position: relative;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      
+      .auth-header p {
+        position: relative;
+        opacity: 0.9;
+        font-size: 0.95rem;
+      }
+      
+      .auth-body {
+        padding: 2.5rem;
+      }
+      
+      .form-control {
+        border-radius: 8px;
+        padding: 12px 15px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+        font-size: 0.95rem;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+      
+      .form-control:focus {
+        border-color: var(--primary-light);
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25), 
+                    inset 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+      
+      .btn-auth {
+        background: var(--primary-gradient);
+        border: none;
+        border-radius: 8px;
+        padding: 14px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        color: white;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .btn-auth::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
+      }
+      
+      .btn-auth:hover {
+        background: linear-gradient(135deg, #5a6fd1 0%, #6a4199 100%);
+        transform: translateY(-3px);
+        color: white;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+      }
+      
+      .btn-auth:hover::before {
+        left: 100%;
+      }
+      
+      .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: var(--primary-light);
+        z-index: 5;
+        transition: all 0.3s;
+      }
+      
+      .password-toggle:hover {
+        color: var(--primary-dark);
+        transform: translateY(-50%) scale(1.1);
+      }
+      
+      .input-group-password {
+        position: relative;
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .auth-card {
+          margin-top: 1.5rem;
+          margin-bottom: 1.5rem;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .auth-body {
+          padding: 1.8rem;
+        }
+        
+        .bg-bubbles li {
+          width: 30px;
+          height: 30px;
+        }
+        
+        .bg-bubbles li:nth-child(2),
+        .bg-bubbles li:nth-child(4),
+        .bg-bubbles li:nth-child(6),
+        .bg-bubbles li:nth-child(7),
+        .bg-bubbles li:nth-child(10) {
+          width: 50px;
+          height: 50px;
+        }
+        
+        .auth-header {
+          padding: 1.5rem;
+        }
+        
+        .btn-auth {
+          padding: 12px;
+        }
+      }
+      
+      @media (max-width: 576px) {
+        .auth-body {
+          padding: 1.5rem;
+        }
+        
+        .auth-header {
+          padding: 1.2rem;
+        }
+        
+        .auth-header h3 {
+          font-size: 1.3rem;
+        }
+        
+        .form-control {
+          padding: 10px 12px;
+        }
+      }
+      
+      /* Password strength indicator */
+      .password-strength {
+        height: 6px;
+        background: #f0f0f0;
+        border-radius: 5px;
+        margin-top: 8px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+      
+      .strength-bar {
+        height: 100%;
+        width: 0;
+        transition: width 0.4s ease, background 0.4s ease;
+      }
+      
+      /* Strength colors */
+      .strength-0 {
+        width: 20% !important;
+        background: #ff4d4d !important; /* Red */
+      }
+      
+      .strength-1 {
+        width: 40% !important;
+        background: #ff6b6b !important; /* Light red */
+      }
+      
+      .strength-2 {
+        width: 60% !important;
+        background: #ffc107 !important; /* Yellow */
+      }
+      
+      .strength-3 {
+        width: 80% !important;
+        background: #51cf66 !important; /* Light green */
+      }
+      
+      .strength-4 {
+        width: 100% !important;
+        background: #4CAF50 !important; /* Green */
+      }
+      
+      /* Tooltip for password requirements */
+      .password-hint {
+        position: relative;
+        display: inline-block;
+        margin-left: 5px;
+        cursor: pointer;
+      }
+      
+      .password-hint .tooltip-text {
+        visibility: hidden;
+        width: 250px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 10px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 0.85rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+      
+      .password-hint:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+      }
+      
+      /* Loading animation for submit button */
+      .btn-loading {
+        position: relative;
+        pointer-events: none;
+        color: transparent !important;
+      }
+      
+      .btn-loading:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      /* Floating label effect */
+      .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        transition: all 0.3s;
+        color: var(--text-light);
+      }
+      
+      body.dark-mode .form-label {
+        color: var(--text-dark);
+      }
+      
+      /* Input focus label effect */
+      .form-control:focus + .form-label {
+        color: var(--primary-light);
+      }
+      
+      /* Success message animation */
+      .success-message {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #4CAF50;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transform: translateX(120%);
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      .success-message.show {
+        transform: translateX(0);
+      }
+      
+      /* Smooth transitions for dark mode toggle */
+      body, .auth-card, .form-control, .bg-bubbles li, .form-label {
+        transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+      }
+      
+      /* Particle animation for header */
+      .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+      }
+      
+      .particle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        animation: float 15s infinite linear;
+        opacity: 0;
+      }
+      
+      @keyframes float {
+        0% {
+          transform: translateY(0) translateX(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100px) translateX(20px);
+          opacity: 0;
+        }
+      }
+      
+      /* Ripple effect on card */
+      .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.4);
+        transform: scale(0);
+        animation: ripple 1.5s ease-out;
+        pointer-events: none;
+      }
+      
+      @keyframes ripple {
+        to {
+          transform: scale(2);
+          opacity: 0;
+        }
+      }
+    </style>
   </head>
 
   <body>
-
+    
+    <%- include("../utils/header")%> 
+    <%- include("side")%>
+    
+    <!-- Background Animation -->
+    <div class="bg-animation">
+      <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
 
     <main>
       <div class="container">
@@ -55,76 +631,100 @@
         >
           <div class="container">
             <div class="row justify-content-center">
-              <div
-                class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center"
-              >
-                <!-- End Logo -->
-
-                <div class="card mb-3">
-                  <div class="card-body">
-                    <div class="pt-4 pb-2">
-                      <h5 class="card-title text-center pb-0 fs-4">
-                        Change Password
-                      </h5>
-                    </div>
-                  
+              <div class="col-lg-5 col-md-7">
+                <div class="auth-card card mb-3" id="authCard">
+                  <div class="auth-header">
+                    <div class="particles" id="particles"></div>
+                    <h3 class="card-title mb-0">Change Password</h3>
+                    <p class="mb-0">Secure your account with a new password</p>
+                  </div>
+                  <div class="auth-body card-body">
                     <form
                       class="row g-3 needs-validation"
                       novalidate
                       action="/change_pass"
                       method="post"
+                      id="passwordForm"
                     >
-                   
-                    <input type="hidden" name="id" value="">
+                      <input type="hidden" name="id" value="">
+                      
                       <div class="col-12">
-                        <label for="yourUsername" class="form-label"
-                          >Current Password</label
-                        >
-                        <div class="input-group has-validation">
+                        <label for="currentPassword" class="form-label">Current Password</label>
+                        <div class="input-group-password">
                           <input
-                            type="text"
+                            type="password"
                             name="oldpass"
                             class="form-control"
-                            id="yourUsername"
+                            id="currentPassword"
                             required
+                            placeholder="Enter your current password"
                           />
-                          <div class="invalid-feedback">
-                            Please enter your Current Password
-                          </div>
+                          <i class="bi bi-eye-slash password-toggle" id="toggleCurrentPassword"></i>
+                        </div>
+                        <div class="invalid-feedback">
+                          Please enter your current password
                         </div>
                       </div>
 
                       <div class="col-12">
-                        <label for="yourPassword" class="form-label"
-                          >New Password</label
-                        >
-                        <input
-                          type="password"
-                          name="pass"
-                          class="form-control"
-                          id="yourPassword"
-                          required
-                        />
+                        <label for="newPassword" class="form-label">
+                          New Password
+                          <span class="password-hint">
+                            <i class="bi bi-info-circle"></i>
+                            <span class="tooltip-text">
+                              Password must contain:<br>
+                              • At least 8 characters<br>
+                              • At least one number<br>
+                              • At least one special character<br>
+                              • At least one uppercase letter<br>
+                              • At least one lowercase letter
+                            </span>
+                          </span>
+                        </label>
+                        <div class="input-group-password">
+                          <input
+                            type="password"
+                            name="pass"
+                            class="form-control"
+                            id="newPassword"
+                            required
+                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                            placeholder="Create a new password"
+                            oninput="checkPasswordStrength(this.value)"
+                          />
+                          <i class="bi bi-eye-slash password-toggle" id="toggleNewPassword"></i>
+                        </div>
+                        <div class="password-strength">
+                          <div class="strength-bar" id="passwordStrength"></div>
+                        </div>
                         <div class="invalid-feedback">
-                          Please enter your new password!
+                          Password must be at least 8 characters with uppercase, lowercase, number, and special character
+                        </div>
+                        <div id="passwordFeedback" class="small mt-1"></div>
+                      </div>
+                      
+                      <div class="col-12">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <div class="input-group-password">
+                          <input
+                            type="password"
+                            name="conpass"
+                            class="form-control"
+                            id="confirmPassword"
+                            required
+                            placeholder="Confirm your new password"
+                            oninput="checkPasswordMatch()"
+                          />
+                          <i class="bi bi-eye-slash password-toggle" id="toggleConfirmPassword"></i>
+                        </div>
+                        <div class="invalid-feedback" id="confirmPasswordFeedback">
+                          Passwords must match
                         </div>
                       </div>
+                      
                       <div class="col-12">
-                        <label for="yourPassword" class="form-label"
-                          >Confirm Password</label
-                        >
-                        <input
-                          type="text"
-                          name="conpass"
-                          class="form-control"
-                          id="yourPassword"
-                          required
-                        />
-                      </div>
-                      </div>
-                      <div class="col-12">
-                        <button class="btn btn-primary w-100" type="submit">
-                          Confirm
+                        <button class="btn btn-auth w-100" type="submit" id="submitBtn">
+                          Update Password
                         </button>
                       </div>
                     </form>
@@ -136,13 +736,13 @@
         </section>
       </div>
     </main>
-    <!-- End #main -->
-
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
+    
+  <%- include("../utils/footer"); %>  
+    <!-- Success Message (hidden by default) -->
+    <div class="success-message" id="successMessage">
+      <i class="bi bi-check-circle-fill me-2"></i>
+      Password updated successfully!
+    </div>
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -153,9 +753,204 @@
     <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
     
+    <!-- Custom JS for this page -->
+    <script>
+      // Check if dark mode is enabled
+      function checkDarkMode() {
+        const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
+        if (darkModeEnabled) {
+          document.body.classList.add('dark-mode');
+        }
+      }
+      
+      // Create particles for header
+      function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 15;
+        
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.classList.add('particle');
+          
+          // Random position
+          particle.style.left = `${Math.random() * 100}%`;
+          particle.style.top = `${Math.random() * 100}%`;
+          
+          // Random size
+          const size = 2 + Math.random() * 4;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          
+          // Random animation delay and duration
+          particle.style.animationDelay = `${Math.random() * 15}s`;
+          particle.style.animationDuration = `${10 + Math.random() * 10}s`;
+          
+          particlesContainer.appendChild(particle);
+        }
+      }
+      
+      // Ripple effect on card
+      function createRipple(event) {
+        const card = document.getElementById('authCard');
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        
+        // Position the ripple
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
+        card.appendChild(ripple);
+        
+        // Remove ripple after animation
+        setTimeout(() => {
+          ripple.remove();
+        }, 1500);
+      }
+      
+      // Initialize all functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        checkDarkMode();
+        createParticles();
+        
+        // Add ripple effect to card
+        const card = document.getElementById('authCard');
+        card.addEventListener('click', createRipple);
+        
+        // Password toggle functionality
+        const togglePassword = (toggleId, inputId) => {
+          const toggle = document.getElementById(toggleId);
+          const input = document.getElementById(inputId);
+          
+          toggle.addEventListener('click', function() {
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+          });
+        };
+        
+        // Initialize all password toggles
+        togglePassword('toggleCurrentPassword', 'currentPassword');
+        togglePassword('toggleNewPassword', 'newPassword');
+        togglePassword('toggleConfirmPassword', 'confirmPassword');
+        
+        // Form validation
+        const form = document.getElementById('passwordForm');
+        form.addEventListener('submit', function(e) {
+          const newPass = document.getElementById('newPassword').value;
+          const confirmPass = document.getElementById('confirmPassword').value;
+          
+          if (newPass !== confirmPass) {
+            e.preventDefault();
+            document.getElementById('confirmPassword').setCustomValidity("Passwords must match");
+            document.getElementById('confirmPasswordFeedback').textContent = "Passwords must match";
+            document.getElementById('confirmPassword').classList.add('is-invalid');
+          } else {
+            document.getElementById('confirmPassword').setCustomValidity("");
+            document.getElementById('confirmPassword').classList.remove('is-invalid');
+            
+            // Show loading state
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.classList.add('btn-loading');
+            submitBtn.disabled = true;
+            
+            // Simulate form submission (replace with actual form submission)
+            setTimeout(() => {
+              // Show success message
+              const successMessage = document.getElementById('successMessage');
+              successMessage.classList.add('show');
+              
+              // Hide after 3 seconds
+              setTimeout(() => {
+                successMessage.classList.remove('show');
+              }, 3000);
+              
+              // Reset form and button
+              submitBtn.classList.remove('btn-loading');
+              submitBtn.disabled = false;
+              
+              // For demo purposes, we're not actually submitting
+              // form.submit();
+            }, 1500);
+          }
+        });
+      });
+      
+      // Password strength checker
+      function checkPasswordStrength(password) {
+        const strengthBar = document.getElementById('passwordStrength');
+        const feedback = document.getElementById('passwordFeedback');
+        let strength = 0;
+        let messages = [];
+        
+        // Reset
+        strengthBar.className = 'strength-bar';
+        feedback.textContent = '';
+        feedback.className = 'small mt-1';
+        
+        // Length check
+        if (password.length >= 8) strength += 1;
+        if (password.length < 8) messages.push('At least 8 characters');
+        
+        // Contains numbers
+        if (password.match(/\d+/)) strength += 1;
+        else messages.push('At least one number');
+        
+        // Contains special characters
+        if (password.match(/[!@#$%^&*(),.?":{}|<>]/)) strength += 1;
+        else messages.push('At least one special character');
+        
+        // Contains both uppercase and lowercase
+        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 1;
+        else messages.push('At least one uppercase and lowercase letter');
+        
+        // Update strength bar
+        strengthBar.classList.add(`strength-${strength}`);
+        
+        // Provide feedback
+        if (messages.length > 0) {
+          feedback.textContent = 'Missing: ' + messages.join(', ');
+          feedback.classList.add('text-danger');
+        } else {
+          feedback.textContent = 'Strong password!';
+          feedback.classList.add('text-success');
+        }
+      }
+      
+      // Password match checker
+      function checkPasswordMatch() {
+        const newPass = document.getElementById('newPassword').value;
+        const confirmPass = document.getElementById('confirmPassword').value;
+        const feedback = document.getElementById('confirmPasswordFeedback');
+        
+        if (newPass && confirmPass && newPass !== confirmPass) {
+          feedback.textContent = "Passwords don't match";
+          document.getElementById('confirmPassword').classList.add('is-invalid');
+        } else {
+          feedback.textContent = "";
+          document.getElementById('confirmPassword').classList.remove('is-invalid');
+        }
+      }
+      
+      // Listen for dark mode changes (assuming your header has a dark mode toggle)
+      document.addEventListener('darkModeToggle', function() {
+        document.body.classList.toggle('dark-mode');
+        
+        // Update bubbles for dark mode
+        const bubbles = document.querySelectorAll('.bg-bubbles li');
+        bubbles.forEach(bubble => {
+          if (document.body.classList.contains('dark-mode')) {
+            bubble.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
+          } else {
+            bubble.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+          }
+        });
+      });
+    </script>
   </body>
 </html>

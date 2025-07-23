@@ -626,17 +626,30 @@ exports.ser_userview = async (req, res) => {
 
 
 
+    exports.ser_change_pass_page = async (req, res) => {
+
+        let uid = req.user.user_id;
+        let abhi = await tble.findOne({user_id:uid});
+        let name = abhi.your_name;
+        let image = await tble.findOne({user_id:uid});
+        let user_image = image.picture;
+
+        res.render("changepass",{user_image});
+ 
+
+}
+
 
 
 
     exports.ser_changepass = async (req, res) => {
         
-        let un = req.user.user_id;
+        let uid = req.user.user_id;
         let abhi = await tble.findOne({user_id:uid});
         let name = abhi.your_name;
         let image = await tble.findOne({user_id:uid});
         let user_image = image.picture;
-        console.log(un);
+        console.log(uid);
         let a = req.body.oldpass;
         console.log(a);
         let b = req.body.pass;
@@ -645,7 +658,7 @@ exports.ser_userview = async (req, res) => {
         console.log(c);
         if(b==c){
 
-            data=await tble.findOne({ user_id:un});
+            data=await tble.findOne({ user_id:uid});
             let d = data.password;
         
         if(a==d){
@@ -655,12 +668,12 @@ exports.ser_userview = async (req, res) => {
         let passwordchangessuccess = "You Have Successfully Changed Your Password"
 
         let rec =await new recentactivity({
-          user_id:un,
+          user_id:uid,
           activity:passwordchangedetail,
           activity_detail:passwordchangessuccess
         });
         await rec.save(); 
-            await tble.updateOne({ user_id:un}, { password:c});
+            await tble.updateOne({ user_id:uid}, { password:c});
             res.render("adminprofile",{name,user_image});
         }
         
