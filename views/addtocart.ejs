@@ -25,8 +25,8 @@
             --light-gray: #e9ecef;
             --body-bg: #f5f7ff;
             --card-bg: #ffffff;
-            --text-color: #212529;
-            --text-light: #6c757d;
+            --text-color: #212529; /* Dark text for light mode */
+            --text-light: #495057; /* Slightly lighter text */
             --border-color: #dee2e6;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             --hover-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -52,8 +52,8 @@
             --light-gray: #495057;
             --body-bg: #121826;
             --card-bg: #1e293b;
-            --text-color: #f8f9fa;
-            --text-light: #adb5bd;
+            --text-color: #f8f9fa; /* Light text for dark mode */
+            --text-light: #adb5bd; /* Slightly darker text */
             --border-color: #334155;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             --hover-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -557,6 +557,7 @@
 
         .summary-value {
             font-weight: 600;
+            color: var(--text-color);
         }
 
         .summary-total {
@@ -848,6 +849,7 @@
         .toast-title {
             font-weight: 700;
             margin-bottom: 0.25rem;
+            color: var(--text-color);
         }
 
         .toast-message {
