@@ -4,57 +4,109 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Account Unblocked</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    :root {
+      --primary-color: #28a745;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --shadow-color: rgba(0, 0, 0, 0.12);
+      --success-light: #e8f8ee;
+      --ripple-color: rgba(255, 255, 255, 0.5);
+      --circle-opacity: 0.1;
+    }
+
+    [data-theme="dark"] {
+      --primary-color: #4caf50;
+      --secondary-color: #1e88e5;
+      --text-color: #f0f0f0;
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --shadow-color: rgba(0, 0, 0, 0.3);
+      --success-light: #2d3b30;
+      --ripple-color: rgba(30, 136, 229, 0.3);
+      --circle-opacity: 0.05;
+    }
+
+    * {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex: 1;
+      padding-top: 60px; /* For header */
+    }
+
+    main {
+      flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      background-color: #f8f9fa;
-      overflow: hidden;
+      padding: 20px;
       position: relative;
+      overflow: hidden;
     }
-    
+
     /* Background animation elements */
     .bg-circle {
       position: absolute;
       border-radius: 50%;
-      background: rgba(40, 167, 69, 0.1);
+      background: rgba(40, 167, 69, var(--circle-opacity));
       animation: float 15s infinite linear;
+      z-index: 1;
     }
-    
+
     @keyframes float {
       0% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(0) rotate(0deg) translateX(0);
       }
-      50% {
-        transform: translateY(-20px) rotate(180deg);
+      33% {
+        transform: translateY(-20px) rotate(120deg) translateX(10px);
+      }
+      66% {
+        transform: translateY(10px) rotate(240deg) translateX(-10px);
       }
       100% {
-        transform: translateY(0) rotate(360deg);
+        transform: translateY(0) rotate(360deg) translateX(0);
       }
     }
-    
+
     .unblocked-container {
-      background: #ffffff;
+      background: var(--card-bg);
       padding: 40px;
       border-radius: 15px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 8px 30px var(--shadow-color);
       text-align: center;
-      width: 450px;
+      max-width: 450px;
+      width: 90%;
       z-index: 10;
       position: relative;
       overflow: hidden;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin: 20px;
     }
-    
+
     .unblocked-container:hover {
       transform: translateY(-5px);
+      box-shadow: 0 12px 35px var(--shadow-color);
     }
-    
+
     .unblocked-container::before {
       content: '';
       position: absolute;
@@ -62,26 +114,27 @@
       left: 0;
       width: 100%;
       height: 5px;
-      background: linear-gradient(90deg, #28a745, #7cbf8a);
+      background: linear-gradient(90deg, var(--primary-color), #7cbf8a);
     }
-    
+
     .unblocked-container h1 {
-      color: #28a745;
-      font-size: 28px;
+      color: var(--primary-color);
+      font-size: clamp(24px, 5vw, 28px);
       margin-bottom: 20px;
       font-weight: 600;
     }
-    
+
     .unblocked-container p {
-      color: #555;
-      font-size: 16px;
+      color: var(--text-color);
+      font-size: clamp(14px, 3vw, 16px);
       margin-bottom: 30px;
       line-height: 1.6;
+      opacity: 0.9;
     }
-    
+
     .unblocked-container button {
       padding: 12px 30px;
-      background-color: #007bff;
+      background-color: var(--secondary-color);
       color: white;
       border: none;
       border-radius: 50px;
@@ -93,17 +146,17 @@
       position: relative;
       overflow: hidden;
     }
-    
+
     .unblocked-container button:hover {
-      background-color: #0056b3;
+      background-color: var(--secondary-color);
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
     }
-    
+
     .unblocked-container button:active {
       transform: translateY(0);
     }
-    
+
     .unblocked-container button::after {
       content: '';
       position: absolute;
@@ -111,17 +164,17 @@
       left: 50%;
       width: 5px;
       height: 5px;
-      background: rgba(255, 255, 255, 0.5);
+      background: var(--ripple-color);
       opacity: 0;
       border-radius: 100%;
       transform: scale(1, 1) translate(-50%);
       transform-origin: 50% 50%;
     }
-    
+
     .unblocked-container button:focus:not(:active)::after {
       animation: ripple 1s ease-out;
     }
-    
+
     @keyframes ripple {
       0% {
         transform: scale(0, 0);
@@ -132,105 +185,200 @@
         opacity: 0;
       }
     }
-    
+
     .checkmark {
       width: 80px;
       height: 80px;
       margin: 0 auto 25px;
       position: relative;
     }
-    
+
     .checkmark-circle {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: #e8f8ee;
+      background: var(--success-light);
       display: flex;
       align-items: center;
       justify-content: center;
       animation: scaleIn 0.5s ease-out;
     }
-    
+
     .checkmark-icon {
-      color: #28a745;
+      color: var(--primary-color);
       font-size: 50px;
       animation: checkmark 0.5s ease-out;
     }
-    
+
     @keyframes scaleIn {
       0% {
         transform: scale(0);
+        opacity: 0;
       }
       80% {
         transform: scale(1.1);
+        opacity: 1;
       }
       100% {
         transform: scale(1);
       }
     }
-    
+
     @keyframes checkmark {
       0% {
         opacity: 0;
-        transform: scale(0);
+        transform: scale(0) rotate(-45deg);
       }
       50% {
         opacity: 1;
-        transform: scale(1.2);
+        transform: scale(1.2) rotate(5deg);
       }
       100% {
-        transform: scale(1);
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    /* Confetti animation */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: var(--primary-color);
+      opacity: 0;
+      z-index: 20;
+      animation: confettiFall 3s ease-in-out forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .content-wrapper {
+        flex-direction: column;
+        padding-top: 50px;
+      }
+
+      .unblocked-container {
+        padding: 30px 20px;
+      }
+
+      .checkmark {
+        width: 70px;
+        height: 70px;
+      }
+
+      .checkmark-icon {
+        font-size: 40px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .unblocked-container {
+        width: 95%;
+        margin: 10px;
+      }
+
+      .unblocked-container button {
+        padding: 10px 25px;
+        font-size: 15px;
       }
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <%- include("../utils/header")%> 
-  <%- include("side")%>
   
-  <!-- Background animation circles -->
-  <div class="bg-circle" style="width: 300px; height: 300px; top: -100px; left: -100px; animation-delay: 0s;"></div>
-  <div class="bg-circle" style="width: 200px; height: 200px; bottom: -50px; right: -50px; animation-delay: 2s;"></div>
-  <div class="bg-circle" style="width: 150px; height: 150px; top: 20%; right: 10%; animation-delay: 4s;"></div>
-  <div class="bg-circle" style="width: 100px; height: 100px; bottom: 30%; left: 15%; animation-delay: 6s;"></div>
-  
-  <div class="unblocked-container">
-    <div class="checkmark">
-      <div class="checkmark-circle">
-        <i class="fas fa-check checkmark-icon"></i>
+  <div class="content-wrapper">
+    <%- include("side")%>
+    
+    <main>
+      <!-- Background animation circles -->
+      <div class="bg-circle" style="width: 300px; height: 300px; top: -100px; left: -100px; animation-delay: 0s;"></div>
+      <div class="bg-circle" style="width: 200px; height: 200px; bottom: -50px; right: -50px; animation-delay: 2s;"></div>
+      <div class="bg-circle" style="width: 150px; height: 150px; top: 20%; right: 10%; animation-delay: 4s;"></div>
+      <div class="bg-circle" style="width: 100px; height: 100px; bottom: 30%; left: 15%; animation-delay: 6s;"></div>
+      
+      <div class="unblocked-container">
+        <div class="checkmark">
+          <div class="checkmark-circle">
+            <i class="fas fa-check checkmark-icon"></i>
+          </div>
+        </div>
+        <h1>Account Unblocked Successfully!</h1>
+        <p>Your account has been successfully unblocked. You can now log in and continue using our services without any restrictions.</p>
+        <button onclick="goToHome()">Go to Dashboard</button>
       </div>
-    </div>
-    <h1>Account Unblocked Successfully!</h1>
-    <p>Your account has been successfully unblocked. You can now log in and continue using our services without any restrictions.</p>
-    <button onclick="goToHome()">Go to Dashboard</button>
+    </main>
   </div>
+
+  <%- include("../utils/footer")%>
 
   <script>
     function goToHome() {
-      // Redirect to the homepage or login page (original route preserved)
-      window.location.href = '/dashboard';
+      // Create confetti effect
+      createConfetti();
+      
+      // Wait for animation to play then redirect
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 800);
+    }
+    
+    function createConfetti() {
+      const colors = ['#28a745', '#007bff', '#6f42c1', '#fd7e14', '#e83e8c'];
+      const container = document.querySelector('main');
+      
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = Math.random() * 8 + 5 + 'px';
+        confetti.style.height = Math.random() * 8 + 5 + 'px';
+        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+        confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
+        container.appendChild(confetti);
+      }
     }
     
     // Add more floating circles dynamically
     document.addEventListener('DOMContentLoaded', function() {
-      const body = document.body;
-      for (let i = 0; i < 5; i++) {
+      const main = document.querySelector('main');
+      for (let i = 0; i < 8; i++) {
         const circle = document.createElement('div');
         circle.className = 'bg-circle';
-        const size = Math.random() * 100 + 50;
+        const size = Math.random() * 150 + 50;
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
         const delay = Math.random() * 8;
+        const duration = Math.random() * 10 + 10;
         
         circle.style.width = `${size}px`;
         circle.style.height = `${size}px`;
         circle.style.left = `${posX}%`;
         circle.style.top = `${posY}%`;
         circle.style.animationDelay = `${delay}s`;
+        circle.style.animationDuration = `${duration}s`;
         circle.style.opacity = Math.random() * 0.2 + 0.05;
         
-        body.appendChild(circle);
+        main.appendChild(circle);
+      }
+      
+      // Check for theme preference
+      const themeToggle = document.querySelector('.theme-toggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+          document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+        });
       }
     });
   </script>
