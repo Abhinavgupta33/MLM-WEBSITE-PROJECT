@@ -6,104 +6,41 @@
     <title>Withdrawal Successful</title>
     <style>
         :root {
-            /* Light theme colors */
             --primary-color: #00796b;
             --primary-dark: #004d40;
             --primary-light: #b2dfdb;
             --success-color: #4caf50;
             --background: #e0f7fa;
-            --card-bg: #ffffff;
-            --text-color: #333;
-            --secondary-text: #555;
-            --border-color: #e0e0e0;
-            --shadow-color: rgba(0, 0, 0, 0.15);
-            --note-bg-100: linear-gradient(135deg, #f5f5f5, #e0e0e0);
-            --note-bg-200: linear-gradient(135deg, #f5f5f5, #e0e0e0);
-            --note-bg-500: linear-gradient(135deg, #f5f5f5, #FFD700);
-            --note-bg-2000: linear-gradient(135deg, #f5f5f5, #87CEEB);
-            --note-text: #333;
-            --ripple-color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* Dark theme colors */
-        [data-theme="dark"] {
-            --primary-color: #26a69a;
-            --primary-dark: #00897b;
-            --primary-light: #b2dfdb;
-            --success-color: #66bb6a;
-            --background: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #f5f5f5;
-            --secondary-text: #b0b0b0;
-            --border-color: #333;
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --note-bg-100: linear-gradient(135deg, #2d2d2d, #3d3d3d);
-            --note-bg-200: linear-gradient(135deg, #2d2d2d, #3d3d3d);
-            --note-bg-500: linear-gradient(135deg, #3d3d3d, #5a4d00);
-            --note-bg-2000: linear-gradient(135deg, #2d2d2d, #003366);
-            --note-text: #f5f5f5;
-            --ripple-color: rgba(0, 0, 0, 0.3);
-        }
-
-        /* Base styles */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
             font-family: 'Arial', sans-serif;
             background-color: var(--background);
-            color: var(--text-color);
+            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
-            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* Floating cash animation - Enhanced */
+        /* Floating cash animation */
         .cash {
             position: absolute;
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
             border-radius: 4px;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: bold;
-            color: var(--note-text);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            animation: floatCash 15s linear infinite;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            animation: floatCash 12s linear infinite;
             z-index: 0;
             opacity: 0;
             transform: rotate(15deg);
-            transition: all 0.5s ease;
-            border: 1px solid rgba(0,0,0,0.1);
-            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
-            font-size: 0.9rem;
-            perspective: 1000px;
-            transform-style: preserve-3d;
-        }
-
-        .cash::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
-            border-radius: 4px;
-            pointer-events: none;
-        }
-
-        .cash:hover {
-            transform: rotate(0deg) scale(1.1) translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 10;
         }
 
         @keyframes floatCash {
@@ -112,53 +49,35 @@
                 opacity: 0;
             }
             10% {
-                opacity: 0.9;
-            }
-            30% {
-                transform: translateY(70vh) translateX(20px) rotate(10deg) scale(0.8);
-            }
-            50% {
-                transform: translateY(50vh) translateX(-20px) rotate(20deg) scale(0.9);
-            }
-            70% {
-                transform: translateY(30vh) translateX(10px) rotate(15deg) scale(1);
+                opacity: 0.8;
             }
             90% {
-                opacity: 0.9;
+                opacity: 0.8;
             }
             100% {
-                transform: translateY(-10vh) translateX(100px) rotate(30deg) scale(1.1);
+                transform: translateY(-10vh) translateX(100px) rotate(30deg) scale(1);
                 opacity: 0;
             }
         }
 
-        /* Success checkmark animation - Enhanced */
-        .checkmark-container {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 30px;
-            perspective: 1000px;
-        }
-
+        /* Success checkmark animation */
         .checkmark {
-            width: 100%;
-            height: 100%;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             display: block;
-            stroke-width: 6;
+            stroke-width: 5;
             stroke: var(--success-color);
             stroke-miterlimit: 10;
+            margin: 20px auto;
             box-shadow: inset 0 0 0 rgba(76, 175, 80, 0.4);
-            animation: fill 0.6s ease-in-out 0.6s forwards, scale 0.5s ease-in-out 0.9s both, float 3s ease-in-out infinite 1.5s;
-            transform-style: preserve-3d;
-            filter: drop-shadow(0 5px 10px rgba(76, 175, 80, 0.3));
+            animation: fill 0.6s ease-in-out 0.6s forwards, scale 0.5s ease-in-out 0.9s both;
         }
 
         .checkmark__circle {
             stroke-dasharray: 166;
             stroke-dashoffset: 166;
-            stroke-width: 6;
+            stroke-width: 5;
             stroke-miterlimit: 10;
             stroke: var(--success-color);
             fill: none;
@@ -172,15 +91,6 @@
             animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
         }
 
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: var(--success-color);
-            opacity: 0;
-            animation: confetti 2s ease-out 1.5s forwards;
-        }
-
         @keyframes stroke {
             100% {
                 stroke-dashoffset: 0;
@@ -192,73 +102,29 @@
                 transform: none;
             }
             50% {
-                transform: scale3d(1.15, 1.15, 1);
+                transform: scale3d(1.1, 1.1, 1);
             }
         }
 
         @keyframes fill {
             100% {
-                box-shadow: inset 0 0 0 80px rgba(76, 175, 80, 0.1);
+                box-shadow: inset 0 0 0 60px rgba(76, 175, 80, 0.1);
             }
         }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes confetti {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Container animation - Enhanced */
+        /* Container animation */
         .container {
             text-align: center;
-            background-color: var(--card-bg);
+            background-color: #ffffff;
             padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 15px 40px var(--shadow-color);
-            width: 90%;
-            max-width: 450px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 350px;
             transform: translateY(20px);
             opacity: 0;
-            animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             position: relative;
             z-index: 1;
-            transition: all 0.5s ease;
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary-color), var(--success-color));
-            animation: progress 2s ease-in-out;
-        }
-
-        @keyframes progress {
-            0% {
-                width: 0;
-            }
-            100% {
-                width: 100%;
-            }
         }
 
         @keyframes fadeInUp {
@@ -271,25 +137,8 @@
         h1 {
             color: var(--primary-color);
             margin-bottom: 20px;
-            font-size: 2rem;
-            animation: textGlow 3s ease-in-out infinite alternate;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            position: relative;
-            display: inline-block;
-        }
-
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--success-color));
-            border-radius: 3px;
-            animation: underlinePulse 2s ease-in-out infinite;
+            font-size: 28px;
+            animation: textGlow 2s ease-in-out infinite alternate;
         }
 
         @keyframes textGlow {
@@ -297,96 +146,51 @@
                 text-shadow: 0 0 5px rgba(0, 121, 107, 0.3);
             }
             to {
-                text-shadow: 0 0 15px rgba(0, 121, 107, 0.6);
-            }
-        }
-
-        @keyframes underlinePulse {
-            0%, 100% {
-                width: 50px;
-            }
-            50% {
-                width: 80px;
+                text-shadow: 0 0 10px rgba(0, 121, 107, 0.5);
             }
         }
 
         p {
-            font-size: 1.1rem;
-            color: var(--secondary-text);
+            font-size: 16px;
+            color: #555;
             margin-bottom: 30px;
             line-height: 1.6;
-            transition: color 0.5s ease;
         }
 
-        .amount-display {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin: 20px 0;
-            animation: pulse 2s ease-in-out infinite;
-            text-shadow: 0 2px 5px rgba(0, 121, 107, 0.2);
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        /* Button with enhanced ripple effect */
+        /* Button with ripple effect */
         .success-btn {
-            padding: 16px 32px;
+            padding: 14px 24px;
             background-color: var(--primary-color);
             color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 16px;
             font-weight: 600;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 180px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .success-btn:hover {
             background-color: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .success-btn:active {
             transform: translateY(0);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .success-btn .ripple {
             position: absolute;
             border-radius: 50%;
-            background-color: var(--ripple-color);
+            background-color: rgba(255, 255, 255, 0.7);
             transform: scale(0);
             animation: ripple 0.6s linear;
             pointer-events: none;
-            transition: background-color 0.5s ease;
-        }
-
-        .success-btn i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-        }
-
-        .success-btn:hover i {
-            transform: translateX(5px);
         }
 
         @keyframes ripple {
@@ -396,366 +200,36 @@
             }
         }
 
-        /* Cash falling animation - Enhanced */
+        /* Cash falling animation */
         .falling-cash {
             position: absolute;
+            width: 60px;
+            height: 30px;
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
             border-radius: 4px;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: bold;
-            color: var(--note-text);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             animation: falling 3s ease-in forwards;
             z-index: 0;
             opacity: 0;
-            font-size: 0.8rem;
-            border: 1px solid rgba(0,0,0,0.1);
-            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
-            perspective: 1000px;
-            transform-style: preserve-3d;
-            transition: all 0.5s ease;
-        }
-
-        .falling-cash::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
-            border-radius: 4px;
-            pointer-events: none;
         }
 
         @keyframes falling {
             0% {
-                transform: translateY(-100px) rotate(0deg) rotateX(0deg);
+                transform: translateY(-100px) rotate(0deg);
                 opacity: 1;
             }
             100% {
-                transform: translateY(100vh) rotate(360deg) rotateX(180deg);
+                transform: translateY(100vh) rotate(360deg);
                 opacity: 0;
-            }
-        }
-
-        /* Transaction details */
-        .transaction-details {
-            background-color: rgba(0, 121, 107, 0.05);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 25px 0;
-            border-left: 4px solid var(--primary-color);
-            text-align: left;
-            animation: slideIn 0.8s ease-out forwards;
-            transition: all 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed var(--border-color);
-        }
-
-        .detail-row:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .detail-label {
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .detail-value {
-            font-weight: 500;
-            color: var(--text-color);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 30px 20px;
-                width: 95%;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            p {
-                font-size: 1rem;
-            }
-
-            .amount-display {
-                font-size: 2rem;
-            }
-
-            .success-btn {
-                padding: 14px 24px;
-                min-width: 160px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 25px 15px;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            p {
-                font-size: 0.9rem;
-            }
-
-            .amount-display {
-                font-size: 1.8rem;
-            }
-
-            .success-btn {
-                padding: 12px 20px;
-                font-size: 0.9rem;
-                min-width: 140px;
-            }
-
-            .transaction-details {
-                padding: 15px;
-            }
-        }
-
-        /* Theme toggle button */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .theme-toggle i {
-            font-size: 1.5rem;
-        }
-
-        /* Bank card animation */
-        .bank-card {
-            width: 300px;
-            height: 180px;
-            background: linear-gradient(135deg, #2c3e50, #4ca1af);
-            border-radius: 15px;
-            padding: 20px;
-            color: white;
-            margin: 20px auto;
-            position: relative;
-            overflow: hidden;
-            transform: translateY(50px);
-            opacity: 0;
-            animation: slideUp 0.8s ease-out 0.5s forwards;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            perspective: 1000px;
-            transform-style: preserve-3d;
-            transition: all 0.5s ease;
-        }
-
-        .bank-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
-            pointer-events: none;
-        }
-
-        .bank-card .card-type {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.5rem;
-        }
-
-        .bank-card .card-number {
-            font-family: 'Courier New', monospace;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            margin-top: 40px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-        }
-
-        .bank-card .card-details {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            font-size: 0.9rem;
-        }
-
-        .bank-card .card-holder {
-            text-transform: uppercase;
-        }
-
-        @keyframes slideUp {
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* Additional decorative elements */
-        .corner-decoration {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0,121,107,0.1) 0%, rgba(0,121,107,0) 70%);
-            z-index: -1;
-        }
-
-        .corner-decoration.top-left {
-            top: -50px;
-            left: -50px;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .corner-decoration.bottom-right {
-            bottom: -50px;
-            right: -50px;
-            animation: float 8s ease-in-out infinite reverse;
-        }
-
-        /* Loading bar animation */
-        .loading-bar {
-            width: 100%;
-            height: 5px;
-            background-color: rgba(0, 121, 107, 0.1);
-            border-radius: 5px;
-            margin: 20px 0;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .loading-progress {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0;
-            background: linear-gradient(90deg, var(--primary-color), var(--success-color));
-            border-radius: 5px;
-            animation: loading 2s ease-in-out forwards;
-        }
-
-        @keyframes loading {
-            0% {
-                width: 0;
-            }
-            100% {
-                width: 100%;
-            }
-        }
-
-        /* Tooltip for additional info */
-        .info-tooltip {
-            position: relative;
-            display: inline-block;
-            margin-left: 5px;
-            cursor: pointer;
-        }
-
-        .info-tooltip i {
-            color: var(--primary-color);
-            font-size: 0.9rem;
-        }
-
-        .info-tooltip .tooltip-text {
-            visibility: hidden;
-            width: 200px;
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            text-align: center;
-            border-radius: 6px;
-            padding: 10px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            box-shadow: 0 5px 15px var(--shadow-color);
-            border: 1px solid var(--border-color);
-            font-size: 0.8rem;
-            font-weight: normal;
-        }
-
-        .info-tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* Additional success message animation */
-        .success-message {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-            margin-top: 20px;
-        }
-
-        .success-message.show {
-            max-height: 100px;
-        }
-
-        /* Micro-interactions */
-        .click-feedback {
-            animation: clickFeedback 0.3s ease;
-        }
-
-        @keyframes clickFeedback {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(0.95);
-            }
-            100% {
-                transform: scale(1);
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <%- include("../utils/header")%> 
@@ -764,173 +238,66 @@
     <!-- Background cash elements -->
     <div id="cashBackground"></div>
     
-    <!-- Theme toggle button -->
-    <button class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-    </button>
-    
     <div class="container">
-        <!-- Decorative elements -->
-        <div class="corner-decoration top-left"></div>
-        <div class="corner-decoration bottom-right"></div>
-        
-        <!-- Checkmark animation -->
-        <div class="checkmark-container">
-            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-            </svg>
-            
-            <!-- Confetti elements -->
-            <div class="confetti" style="top: 20px; left: 20px;"></div>
-            <div class="confetti" style="top: 20px; right: 20px;"></div>
-            <div class="confetti" style="bottom: 20px; left: 20px;"></div>
-            <div class="confetti" style="bottom: 20px; right: 20px;"></div>
-        </div>
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
         
         <h1>Withdrawal Successful!</h1>
-        <p>Your funds have been processed and will be transferred to your account shortly.</p>
+        <p>Your funds have been processed and will be transferred shortly.</p>
         
-        <!-- Amount display -->
-        <div class="amount-display">₹5,000.00</div>
-        
-        <!-- Loading bar -->
-        <div class="loading-bar">
-            <div class="loading-progress"></div>
-        </div>
-        
-        <!-- Transaction details -->
-        <div class="transaction-details">
-            <div class="detail-row">
-                <span class="detail-label">Transaction ID:</span>
-                <span class="detail-value">TX789456123</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Date & Time:</span>
-                <span class="detail-value">28 Jul 2023, 14:30 IST</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Status:</span>
-                <span class="detail-value" style="color: var(--success-color);">Completed <i class="fas fa-check-circle"></i></span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Processing Time:</span>
-                <span class="detail-value">1-2 Business Days <span class="info-tooltip"><i class="fas fa-info-circle"></i>
-                    <span class="tooltip-text">Processing time may vary depending on your bank's policies.</span>
-                </span></span>
-            </div>
-        </div>
-        
-        <!-- Bank card visualization -->
-        <div class="bank-card">
-            <div class="card-type"><i class="fas fa-credit-card"></i></div>
-            <div class="card-number">•••• •••• •••• 4567</div>
-            <div class="card-details">
-                <div class="card-holder">John Doe</div>
-                <div class="card-expiry">08/25</div>
-            </div>
-        </div>
-        
-        <!-- Additional success message -->
-        <div class="success-message" id="successMessage">
-            <p><i class="fas fa-check-circle" style="color: var(--success-color); margin-right: 5px;"></i> A confirmation has been sent to your registered email.</p>
-        </div>
-        
-        <!-- Action buttons -->
         <button class="success-btn" id="homeBtn">
-            <i class="fas fa-home"></i> Go to Dashboard
-        </button>
-        
-        <button class="success-btn" id="receiptBtn" style="margin-left: 15px; background-color: var(--primary-light); color: var(--primary-dark);">
-            <i class="fas fa-receipt"></i> Download Receipt
+            <i class="fas fa-home" style="margin-right: 8px;"></i> Go to Home
         </button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Theme toggle functionality
-            const themeToggle = document.getElementById('themeToggle');
-            const currentTheme = localStorage.getItem('theme') || 'light';
-            
-            // Set initial theme
-            document.documentElement.setAttribute('data-theme', currentTheme);
-            updateThemeIcon(currentTheme);
-            
-            themeToggle.addEventListener('click', function() {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-                
-                document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                updateThemeIcon(newTheme);
-                
-                // Add click feedback
-                this.classList.add('click-feedback');
-                setTimeout(() => {
-                    this.classList.remove('click-feedback');
-                }, 300);
-            });
-            
-            function updateThemeIcon(theme) {
-                const icon = themeToggle.querySelector('i');
-                if (theme === 'dark') {
-                    icon.classList.remove('fa-moon');
-                    icon.classList.add('fa-sun');
-                } else {
-                    icon.classList.remove('fa-sun');
-                    icon.classList.add('fa-moon');
-                }
-            }
-            
-            // Create floating cash background - Enhanced
+            // Create floating cash background
             const cashBackground = document.getElementById('cashBackground');
-            const denominations = [
-                { value: '₹100', bg: 'var(--note-bg-100)' },
-                { value: '₹200', bg: 'var(--note-bg-200)' },
-                { value: '₹500', bg: 'var(--note-bg-500)' },
-                { value: '₹2000', bg: 'var(--note-bg-2000)' }
-            ];
+            const denominations = ['₹100', '₹200', '₹500', '₹2000'];
             
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    const note = document.createElement('div');
-                    note.className = 'cash';
-                    
-                    // Random size
-                    const width = Math.random() * 50 + 50;
-                    const height = width / 2;
-                    note.style.width = `${width}px`;
-                    note.style.height = `${height}px`;
-                    
-                    // Random position
-                    note.style.left = `${Math.random() * 100}%`;
-                    
-                    // Random denomination
-                    const denom = denominations[Math.floor(Math.random() * denominations.length)];
-                    note.textContent = denom.value;
-                    note.style.background = denom.bg;
-                    
-                    // Random animation duration and delay
-                    note.style.animationDuration = `${Math.random() * 15 + 10}s`;
-                    note.style.animationDelay = `${Math.random() * 10}s`;
-                    
-                    // Random rotation and z-index
-                    note.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
-                    note.style.zIndex = Math.floor(Math.random() * 5);
-                    
-                    cashBackground.appendChild(note);
-                }, i * 300);
+            for (let i = 0; i < 10; i++) {
+                const note = document.createElement('div');
+                note.className = 'cash';
+                
+                // Random size
+                const width = Math.random() * 40 + 60;
+                const height = width / 2;
+                note.style.width = `${width}px`;
+                note.style.height = `${height}px`;
+                
+                // Random position
+                note.style.left = `${Math.random() * 100}%`;
+                
+                // Random denomination
+                note.textContent = denominations[Math.floor(Math.random() * denominations.length)];
+                
+                // Random animation duration and delay
+                note.style.animationDuration = `${Math.random() * 12 + 8}s`;
+                note.style.animationDelay = `${Math.random() * 8}s`;
+                
+                // Color based on denomination
+                if (note.textContent.includes('500')) {
+                    note.style.background = 'linear-gradient(135deg, #f5f5f5, #FFD700)';
+                } else if (note.textContent.includes('2000')) {
+                    note.style.background = 'linear-gradient(135deg, #f5f5f5, #87CEEB)';
+                }
+                
+                cashBackground.appendChild(note);
             }
 
-            // Create falling cash animation - Enhanced
+            // Create falling cash animation
             function createFallingCash() {
-                for (let i = 0; i < 25; i++) {
+                const denominations = ['₹100', '₹200', '₹500', '₹2000'];
+                for (let i = 0; i < 15; i++) {
                     setTimeout(() => {
                         const cash = document.createElement('div');
                         cash.className = 'falling-cash';
                         
                         // Random size
-                        const width = Math.random() * 50 + 30;
+                        const width = Math.random() * 40 + 40;
                         const height = width / 2;
                         cash.style.width = `${width}px`;
                         cash.style.height = `${height}px`;
@@ -939,16 +306,17 @@
                         cash.style.left = `${Math.random() * 100}%`;
                         
                         // Random denomination
-                        const denom = denominations[Math.floor(Math.random() * denominations.length)];
-                        cash.textContent = denom.value;
-                        cash.style.background = denom.bg;
+                        cash.textContent = denominations[Math.floor(Math.random() * denominations.length)];
                         
-                        // Random animation duration and delay
+                        // Random animation duration
                         cash.style.animationDuration = `${Math.random() * 2 + 1}s`;
-                        cash.style.animationDelay = `${i * 0.1}s`;
                         
-                        // Random rotation
-                        cash.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
+                        // Color based on denomination
+                        if (cash.textContent.includes('500')) {
+                            cash.style.background = 'linear-gradient(135deg, #f5f5f5, #FFD700)';
+                        } else if (cash.textContent.includes('2000')) {
+                            cash.style.background = 'linear-gradient(135deg, #f5f5f5, #87CEEB)';
+                        }
                         
                         document.body.appendChild(cash);
                         
@@ -956,148 +324,33 @@
                         setTimeout(() => {
                             cash.remove();
                         }, 3000);
-                    }, i * 100);
+                    }, i * 200);
                 }
             }
             
             // Create falling cash on page load
             setTimeout(createFallingCash, 500);
             
-            // Show additional success message after delay
-            setTimeout(() => {
-                document.getElementById('successMessage').classList.add('show');
-            }, 2000);
+            // Add ripple effect to button
+            const homeBtn = document.getElementById('homeBtn');
             
-            // Add ripple effect to buttons
-            const buttons = document.querySelectorAll('.success-btn');
-            
-            buttons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    // Create ripple effect
-                    const rect = this.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const ripple = document.createElement('span');
-                    ripple.className = 'ripple';
-                    ripple.style.left = `${x}px`;
-                    ripple.style.top = `${y}px`;
-                    this.appendChild(ripple);
-                    
-                    // Remove ripple after animation
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                    
-                    // Add click feedback
-                    this.classList.add('click-feedback');
-                    setTimeout(() => {
-                        this.classList.remove('click-feedback');
-                    }, 300);
-                    
-                    // Handle button actions
-                    if (this.id === 'homeBtn') {
-                        setTimeout(() => {
-                            window.location.href = '/dashboard';
-                        }, 600);
-                    } else if (this.id === 'receiptBtn') {
-                        // Simulate receipt download
-                        setTimeout(() => {
-                            alert('Receipt download started!');
-                        }, 600);
-                    }
-                });
+            homeBtn.addEventListener('click', function(e) {
+                // Create ripple effect
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple';
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                    window.location.href = '/dashboard';
+                }, 600);
             });
-            
-            // Bank card hover effect
-            const bankCard = document.querySelector('.bank-card');
-            if (bankCard) {
-                bankCard.addEventListener('mousemove', (e) => {
-                    const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-                    const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-                    bankCard.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-                });
-                
-                bankCard.addEventListener('mouseenter', () => {
-                    bankCard.style.transition = 'none';
-                });
-                
-                bankCard.addEventListener('mouseleave', () => {
-                    bankCard.style.transition = 'all 0.5s ease';
-                    bankCard.style.transform = 'rotateY(0deg) rotateX(0deg)';
-                });
-            }
-            
-            // Create additional floating elements periodically
-            setInterval(() => {
-                createFallingCash();
-            }, 10000);
-            
-            // Add parallax effect to background elements
-            document.addEventListener('mousemove', (e) => {
-                const x = e.clientX / window.innerWidth;
-                const y = e.clientY / window.innerHeight;
-                
-                const cashElements = document.querySelectorAll('.cash');
-                cashElements.forEach((el, index) => {
-                    const speed = 0.05 + (index * 0.005);
-                    const xPos = -(x * 20 * speed) + 10;
-                    const yPos = -(y * 20 * speed) + 10;
-                    el.style.transform = `translate(${xPos}px, ${yPos}px) rotate(${15 + (xPos * 0.5)}deg)`;
-                });
-            });
-            
-            // Add scroll reveal effect
-            const container = document.querySelector('.container');
-            window.addEventListener('scroll', () => {
-                if (!container) return;
-                
-                const scrollPosition = window.scrollY;
-                const containerPosition = container.offsetTop;
-                const containerHeight = container.offsetHeight;
-                
-                if (scrollPosition > containerPosition - window.innerHeight + containerHeight / 2) {
-                    container.style.transform = 'translateY(0) scale(1)';
-                    container.style.opacity = '1';
-                }
-            });
-            
-            // Add keyboard navigation
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && document.activeElement === document.body) {
-                    document.getElementById('homeBtn').focus();
-                }
-            });
-            
-            // Add touch feedback for mobile devices
-            document.addEventListener('touchstart', () => {}, { passive: true });
-            
-            // Performance optimization for animations
-            let lastTime = 0;
-            const vendors = ['ms', 'moz', 'webkit', 'o'];
-            for (let x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-                window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-                window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || 
-                                           window[vendors[x] + 'CancelRequestAnimationFrame'];
-            }
-            
-            if (!window.requestAnimationFrame) {
-                window.requestAnimationFrame = function(callback, element) {
-                    const currTime = new Date().getTime();
-                    const timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                    const id = window.setTimeout(() => {
-                        callback(currTime + timeToCall);
-                    }, timeToCall);
-                    lastTime = currTime + timeToCall;
-                    return id;
-                };
-            }
-            
-            if (!window.cancelAnimationFrame) {
-                window.cancelAnimationFrame = function(id) {
-                    clearTimeout(id);
-                };
-            }
         });
     </script>
 </body>
