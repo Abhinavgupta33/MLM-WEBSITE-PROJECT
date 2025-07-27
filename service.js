@@ -1560,7 +1560,7 @@ exports.ser_meeting= async(req,res)=>{
             let abhi = await tble.findOne({user_id:uid});
             let name = abhi.your_name;
        
-        res.render("meeting",{user_image});
+        res.render("meeting");
 }
         catch{
             res.render("error");
@@ -1569,22 +1569,10 @@ exports.ser_meeting= async(req,res)=>{
 
 
 }
- exports.ser_create_meeting = async (req, res) => {
+ // Assuming you have the Meeting model
+exports.ser_create_meeting = async (req, res) => {
     try {
-        const { 
-            title, 
-            dateTime, 
-            meetingMode, 
-            meetingPlatform, 
-            meetingLink, 
-            meetingAddress, 
-            meetingCategory, 
-            description,
-            latitude,
-            longitude,
-            status
-        } = req.body;
-        
+        const { title, dateTime, meetingMode, meetingPlatform, meetingLink, meetingAddress, meetingCategory, description } = req.body;
         const userId = req.user.user_id;
 
         // Basic validation
@@ -1603,7 +1591,7 @@ exports.ser_meeting= async(req,res)=>{
             category: meetingCategory,
             description: description || '',
             createdBy: userId,
-            status: status || 'scheduled'
+            status: 'scheduled'
         };
 
         // Handle location details
@@ -1627,44 +1615,39 @@ exports.ser_meeting= async(req,res)=>{
                     message: 'Address is required for offline meetings'
                 });
             }
-            
-            // Validate coordinates
-            if (!latitude || !longitude) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Location coordinates are required for offline meetings'
-                });
-            }
-            
             meetingData.locationDetails = {
                 offline: {
                     address: meetingAddress,
                     coordinates: {
                         type: 'Point',
-                        coordinates: [parseFloat(longitude), parseFloat(latitude)] // MongoDB uses [longitude, latitude]
+                        coordinates: [0, 0] // You can implement geocoding later
                     }
                 }
             };
         }
 
-        // Create the meeting
-        const newMeeting = await Meeting.create(meetingData);
+        // Create and save the meeting
+        const meeting = new Meeting(meetingData);
+        await meeting.save();
+        
+        // Find users to invite (assuming tble is your User model)
+        let users = await tble.find({ parent_id: userId });
 
-        return res.status(201).json({
-            success: true,
-            message: 'Meeting created successfully',
-            data: newMeeting
+        // Render the selectpeople page with necessary data
+        res.render("selectpeople", {
+            users: users,
+            meetingId: meeting._id,
+            currentUserId: userId,
+            meetingTitle: meeting.title,
+            meetingDateTime: meeting.dateTime.toLocaleString()
         });
 
     } catch (error) {
-        console.error('Error creating meeting:', error);
-        return res.status(500).json({
-            success: false,
-            message: 'Failed to create meeting',
-            error: error.message
-        });
+        console.error("Error creating meeting:", error);
+        res.render("error", { message: "Failed to create meeting" });
     }
 };
+
 
 // Configure Nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -1762,7 +1745,6 @@ exports.ser_success_meeting_create= async(req,res)=>{
     }
 
 }
-
 // exports.ser_update = async (req, res) => {
        
     //     try {
