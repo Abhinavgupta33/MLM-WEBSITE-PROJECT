@@ -4,80 +4,197 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Withdrawal Successful</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         :root {
+            /* Light Theme Colors */
             --primary-color: #00796b;
             --primary-dark: #004d40;
             --primary-light: #b2dfdb;
             --success-color: #4caf50;
-            --background: #e0f7fa;
+            --background: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-secondary: #555555;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --hover-brightness: 1.05;
+            --header-bg: #ffffff;
+            --sidebar-bg: #f8f9fa;
+            --footer-bg: #f8f9fa;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Colors */
+            --primary-color: #26a69a;
+            --primary-dark: #00897b;
+            --primary-light: #b2dfdb;
+            --success-color: #66bb6a;
+            --background: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --text-secondary: #aaaaaa;
+            --border-color: #333333;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --hover-brightness: 1.15;
+            --header-bg: #1e1e1e;
+            --sidebar-bg: #252525;
+            --footer-bg: #252525;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             background-color: var(--background);
-            color: #333;
+            color: var(--text-color);
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
             position: relative;
         }
 
-        /* Floating cash animation */
-        .cash {
-            position: absolute;
-            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
-            border-radius: 4px;
+        .main-content {
+            display: flex;
+            flex: 1;
+            padding-top: 60px; /* Header height */
+            padding-left: 250px; /* Sidebar width */
+            transition: padding-left 0.3s ease;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header Styles (imported) */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: var(--header-bg);
+            box-shadow: 0 2px 10px var(--shadow-color);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            justify-content: space-between;
+        }
+
+        /* Sidebar Styles (imported) */
+        .sidebar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            z-index: 900;
+            overflow-y: auto;
+            transition: transform 0.3s ease, width 0.3s ease;
+        }
+
+        /* Footer Styles (imported) */
+        .footer {
+            background-color: var(--footer-bg);
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Success Page Specific Styles */
+        .success-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: bold;
-            color: #333;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            animation: floatCash 12s linear infinite;
-            z-index: 0;
+            min-height: calc(100vh - 60px);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px var(--shadow-color);
+            padding: 3rem;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            border: 1px solid var(--border-color);
+            transform: translateY(20px);
             opacity: 0;
-            transform: rotate(15deg);
+            animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            transition: all 0.3s ease;
         }
 
-        @keyframes floatCash {
-            0% {
-                transform: translateY(110vh) translateX(0) rotate(15deg) scale(0.5);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.8;
-            }
-            90% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(-10vh) translateX(100px) rotate(30deg) scale(1);
-                opacity: 0;
-            }
+        .success-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px var(--shadow-color);
         }
 
-        /* Success checkmark animation */
+        /* Checkmark Animation */
+        .checkmark-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+        }
+
+        .checkmark-circle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: rgba(76, 175, 80, 0.1);
+            animation: pulse 2s infinite;
+        }
+
         .checkmark {
-            width: 80px;
-            height: 80px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             display: block;
-            stroke-width: 5;
+            stroke-width: 6;
             stroke: var(--success-color);
             stroke-miterlimit: 10;
-            margin: 20px auto;
+            margin: 0 auto;
             box-shadow: inset 0 0 0 rgba(76, 175, 80, 0.4);
             animation: fill 0.6s ease-in-out 0.6s forwards, scale 0.5s ease-in-out 0.9s both;
+            position: relative;
+            z-index: 2;
         }
 
         .checkmark__circle {
             stroke-dasharray: 166;
             stroke-dashoffset: 166;
-            stroke-width: 5;
+            stroke-width: 6;
             stroke-miterlimit: 10;
             stroke: var(--success-color);
             fill: none;
@@ -89,6 +206,133 @@
             stroke-dasharray: 48;
             stroke-dashoffset: 48;
             animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+
+        /* Text Styles */
+        .success-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            font-weight: 700;
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+
+        .success-message {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .transaction-details {
+            background-color: rgba(0, 121, 107, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .amount {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        /* Button Styles */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .success-btn {
+            padding: 0.8rem 1.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 160px;
+        }
+
+        .success-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px var(--shadow-color);
+            filter: brightness(var(--hover-brightness));
+        }
+
+        .success-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .success-btn.secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .success-btn.secondary:hover {
+            background-color: rgba(0, 121, 107, 0.1);
+        }
+
+        .success-btn .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        .btn-icon {
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes textGlow {
+            from {
+                text-shadow: 0 0 5px rgba(0, 121, 107, 0.3);
+            }
+            to {
+                text-shadow: 0 0 15px rgba(0, 121, 107, 0.5);
+            }
         }
 
         @keyframes stroke {
@@ -108,89 +352,8 @@
 
         @keyframes fill {
             100% {
-                box-shadow: inset 0 0 0 60px rgba(76, 175, 80, 0.1);
+                box-shadow: inset 0 0 0 100px rgba(76, 175, 80, 0);
             }
-        }
-
-        /* Container animation */
-        .container {
-            text-align: center;
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            width: 350px;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        h1 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 28px;
-            animation: textGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes textGlow {
-            from {
-                text-shadow: 0 0 5px rgba(0, 121, 107, 0.3);
-            }
-            to {
-                text-shadow: 0 0 10px rgba(0, 121, 107, 0.5);
-            }
-        }
-
-        p {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        /* Button with ripple effect */
-        .success-btn {
-            padding: 14px 24px;
-            background-color: var(--primary-color);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .success-btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .success-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .success-btn .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.7);
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
         }
 
         @keyframes ripple {
@@ -200,11 +363,24 @@
             }
         }
 
-        /* Cash falling animation */
-        .falling-cash {
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.8;
+            }
+            70% {
+                transform: scale(1.1);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(0.95);
+                opacity: 0.8;
+            }
+        }
+
+        /* Cash Animation Styles */
+        .cash-particle {
             position: absolute;
-            width: 60px;
-            height: 30px;
             background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
             border-radius: 4px;
             display: flex;
@@ -212,12 +388,124 @@
             align-items: center;
             font-weight: bold;
             color: #333;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            animation: falling 3s ease-in forwards;
-            z-index: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 1;
             opacity: 0;
+            transform: rotate(15deg);
+            pointer-events: none;
         }
 
+        .cash-particle.bill {
+            background: linear-gradient(135deg, #f5f5f5, #FFD700);
+        }
+
+        .cash-particle.coin {
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f5f5f5, #C0C0C0);
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 1;
+            animation: confetti-fall 5s linear forwards;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .main-content {
+                padding-left: 0;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .footer {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .success-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .success-title {
+                font-size: 1.8rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .success-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .success-card {
+                padding: 1.5rem 1rem;
+                border-radius: 12px;
+            }
+
+            .checkmark-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .checkmark {
+                width: 100px;
+                height: 100px;
+            }
+
+            .success-title {
+                font-size: 1.5rem;
+            }
+
+            .success-message {
+                font-size: 1rem;
+            }
+
+            .amount {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Dark mode adjustments */
+        [data-theme="dark"] .cash-particle {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Floating cash animation */
+        @keyframes floatCash {
+            0% {
+                transform: translateY(110vh) translateX(0) rotate(15deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(100px) rotate(30deg) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Falling cash animation */
         @keyframes falling {
             0% {
                 transform: translateY(-100px) rotate(0deg);
@@ -228,128 +516,884 @@
                 opacity: 0;
             }
         }
+
+        /* Confetti animation */
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Additional decorative elements */
+        .decorative-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            background-color: var(--primary-color);
+            top: -150px;
+            right: -150px;
+        }
+
+        .circle-2 {
+            width: 200px;
+            height: 200px;
+            background-color: var(--success-color);
+            bottom: -100px;
+            left: -100px;
+        }
+
+        /* Progress indicator */
+        .progress-tracker {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .progress-tracker::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--border-color);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .progress-step.completed .step-number {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .progress-step.active .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .progress-tracker .progress-bar {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 4px;
+            background-color: var(--primary-color);
+            z-index: 2;
+            transition: width 0.4s ease;
+        }
+
+        /* Timeline animation */
+        @keyframes drawLine {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Notification badge */
+        .notification-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #ff5722;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 3px 10px var(--shadow-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Floating action button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .fab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px var(--shadow-color);
+        }
+
+        /* Responsive iframe */
+        .responsive-iframe {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%;
+        }
+
+        .responsive-iframe iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Print styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background-color: white !important;
+                color: black !important;
+            }
+
+            .success-card {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+            }
+        }
+
+        /* Enhanced cash animation */
+        .cash-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* Money transfer animation */
+        .money-transfer {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            animation: moneyTransfer 4s ease-out forwards;
+            z-index: 1;
+        }
+
+        @keyframes moneyTransfer {
+            0% {
+                transform: scale(0.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* Receipt paper effect */
+        .receipt-effect {
+            position: absolute;
+            width: 200px;
+            height: 300px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transform-origin: top center;
+            animation: printReceipt 2s ease-in-out forwards;
+            z-index: 10;
+            display: none;
+        }
+
+        @keyframes printReceipt {
+            0% {
+                transform: scaleY(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100px) scaleY(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Currency exchange rate ticker */
+        .rate-ticker {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            animation: tickerFade 3s ease-in-out infinite;
+        }
+
+        @keyframes tickerFade {
+            0%, 100% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Security badge */
+        .security-badge {
+            display: inline-block;
+            background: var(--success-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 10px;
+            vertical-align: middle;
+            animation: badgePulse 2s infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Responsive table */
+        .responsive-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .responsive-table th, .responsive-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .responsive-table th {
+            background-color: rgba(0,0,0,0.05);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .responsive-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        /* Gradient border */
+        .gradient-border {
+            position: relative;
+            border-radius: 16px;
+        }
+
+        .gradient-border::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-color), var(--success-color));
+            border-radius: 18px;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        /* 3D card effect */
+        .card-3d {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .card-3d:hover {
+            transform: rotateY(5deg) rotateX(5deg) translateY(-5px);
+        }
+
+        /* Watermark */
+        .watermark {
+            position: absolute;
+            opacity: 0.05;
+            font-size: 20rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+            transform: rotate(-30deg);
+        }
+
+        /* Countdown timer */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .countdown-item {
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .countdown-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* Wave divider */
+        .wave-divider {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+
+        .wave-divider svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 50px;
+        }
+
+        .wave-divider .shape-fill {
+            fill: var(--primary-light);
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    <%- include("../utils/header")%> 
-    <%- include("side")%>
-    
-    <!-- Background cash elements -->
-    <div id="cashBackground"></div>
-    
-    <div class="container">
-        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-        </svg>
+    <div class="app-container">
+        <%- include("../utils/header") %>
+        <%- include("side") %>
         
-        <h1>Withdrawal Successful!</h1>
-        <p>Your funds have been processed and will be transferred shortly.</p>
+        <div class="main-content">
+            <div class="content-wrapper">
+                <div class="success-container">
+                    <!-- Background decorative elements -->
+                    <div class="decorative-circle circle-1"></div>
+                    <div class="decorative-circle circle-2"></div>
+                    
+                    <!-- Cash background animation -->
+                    <div class="cash-background" id="cashBackground"></div>
+                    
+                    <!-- Money transfer animation elements -->
+                    <div id="moneyTransferContainer"></div>
+                    
+                    <!-- Success card -->
+                    <div class="success-card gradient-border">
+                        <!-- Checkmark animation -->
+                        <div class="checkmark-container">
+                            <div class="checkmark-circle"></div>
+                            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                            </svg>
+                        </div>
+                        
+                        <h1 class="success-title animate__animated animate__fadeIn">Withdrawal Successful!</h1>
+                        <p class="success-message animate__animated animate__fadeIn animate__delay-1s">
+                            Your funds have been processed and will be transferred to your account shortly.
+                            A confirmation has been sent to your registered email address.
+                        </p>
+                        
+                        <!-- Transaction details -->
+                        <div class="transaction-details animate__animated animate__fadeIn animate__delay-1s">
+                            <div class="amount"><%= a %></div>
+                            <div class="detail-row">
+                                <span class="detail-label">Transaction ID:</span>
+                                <span class="detail-value">TXN48765934</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Date & Time:</span>
+                                <span class="detail-value">May 15, 2023 - 14:30 IST</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Payment Method:</span>
+                                <span class="detail-value">Bank Transfer</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Status:</span>
+                                <span class="detail-value">
+                                    Completed 
+                                    <span class="security-badge">
+                                        <i class="fas fa-lock"></i> Secure
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress tracker -->
+                        <div class="progress-tracker animate__animated animate__fadeIn animate__delay-2s">
+                            <div class="progress-bar" style="width: 100%"></div>
+                            <div class="progress-step completed">
+                                <div class="step-number">1</div>
+                                <div class="step-label">Requested</div>
+                            </div>
+                            <div class="progress-step completed">
+                                <div class="step-number">2</div>
+                                <div class="step-label">Processed</div>
+                            </div>
+                            <div class="progress-step completed">
+                                <div class="step-number">3</div>
+                                <div class="step-label">Completed</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action buttons -->
+                        <div class="button-group animate__animated animate__fadeIn animate__delay-2s">
+                            <button class="success-btn" id="homeBtn">
+                                <i class="fas fa-home btn-icon"></i> Go to Dashboard
+                            </button>
+                            <button class="success-btn secondary" id="receiptBtn">
+                                <i class="fas fa-receipt btn-icon"></i> Get Receipt
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
-        <button class="success-btn" id="homeBtn">
-            <i class="fas fa-home" style="margin-right: 8px;"></i> Go to Home
-        </button>
+        <%- include("../utils/footer") %>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Create floating cash background
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                });
+            }
+
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            // Create cash particles background
             const cashBackground = document.getElementById('cashBackground');
             const denominations = ['₹100', '₹200', '₹500', '₹2000'];
             
-            for (let i = 0; i < 10; i++) {
-                const note = document.createElement('div');
-                note.className = 'cash';
+            function createCashParticles() {
+                // Clear existing particles
+                cashBackground.innerHTML = '';
                 
-                // Random size
-                const width = Math.random() * 40 + 60;
-                const height = width / 2;
-                note.style.width = `${width}px`;
-                note.style.height = `${height}px`;
+                // Create floating cash particles
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'cash-particle';
+                    
+                    // Random size
+                    const width = Math.random() * 40 + 40;
+                    const height = width / 2;
+                    particle.style.width = `${width}px`;
+                    particle.style.height = `${height}px`;
+                    
+                    // Random position
+                    particle.style.left = `${Math.random() * 100}%`;
+                    
+                    // Random denomination
+                    const denomIndex = Math.floor(Math.random() * denominations.length);
+                    particle.textContent = denominations[denomIndex];
+                    
+                    // Random animation duration and delay
+                    const duration = Math.random() * 15 + 10;
+                    const delay = Math.random() * 15;
+                    particle.style.animation = `floatCash ${duration}s linear ${delay}s infinite`;
+                    
+                    // Random rotation
+                    const rotation = Math.random() * 30 - 15;
+                    particle.style.transform = `rotate(${rotation}deg)`;
+                    
+                    // Color based on denomination
+                    if (denomIndex === 2) { // ₹500
+                        particle.classList.add('bill');
+                    } else if (denomIndex === 3) { // ₹2000
+                        particle.style.background = 'linear-gradient(135deg, #f5f5f5, #87CEEB)';
+                    } else if (Math.random() > 0.7) {
+                        particle.classList.add('coin');
+                        particle.style.width = `${width / 1.5}px`;
+                        particle.style.height = `${width / 1.5}px`;
+                    }
+                    
+                    cashBackground.appendChild(particle);
+                }
+            }
+            
+            // Initial creation of cash particles
+            createCashParticles();
+            
+            // Refresh particles periodically
+            setInterval(createCashParticles, 30000);
+            
+            // Create money transfer animation
+            function createMoneyTransferAnimation() {
+                const container = document.getElementById('moneyTransferContainer');
+                const transfer = document.createElement('div');
+                transfer.className = 'money-transfer';
                 
                 // Random position
-                note.style.left = `${Math.random() * 100}%`;
+                transfer.style.left = `${Math.random() * 80 + 10}%`;
+                transfer.style.top = `${Math.random() * 80 + 10}%`;
                 
-                // Random denomination
-                note.textContent = denominations[Math.floor(Math.random() * denominations.length)];
+                container.appendChild(transfer);
                 
-                // Random animation duration and delay
-                note.style.animationDuration = `${Math.random() * 12 + 8}s`;
-                note.style.animationDelay = `${Math.random() * 8}s`;
-                
-                // Color based on denomination
-                if (note.textContent.includes('500')) {
-                    note.style.background = 'linear-gradient(135deg, #f5f5f5, #FFD700)';
-                } else if (note.textContent.includes('2000')) {
-                    note.style.background = 'linear-gradient(135deg, #f5f5f5, #87CEEB)';
-                }
-                
-                cashBackground.appendChild(note);
+                // Remove after animation
+                setTimeout(() => {
+                    transfer.remove();
+                }, 4000);
             }
-
-            // Create falling cash animation
-            function createFallingCash() {
-                const denominations = ['₹100', '₹200', '₹500', '₹2000'];
-                for (let i = 0; i < 15; i++) {
+            
+            // Initial money transfer animation
+            setTimeout(createMoneyTransferAnimation, 1000);
+            
+            // Periodic money transfer animations
+            setInterval(createMoneyTransferAnimation, 3000);
+            
+            // Create confetti effect
+            function createConfetti() {
+                const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', 
+                               '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', 
+                               '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800'];
+                
+                for (let i = 0; i < 50; i++) {
                     setTimeout(() => {
-                        const cash = document.createElement('div');
-                        cash.className = 'falling-cash';
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
                         
                         // Random size
-                        const width = Math.random() * 40 + 40;
-                        const height = width / 2;
-                        cash.style.width = `${width}px`;
-                        cash.style.height = `${height}px`;
+                        const size = Math.random() * 10 + 5;
+                        confetti.style.width = `${size}px`;
+                        confetti.style.height = `${size}px`;
                         
-                        // Random position
-                        cash.style.left = `${Math.random() * 100}%`;
-                        
-                        // Random denomination
-                        cash.textContent = denominations[Math.floor(Math.random() * denominations.length)];
-                        
-                        // Random animation duration
-                        cash.style.animationDuration = `${Math.random() * 2 + 1}s`;
-                        
-                        // Color based on denomination
-                        if (cash.textContent.includes('500')) {
-                            cash.style.background = 'linear-gradient(135deg, #f5f5f5, #FFD700)';
-                        } else if (cash.textContent.includes('2000')) {
-                            cash.style.background = 'linear-gradient(135deg, #f5f5f5, #87CEEB)';
+                        // Random shape
+                        if (Math.random() > 0.5) {
+                            confetti.style.borderRadius = '50%';
                         }
                         
-                        document.body.appendChild(cash);
+                        // Random color
+                        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                        
+                        // Random position
+                        confetti.style.left = `${Math.random() * 100}%`;
+                        
+                        // Random animation duration and delay
+                        const duration = Math.random() * 3 + 2;
+                        confetti.style.animationDuration = `${duration}s`;
+                        
+                        document.body.appendChild(confetti);
                         
                         // Remove after animation
                         setTimeout(() => {
-                            cash.remove();
-                        }, 3000);
-                    }, i * 200);
+                            confetti.remove();
+                        }, duration * 1000);
+                    }, i * 50);
                 }
             }
             
-            // Create falling cash on page load
-            setTimeout(createFallingCash, 500);
+            // Create confetti on page load
+            setTimeout(createConfetti, 1500);
             
-            // Add ripple effect to button
-            const homeBtn = document.getElementById('homeBtn');
+            // Add ripple effect to buttons
+            function addRippleEffect(button) {
+                button.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const ripple = document.createElement('span');
+                    ripple.className = 'ripple';
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            }
             
-            homeBtn.addEventListener('click', function(e) {
-                // Create ripple effect
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const ripple = document.createElement('span');
-                ripple.className = 'ripple';
-                ripple.style.left = `${x}px`;
-                ripple.style.top = `${y}px`;
-                this.appendChild(ripple);
+            // Apply ripple effect to all success buttons
+            document.querySelectorAll('.success-btn').forEach(btn => {
+                addRippleEffect(btn);
+            });
+            
+            // Button click handlers
+            document.getElementById('homeBtn').addEventListener('click', function() {
+                // Create receipt effect before redirecting
+                const receipt = document.createElement('div');
+                receipt.className = 'receipt-effect';
+                document.body.appendChild(receipt);
                 
                 setTimeout(() => {
-                    ripple.remove();
                     window.location.href = '/dashboard';
-                }, 600);
+                }, 1000);
+            });
+            
+            document.getElementById('receiptBtn').addEventListener('click', function() {
+                // Create print receipt effect
+                const receipt = document.createElement('div');
+                receipt.className = 'receipt-effect';
+                receipt.style.display = 'block';
+                receipt.style.left = '50%';
+                receipt.style.marginLeft = '-100px';
+                receipt.style.top = '50%';
+                receipt.style.marginTop = '-150px';
+                document.body.appendChild(receipt);
+                
+                // Open print dialog after animation
+                setTimeout(() => {
+                    window.print();
+                    receipt.remove();
+                }, 2000);
+            });
+            
+            // Responsive sidebar toggle
+            const sidebarToggle = document.querySelector('.sidebar-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+            }
+            
+            // Add rate ticker animation
+            const rates = [
+                "USD/INR: 82.45 ▲0.12%",
+                "EUR/INR: 89.23 ▼0.05%",
+                "GBP/INR: 103.67 ▲0.18%",
+                "BTC/INR: 2,450,321 ▲1.25%"
+            ];
+            
+            function updateRateTicker() {
+                const ticker = document.createElement('div');
+                ticker.className = 'rate-ticker';
+                ticker.textContent = rates[Math.floor(Math.random() * rates.length)];
+                document.body.appendChild(ticker);
+                
+                setTimeout(() => {
+                    ticker.remove();
+                }, 3000);
+            }
+            
+            // Initial rate ticker
+            setTimeout(updateRateTicker, 2000);
+            
+            // Periodic rate updates
+            setInterval(updateRateTicker, 5000);
+            
+            // Add watermark
+            const watermark = document.createElement('div');
+            watermark.className = 'watermark';
+            watermark.textContent = 'SECURE';
+            watermark.style.top = `${Math.random() * 60 + 20}%`;
+            watermark.style.left = `${Math.random() * 60 + 20}%`;
+            document.body.appendChild(watermark);
+            
+            // Add security badge animation
+            setInterval(() => {
+                const badges = document.querySelectorAll('.security-badge');
+                badges.forEach(badge => {
+                    badge.style.animation = 'none';
+                    void badge.offsetWidth; // Trigger reflow
+                    badge.style.animation = 'badgePulse 2s infinite';
+                });
+            }, 5000);
+            
+            // Add viewport resize handler
+            window.addEventListener('resize', function() {
+                // Recreate cash particles on resize for better positioning
+                createCashParticles();
+            });
+            
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+H for home
+                if (e.ctrlKey && e.key === 'h') {
+                    e.preventDefault();
+                    document.getElementById('homeBtn').click();
+                }
+                
+                // Ctrl+P for print receipt
+                if (e.ctrlKey && e.key === 'p') {
+                    e.preventDefault();
+                    document.getElementById('receiptBtn').click();
+                }
+            });
+            
+            // Add service worker for offline functionality
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js').then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    }).catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
+            }
+            
+            // Add vibration feedback on button click
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function() {
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(50);
+                    }
+                });
+            });
+            
+            // Add analytics tracking
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'UA-XXXXX-Y');
+            
+            // Performance monitoring
+            window.addEventListener('load', function() {
+                if ('performance' in window) {
+                    const timing = performance.timing;
+                    const loadTime = timing.loadEventEnd - timing.navigationStart;
+                    console.log(`Page loaded in ${loadTime}ms`);
+                    
+                    if (loadTime > 3000) {
+                        console.warn('Page load time is longer than 3 seconds');
+                    }
+                }
             });
         });
     </script>

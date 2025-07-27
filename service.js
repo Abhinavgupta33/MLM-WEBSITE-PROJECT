@@ -874,7 +874,7 @@ else{
                 });
                 await rec.save(); 
                 await tble.updateOne({ user_id: uid }, { $set: {amount:new_amount } }); 
-                await res.render("successwithdraw",{name,user_image});
+                await res.render("successwithdraw",{name,user_image,a});
         
                 }
             }       
