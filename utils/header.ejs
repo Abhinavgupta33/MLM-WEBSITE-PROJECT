@@ -23,23 +23,25 @@
       --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       --transition-elastic: all 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6);
-      --sidebar-width: 280px;
       --notification-count: 4;
       --cart-count: 3;
       
       /* Dark mode variables */
       --dark-bg: #0f172a;
-      --dark-text: #e2e8f0;
+      --dark-text: #f8fafc;
       --dark-muted: #94a3b8;
       --dark-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      --dark-header-bg: rgba(15, 23, 42, 0.98);
+      --dark-header-scrolled-bg: rgba(15, 23, 42, 0.96);
       
       /* New dropdown variables */
-      --dropdown-border-radius: 16px;
-      --dropdown-item-padding: 14px 20px;
+      --dropdown-border-radius: 12px;
+      --dropdown-item-padding: 12px 20px;
       --dropdown-icon-size: 20px;
-      --dropdown-divider-color: rgba(226, 232, 240, 0.3);
-      --dropdown-hover-bg: rgba(241, 245, 249, 0.2);
+      --dropdown-divider-color: rgba(226, 232, 240, 0.2);
+      --dropdown-hover-bg: rgba(241, 245, 249, 0.5);
       --dropdown-active-bg: rgba(67, 97, 238, 0.1);
+      --dropdown-text-color: var(--text-color);
     }
     
     * {
@@ -56,6 +58,7 @@
     body {
       transition: background-color 0.5s ease, color 0.5s ease;
       background-color: #f8fafc;
+      color: var(--text-color);
     }
 
     /* Dark mode styles */
@@ -63,22 +66,23 @@
       background-color: var(--dark-bg);
       color: var(--dark-text);
       
-      --header-bg: rgba(15, 23, 42, 0.98);
-      --header-scrolled-bg: rgba(15, 23, 42, 0.96);
+      --header-bg: var(--dark-header-bg);
+      --header-scrolled-bg: var(--dark-header-scrolled-bg);
       --header-shadow: var(--dark-shadow);
       --header-scrolled-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
       --text-color: var(--dark-text);
       --text-muted: var(--dark-muted);
-      --dropdown-divider-color: rgba(100, 116, 139, 0.3);
-      --dropdown-hover-bg: rgba(30, 41, 59, 0.3);
+      --dropdown-divider-color: rgba(100, 116, 139, 0.2);
+      --dropdown-hover-bg: rgba(30, 41, 59, 0.5);
       --dropdown-active-bg: rgba(67, 97, 238, 0.2);
+      --dropdown-text-color: var(--dark-text);
     }
 
     /* Header Styles with Glass Morphism */
     .header {
       position: fixed;
       top: 0;
-      left: var(--sidebar-width);
+      left: 0;
       right: 0;
       height: var(--header-height);
       background: var(--header-bg);
@@ -92,20 +96,11 @@
       padding: 0 2.5rem;
       transition: var(--transition-smooth);
       will-change: transform, height, box-shadow, backdrop-filter;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.1);
     }
 
-    /* Adjust for collapsed sidebar */
-    @media (max-width: 992px) {
-      .header {
-        left: 80px;
-      }
-    }
-
-    /* Adjust for mobile */
-    @media (max-width: 768px) {
-      .header {
-        left: 0;
-      }
+    .dark-mode .header {
+      border-bottom: 1px solid rgba(30, 41, 59, 0.3);
     }
 
     .header.scrolled {
@@ -330,6 +325,7 @@
       overflow: hidden;
       border: 1px solid rgba(226, 232, 240, 0.2);
       pointer-events: none;
+      color: var(--dropdown-text-color);
     }
 
     .dark-mode .dropdown-menu {
@@ -487,6 +483,7 @@
       justify-content: center;
       border-radius: 0.75rem;
       transition: var(--transition-smooth);
+      color: var(--text-color);
     }
 
     .dark-mode .notification-icon {
@@ -526,7 +523,7 @@
 
     .notification-time {
       font-size: 0.75rem;
-      color: #94a3b8;
+      color: var(--text-muted);
       display: flex;
       align-items: center;
       gap: 4px;
@@ -537,7 +534,7 @@
       display: inline-block;
       width: 4px;
       height: 4px;
-      background: #94a3b8;
+      background: var(--text-muted);
       border-radius: 50%;
     }
 
@@ -555,6 +552,7 @@
       border: none;
       cursor: pointer;
       transition: var(--transition-smooth);
+      color: var(--text-color);
     }
 
     .notification-action-btn:hover {
@@ -563,6 +561,7 @@
 
     .dark-mode .notification-action-btn {
       background: rgba(30, 41, 59, 0.7);
+      color: var(--dark-text);
     }
 
     .dark-mode .notification-action-btn:hover {
@@ -646,11 +645,13 @@
       width: 24px;
       text-align: center;
       transition: var(--transition-smooth);
+      color: var(--text-muted);
     }
 
     .dropdown-item span {
       flex: 1;
       transition: var(--transition-smooth);
+      color: var(--text-color);
     }
 
     .dropdown-item .badge {
@@ -669,6 +670,10 @@
 
     .dropdown-item:hover i {
       transform: scale(1.2);
+      color: var(--primary-dark);
+    }
+
+    .dropdown-item:hover span {
       color: var(--primary-dark);
     }
 
@@ -837,6 +842,21 @@
       100% { transform: rotate(0deg); }
     }
 
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeInLeft {
+      from { transform: translateX(-20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
     .pulse {
       animation: pulse 1.5s infinite;
     }
@@ -875,6 +895,18 @@
       display: inline-block;
     }
 
+    .slide-up {
+      animation: slideUp 0.5s ease-out forwards;
+    }
+
+    .scale-in {
+      animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .fade-in-left {
+      animation: fadeInLeft 0.4s ease-out forwards;
+    }
+
     /* Ripple effect */
     .ripple-effect {
       position: absolute;
@@ -889,27 +921,12 @@
       background: rgba(67, 97, 238, 0.4);
     }
 
-    /* Main content styles to prevent overlap */
+    /* Main content styles */
     main {
       margin-top: var(--header-height);
-      margin-left: var(--sidebar-width);
       padding: 2rem;
       min-height: calc(100vh - var(--header-height));
       transition: var(--transition-smooth);
-    }
-
-    /* Adjust for collapsed sidebar */
-    @media (max-width: 992px) {
-      main {
-        margin-left: 80px;
-      }
-    }
-
-    /* Adjust for mobile */
-    @media (max-width: 768px) {
-      main {
-        margin-left: 0;
-      }
     }
 
     /* Custom scrollbar for dropdowns */
@@ -1098,6 +1115,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      color: var(--text-color);
     }
 
     .context-menu-item:hover {
@@ -1376,6 +1394,7 @@
     </div>
   </div>
 
+
   <script>
     // Enhanced Header scroll effect with parallax
     window.addEventListener('scroll', function() {
@@ -1591,6 +1610,16 @@
           progressFill.style.width = '75%';
         }, 500);
       }
+
+      // Animate main content
+      const contentElements = document.querySelectorAll('.content > *');
+      contentElements.forEach((el, index) => {
+        el.style.opacity = '0';
+        setTimeout(() => {
+          el.style.animation = `${el.classList.contains('slide-up') ? 'slideUp' : 'fadeInLeft'} 0.6s ease-out forwards`;
+          el.style.animationDelay = `${0.2 + index * 0.2}s`;
+        }, 100);
+      });
     });
 
     // Enhanced Dark Mode Toggle
