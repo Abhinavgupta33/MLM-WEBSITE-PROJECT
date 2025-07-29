@@ -1470,6 +1470,11 @@
           transition: opacity 0.3s ease;
       }
 
+      .mobile-sidebar-overlay.show {
+          display: block;
+          opacity: 1;
+      }
+
       /* Glass morphism effect for sidebar */
       .sidebar {
           background-color: var(--sidebar-bg);
@@ -1493,6 +1498,27 @@
           -webkit-backdrop-filter: var(--glass-blur);
           background: var(--glass-effect);
           border: 1px solid var(--glass-border);
+      }
+
+      @media (max-width: 992px) {
+          .sidebar {
+              transform: translateX(-100%);
+              transition: transform 0.3s ease;
+              width: var(--sidebar-width);
+              box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+          }
+          
+          .sidebar.show {
+              transform: translateX(0);
+          }
+          
+          #main {
+              margin-left: 0;
+          }
+          
+          .mobile-menu-toggle {
+              display: flex;
+          }
       }
 
       /* Custom scrollbar */

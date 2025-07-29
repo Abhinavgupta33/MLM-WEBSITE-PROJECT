@@ -48,8 +48,20 @@
         --bubble-light: rgba(255, 255, 255, 0.15);
         --bubble-dark: rgba(0, 0, 0, 0.15);
         --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        --success-color: #4CAF50;
+        --error-color: #f44336;
+        --warning-color: #ff9800;
       }
 
+      /* Base styles */
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-light);
+        transition: background-color 0.5s ease, color 0.5s ease;
+        overflow-x: hidden;
+      }
+      
       /* Dark mode styles */
       body.dark-mode {
         background-color: var(--bg-dark);
@@ -351,59 +363,6 @@
         position: relative;
       }
       
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        .auth-card {
-          margin-top: 1.5rem;
-          margin-bottom: 1.5rem;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .auth-body {
-          padding: 1.8rem;
-        }
-        
-        .bg-bubbles li {
-          width: 30px;
-          height: 30px;
-        }
-        
-        .bg-bubbles li:nth-child(2),
-        .bg-bubbles li:nth-child(4),
-        .bg-bubbles li:nth-child(6),
-        .bg-bubbles li:nth-child(7),
-        .bg-bubbles li:nth-child(10) {
-          width: 50px;
-          height: 50px;
-        }
-        
-        .auth-header {
-          padding: 1.5rem;
-        }
-        
-        .btn-auth {
-          padding: 12px;
-        }
-      }
-      
-      @media (max-width: 576px) {
-        .auth-body {
-          padding: 1.5rem;
-        }
-        
-        .auth-header {
-          padding: 1.2rem;
-        }
-        
-        .auth-header h3 {
-          font-size: 1.3rem;
-        }
-        
-        .form-control {
-          padding: 10px 12px;
-        }
-      }
-      
       /* Password strength indicator */
       .password-strength {
         height: 6px;
@@ -424,27 +383,27 @@
       /* Strength colors */
       .strength-0 {
         width: 20% !important;
-        background: #ff4d4d !important; /* Red */
+        background: var(--error-color) !important;
       }
       
       .strength-1 {
         width: 40% !important;
-        background: #ff6b6b !important; /* Light red */
+        background: #ff6b6b !important;
       }
       
       .strength-2 {
         width: 60% !important;
-        background: #ffc107 !important; /* Yellow */
+        background: var(--warning-color) !important;
       }
       
       .strength-3 {
         width: 80% !important;
-        background: #51cf66 !important; /* Light green */
+        background: #51cf66 !important;
       }
       
       .strength-4 {
         width: 100% !important;
-        background: #4CAF50 !important; /* Green */
+        background: var(--success-color) !important;
       }
       
       /* Tooltip for password requirements */
@@ -527,7 +486,7 @@
         position: fixed;
         top: 20px;
         right: 20px;
-        background: #4CAF50;
+        background: var(--success-color);
         color: white;
         padding: 15px 25px;
         border-radius: 8px;
@@ -541,9 +500,23 @@
         transform: translateX(0);
       }
       
-      /* Smooth transitions for dark mode toggle */
-      body, .auth-card, .form-control, .bg-bubbles li, .form-label {
-        transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+      /* Error message */
+      .error-message {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--error-color);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transform: translateX(120%);
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      .error-message.show {
+        transform: translateX(0);
       }
       
       /* Particle animation for header */
@@ -600,14 +573,115 @@
           opacity: 0;
         }
       }
+      
+      /* Theme toggle button */
+      .theme-toggle {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--primary-gradient);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transition: all 0.3s ease;
+        border: none;
+      }
+      
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+      
+      /* Floating animation */
+      @keyframes float-up-down {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      
+      .floating {
+        animation: float-up-down 3s ease-in-out infinite;
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .auth-card {
+          margin-top: 1.5rem;
+          margin-bottom: 1.5rem;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .auth-body {
+          padding: 1.8rem;
+        }
+        
+        .bg-bubbles li {
+          width: 30px;
+          height: 30px;
+        }
+        
+        .bg-bubbles li:nth-child(2),
+        .bg-bubbles li:nth-child(4),
+        .bg-bubbles li:nth-child(6),
+        .bg-bubbles li:nth-child(7),
+        .bg-bubbles li:nth-child(10) {
+          width: 50px;
+          height: 50px;
+        }
+        
+        .auth-header {
+          padding: 1.5rem;
+        }
+        
+        .btn-auth {
+          padding: 12px;
+        }
+        
+        .theme-toggle {
+          bottom: 20px;
+          right: 20px;
+          width: 45px;
+          height: 45px;
+        }
+      }
+      
+      @media (max-width: 576px) {
+        .auth-body {
+          padding: 1.5rem;
+        }
+        
+        .auth-header {
+          padding: 1.2rem;
+        }
+        
+        .auth-header h3 {
+          font-size: 1.3rem;
+        }
+        
+        .form-control {
+          padding: 10px 12px;
+        }
+        
+        .success-message,
+        .error-message {
+          width: calc(100% - 40px);
+          right: 20px;
+          left: 20px;
+        }
+      }
     </style>
   </head>
 
   <body>
-    
-    <%- include("../utils/header")%> 
-    <%- include("side")%>
-    
     <!-- Background Animation -->
     <div class="bg-animation">
       <ul class="bg-bubbles">
@@ -623,6 +697,11 @@
         <li></li>
       </ul>
     </div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle floating" id="themeToggle">
+      <i class="bi bi-moon-fill" id="themeIcon"></i>
+    </button>
 
     <main>
       <div class="container">
@@ -737,11 +816,16 @@
       </div>
     </main>
     
-  <%- include("../utils/footer"); %>  
     <!-- Success Message (hidden by default) -->
     <div class="success-message" id="successMessage">
       <i class="bi bi-check-circle-fill me-2"></i>
       Password updated successfully!
+    </div>
+    
+    <!-- Error Message (hidden by default) -->
+    <div class="error-message" id="errorMessage">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <span id="errorText">Error updating password</span>
     </div>
 
     <!-- Vendor JS Files -->
@@ -756,12 +840,51 @@
     
     <!-- Custom JS for this page -->
     <script>
-      // Check if dark mode is enabled
-      function checkDarkMode() {
-        const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
-        if (darkModeEnabled) {
-          document.body.classList.add('dark-mode');
+      // Initialize dark mode from localStorage or system preference
+      function initializeDarkMode() {
+        const savedMode = localStorage.getItem('darkMode');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedMode === 'enabled' || (!savedMode && systemPrefersDark)) {
+          enableDarkMode();
+        } else {
+          disableDarkMode();
         }
+      }
+      
+      // Enable dark mode
+      function enableDarkMode() {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('darkMode', 'enabled');
+        document.getElementById('themeIcon').classList.remove('bi-moon-fill');
+        document.getElementById('themeIcon').classList.add('bi-sun-fill');
+      }
+      
+      // Disable dark mode
+      function disableDarkMode() {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', 'disabled');
+        document.getElementById('themeIcon').classList.remove('bi-sun-fill');
+        document.getElementById('themeIcon').classList.add('bi-moon-fill');
+      }
+      
+      // Toggle dark mode
+      function toggleDarkMode() {
+        if (document.body.classList.contains('dark-mode')) {
+          disableDarkMode();
+        } else {
+          enableDarkMode();
+        }
+        
+        // Update bubbles for dark mode
+        const bubbles = document.querySelectorAll('.bg-bubbles li');
+        bubbles.forEach(bubble => {
+          if (document.body.classList.contains('dark-mode')) {
+            bubble.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
+          } else {
+            bubble.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+          }
+        });
       }
       
       // Create particles for header
@@ -812,74 +935,23 @@
         }, 1500);
       }
       
-      // Initialize all functionality
-      document.addEventListener('DOMContentLoaded', function() {
-        checkDarkMode();
-        createParticles();
+      // Show message (success or error)
+      function showMessage(type, text = '') {
+        const message = document.getElementById(`${type}Message`);
         
-        // Add ripple effect to card
-        const card = document.getElementById('authCard');
-        card.addEventListener('click', createRipple);
-        
-        // Password toggle functionality
-        const togglePassword = (toggleId, inputId) => {
-          const toggle = document.getElementById(toggleId);
-          const input = document.getElementById(inputId);
-          
-          toggle.addEventListener('click', function() {
-            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-            input.setAttribute('type', type);
-            this.classList.toggle('bi-eye');
-            this.classList.toggle('bi-eye-slash');
-          });
-        };
-        
-        // Initialize all password toggles
-        togglePassword('toggleCurrentPassword', 'currentPassword');
-        togglePassword('toggleNewPassword', 'newPassword');
-        togglePassword('toggleConfirmPassword', 'confirmPassword');
-        
-        // Form validation
-        const form = document.getElementById('passwordForm');
-        form.addEventListener('submit', function(e) {
-          const newPass = document.getElementById('newPassword').value;
-          const confirmPass = document.getElementById('confirmPassword').value;
-          
-          if (newPass !== confirmPass) {
-            e.preventDefault();
-            document.getElementById('confirmPassword').setCustomValidity("Passwords must match");
-            document.getElementById('confirmPasswordFeedback').textContent = "Passwords must match";
-            document.getElementById('confirmPassword').classList.add('is-invalid');
-          } else {
-            document.getElementById('confirmPassword').setCustomValidity("");
-            document.getElementById('confirmPassword').classList.remove('is-invalid');
-            
-            // Show loading state
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.classList.add('btn-loading');
-            submitBtn.disabled = true;
-            
-            // Simulate form submission (replace with actual form submission)
-            setTimeout(() => {
-              // Show success message
-              const successMessage = document.getElementById('successMessage');
-              successMessage.classList.add('show');
-              
-              // Hide after 3 seconds
-              setTimeout(() => {
-                successMessage.classList.remove('show');
-              }, 3000);
-              
-              // Reset form and button
-              submitBtn.classList.remove('btn-loading');
-              submitBtn.disabled = false;
-              
-              // For demo purposes, we're not actually submitting
-              // form.submit();
-            }, 1500);
+        if (text) {
+          if (type === 'error') {
+            document.getElementById('errorText').textContent = text;
           }
-        });
-      });
+        }
+        
+        message.classList.add('show');
+        
+        // Hide after 3 seconds
+        setTimeout(() => {
+          message.classList.remove('show');
+        }, 3000);
+      }
       
       // Password strength checker
       function checkPasswordStrength(password) {
@@ -931,24 +1003,104 @@
         if (newPass && confirmPass && newPass !== confirmPass) {
           feedback.textContent = "Passwords don't match";
           document.getElementById('confirmPassword').classList.add('is-invalid');
+          return false;
         } else {
           feedback.textContent = "";
           document.getElementById('confirmPassword').classList.remove('is-invalid');
+          return true;
         }
       }
       
-      // Listen for dark mode changes (assuming your header has a dark mode toggle)
-      document.addEventListener('darkModeToggle', function() {
-        document.body.classList.toggle('dark-mode');
+      // Validate password requirements
+      function validatePassword(password) {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return regex.test(password);
+      }
+      
+      // Initialize all functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        initializeDarkMode();
+        createParticles();
         
-        // Update bubbles for dark mode
-        const bubbles = document.querySelectorAll('.bg-bubbles li');
-        bubbles.forEach(bubble => {
-          if (document.body.classList.contains('dark-mode')) {
-            bubble.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
+        // Theme toggle button
+        document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
+        
+        // Add ripple effect to card
+        const card = document.getElementById('authCard');
+        card.addEventListener('click', createRipple);
+        
+        // Password toggle functionality
+        const togglePassword = (toggleId, inputId) => {
+          const toggle = document.getElementById(toggleId);
+          const input = document.getElementById(inputId);
+          
+          toggle.addEventListener('click', function() {
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+          });
+        };
+        
+        // Initialize all password toggles
+        togglePassword('toggleCurrentPassword', 'currentPassword');
+        togglePassword('toggleNewPassword', 'newPassword');
+        togglePassword('toggleConfirmPassword', 'confirmPassword');
+        
+        // Form validation
+        const form = document.getElementById('passwordForm');
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const currentPass = document.getElementById('currentPassword').value;
+          const newPass = document.getElementById('newPassword').value;
+          const confirmPass = document.getElementById('confirmPassword').value;
+          
+          // Validate current password
+          if (!currentPass) {
+            document.getElementById('currentPassword').classList.add('is-invalid');
+            return;
           } else {
-            bubble.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+            document.getElementById('currentPassword').classList.remove('is-invalid');
           }
+          
+          // Validate new password
+          if (!validatePassword(newPass)) {
+            document.getElementById('newPassword').classList.add('is-invalid');
+            return;
+          } else {
+            document.getElementById('newPassword').classList.remove('is-invalid');
+          }
+          
+          // Check password match
+          if (!checkPasswordMatch()) {
+            return;
+          }
+          
+          // Show loading state
+          const submitBtn = document.getElementById('submitBtn');
+          submitBtn.classList.add('btn-loading');
+          submitBtn.disabled = true;
+          
+          // Simulate form submission (replace with actual form submission)
+          setTimeout(() => {
+            // For demo purposes, we'll randomly show success or error
+            const isSuccess = Math.random() > 0.3; // 70% chance of success
+            
+            if (isSuccess) {
+              showMessage('success');
+              // Reset form
+              form.reset();
+              document.getElementById('passwordStrength').className = 'strength-bar';
+              document.getElementById('passwordFeedback').textContent = '';
+            } else {
+              showMessage('error', 'Failed to update password. Please try again.');
+            }
+            
+            // Reset button
+            submitBtn.classList.remove('btn-loading');
+            submitBtn.disabled = false;
+          }, 1500);
         });
       });
     </script>
