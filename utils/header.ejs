@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Header Component</title>
+  <title>Enhanced Premium Header Component</title>
   <style>
     /* Modern CSS Reset with Smooth Scrolling */
     :root {
@@ -23,25 +23,44 @@
       --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       --transition-elastic: all 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+      --sidebar-width: 280px;
       --notification-count: 4;
       --cart-count: 3;
       
+      /* Enhanced colors */
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --info-color: #3b82f6;
+      
       /* Dark mode variables */
       --dark-bg: #0f172a;
+      --dark-bg-light: #1e293b;
       --dark-text: #f8fafc;
       --dark-muted: #94a3b8;
       --dark-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-      --dark-header-bg: rgba(15, 23, 42, 0.98);
-      --dark-header-scrolled-bg: rgba(15, 23, 42, 0.96);
       
       /* New dropdown variables */
-      --dropdown-border-radius: 12px;
-      --dropdown-item-padding: 12px 20px;
+      --dropdown-border-radius: 16px;
+      --dropdown-item-padding: 14px 20px;
       --dropdown-icon-size: 20px;
-      --dropdown-divider-color: rgba(226, 232, 240, 0.2);
-      --dropdown-hover-bg: rgba(241, 245, 249, 0.5);
+      --dropdown-divider-color: rgba(226, 232, 240, 0.3);
+      --dropdown-hover-bg: rgba(241, 245, 249, 0.2);
       --dropdown-active-bg: rgba(67, 97, 238, 0.1);
-      --dropdown-text-color: var(--text-color);
+      
+      /* Enhanced shadows */
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      
+      /* New z-index hierarchy */
+      --z-header: 1000;
+      --z-dropdown: 1001;
+      --z-tooltip: 1002;
+      --z-context-menu: 1003;
+      --z-modal: 1004;
     }
     
     * {
@@ -59,6 +78,7 @@
       transition: background-color 0.5s ease, color 0.5s ease;
       background-color: #f8fafc;
       color: var(--text-color);
+      line-height: 1.5;
     }
 
     /* Dark mode styles */
@@ -66,30 +86,29 @@
       background-color: var(--dark-bg);
       color: var(--dark-text);
       
-      --header-bg: var(--dark-header-bg);
-      --header-scrolled-bg: var(--dark-header-scrolled-bg);
+      --header-bg: rgba(15, 23, 42, 0.98);
+      --header-scrolled-bg: rgba(15, 23, 42, 0.96);
       --header-shadow: var(--dark-shadow);
       --header-scrolled-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
       --text-color: var(--dark-text);
       --text-muted: var(--dark-muted);
-      --dropdown-divider-color: rgba(100, 116, 139, 0.2);
-      --dropdown-hover-bg: rgba(30, 41, 59, 0.5);
+      --dropdown-divider-color: rgba(100, 116, 139, 0.3);
+      --dropdown-hover-bg: rgba(30, 41, 59, 0.3);
       --dropdown-active-bg: rgba(67, 97, 238, 0.2);
-      --dropdown-text-color: var(--dark-text);
     }
 
     /* Header Styles with Glass Morphism */
     .header {
       position: fixed;
       top: 0;
-      left: 0;
+      left: var(--sidebar-width);
       right: 0;
       height: var(--header-height);
       background: var(--header-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       box-shadow: var(--header-shadow);
-      z-index: 999;
+      z-index: var(--z-header);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -99,8 +118,19 @@
       border-bottom: 1px solid rgba(226, 232, 240, 0.1);
     }
 
-    .dark-mode .header {
-      border-bottom: 1px solid rgba(30, 41, 59, 0.3);
+    /* Adjust for collapsed sidebar */
+    @media (max-width: 992px) {
+      .header {
+        left: 80px;
+      }
+    }
+
+    /* Adjust for mobile */
+    @media (max-width: 768px) {
+      .header {
+        left: 0;
+        padding: 0 1.5rem;
+      }
     }
 
     .header.scrolled {
@@ -109,7 +139,7 @@
       box-shadow: var(--header-scrolled-shadow);
     }
 
-    /* Logo with 3D Tilt Effect */
+    /* Logo with Enhanced 3D Tilt Effect */
     .logo {
       display: flex;
       align-items: center;
@@ -132,10 +162,12 @@
       width: auto;
       transition: var(--transition-elastic);
       transform-style: preserve-3d;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
 
     .logo:hover .logo-img {
       transform: rotateY(15deg) scale(1.1);
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
     }
 
     .logo-text {
@@ -145,6 +177,7 @@
       background-clip: text;
       -webkit-text-fill-color: transparent;
       padding-bottom: 0.25rem;
+      text-shadow: 0 2px 4px rgba(67, 97, 238, 0.1);
     }
     
     .logo-text::after {
@@ -169,7 +202,7 @@
       gap: 1.5rem;
     }
 
-    /* Action Buttons with Floating Effect */
+    /* Action Buttons with Enhanced Floating Effect */
     .action-btn {
       position: relative;
       display: flex;
@@ -181,7 +214,7 @@
       color: var(--text-muted);
       transition: var(--transition-bounce);
       background: rgba(241, 245, 249, 0.5);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      box-shadow: var(--shadow-sm);
       border: none;
       outline: none;
       cursor: pointer;
@@ -189,13 +222,14 @@
 
     .dark-mode .action-btn {
       background: rgba(30, 41, 59, 0.5);
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
     }
 
     .action-btn:hover {
       background: rgba(241, 245, 249, 0.9);
       color: var(--primary-dark);
       transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-md);
     }
 
     .dark-mode .action-btn:hover {
@@ -204,6 +238,11 @@
 
     .action-btn i {
       font-size: 1.375rem;
+      transition: transform 0.3s ease;
+    }
+
+    .action-btn:hover i {
+      transform: scale(1.1);
     }
 
     /* Badge - Modern Floating Design */
@@ -225,23 +264,27 @@
       padding: 0 0.375rem;
       transform: scale(1);
       transition: var(--transition-bounce);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-sm);
     }
 
     .action-badge.notification {
-      background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+      background: linear-gradient(135deg, var(--danger-color) 0%, #f97316 100%);
     }
 
     .action-badge.cart {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+    }
+
+    .action-badge.message {
+      background: linear-gradient(135deg, var(--info-color) 0%, #6366f1 100%);
     }
 
     .action-btn:hover .action-badge {
       transform: translateY(-3px) scale(1.15);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--shadow-md);
     }
 
-    /* Profile Button with Floating Avatar */
+    /* Profile Button with Enhanced Floating Avatar */
     .profile-btn {
       display: flex;
       align-items: center;
@@ -250,7 +293,7 @@
       border-radius: 1.5rem;
       transition: var(--transition-bounce);
       background: rgba(241, 245, 249, 0.5);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      box-shadow: var(--shadow-sm);
       border: none;
       outline: none;
       cursor: pointer;
@@ -263,7 +306,7 @@
     .profile-btn:hover {
       background: rgba(241, 245, 249, 0.9);
       transform: translateY(-3px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-md);
     }
 
     .dark-mode .profile-btn:hover {
@@ -277,13 +320,13 @@
       object-fit: cover;
       border: 2px solid rgba(226, 232, 240, 0.8);
       transition: var(--transition-bounce);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-sm);
     }
 
     .profile-btn:hover .profile-img {
       border-color: var(--primary-dark);
       transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--shadow-md);
     }
 
     .profile-name {
@@ -291,6 +334,7 @@
       color: var(--text-color);
       font-size: 0.9375rem;
       transition: var(--transition-smooth);
+      white-space: nowrap;
     }
     
     .profile-btn:hover .profile-name {
@@ -302,7 +346,7 @@
     /* ====================== */
     .dropdown {
       position: relative;
-      z-index: 1000;
+      z-index: var(--z-dropdown);
     }
     
     .dropdown-menu {
@@ -313,7 +357,7 @@
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border-radius: var(--dropdown-border-radius);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      box-shadow: var(--shadow-2xl);
       min-width: 320px;
       max-height: 0;
       opacity: 0;
@@ -321,11 +365,10 @@
       transform: translateY(10px) scale(0.95);
       transform-origin: top right;
       transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 1001;
+      z-index: var(--z-dropdown);
       overflow: hidden;
       border: 1px solid rgba(226, 232, 240, 0.2);
       pointer-events: none;
-      color: var(--dropdown-text-color);
     }
 
     .dark-mode .dropdown-menu {
@@ -403,7 +446,7 @@
       color: white;
       text-decoration: none;
       transition: var(--transition-bounce);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-sm);
       border: none;
       outline: none;
       cursor: pointer;
@@ -411,7 +454,7 @@
 
     .view-all-btn:hover {
       transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--shadow-md);
     }
 
     .notification-list {
@@ -595,7 +638,7 @@
       border: 3px solid rgba(226, 232, 240, 0.8);
       margin-bottom: 16px;
       transition: var(--transition-smooth);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-md);
     }
     
     .dropdown:hover .profile-dropdown-img {
@@ -617,6 +660,7 @@
       display: inline-block;
       padding: 4px 12px;
       border-radius: 999px;
+      margin-bottom: 12px;
     }
 
     .dark-mode .profile-dropdown-role {
@@ -692,18 +736,25 @@
       margin: 8px 0;
     }
 
-    /* Dark Mode Toggle Button */
+    /* Dark Mode Toggle Button - Enhanced */
     .dark-mode-toggle {
       position: relative;
       overflow: hidden;
+      width: 2.75rem;
+      height: 2.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .dark-mode-toggle i {
-      transition: transform 0.5s ease, opacity 0.3s ease;
+      position: absolute;
+      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.3s ease;
+      font-size: 1.25rem;
+      color: var(--text-muted);
     }
 
     .dark-mode-toggle .bi-moon {
-      position: absolute;
       opacity: 0;
       transform: rotate(90deg);
     }
@@ -721,6 +772,10 @@
     body.dark-mode .dark-mode-toggle .bi-sun {
       opacity: 0;
       transform: rotate(-90deg);
+    }
+
+    .dark-mode-toggle:hover i {
+      color: var(--primary-dark);
     }
 
     /* Responsive Design */
@@ -763,6 +818,17 @@
       
       .dropdown-menu::before {
         right: 30px;
+      }
+      
+      .notification-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      
+      .view-all-btn {
+        width: 100%;
+        justify-content: center;
       }
     }
 
@@ -842,21 +908,6 @@
       100% { transform: rotate(0deg); }
     }
 
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes scaleIn {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    @keyframes fadeInLeft {
-      from { transform: translateX(-20px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-
     .pulse {
       animation: pulse 1.5s infinite;
     }
@@ -895,18 +946,6 @@
       display: inline-block;
     }
 
-    .slide-up {
-      animation: slideUp 0.5s ease-out forwards;
-    }
-
-    .scale-in {
-      animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
-
-    .fade-in-left {
-      animation: fadeInLeft 0.4s ease-out forwards;
-    }
-
     /* Ripple effect */
     .ripple-effect {
       position: absolute;
@@ -921,12 +960,27 @@
       background: rgba(67, 97, 238, 0.4);
     }
 
-    /* Main content styles */
+    /* Main content styles to prevent overlap */
     main {
       margin-top: var(--header-height);
+      margin-left: var(--sidebar-width);
       padding: 2rem;
       min-height: calc(100vh - var(--header-height));
       transition: var(--transition-smooth);
+    }
+
+    /* Adjust for collapsed sidebar */
+    @media (max-width: 992px) {
+      main {
+        margin-left: 80px;
+      }
+    }
+
+    /* Adjust for mobile */
+    @media (max-width: 768px) {
+      main {
+        margin-left: 0;
+      }
     }
 
     /* Custom scrollbar for dropdowns */
@@ -968,7 +1022,7 @@
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.2s;
-      z-index: 1002;
+      z-index: var(--z-tooltip);
       white-space: nowrap;
     }
 
@@ -993,22 +1047,22 @@
     }
 
     .status-online {
-      background: #10b981;
+      background: var(--success-color);
       box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
     }
 
     .status-offline {
-      background: #64748b;
+      background: var(--text-muted);
       box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.3);
     }
 
     .status-busy {
-      background: #ef4444;
+      background: var(--danger-color);
       box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
     }
 
     .status-away {
-      background: #f59e0b;
+      background: var(--warning-color);
       box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
     }
 
@@ -1062,6 +1116,7 @@
 
     .dark-mode .dropdown-search input {
       background: rgba(30, 41, 59, 0.5);
+      border-color: rgba(100, 116, 139, 0.3);
     }
 
     .dropdown-search input:focus {
@@ -1091,8 +1146,8 @@
       background: var(--header-bg);
       backdrop-filter: blur(12px);
       border-radius: 8px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      z-index: 1003;
+      box-shadow: var(--shadow-xl);
+      z-index: var(--z-context-menu);
       opacity: 0;
       visibility: hidden;
       transform: scale(0.95);
@@ -1100,6 +1155,7 @@
       transition: var(--transition-smooth);
       min-width: 200px;
       overflow: hidden;
+      border: 1px solid var(--dropdown-divider-color);
     }
 
     .context-menu.visible {
@@ -1125,12 +1181,106 @@
     .context-menu-item i {
       width: 20px;
       text-align: center;
+      color: var(--text-muted);
     }
 
     .context-menu-divider {
       height: 1px;
       background: var(--dropdown-divider-color);
       margin: 4px 0;
+    }
+
+    /* Sample page content */
+    .page-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 16px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+    }
+
+    .dark-mode .page-content {
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
+    }
+
+    .page-description {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    /* Sample cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+      border: 1px solid rgba(226, 232, 240, 0.2);
+    }
+
+    .dark-mode .card {
+      background: rgba(30, 41, 59, 0.9);
+      border-color: rgba(100, 116, 139, 0.2);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-color);
+    }
+
+    .card-content {
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--dropdown-divider-color);
+    }
+
+    .card-button {
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: var(--primary-gradient);
+      color: white;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: var(--transition-smooth);
+    }
+
+    .card-button:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
   </style>
   <!-- Bootstrap Icons -->
@@ -1173,8 +1323,8 @@
           
           <div class="notification-list">
             <div class="notification-item unread fade-in" style="animation-delay: 0.1s">
-              <div class="notification-icon text-warning">
-                <i class="bi bi-exclamation-circle"></i>
+              <div class="notification-icon">
+                <i class="bi bi-exclamation-circle" style="color: var(--warning-color)"></i>
               </div>
               <div class="notification-content">
                 <h4 class="notification-title">System Alert</h4>
@@ -1188,8 +1338,8 @@
             </div>
             
             <div class="notification-item unread fade-in" style="animation-delay: 0.2s">
-              <div class="notification-icon text-danger">
-                <i class="bi bi-x-circle"></i>
+              <div class="notification-icon">
+                <i class="bi bi-x-circle" style="color: var(--danger-color)"></i>
               </div>
               <div class="notification-content">
                 <h4 class="notification-title">Failed Login Attempt</h4>
@@ -1203,8 +1353,8 @@
             </div>
             
             <div class="notification-item fade-in" style="animation-delay: 0.3s">
-              <div class="notification-icon text-success">
-                <i class="bi bi-check-circle"></i>
+              <div class="notification-icon">
+                <i class="bi bi-check-circle" style="color: var(--success-color)"></i>
               </div>
               <div class="notification-content">
                 <h4 class="notification-title">Backup Completed</h4>
@@ -1214,8 +1364,8 @@
             </div>
             
             <div class="notification-item fade-in" style="animation-delay: 0.4s">
-              <div class="notification-icon text-primary">
-                <i class="bi bi-person-plus"></i>
+              <div class="notification-icon">
+                <i class="bi bi-person-plus" style="color: var(--primary-color)"></i>
               </div>
               <div class="notification-content">
                 <h4 class="notification-title">New Team Member</h4>
@@ -1225,8 +1375,8 @@
             </div>
             
             <div class="notification-item fade-in" style="animation-delay: 0.5s">
-              <div class="notification-icon text-info">
-                <i class="bi bi-cloud-arrow-down"></i>
+              <div class="notification-icon">
+                <i class="bi bi-cloud-arrow-down" style="color: var(--info-color)"></i>
               </div>
               <div class="notification-content">
                 <h4 class="notification-title">New Update Available</h4>
@@ -1394,8 +1544,7 @@
     </div>
   </div>
 
-
-  <script>
+    <script>
     // Enhanced Header scroll effect with parallax
     window.addEventListener('scroll', function() {
       const header = document.querySelector('.header');
@@ -1413,7 +1562,7 @@
     // Dynamic notification count with enhanced animation
     setInterval(function() {
       const badge = document.querySelector('.action-badge.notification');
-      if (Math.random() > 0.7) {
+      if (badge && Math.random() > 0.7) {
         const count = parseInt(badge.textContent);
         const newCount = Math.max(0, Math.min(99, count + (Math.random() > 0.5 ? 1 : -1)));
         
@@ -1422,9 +1571,9 @@
         
         // Change color based on count
         if (newCount > 5) {
-          badge.style.background = 'linear-gradient(135deg, #ef4444 0%, #f97316 100%)';
+          badge.style.background = 'linear-gradient(135deg, var(--danger-color) 0%, #f97316 100%)';
         } else if (newCount > 2) {
-          badge.style.background = 'linear-gradient(135deg, #f59e0b 0%, #f97316 100%)';
+          badge.style.background = 'linear-gradient(135deg, var(--warning-color) 0%, #f97316 100%)';
         } else {
           badge.style.background = 'var(--primary-gradient)';
         }
@@ -1481,13 +1630,13 @@
         // Add loading spinner for messages dropdown
         if (this.querySelector('.messages-dropdown')) {
           const list = this.querySelector('.notification-list');
-          list.innerHTML = `<div style="padding: 20px; text-align: center;"><div class="spinner"></div></div>`;
+          list.innerHTML = `<div style="padding: 20px; text-align: center;"><div class="spinner"></div><p style="margin-top: 10px; color: var(--text-muted);">Loading messages...</p></div>`;
           
           // Simulate loading messages
           setTimeout(() => {
             if (list) {
               list.innerHTML = `
-                <a href="/messages/1" class="dropdown-item">
+                <a href="/messages/1" class="dropdown-item fade-in" style="animation-delay: 0.1s">
                   <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="profile-img" width="40" height="40">
                   <div>
                     <h4>Sarah Johnson <span class="status-indicator status-online"></span></h4>
@@ -1496,7 +1645,7 @@
                   </div>
                   <span class="badge">2</span>
                 </a>
-                <a href="/messages/2" class="dropdown-item">
+                <a href="/messages/2" class="dropdown-item fade-in" style="animation-delay: 0.15s">
                   <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="profile-img" width="40" height="40">
                   <div>
                     <h4>Michael Chen <span class="status-indicator status-away"></span></h4>
@@ -1505,7 +1654,7 @@
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="/messages/3" class="dropdown-item">
+                <a href="/messages/3" class="dropdown-item fade-in" style="animation-delay: 0.2s">
                   <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" class="profile-img" width="40" height="40">
                   <div>
                     <h4>Emma Wilson <span class="status-indicator status-offline"></span></h4>
@@ -1544,7 +1693,7 @@
     });
     
     // Add ripple effect to buttons
-    document.querySelectorAll('.action-btn, .profile-btn, .view-all-btn, .dropdown-item, .notification-action-btn').forEach(button => {
+    document.querySelectorAll('.action-btn, .profile-btn, .view-all-btn, .dropdown-item, .notification-action-btn, .card-button').forEach(button => {
       button.addEventListener('click', function(e) {
         // Remove any existing ripple
         const existingRipple = this.querySelector('.ripple-effect');
@@ -1570,7 +1719,7 @@
     });
     
     // Add subtle hover effect to all interactive elements
-    document.querySelectorAll('a, button, .dropdown-item, .notification-item').forEach(element => {
+    document.querySelectorAll('a, button, .dropdown-item, .notification-item, .card').forEach(element => {
       element.addEventListener('mouseenter', function() {
         this.style.transform = 'translateY(-1px)';
       });
@@ -1610,16 +1759,6 @@
           progressFill.style.width = '75%';
         }, 500);
       }
-
-      // Animate main content
-      const contentElements = document.querySelectorAll('.content > *');
-      contentElements.forEach((el, index) => {
-        el.style.opacity = '0';
-        setTimeout(() => {
-          el.style.animation = `${el.classList.contains('slide-up') ? 'slideUp' : 'fadeInLeft'} 0.6s ease-out forwards`;
-          el.style.animationDelay = `${0.2 + index * 0.2}s`;
-        }, 100);
-      });
     });
 
     // Enhanced Dark Mode Toggle
