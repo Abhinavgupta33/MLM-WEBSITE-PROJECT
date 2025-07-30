@@ -34,13 +34,50 @@
             --gray: #6c757d;
             --light-gray: #e9ecef;
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --card-bg: #ffffff;
+            --body-bg: #f5f7fb;
+            --text-color: #212529;
+            --text-inverse: #f8f9fa;
+            --border-color: rgba(0,0,0,0.1);
+            --shadow-color: rgba(0,0,0,0.05);
+            --modal-bg: #ffffff;
+            --button-text: #ffffff;
+            --sidebar-bg: #ffffff;
+            --header-bg: #ffffff;
+            --footer-bg: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --primary: #4895ef;
+            --primary-dark: #3a7bd5;
+            --secondary: #560bad;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #4361ee;
+            --light: #343a40;
+            --dark: #f8f9fa;
+            --gray: #adb5bd;
+            --light-gray: #495057;
+            --card-bg: #2d3748;
+            --body-bg: #1a202c;
+            --text-color: #f8f9fa;
+            --text-inverse: #212529;
+            --border-color: rgba(255,255,255,0.1);
+            --shadow-color: rgba(0,0,0,0.3);
+            --modal-bg: #2d3748;
+            --button-text: #ffffff;
+            --sidebar-bg: #2d3748;
+            --header-bg: #2d3748;
+            --footer-bg: #2d3748;
         }
         
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f5f7fb;
-            color: var(--dark);
+            background-color: var(--body-bg);
+            color: var(--text-color);
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
         .admin-container {
@@ -56,7 +93,7 @@
             align-items: center;
             margin-bottom: 30px;
             padding-bottom: 15px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--border-color);
             flex-wrap: wrap;
             gap: 15px;
         }
@@ -88,21 +125,24 @@
         }
         
         .product-card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px var(--shadow-color);
             transition: var(--transition);
             position: relative;
             border: none;
             display: flex;
             flex-direction: column;
             height: 100%;
+            transform: translateY(0);
+            will-change: transform;
+            border: 1px solid var(--border-color);
         }
         
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px var(--shadow-color);
         }
         
         .product-image-container {
@@ -111,7 +151,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #f8f9fa;
+            background-color: var(--light);
             overflow: hidden;
             position: relative;
         }
@@ -127,7 +167,7 @@
         }
         
         .product-card:hover .product-image {
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
         
         .product-badge {
@@ -140,17 +180,23 @@
             font-weight: 600;
             z-index: 1;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: var(--button-text);
         }
         
         .badge-stock {
             background-color: var(--warning);
-            color: white;
         }
         
         .badge-low {
             background-color: var(--danger);
-            color: white;
             animation: pulse 1.5s infinite;
+        }
+        
+        .badge-new {
+            background-color: var(--success);
+            top: 12px;
+            left: 12px;
+            right: auto;
         }
         
         @keyframes pulse {
@@ -171,7 +217,7 @@
             font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 8px;
-            color: var(--dark);
+            color: var(--text-color);
             display: -webkit-box;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
@@ -206,99 +252,104 @@
         
         /* Enhanced Buttons */
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            text-decoration: none;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            font-weight: 500 !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px !important;
+            transition: var(--transition) !important;
+            border: none !important;
+            cursor: pointer !important;
+            font-size: 0.85rem !important;
+            line-height: 1.5 !important;
+            text-decoration: none !important;
+            position: relative !important;
+            overflow: hidden !important;
+            color: var(--button-text) !important;
         }
         
         .btn-sm {
-            padding: 0.4rem 0.8rem;
-            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem !important;
+            font-size: 0.8rem !important;
         }
         
         .btn i {
-            font-size: 0.9em;
+            font-size: 0.9em !important;
         }
         
         .btn-add {
-            background-color: var(--primary);
-            color: white;
-            box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
+            background-color: var(--primary) !important;
+            box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2) !important;
         }
         
         .btn-add:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(67, 97, 238, 0.3);
+            background-color: var(--primary-dark) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 10px rgba(67, 97, 238, 0.3) !important;
         }
         
+        /* Improved View Button */
         .btn-view {
-            background-color: var(--info);
-            color: white;
+            background-color: var(--info) !important;
+            color: white !important;
         }
         
         .btn-view:hover {
-            background-color: #3a7bd5;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(58, 123, 213, 0.2);
+            background-color: #3a7bd5 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 8px rgba(58, 123, 213, 0.2) !important;
         }
         
+        /* Improved Edit Button */
         .btn-edit {
-            background-color: var(--success);
-            color: white;
+            background-color: #28a745 !important;
+            color: white !important;
         }
         
         .btn-edit:hover {
-            background-color: #3ab0d5;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(58, 176, 213, 0.2);
+            background-color: #218838 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 8px rgba(33, 136, 56, 0.2) !important;
         }
         
+        /* Improved Delete Button */
         .btn-delete {
-            background-color: var(--danger);
-            color: white;
+            background-color: #dc3545 !important;
+            color: white !important;
         }
         
         .btn-delete:hover {
-            background-color: #d51a6b;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(213, 26, 107, 0.2);
+            background-color: #c82333 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 8px rgba(200, 35, 51, 0.2) !important;
         }
         
         .btn-secondary {
-            background-color: var(--gray);
-            color: white;
+            background-color: var(--gray) !important;
+            color: white !important;
         }
         
         .btn-secondary:hover {
-            background-color: #5a6268;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(90, 98, 104, 0.2);
+            background-color: #5a6268 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 8px rgba(90, 98, 104, 0.2) !important;
         }
         
         .btn-close {
-            background: none;
-            border: none;
-            color: var(--gray);
-            font-size: 1.25rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            transition: var(--transition);
+            background: none !important;
+            border: none !important;
+            color: var(--gray) !important;
+            font-size: 1.25rem !important;
+            cursor: pointer !important;
+            padding: 0.5rem !important;
+            transition: var(--transition) !important;
         }
         
         .btn-close:hover {
-            color: var(--danger);
-            transform: rotate(90deg);
+            color: var(--danger) !important;
+            transform: rotate(90deg) !important;
         }
         
         /* Modals */
@@ -328,13 +379,14 @@
             transform: translate(-50%, -50%) scale(0.95);
             width: 90%;
             max-width: 500px;
-            background: white;
+            background: var(--modal-bg);
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             z-index: 1001;
             display: none;
             opacity: 0;
             transition: var(--transition);
+            border: 1px solid var(--border-color);
         }
         
         .modal-container.active {
@@ -345,10 +397,12 @@
         
         .modal-header {
             padding: 18px 20px;
-            border-bottom: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: var(--card-bg);
+            border-radius: 12px 12px 0 0;
         }
         
         .modal-title {
@@ -362,14 +416,17 @@
             padding: 20px;
             max-height: 60vh;
             overflow-y: auto;
+            background-color: var(--modal-bg);
         }
         
         .modal-footer {
             padding: 15px 20px;
-            border-top: 1px solid var(--light-gray);
+            border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: flex-end;
             gap: 10px;
+            background-color: var(--card-bg);
+            border-radius: 0 0 12px 12px;
         }
         
         .modal-image-container {
@@ -378,7 +435,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #f8f9fa;
+            background-color: var(--light);
             margin-bottom: 15px;
             border-radius: 8px;
             overflow: hidden;
@@ -405,7 +462,7 @@
         }
         
         .modal-detail-value {
-            color: var(--dark);
+            color: var(--text-color);
             line-height: 1.6;
             font-size: 0.95rem;
         }
@@ -413,12 +470,12 @@
         /* Delete Modal Specific */
         .delete-modal .modal-header {
             background-color: var(--danger);
-            color: white;
+            color: var(--button-text);
             border-radius: 12px 12px 0 0;
         }
         
         .delete-modal .modal-title {
-            color: white;
+            color: var(--button-text);
         }
         
         .delete-modal .modal-body {
@@ -437,6 +494,9 @@
             text-align: center;
             padding: 40px 20px;
             grid-column: 1 / -1;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
         }
         
         .empty-state i {
@@ -460,6 +520,111 @@
             margin-right: auto;
         }
         
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Search and Filter Bar */
+        .search-filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+        
+        .filter-dropdown {
+            position: relative;
+        }
+        
+        .filter-dropdown button {
+            padding: 10px 15px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-dropdown button:hover {
+            background-color: var(--light);
+        }
+        
+        .filter-dropdown-content {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 200px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            z-index: 100;
+            display: none;
+        }
+        
+        .filter-dropdown:hover .filter-dropdown-content {
+            display: block;
+        }
+        
+        .filter-option {
+            padding: 8px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-option:hover {
+            background-color: var(--light);
+        }
+        
         /* Responsive */
         @media (max-width: 1200px) {
             .admin-container {
@@ -468,10 +633,20 @@
             }
         }
         
+        @media (max-width: 992px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .search-filter-bar {
+                flex-direction: column;
+            }
+        }
+        
         @media (max-width: 768px) {
             .product-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             }
             
             .page-header {
@@ -482,10 +657,6 @@
             
             .page-title::after {
                 bottom: -12px;
-            }
-            
-            .btn-add {
-                width: 100%;
             }
             
             .modal-container {
@@ -502,7 +673,11 @@
             }
         }
         
-        @media (max-width: 480px) {
+        @media (max-width: 576px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .admin-container {
                 padding: 15px;
             }
@@ -548,6 +723,106 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        /* Card hover animation */
+        @keyframes cardHover {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.02); }
+            100% { transform: translateY(-5px) scale(1.02); }
+        }
+        
+        .product-card:hover {
+            animation: cardHover 0.3s ease forwards;
+        }
+        
+        /* Floating animation for empty state icon */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .empty-state i {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border: 1px solid var(--border-color);
+            max-width: 90%;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .toast-error {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .toast-warning {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .toast i {
+            font-size: 1.2rem;
+        }
+        
+        /* Status indicators */
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        
+        .status-active {
+            background-color: var(--success);
+        }
+        
+        .status-inactive {
+            background-color: var(--danger);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--light);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
     </style>
 </head>
 <body>
@@ -557,9 +832,32 @@
     <div class="admin-container fade-in">
         <div class="page-header">
             <h1 class="page-title">Product Management</h1>
-            <a href="/addproduct" class="btn btn-add">
-                <i class="bi bi-plus-lg"></i> Add New Product
-            </a>
+            <div>
+                <a href="/addproduct" class="btn btn-add">
+                    <i class="bi bi-plus-lg"></i> Add New Product
+                </a>
+            </div>
+        </div>
+        
+        <!-- Search and Filter Bar -->
+        <div class="search-filter-bar">
+            <div class="search-box">
+                <i class="bi bi-search"></i>
+                <input type="text" id="searchInput" placeholder="Search products...">
+            </div>
+            
+            <div class="filter-dropdown">
+                <button>
+                    <i class="bi bi-funnel"></i>
+                    <span>Filter</span>
+                </button>
+                <div class="filter-dropdown-content">
+                    <div class="filter-option" data-filter="all">All Products</div>
+                    <div class="filter-option" data-filter="low">Low Stock (< 10)</div>
+                    <div class="filter-option" data-filter="medium">Medium Stock (10-30)</div>
+                    <div class="filter-option" data-filter="high">High Stock (> 30)</div>
+                </div>
+            </div>
         </div>
         
         <div class="product-grid">
@@ -574,7 +872,9 @@
                 </div>
             <% } else { %>
                 <% products.forEach(product => { %>
-                    <div class="product-card">
+                    <div class="product-card" 
+                         data-name="<%= product.product_name.toLowerCase() %>"
+                         data-stock="<%= product.product_stock %>">
                         <div class="product-image-container">
                             <img src="<%= product.product_image %>" alt="<%= product.product_name %>" class="product-image">
                             <% if(product.product_stock <= 10) { %>
@@ -584,6 +884,11 @@
                             <% } else if(product.product_stock <= 30) { %>
                                 <span class="product-badge badge-stock">
                                     <i class="bi bi-box-seam"></i> Stock: <%= product.product_stock %>
+                                </span>
+                            <% } %>
+                            <% if(product.isNew) { %>
+                                <span class="product-badge badge-new">
+                                    <i class="bi bi-star-fill"></i> New
                                 </span>
                             <% } %>
                         </div>
@@ -600,7 +905,9 @@
                                         '<%= product.product_name %>',
                                         '<%= product.product_description %>',
                                         '<%= product.product_price.toFixed(2) %>',
-                                        '<%= product.product_stock %>'
+                                        '<%= product.product_stock %>',
+                                        '<%= product.category || "N/A" %>',
+                                        '<%= product.createdAt ? new Date(product.createdAt).toLocaleDateString() : "N/A" %>'
                                     )">
                                     <i class="bi bi-eye-fill"></i> View
                                 </button>
@@ -608,12 +915,10 @@
                                 <a href="/productedit/?productno=<%= product.product_no %>" class="btn btn-edit btn-sm">
                                     <i class="bi bi-pencil-fill"></i> Edit
                                 </a>
-                                <a href="/productdelete?productname=<%=product.product_name %>">
-                                <button class="btn btn-delete btn-sm"> 
-                            
+                                
+                                <button class="btn btn-delete btn-sm" onclick="confirmDelete(<%= product.product_no %>, '<%= product.product_name %>')">
                                     <i class="bi bi-trash-fill"></i> Delete
                                 </button>
-                            </a>
                             </div>
                         </div>
                     </div>
@@ -651,6 +956,14 @@
                 <span class="modal-detail-label">Current Stock</span>
                 <p class="modal-detail-value" id="viewModalStock"></p>
             </div>
+            <div class="modal-detail">
+                <span class="modal-detail-label">Category</span>
+                <p class="modal-detail-value" id="viewModalCategory"></p>
+            </div>
+            <div class="modal-detail">
+                <span class="modal-detail-label">Date Added</span>
+                <p class="modal-detail-value" id="viewModalDate"></p>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="closeViewModal()">
@@ -658,17 +971,54 @@
             </button>
         </div>
     </div>
-<%- include("../utils/footer"); %> 
-  
 
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteOverlay"></div>
+    <div class="modal-container delete-modal" id="deleteModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm Deletion</h3>
+            <button type="button" class="btn-close" onclick="closeDeleteModal()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="delete-icon">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+            </div>
+            <h4>Are you sure you want to delete this product?</h4>
+            <p>Product: <strong id="deleteProductName"></strong></p>
+            <p>This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeDeleteModal()">
+                <i class="bi bi-x-circle"></i> Cancel
+            </button>
+            <button class="btn btn-delete" id="confirmDeleteBtn">
+                <i class="bi bi-trash-fill"></i> Delete
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toastNotification">
+        <i class="bi bi-check-circle-fill"></i>
+        <span id="toastMessage">Operation completed successfully</span>
+    </div>
+
+    <footer>
+        <%- include("../utils/footer")%>
+    </footer>
+    
     <script>
         // View Modal Functions
-        function openViewModal(image, name, description, price, stock) {
+        function openViewModal(image, name, description, price, stock, category, date) {
             document.getElementById('viewModalImage').src = image;
             document.getElementById('viewModalName').textContent = name;
             document.getElementById('viewModalDescription').textContent = description;
             document.getElementById('viewModalPrice').textContent = '₹' + price;
             document.getElementById('viewModalStock').textContent = stock;
+            document.getElementById('viewModalCategory').textContent = category || 'N/A';
+            document.getElementById('viewModalDate').textContent = date || 'N/A';
             
             document.getElementById('viewOverlay').classList.add('active');
             document.getElementById('viewModal').classList.add('active');
@@ -682,8 +1032,31 @@
         }
         
         // Delete Modal Functions
-       
+        function confirmDelete(productNo, productName) {
+            document.getElementById('deleteProductName').textContent = productName;
+            document.getElementById('deleteOverlay').classList.add('active');
+            document.getElementById('deleteModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Set up the confirm button
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            confirmBtn.onclick = function() {
+                // Show loading state
+                showToast('Deleting product...', 'warning');
+                
+                // Simulate API call
+                setTimeout(() => {
+                    window.location.href = `/productdelete?productno=${productNo}`;
+                    showToast('Product deleted successfully', 'success');
+                }, 1000);
+            };
+        }
         
+        function closeDeleteModal() {
+            document.getElementById('deleteOverlay').classList.remove('active');
+            document.getElementById('deleteModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
         
         // Close modals when clicking on overlay
         document.getElementById('viewOverlay').addEventListener('click', closeViewModal);
@@ -697,22 +1070,105 @@
             }
         });
         
-        // Add ripple effect to buttons
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                const productName = card.getAttribute('data-name');
+                if(productName.includes(searchTerm)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        
+        // Filter functionality
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                const productCards = document.querySelectorAll('.product-card');
+                
+                productCards.forEach(card => {
+                    const stock = parseInt(card.getAttribute('data-stock'));
+                    
+                    switch(filter) {
+                        case 'all':
+                            card.style.display = '';
+                            break;
+                        case 'low':
+                            card.style.display = stock <= 10 ? '' : 'none';
+                            break;
+                        case 'medium':
+                            card.style.display = stock > 10 && stock <= 30 ? '' : 'none';
+                            break;
+                        case 'high':
+                            card.style.display = stock > 30 ? '' : 'none';
+                            break;
+                        default:
+                            card.style.display = '';
+                    }
+                });
+            });
+        });
+        
+        // Toast notification function
+        function showToast(message, type) {
+            const toast = document.getElementById('toastNotification');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toast.className = 'toast'; // Reset classes
+            toast.classList.add(`toast-${type}`);
+            toastMessage.textContent = message;
+            
+            // Set appropriate icon
+            const icon = toast.querySelector('i');
+            if (type === 'success') {
+                icon.className = 'bi bi-check-circle-fill';
+            } else if (type === 'error') {
+                icon.className = 'bi bi-x-circle-fill';
+            } else if (type === 'warning') {
+                icon.className = 'bi bi-exclamation-triangle-fill';
+            }
+            
+            toast.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Check for success message in URL parameters
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.has('success')) {
+                showToast('Operation completed successfully!', 'success');
+            } else if(urlParams.has('error')) {
+                showToast('An error occurred. Please try again.', 'error');
+            }
+            
+            // Remove the parameters from URL without reloading
+            if(urlParams.has('success') || urlParams.has('error')) {
+                const cleanUrl = window.location.pathname;
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+        });
+        
+        // Ripple effect for buttons
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('btn') || e.target.closest('.btn')) {
                 const btn = e.target.classList.contains('btn') ? e.target : e.target.closest('.btn');
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
                 const ripple = document.createElement('span');
                 ripple.classList.add('ripple');
-                
-                const rect = btn.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = `${size}px`;
                 ripple.style.left = `${x}px`;
                 ripple.style.top = `${y}px`;
-                ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
                 
                 btn.appendChild(ripple);
                 
@@ -721,10 +1177,31 @@
                 }, 600);
             }
         });
+        
+        // Card hover animation
+        const cards = document.querySelectorAll('.product-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.zIndex = '';
+            });
+        });
+        
+        // Force transition on theme change for specific elements
+        function applyThemeTransition() {
+            const elements = document.querySelectorAll('body, .product-card, .btn, .modal-container, .modal-header, .modal-footer');
+            elements.forEach(el => {
+                el.style.transition = 'background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease';
+            });
+        }
+        
+        // Call this function on page load
+        applyThemeTransition();
     </script>
     
-    <%- include("../utils/footer")%>
-
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
         <i class="bi bi-arrow-up-short"></i>
     </a>

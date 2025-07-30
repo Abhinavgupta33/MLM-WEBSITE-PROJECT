@@ -442,35 +442,29 @@
             visibility: hidden;
         }
 
-        @keyframes spin {
-            from {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            to {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
-
         /* Enhanced Quick View Modal */
         .modal {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            width: 90%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 85%;
             max-width: 900px;
+            max-height: 90vh;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             z-index: 1000;
             display: none;
             overflow: hidden;
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(67, 97, 238, 0.2);
         }
         
         .modal.active {
-            display: block;
+            display: flex;
+            flex-direction: column;
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
         }
@@ -484,6 +478,9 @@
             text-align: center;
             position: relative;
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .modal-header::after {
@@ -496,21 +493,45 @@
             background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
         }
 
+        .modal-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+
         .modal-body {
             padding: 0;
             display: flex;
             flex-wrap: wrap;
+            overflow-y: auto;
+            max-height: calc(90vh - 120px);
         }
         
         .modal-image-section {
             flex: 1;
-            min-width: 300px;
-            padding: 20px;
+            min-width: 350px;
+            padding: 30px;
             background: #f9f9f9;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            border-right: 1px solid #eee;
         }
         
         .modal-img-container {
@@ -521,10 +542,15 @@
             justify-content: center;
             margin-bottom: 20px;
             background-color: #fff;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-img-container:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
         
         .modal-img-container img {
@@ -540,38 +566,49 @@
         
         .thumbnail-container {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
         .thumbnail {
-            width: 60px;
-            height: 60px;
-            border-radius: 5px;
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
             border: 2px solid transparent;
             transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
         
         .thumbnail:hover {
             border-color: var(--primary-color);
+            transform: translateY(-3px);
         }
         
         .thumbnail.active {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+            transform: translateY(-3px);
         }
         
         .thumbnail img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .thumbnail:hover img {
+            transform: scale(1.1);
         }
         
         .modal-details-section {
             flex: 1;
-            min-width: 300px;
+            min-width: 350px;
             padding: 30px;
             display: flex;
             flex-direction: column;
@@ -580,10 +617,10 @@
         #modal-name {
             color: var(--dark-color);
             font-size: 1.8rem;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             font-weight: 700;
             position: relative;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
         }
 
         #modal-name::after {
@@ -591,8 +628,8 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 50px;
-            height: 3px;
+            width: 70px;
+            height: 4px;
             background: var(--primary-color);
             border-radius: 3px;
         }
@@ -600,18 +637,19 @@
         .modal-rating {
             display: flex;
             align-items: center;
-            margin: 10px 0 15px;
+            margin: 10px 0 20px;
         }
         
         .modal-rating-stars {
             color: #f8961e;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-right: 10px;
+            letter-spacing: 2px;
         }
         
         .modal-rating-count {
             color: var(--text-color);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
         
         #modal-price {
@@ -623,17 +661,22 @@
         }
         
         .price-savings {
-            color: var(--success-color);
+            background: var(--success-color);
+            color: white;
             font-weight: 600;
             font-size: 0.9rem;
+            padding: 5px 10px;
+            border-radius: 20px;
             margin-left: 10px;
+            display: inline-block;
         }
         
         #modal-description {
             color: var(--text-color);
             line-height: 1.7;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-size: 1rem;
+            padding-right: 10px;
         }
         
         .modal-features {
@@ -643,7 +686,7 @@
         }
         
         .modal-features li {
-            padding: 8px 0;
+            padding: 10px 0;
             border-bottom: 1px dashed #eee;
             display: flex;
             align-items: center;
@@ -656,28 +699,31 @@
         .modal-features i {
             color: var(--primary-color);
             margin-right: 10px;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            min-width: 20px;
         }
         
         .modal-quantity {
-            margin: 20px 0;
+            margin: 25px 0;
         }
         
         .modal-quantity label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: var(--dark-color);
+            font-size: 1.05rem;
         }
         
         .modal-quantity input {
-            width: 80px;
-            padding: 10px;
+            width: 100px;
+            padding: 12px;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 8px;
             text-align: center;
             font-weight: 600;
             transition: var(--transition);
+            font-size: 1rem;
         }
         
         .modal-quantity input:focus {
@@ -694,16 +740,26 @@
         
         .modal-actions button {
             flex: 1;
-            padding: 12px;
+            padding: 15px;
             font-size: 1rem;
             border-radius: 8px;
+            min-width: auto;
         }
         
         .modal-footer {
-            padding: 15px 20px;
+            padding: 15px 30px;
             text-align: right;
             border-top: 1px solid #eee;
             background: #f9f9f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-footer .product-id {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
 
         .modal-footer button {
@@ -711,15 +767,17 @@
             color: white;
             border: none;
             padding: 10px 25px;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             transition: var(--transition);
             font-weight: 600;
             border-bottom: 3px solid #0d0d1a;
+            min-width: 120px;
         }
 
         .modal-footer button:hover {
             background-color: #0d0d1a;
+            transform: translateY(-2px);
         }
 
         /* Overlay */
@@ -818,6 +876,10 @@
             .bg-circle {
                 display: none;
             }
+
+            .modal {
+                width: 90%;
+            }
         }
         
         @media (max-width: 768px) {
@@ -841,9 +903,31 @@
             .modal-details-section {
                 min-width: 100%;
             }
+
+            .modal-image-section {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                padding: 20px;
+            }
+
+            .modal-details-section {
+                padding: 20px;
+            }
+
+            .modal-img-container {
+                height: 250px;
+            }
             
             .modal-actions {
                 flex-direction: column;
+            }
+
+            #modal-name {
+                font-size: 1.6rem;
+            }
+
+            #modal-price {
+                font-size: 1.6rem;
             }
         }
         
@@ -877,11 +961,26 @@
             }
             
             #modal-name {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
             
             #modal-price {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
+            }
+
+            .thumbnail {
+                width: 50px;
+                height: 50px;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-end;
+            }
+
+            .modal-footer .product-id {
+                align-self: flex-start;
             }
         }
 
@@ -896,6 +995,118 @@
         .product:nth-child(8) { animation-delay: 0.8s; }
         .product:nth-child(9) { animation-delay: 0.9s; }
         .product:nth-child(10) { animation-delay: 1.0s; }
+
+        /* New animations for modal */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes modalFadeOut {
+            from {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+        }
+
+        /* Enhanced Modal Styles */
+        .modal {
+            transform-origin: center;
+            will-change: transform, opacity;
+        }
+
+        .modal.active {
+            animation: modalFadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .modal.closing {
+            animation: modalFadeOut 0.3s ease forwards;
+        }
+
+        /* Improved image zoom effect */
+        .modal-img-container {
+            perspective: 1000px;
+        }
+
+        .modal-img-container img {
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Better thumbnail interaction */
+        .thumbnail {
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        /* Smooth scrolling for modal content */
+        .modal-body {
+            scroll-behavior: smooth;
+        }
+
+        /* Improved button hover effects */
+        .modal-actions button {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .modal-actions button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .modal-actions button:hover::after {
+            transform: translateX(0);
+        }
+
+        /* Price animation */
+        #modal-price {
+            transition: transform 0.3s ease;
+        }
+
+        #modal-price:hover {
+            transform: scale(1.05);
+        }
+
+        /* Sidebar and header adjustments */
+        .header, .sidebar {
+            z-index: 100;
+            position: relative;
+        }
+
+        /* Ensure modal appears above everything */
+        .modal {
+            z-index: 1001;
+        }
+
+        .overlay {
+            z-index: 1000;
+        }
+
+        /* Spinner animation */
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -904,69 +1115,71 @@
     <div class="bg-circle"></div>
     <div class="bg-circle"></div>
     <div class="bg-circle"></div>
-
-    <%- include("../utils/header")%> 
+ <%- include("../utils/header")%> 
     <%- include("side")%>
+    
 
-    <h1>Our Products</h1>
-    <div class="product-container">
-        <% products.forEach((product, index) => { %>
-            <div class="product <%= index % 4 === 0 ? 'featured' : '' %>">
-                <div class="product-img-container">
-                    <img src="<%= product.product_image %>" alt="<%= product.product_name %>">
-                </div>
-                <h2><%= product.product_name %></h2>
-                
-                <!-- Product Rating -->
-                <div class="rating">
-                    <% const stars = Math.min(5, Math.max(1, Math.floor(Math.random() * 5) + 1)); %>
-                    <% for(let i = 0; i < stars; i++) { %>
-                        <i class="bi bi-star-fill"></i>
-                    <% } %>
-                    <% for(let i = stars; i < 5; i++) { %>
-                        <i class="bi bi-star"></i>
-                    <% } %>
-                </div>
-                
-                <div class="price">₹<%= product.product_price.toFixed(2) %></div>
-                <p><%= product.product_description %></p>
+    <main style="margin-left: 250px; padding-top: 20px;">
+        <h1>Our Products</h1>
+        <div class="product-container">
+            <% products.forEach((product, index) => { %>
+                <div class="product <%= index % 4 === 0 ? 'featured' : '' %>">
+                    <div class="product-img-container">
+                        <img src="<%= product.product_image %>" alt="<%= product.product_name %>">
+                    </div>
+                    <h2><%= product.product_name %></h2>
+                    
+                    <!-- Product Rating -->
+                    <div class="rating">
+                        <% const stars = Math.min(5, Math.max(1, Math.floor(Math.random() * 5) + 1)); %>
+                        <% for(let i = 0; i < stars; i++) { %>
+                            <i class="bi bi-star-fill"></i>
+                        <% } %>
+                        <% for(let i = stars; i < 5; i++) { %>
+                            <i class="bi bi-star"></i>
+                        <% } %>
+                    </div>
+                    
+                    <div class="price">₹<%= product.product_price.toFixed(2) %></div>
+                    <p><%= product.product_description %></p>
 
-                <div class="quantity-container">
-                    <label for="quantity-<%= product.product_no %>">Qty:</label>
-                    <input type="number" id="quantity-<%= product.product_no %>" min="1" value="1">
-                </div>
+                    <div class="quantity-container">
+                        <label for="quantity-<%= product.product_no %>">Qty:</label>
+                        <input type="number" id="quantity-<%= product.product_no %>" min="1" value="1">
+                    </div>
 
-                <div class="button-group">
-                    <button 
-                        type="button" 
-                        class="buy-now" 
-                        onclick="handleButtonClick(this, '/buynow1?product_no=<%= product.product_no %>&quantity=' + document.getElementById('quantity-<%= product.product_no %>').value)">
-                        <span>Buy Now</span>
-                        <div class="spinner"></div>
-                    </button>
-                    <button 
-                        type="submit" 
-                        class="add-to-cart" 
-                        onclick="handleButtonClick(this, '/addtocart?product_no=<%= product.product_no %>&quantity=' + document.getElementById('quantity-<%= product.product_no %>').value)">
-                        <span>Add to Cart</span>
-                        <div class="spinner"></div>
-                    </button>
-                    <button 
-                        type="button" 
-                        class="quick-view-btn" 
-                        onclick="openModal(
-                            '<%= product.product_image %>',
-                            '<%= product.product_name %>',
-                            '<%= product.product_description %>',
-                            '<%= product.product_price.toFixed(2) %>',
-                            '<%= product.product_no %>'
-                        )">
-                        <span>Quick View</span>
-                    </button>
+                    <div class="button-group">
+                        <button 
+                            type="button" 
+                            class="buy-now" 
+                            onclick="handleButtonClick(this, '/buynow1?product_no=<%= product.product_no %>&quantity=' + document.getElementById('quantity-<%= product.product_no %>').value)">
+                            <span>Buy Now</span>
+                            <div class="spinner"></div>
+                        </button>
+                        <button 
+                            type="submit" 
+                            class="add-to-cart" 
+                            onclick="handleButtonClick(this, '/addtocart?product_no=<%= product.product_no %>&quantity=' + document.getElementById('quantity-<%= product.product_no %>').value)">
+                            <span>Add to Cart</span>
+                            <div class="spinner"></div>
+                        </button>
+                        <button 
+                            type="button" 
+                            class="quick-view-btn" 
+                            onclick="openModal(
+                                '<%= product.product_image %>',
+                                '<%= product.product_name %>',
+                                '<%= product.product_description %>',
+                                '<%= product.product_price.toFixed(2) %>',
+                                '<%= product.product_no %>'
+                            )">
+                            <span>Quick View</span>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        <% }) %>
-    </div>
+            <% }) %>
+        </div>
+    </main>
     
     <!-- Floating Cart Button -->
     <div class="floating-cart-btn" onclick="window.location.href='/shopping'">
@@ -977,7 +1190,10 @@
     <!-- Enhanced Quick View Modal -->
     <div class="overlay"></div>
     <div class="modal">
-        <div class="modal-header">Product Details</div>
+        <div class="modal-header">
+            <span>Product Details</span>
+            <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+        </div>
         <div class="modal-body">
             <div class="modal-image-section">
                 <div class="modal-img-container">
@@ -1043,9 +1259,32 @@
             </div>
         </div>
         <div class="modal-footer">
+            <span class="product-id">Product ID: <span id="modal-product-id"></span></span>
             <button onclick="closeModal()">Close</button>
         </div>
     </div>
+
+   
+    
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+    <%- include("../utils/footer"); %> 
+
+    <!-- Vendor JS Files -->
+    <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/chart.js/chart.min.js"></script>
+    <script src="../assets/vendor/echarts/echarts.min.js"></script>
+    <script src="../assets/vendor/quill/quill.min.js"></script>
+    <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="../assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="../assets/js/main.js"></script>
 
     <script>
         // Enhanced handleButtonClick with error handling
@@ -1096,6 +1335,7 @@
             document.getElementById('modal-name').textContent = name;
             document.getElementById('modal-price').textContent = '₹' + price;
             document.getElementById('modal-description').textContent = description;
+            document.getElementById('modal-product-id').textContent = productNo;
             
             // Store current product number
             currentProductNo = productNo;
@@ -1121,14 +1361,18 @@
             
             // Prevent scrolling when modal is open
             document.body.style.overflow = 'hidden';
+            
+            // Set focus to modal for better accessibility
+            document.querySelector('.modal').focus();
         }
 
         function closeModal() {
-            // Hide modal first
-            document.querySelector('.modal').classList.remove('active');
+            // Add closing class for animation
+            document.querySelector('.modal').classList.add('closing');
             
-            // Then hide overlay after animation completes
+            // Hide overlay after animation completes
             setTimeout(() => {
+                document.querySelector('.modal').classList.remove('active', 'closing');
                 document.querySelector('.overlay').classList.remove('active');
             }, 300);
             
@@ -1272,35 +1516,24 @@
                 }, 300);
             }, 800);
         }
+
+        // Back to top button
+        const backToTopButton = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'flex';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        backToTopButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
     </script>
-    
-    <%- include("../utils/footer")%>
-
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
-    <script>
-      function confirmDelete() {
-        // Display a confirmation dialog
-        var result = confirm("Are you sure you want to delete this user?");
-
-        // If the user clicks OK, the form will be submitted. Otherwise, it won't.
-        return result;
-      }
-    </script>
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.min.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
 </body>
 </html>

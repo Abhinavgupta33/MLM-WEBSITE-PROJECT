@@ -3,50 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cart Error</title>
+  <title>Cart Error | Quantity Exceeds Stock</title>
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      text-align: center;
+    :root {
+      --primary-color: #dc3545;
+      --primary-light: #f8d7da;
+      --secondary-color: #007bff;
+      --secondary-light: #cfe2ff;
+      --text-color: #212529;
+      --text-light: #6c757d;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --border-color: rgba(220, 53, 69, 0.2);
+      --error-bg: rgba(220, 53, 69, 0.1);
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      --footer-bg: #343a40;
+      --footer-text: #f8f9fa;
+      --success-color: #28a745;
+    }
+
+    .dark-mode {
+      --primary-color: #ff6b6b;
+      --primary-light: rgba(255, 107, 107, 0.15);
+      --secondary-color: #4dabf7;
+      --secondary-light: rgba(77, 171, 247, 0.15);
+      --text-color: #e9ecef;
+      --text-light: #adb5bd;
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --border-color: rgba(255, 107, 107, 0.3);
+      --error-bg: rgba(255, 107, 107, 0.15);
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      --footer-bg: #212529;
+      --footer-text: #e9ecef;
+      --success-color: #51cf66;
+    }
+
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #f8f9fa;
-      overflow: hidden;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.5s ease, color 0.3s ease;
       position: relative;
+      line-height: 1.6;
+    }
+    /* Layout structure */
+    .page-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    /* Main content wrapper */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     /* Animated background elements */
     .bg-element {
-      position: absolute;
-      background-color: rgba(220, 53, 69, 0.1);
+      position: fixed;
+      background-color: var(--error-bg);
       border-radius: 50%;
       pointer-events: none;
+      z-index: 0;
+      filter: blur(1px);
+      transition: background-color 0.5s ease;
     }
 
     .bg-element-1 {
-      width: 300px;
-      height: 300px;
-      top: -150px;
-      left: -150px;
+      width: min(300px, 40vw);
+      height: min(300px, 40vw);
+      top: -10%;
+      left: -10%;
       animation: float 15s infinite ease-in-out;
     }
 
     .bg-element-2 {
-      width: 200px;
-      height: 200px;
-      bottom: -100px;
-      right: -100px;
+      width: min(200px, 30vw);
+      height: min(200px, 30vw);
+      bottom: -5%;
+      right: -5%;
       animation: float 12s infinite ease-in-out reverse;
     }
 
     .bg-element-3 {
-      width: 150px;
-      height: 150px;
+      width: min(150px, 25vw);
+      height: min(150px, 25vw);
       top: 30%;
       right: 10%;
       animation: float 8s infinite ease-in-out;
@@ -68,18 +139,21 @@
     }
 
     .container {
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      max-width: 450px;
-      width: 90%;
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      max-width: 600px;
+      width: 100%;
       position: relative;
       z-index: 1;
       transform: scale(0.95);
       opacity: 0;
       animation: fadeIn 0.5s ease-out forwards;
-      border: 1px solid rgba(220, 53, 69, 0.2);
+      border: 1px solid var(--border-color);
+      margin: 1rem auto;
+      transition: all 0.5s ease;
+      text-align: center;
     }
 
     @keyframes fadeIn {
@@ -90,11 +164,13 @@
     }
 
     h1 {
-      color: #dc3545;
-      margin-bottom: 20px;
-      font-size: 28px;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      font-size: clamp(1.75rem, 5vw, 2.25rem);
       position: relative;
-      padding-bottom: 10px;
+      padding-bottom: 0.75rem;
+      transition: color 0.3s ease;
+      font-weight: 700;
     }
 
     h1:after {
@@ -103,126 +179,552 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
-      background-color: #dc3545;
+      width: 80px;
+      height: 4px;
+      background-color: var(--primary-color);
       border-radius: 3px;
+      transition: background-color 0.3s ease;
     }
 
     p {
-      color: #6c757d;
-      margin-bottom: 25px;
-      line-height: 1.6;
-      font-size: 16px;
+      color: var(--text-color);
+      margin-bottom: 1.75rem;
+      line-height: 1.7;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+
+    .error-details {
+      background-color: var(--primary-light);
+      padding: 1.25rem;
+      border-radius: 10px;
+      margin: 1.5rem 0;
+      text-align: left;
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .error-details h3 {
+      color: var(--primary-color);
+      margin-bottom: 0.75rem;
+      font-size: 1.2rem;
+    }
+
+    .error-details ul {
+      list-style-position: inside;
+      padding-left: 0.5rem;
+    }
+
+    .error-details li {
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
     }
 
     button {
-      padding: 12px 24px;
-      background-color: #007bff;
-      color: #fff;
+      padding: 0.85rem 1.75rem;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
-      font-weight: 500;
+      font-size: 1rem;
+      font-weight: 600;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
       position: relative;
       overflow: hidden;
+      outline: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-width: 160px;
+    }
+
+    .btn-primary {
+      background-color: var(--secondary-color);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
+    }
+
+    .btn-secondary {
+      background-color: var(--card-bg);
+      color: var(--secondary-color);
+      border: 2px solid var(--secondary-color);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--primary-color);
+      border: 2px solid var(--primary-color);
     }
 
     button:hover {
-      background-color: #0056b3;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 123, 255, 0.35);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--secondary-color);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--secondary-light);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--primary-light);
     }
 
     button:active {
       transform: translateY(0);
     }
 
-    button:after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 5px;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.5);
-      opacity: 0;
-      border-radius: 100%;
-      transform: scale(1, 1) translate(-50%);
-      transform-origin: 50% 50%;
-    }
-
-    button:focus:not(:active)::after {
-      animation: ripple 1s ease-out;
-    }
-
-    @keyframes ripple {
-      0% {
-        transform: scale(0, 0);
-        opacity: 0.5;
-      }
-      100% {
-        transform: scale(20, 20);
-        opacity: 0;
-      }
+    button i {
+      font-size: 1.1rem;
     }
 
     .error-icon {
-      font-size: 60px;
-      color: #dc3545;
-      margin-bottom: 20px;
-      animation: bounce 1s ease infinite alternate;
+      font-size: 4.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      animation: bounce 1s ease infinite alternate, pulse 2s ease infinite;
+      transition: color 0.3s ease;
     }
 
     @keyframes bounce {
       from {
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
       to {
-        transform: translateY(-10px);
+        transform: translateY(-12px) scale(1.05);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0.8;
+        text-shadow: 0 0 0 rgba(220, 53, 69, 0);
+      }
+      50% {
+        opacity: 1;
+        text-shadow: 0 0 15px rgba(220, 53, 69, 0.3);
+      }
+      100% {
+        opacity: 0.8;
+        text-shadow: 0 0 0 rgba(220, 53, 69, 0);
+      }
+    }
+
+    /* Floating particles */
+    .particle {
+      position: fixed;
+      background-color: var(--error-bg);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      transition: background-color 0.5s ease;
+    }
+
+    /* Footer styles */
+    footer {
+      background-color: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 1.5rem 1rem;
+      text-align: center;
+      width: 100%;
+      z-index: 2;
+      position: relative;
+      transition: background-color 0.5s ease, color 0.3s ease;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: var(--footer-text);
+      text-decoration: none;
+      transition: opacity 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+
+    .copyright {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 0.5rem;
+    }
+
+    /* Suggested items */
+    .suggestions {
+      margin-top: 3rem;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .suggestions h2 {
+      color: var(--text-color);
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      text-align: center;
+      position: relative;
+      display: inline-block;
+      padding: 0 1rem;
+    }
+
+    .suggestions h2:before,
+    .suggestions h2:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 50px;
+      height: 2px;
+      background-color: var(--text-light);
+    }
+
+    .suggestions h2:before {
+      left: -60px;
+    }
+
+    .suggestions h2:after {
+      right: -60px;
+    }
+
+    .suggestion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .suggestion-item {
+      background: var(--card-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .suggestion-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .suggestion-img {
+      height: 120px;
+      background-color: #f1f1f1;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .suggestion-info {
+      padding: 1rem;
+    }
+
+    .suggestion-title {
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .suggestion-price {
+      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    /* Glow effect for container */
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+      background-size: 200% 200%;
+      z-index: -1;
+      border-radius: 18px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: gradientBG 8s ease infinite;
+    }
+
+    .container:hover::before {
+      opacity: 0.3;
+    }
+
+    @keyframes gradientBG {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Shake animation for error */
+    @keyframes shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+      }
+      20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+      }
+    }
+
+    .shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    /* Floating animation for particles */
+    @keyframes float-particle {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(15px, 15px) rotate(5deg);
+      }
+      50% {
+        transform: translate(-15px, 10px) rotate(-5deg);
+      }
+      75% {
+        transform: translate(10px, -15px) rotate(3deg);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .main-content {
+        padding: 2rem 1rem;
+      }
+      
+      .container {
+        padding: 2rem;
+      }
+      
+      .suggestion-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.75rem;
+      }
+      
+      .error-icon {
+        font-size: 3.5rem;
+      }
+      
+      h1 {
+        font-size: 1.75rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+      
+      button {
+        padding: 0.75rem 1.5rem;
+        min-width: 140px;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .btn-primary, .btn-secondary {
+        width: 100%;
+      }
+
+      .suggestions h2:before,
+      .suggestions h2:after {
+        width: 30px;
+      }
+
+      .suggestions h2:before {
+        left: -40px;
+      }
+
+      .suggestions h2:after {
+        right: -40px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .container {
+        padding: 1.5rem;
+        width: 95%;
+      }
+      
+      .error-icon {
+        font-size: 3rem;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      p {
+        font-size: 0.95rem;
+      }
+
+      .error-details {
+        padding: 1rem;
+      }
+
+      .suggestions h2:before,
+      .suggestions h2:after {
+        display: none;
+      }
+
+      .suggestion-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 400px) {
+      .container {
+        padding: 1.25rem;
+      }
+      
+      .error-icon {
+        font-size: 2.75rem;
+      }
+      
+      h1 {
+        font-size: 1.35rem;
+      }
+      
+      p {
+        font-size: 0.9rem;
+      }
+
+      .suggestion-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-links {
+        gap: 1rem;
       }
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <%- include("../utils/header")%> 
-  <%- include("side")%>
+ <%- include("../utils/header") %>
+    <%- include("side") %>
+
   
-  <!-- Background elements -->
-  <div class="bg-element bg-element-1"></div>
-  <div class="bg-element bg-element-2"></div>
-  <div class="bg-element bg-element-3"></div>
+  <div class="page-wrapper">
+    <main class="main-content">
+      <!-- Background elements -->
+      <div class="bg-element bg-element-1"></div>
+      <div class="bg-element bg-element-2"></div>
+      <div class="bg-element bg-element-3"></div>
 
-  <div class="container">
-    <div class="error-icon">
-      <i class="fas fa-exclamation-circle"></i>
-    </div>
-    <h1>Quantity Exceeds Stock</h1>
-    <p>You have added more items to your cart than are currently available in stock. Please adjust the quantity to proceed with your purchase.</p>
-    <button onclick="goBack()">Go Back to Cart</button>
+      <div class="container">
+        <div class="error-icon">
+          <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <h1>Quantity Exceeds Stock</h1>
+        <p>You have added more items to your cart than are currently available in stock. Please adjust the quantity to proceed with your purchase.</p>
+        
+        <div class="error-details">
+          <h3><i class="fas fa-info-circle"></i> What you can do:</h3>
+          <ul>
+            <li>Reduce the quantity of items in your cart</li>
+            <li>Save some items for later purchase</li>
+            <li>Check back soon as we restock frequently</li>
+            <li>Contact us for availability updates</li>
+          </ul>
+        </div>
+        
+        <div class="action-buttons">
+          <button class="btn-primary" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> Back to Cart
+          </button>
+          <button class="btn-secondary" onclick="window.location.href='/'">
+            <i class="fas fa-home"></i> Continue Shopping
+          </button>
+        </div>
+      </div>
+    </main>
   </div>
+  
+  <%- include("../utils/footer") %>
 
-  <%- include("../utils/footer"); %> 
   <script>
     function goBack() {
-      // Replace 'cart.html' with the actual URL of your cart page
-      window.location.href = '/viewproduct';
+      // Add shake effect before redirecting
+      const container = document.querySelector('.container');
+      container.classList.add('shake');
+      
+      // Remove the class after animation completes
+      setTimeout(() => {
+        container.classList.remove('shake');
+      }, 500);
+      
+      // Redirect after a slight delay
+      setTimeout(() => {
+        window.location.href = '/cart';
+      }, 800);
     }
 
-    // Add some floating particles for more visual interest
+    // Create floating particles
     document.addEventListener('DOMContentLoaded', function() {
       const body = document.body;
-      const colors = ['rgba(220, 53, 69, 0.2)', 'rgba(220, 53, 69, 0.15)', 'rgba(220, 53, 69, 0.1)'];
+      const colors = [
+        'var(--error-bg)',
+        'rgba(220, 53, 69, 0.15)',
+        'rgba(220, 53, 69, 0.1)'
+      ];
       
-      for (let i = 0; i < 15; i++) {
+      // Adjust particle count based on screen size
+      const particleCount = window.innerWidth < 768 ? 15 : 25;
+      
+      for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
-        particle.classList.add('bg-element');
+        particle.classList.add('particle');
         
-        const size = Math.random() * 20 + 5;
+        const size = Math.random() * 25 + 5;
         const color = colors[Math.floor(Math.random() * colors.length)];
         
         particle.style.width = `${size}px`;
@@ -231,12 +733,31 @@
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
         
-        const duration = Math.random() * 20 + 10;
+        const duration = Math.random() * 25 + 15;
         const delay = Math.random() * 5;
-        particle.style.animation = `float ${duration}s ${delay}s infinite ease-in-out`;
+        particle.style.animation = `float-particle ${duration}s ${delay}s infinite ease-in-out`;
         
         body.appendChild(particle);
       }
+
+      // Check for dark mode preference
+      const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      
+      function setDarkMode(isDark) {
+        if (isDark) {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+      }
+      
+      // Set initial mode
+      setDarkMode(darkModeMediaQuery.matches);
+      
+      // Listen for changes
+      darkModeMediaQuery.addListener((e) => {
+        setDarkMode(e.matches);
+      });
     });
   </script>
 </body>

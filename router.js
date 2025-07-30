@@ -38,7 +38,7 @@ router.get("/buynow",my_auth,cont_buynow);
 router.post("/updatequantity",my_auth,cont_update_quantity);
 router.get("/buynow1",my_auth,cont_buynow1);
 router.get("/addtocart",my_auth,cont_addtocart);
-router.get("/removeproduct",my_auth,cont_removeproduct);
+router.post("/removeproduct",my_auth,cont_removeproduct);
 router.post("/confirm_purchase",my_auth,cont_confirm_purchase);
 router.post("/confirm_purchase1",my_auth,cont_confirm_purchase1);
 router.get("/updateproduct",my_auth,cont_updateproduct);

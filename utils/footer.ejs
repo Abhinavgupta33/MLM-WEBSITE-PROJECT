@@ -67,15 +67,16 @@
         overflow-x: hidden;
       }
       
-      /* Animated Background Elements */
+      /* Animated Background Elements - Fixed to prevent interaction */
       .background-animation {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: -1;
+        z-index: -1; /* Behind all content */
         overflow: hidden;
+        pointer-events: none; /* Allows clicks to pass through */
       }
       
       .circle {
@@ -83,6 +84,7 @@
         border-radius: 50%;
         background: rgba(67, 97, 238, 0.05);
         animation: float 15s infinite linear;
+        pointer-events: none;
       }
       
       .circle:nth-child(1) {
@@ -142,6 +144,7 @@
           linear-gradient(90deg, rgba(67, 97, 238, 0.03) 1px, transparent 1px);
         background-size: 50px 50px;
         animation: gridMove 20s linear infinite;
+        pointer-events: none;
       }
       
       .particle {
@@ -151,6 +154,7 @@
         background: rgba(67, 97, 238, 0.2);
         border-radius: 50%;
         animation: particleMove 10s linear infinite;
+        pointer-events: none;
       }
       
       @keyframes float {
@@ -201,6 +205,8 @@
         display: flex;
         min-height: 100vh;
         width: 100%;
+        position: relative;
+        z-index: 1; /* Ensure content is above background */
       }
       
       main {
@@ -209,6 +215,8 @@
         margin-left: var(--sidebar-width);
         margin-top: var(--header-height);
         transition: margin-left 0.3s ease;
+        position: relative;
+        z-index: 1;
       }
       
       /* ===== Base Footer Styles ===== */
@@ -219,7 +227,7 @@
         width: 100%;
         font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         line-height: 1.6;
-        z-index: 99;
+        z-index: 2;
         margin-top: auto;
         border-top: 1px solid var(--border-light);
         overflow: hidden;
@@ -245,6 +253,7 @@
         background-size: 20px 20px;
         opacity: 0.1;
         z-index: 1;
+        pointer-events: none;
       }
 
       .footer-waves {
@@ -257,6 +266,7 @@
         background-size: cover;
         opacity: 0.3;
         z-index: 1;
+        pointer-events: none;
       }
 
       /* ===== Footer Top ===== */
@@ -1425,6 +1435,8 @@
           transition: margin-left 0.3s ease;
           min-height: 100vh;
           padding: 20px;
+          position: relative;
+          z-index: 1;
       }
 
       /* Mobile menu toggle button */
@@ -2266,7 +2278,6 @@
           font-size: 0.9rem;
           font-weight: 600;
           color: var(--sidebar-text);
-          margin-bottom: 2px;
       }
 
       .profile-role {
@@ -2521,6 +2532,7 @@
 </head>
 <body>
 
+ 
     
     <!-- Mobile Sidebar Overlay -->
     <div class="mobile-sidebar-overlay" id="mobileSidebarOverlay"></div>

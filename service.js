@@ -1082,7 +1082,7 @@ exports.ser_addtocart = async(req,res) => {
             res.render("viewproduct",{products,name,user_image});
             }
             else{
-                res.render("itemnotavailable",{name,user_image});
+              await  res.render("itemnotavailable",{name,user_image});
             }
         }
         else{
@@ -1114,8 +1114,9 @@ exports.ser_addtocart = async(req,res) => {
     
 
 else {
-    console.log("not enough product");
-    res.render("itemnotavailable",{name,user_image})
+   await  res.render("itemnotavailable",{name,user_image})
+    console.log("not enough product 1");
+ 
 }
 }
 
@@ -1124,10 +1125,16 @@ else {
 
 
 exports.ser_removeproduct = async(req,res) => {
-    try{let removequantity = req.query.yoyo;
+    try{
+    let removequantity = req.body.quantity;
     console.log(removequantity)
     let uid = req.user.user_id;
-    let data = req.query.id;
+     let abhi = await tble.findOne({user_id:uid});
+    let name = abhi.your_name;
+    let image = await tble.findOne({user_id:uid});
+    let user_image = image.picture;
+        
+    let data = req.body.id;
     let data1 = await tble2.findOne({product_name:data});
     let quanityindatabase = data1.product_quantity;
     if(removequantity<=quanityindatabase){
@@ -1140,7 +1147,7 @@ exports.ser_removeproduct = async(req,res) => {
             await tble3.deleteOne({product_name:data});
             let cart = await tble3.find({addedby:uid});
             console.log(data)
-            res.render("addtocart",{cart});
+            res.render("addtocart",{cart,user_image});
         }
         else{
         let data2 = await tble3.findOne({product_name:data});
@@ -1160,7 +1167,7 @@ exports.ser_removeproduct = async(req,res) => {
         });
         await rec.save(); 
 
-        res.render("addtocart",{cart});
+        res.render("addtocart",{cart,user_image});
        
     }
 }
@@ -1168,7 +1175,7 @@ else{
 
     let cart = await tble3.find({addedby:uid});
     console.log(data)
-    res.render("addtocart",{cart});
+    res.render("addtocart",{cart,user_image});
 
 }
 }
@@ -1231,11 +1238,11 @@ exports.ser_buynow1 = async(req,res) => {
     res.cookie("buynowquantity",quantity);
     console.log(abhi1);
     if(abhi1>quantity){
-    res.render("buynow1",{quantity,cart,user_image});
+  await  res.render("buynow1",{quantity,cart,user_image});
 }
 
 else{
-    res.render("itemnotavailable",{name,user_image})
+   await res.render("itemnotavailable",{name,user_image})
 }
 }
 
@@ -1243,14 +1250,32 @@ else{
 
 
 exports.ser_update_quantity = async(req,res) => {
-
+ try{
+    let uid = req.user.user_id;    
+     let abhi = await tble.findOne({user_id:uid});
+    let name = abhi.your_name;
+    let image = await tble.findOne({user_id:uid});
+    let user_image = image.picture;
+        
     let quantity = req.body.quantity;
     let product_name = req.body.productId;
+console.log(quantity,product_name,"i am in update routess")
+    let quantity_indatabase = await tble2.findOne({product_name:product_name});
+    let qunatityvalue_indatabase = quantity_indatabase.product_quantity;
+    console.log(qunatityvalue_indatabase,"hello :",quantity)
+    if(qunatityvalue_indatabase>quantity){
     await tble3.updateOne({product_name:product_name},{product_quantity:quantity});
+    }
+    else{
+        res.render("itemnotavailable",{user_image});
+    }
     res.redirect("/shopping")
 
 
-
+ }
+ catch {
+    res.render("error");
+ }
 }
 
 

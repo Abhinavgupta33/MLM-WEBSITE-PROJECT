@@ -67,6 +67,9 @@
             flex-direction: column;
         }
 
+        /* Header styles (should match your existing header) */
+        /* ... */
+
         /* Main content */
         .main-content {
             flex: 1;
@@ -116,8 +119,6 @@
             background-color: var(--card-bg);
             box-shadow: var(--shadow);
             transition: var(--transition);
-            max-width: 600px;
-            margin: 0 auto;
         }
 
         .empty-cart-icon {
@@ -212,7 +213,6 @@
             box-shadow: var(--shadow);
             transition: var(--transition);
             position: relative;
-            border: 1px solid var(--border-color);
         }
 
         .cart-item:hover {
@@ -225,16 +225,6 @@
             height: 180px;
             object-fit: cover;
             flex-shrink: 0;
-            background-color: var(--light-gray);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .cart-item-image img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
         }
 
         @media (max-width: 768px) {
@@ -264,7 +254,6 @@
 
         .cart-item-meta {
             display: flex;
-            flex-wrap: wrap;
             gap: 1rem;
             margin-bottom: 0.5rem;
             color: var(--text-light);
@@ -282,7 +271,6 @@
             display: flex;
             gap: 1rem;
             margin-top: auto;
-            align-items: center;
         }
 
         .quantity-selector {
@@ -348,7 +336,6 @@
             box-shadow: var(--shadow);
             position: sticky;
             top: 1rem;
-            border: 1px solid var(--border-color);
         }
 
         .summary-title {
@@ -360,7 +347,6 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--text-color);
         }
 
         .summary-row {
@@ -375,7 +361,6 @@
 
         .summary-value {
             font-weight: 600;
-            color: var(--text-color);
         }
 
         .summary-total {
@@ -406,7 +391,6 @@
             justify-content: center;
             gap: 0.5rem;
             box-shadow: 0 4px 14px rgba(67, 97, 238, 0.3);
-            margin-top: 1rem;
         }
 
         .checkout-btn:hover {
@@ -418,18 +402,15 @@
         .continue-shopping {
             display: block;
             text-align: center;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             color: var(--primary);
             font-weight: 600;
             text-decoration: none;
             transition: var(--transition);
-            padding: 0.5rem;
-            border-radius: 6px;
         }
 
         .continue-shopping:hover {
             text-decoration: underline;
-            background-color: rgba(67, 97, 238, 0.1);
         }
 
         /* Floating action button */
@@ -450,22 +431,6 @@
             z-index: 100;
             transition: var(--transition);
             animation: pulse 2s infinite;
-        }
-
-        .fab-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--danger);
-            color: white;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: bold;
         }
 
         .fab:hover {
@@ -532,7 +497,6 @@
             z-index: 1000;
             opacity: 0;
             transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            border: 1px solid var(--border-color);
         }
 
         .toast.show {
@@ -568,7 +532,6 @@
             
             .cart-item-actions {
                 flex-direction: column;
-                gap: 0.75rem;
             }
             
             .quantity-selector {
@@ -585,7 +548,6 @@
         /* Animation classes */
         .animate-in {
             animation: fadeInUp 0.5s ease forwards;
-            opacity: 0;
         }
 
         @keyframes fadeInUp {
@@ -598,25 +560,11 @@
                 transform: translateY(0);
             }
         }
-
-        /* Badge for cart items */
-        .cart-badge {
-            background-color: var(--primary);
-            color: white;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: bold;
-            margin-left: 0.5rem;
-        }
     </style>
 </head>
 <body>
-    <%- include("../utils/header") %>
+    
+  <%- include("../utils/header") %>
     <%- include("side") %>
 
     <main class="main-content">
@@ -625,8 +573,6 @@
                 <h1 class="animate__animated animate__fadeIn">Your Shopping Cart</h1>
                 <% if (cart.length === 0) { %>
                     <p class="animate__animated animate__fadeIn animate__delay-1s">Your cart is empty. <a href="/viewproduct" style="color: var(--primary); text-decoration: none; font-weight: 600;">Start Shopping</a></p>
-                <% } else { %>
-                    <p class="animate__animated animate__fadeIn animate__delay-1s">You have <span class="cart-badge"><%= cart.length %></span> item(s) in your cart</p>
                 <% } %>
             </div>
 
@@ -646,16 +592,14 @@
                     <div class="cart-items">
                         <% cart.forEach((item, index) => { %>
                             <div class="cart-item animate-in" style="animation-delay: <%= index * 0.1 %>s;">
-                                <div class="cart-item-image">
-                                    <img src="<%= item.product_image %>" alt="<%= item.product_name %>">
-                                </div>
+                                <img src="<%= item.product_image %>" alt="<%= item.product_name %>" class="cart-item-image">
                                 <div class="cart-item-details">
                                     <h3 class="cart-item-title"><%= item.product_name %></h3>
                                     <div class="cart-item-meta">
-                                        <span><i class="fas fa-palette" style="color: var(--primary);"></i> Color: <%= item.color %></span>
-                                        <span><i class="fas fa-tag" style="color: var(--primary);"></i> Price: ₹<%= item.product_price %></span>
+                                        <span>Color: <%= item.color %></span>
+                                        <span>Price: ₹<%= item.product_price %></span>
                                     </div>
-                                    <p class="cart-item-price">Subtotal: ₹<%= (item.product_price * item.product_quantity).toFixed(2) %></p>
+                                    <p class="cart-item-price">Subtotal: ₹<%= item.product_price * item.product_quantity %></p>
                                     <div class="cart-item-actions">
                                         <div class="quantity-selector">
                                             <button class="quantity-btn minus" data-id="<%= item.product_name %>">
@@ -669,9 +613,11 @@
                                             <button class="quantity-btn plus" data-id="<%= item.product_name %>">
                                                 <i class="fas fa-plus"></i>
                                             </button>
+                                            
                                         </div>
                                         <form action="/removeproduct" method="post" class="remove-form">
                                             <input type="hidden" name="id" value="<%= item.product_name %>">
+                                            <input type="hidden" name="quantity" value="<%= item.product_quantity %>">
                                             <button type="submit" class="remove-btn">
                                                 <i class="fas fa-trash-alt"></i> Remove
                                             </button>
@@ -687,8 +633,8 @@
                             <i class="fas fa-receipt"></i> Order Summary
                         </h3>
                         <div class="summary-row">
-                            <span class="summary-label">Subtotal (<%= cart.length %> items)</span>
-                            <span class="summary-value">₹<%= cart.reduce((total, item) => total + item.product_price * item.product_quantity, 0).toFixed(2) %></span>
+                            <span class="summary-label">Subtotal</span>
+                            <span class="summary-value">₹<%= cart.reduce((total, item) => total + item.product_price * item.product_quantity, 0) %></span>
                         </div>
                         <div class="summary-row">
                             <span class="summary-label">Shipping</span>
@@ -700,7 +646,7 @@
                         </div>
                         <div class="summary-row summary-total">
                             <span class="summary-label">Total</span>
-                            <span class="summary-value">₹<%= cart.reduce((total, item) => total + item.product_price * item.product_quantity, 0).toFixed(2) %></span>
+                            <span class="summary-value">₹<%= cart.reduce((total, item) => total + item.product_price * item.product_quantity, 0) %></span>
                         </div>
                         <form action="/buynow" method="get" class="checkout-form">
                             <input type="hidden" name="hello" value="<%= cart.reduce((total, item) => total + item.product_price * item.product_quantity, 0) %>">
