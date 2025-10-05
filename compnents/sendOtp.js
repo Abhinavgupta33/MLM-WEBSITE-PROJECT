@@ -6,41 +6,24 @@ const sendOtp = async (email, otp) => {
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
-    }
+    },
+    tls: { rejectUnauthorized: false },
+    connectionTimeout: 10000
   });
 
   const mailOptions = {
     from: `"Your App Name" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: 'Your One-Time Password (OTP)',
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
-        <h2 style="color: #2c3e50; text-align: center;">Your One-Time Password</h2>
-        <p style="font-size: 16px;">Hello,</p>
-        <p style="font-size: 16px;">We received a request for authentication. Here is your OTP:</p>
-        
-        <div style="background-color: #f8f9fa; padding: 15px; text-align: center; margin: 20px 0; border-radius: 6px;">
-          <span style="font-size: 24px; font-weight: bold; letter-spacing: 2px; color: #2c3e50;">${otp}</span>
-        </div>
-        
-        <p style="font-size: 16px;">This code will expire in <strong>5 minutes</strong>. Please do not share this OTP with anyone.</p>
-        
-        <p style="font-size: 16px;">If you didn't request this OTP, please ignore this email or contact support.</p>
-        
-        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 14px; color: #7f8c8d;">
-          <p>Best regards,<br>Your App Team</p>
-        </div>
-      </div>
-    `,
-    // Text fallback for email clients that don't support HTML
-    text: `Your OTP is ${otp}. It will expire in 5 minutes. Please do not share this OTP with anyone.\n\nIf you didn't request this OTP, please ignore this email.`
+    subject: 'Your OTP',
+    html: `<p>Your OTP is <strong>${otp}</strong>. It expires in 5 minutes.</p>`,
+    text: `Your OTP is ${otp}. It expires in 5 minutes.`
   };
 
   try {
     await transporter.sendMail(mailOptions);
     console.log('OTP email sent successfully');
   } catch (error) {
-    console.error('Error sending OTP email:', error);
+    console.error('Error sending OTP email:', error.message);
     throw new Error('Failed to send OTP email');
   }
 };
