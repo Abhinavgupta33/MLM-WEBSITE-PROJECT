@@ -107,29 +107,21 @@ exports.ser_dashboard = async (req,res) => {
 
 }
 
-
 exports.ser_login = async (req, res) => {
-  let a = req.body.email;
-  let b = req.body.pass;
+  const { email, pass } = req.body;
 
   try {
-    let data = await tble.findOne({ email: a });
-    if (!data || b !== data.password) {
-      return res.render("incorrectpass");
-    }
+    const user = await tble.findOne({ email });
+    if (!user || pass !== user.password) return res.render("incorrectpass");
+    if (user.blocked) return res.render("loginblocked");
 
-    if (data.blocked) {
-      return res.render("loginblocked");
-    }
-
-    // Password correct → send OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    await Otp.create({ email: a, otp });
-    await sendOtp(a, otp);
+    await Otp.create({ email, otp, createdAt: new Date() });
 
-    // Temporarily store user ID in session or hidden form
-    res.render("otpverify", { email: a });  // Show OTP form
+    // Send OTP via Brevo API
+    await sendOtp(email, otp);
 
+    res.render("otpverify", { email });
   } catch (error) {
     console.error("Error logging in:", error);
     res.render("error");
