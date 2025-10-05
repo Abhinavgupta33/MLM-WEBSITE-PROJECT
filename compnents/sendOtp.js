@@ -1,9 +1,9 @@
-const axios = require('axios');
+const axios = require("axios");
 
 const sendOtp = async (email, otp) => {
   try {
-    await axios.post(
-      'https://api.brevo.com/v3/smtp/email',
+    const response = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
       {
         sender: { name: "Your App Name", email: process.env.BREVO_USER },
         to: [{ email }],
@@ -11,30 +11,27 @@ const sendOtp = async (email, otp) => {
         htmlContent: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
             <h2 style="color: #2c3e50; text-align: center;">Your One-Time Password</h2>
-            <p style="font-size: 16px;">Hello,</p>
-            <p style="font-size: 16px;">We received a request for authentication. Here is your OTP:</p>
-            
+            <p style="font-size: 16px;">Your OTP is:</p>
             <div style="background-color: #f8f9fa; padding: 15px; text-align: center; margin: 20px 0; border-radius: 6px;">
-              <span style="font-size: 24px; font-weight: bold; letter-spacing: 2px; color: #2c3e50;">${otp}</span>
+              <span style="font-size: 24px; font-weight: bold;">${otp}</span>
             </div>
-            
-            <p style="font-size: 16px;">This code will expire in <strong>5 minutes</strong>. Please do not share this OTP with anyone.</p>
-            <p style="font-size: 16px;">If you didn't request this OTP, please ignore this email or contact support.</p>
-            
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 14px; color: #7f8c8d;">
-              <p>Best regards,<br>Your App Team</p>
-            </div>
+            <p style="font-size: 14px;">This code expires in 5 minutes. Do not share it.</p>
           </div>
         `
       },
       {
-        headers: { 'api-key': process.env.BREVO_API_KEY }
+        headers: {
+          "accept": "application/json",
+          "content-type": "application/json",
+          "api-key": process.env.BREVO_API_KEY   // ✅ correct header name
+        }
       }
     );
-    console.log('OTP email sent successfully via Brevo API');
+
+    console.log("✅ OTP email sent via Brevo:", response.status);
   } catch (error) {
-    console.error('Error sending OTP email:', error.response?.data || error.message);
-    throw new Error('Failed to send OTP email');
+    console.error("❌ Error sending OTP email:", error.response?.data || error.message);
+    throw new Error("Failed to send OTP email");
   }
 };
 
