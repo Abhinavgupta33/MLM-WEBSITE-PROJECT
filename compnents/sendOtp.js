@@ -1,16 +1,31 @@
 const nodemailer = require('nodemailer');
 
 const sendOtp = async (email, otp) => {
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
-  });
+  // Choose Brevo for production (Render) and Gmail for local
+  const transporter = nodemailer.createTransport(
+    process.env.NODE_ENV === 'production'
+      ? {
+          host: "smtp-relay.brevo.com",
+          port: 587,
+          secure: false, // use TLS
+          auth: {
+            user: process.env.BREVO_USER,
+            pass: process.env.BREVO_PASS
+          },
+          connectionTimeout: 10000,
+          greetingTimeout: 10000
+        }
+      : {
+          service: 'gmail',
+          auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+          }
+        }
+  );
 
   const mailOptions = {
-    from: `"Your App Name" <${process.env.EMAIL_USER}>`,
+    from: `"Your App Name" <${process.env.BREVO_USER || process.env.EMAIL_USER}>`,
     to: email,
     subject: 'Your One-Time Password (OTP)',
     html: `
@@ -32,15 +47,14 @@ const sendOtp = async (email, otp) => {
         </div>
       </div>
     `,
-    // Text fallback for email clients that don't support HTML
     text: `Your OTP is ${otp}. It will expire in 5 minutes. Please do not share this OTP with anyone.\n\nIf you didn't request this OTP, please ignore this email.`
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('OTP email sent successfully');
+    console.log('✅ OTP email sent successfully to:', email);
   } catch (error) {
-    console.error('Error sending OTP email:', error);
+    console.error('❌ Error sending OTP email:', error);
     throw new Error('Failed to send OTP email');
   }
 };
