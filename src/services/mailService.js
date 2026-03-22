@@ -34,7 +34,7 @@ exports.ser_view_user_send_mail = async (req, res) => {
     const user_image = abhi.picture;
     try {
         const { senderEmail, recipientEmail, subject, message } = req.body;
-        const transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS } });
+        const transporter = nodemailer.createTransport({ host: 'smtp-relay.brevo.com', port: 587, auth: { user: process.env.BREVO_USER, pass: process.env.BREVO_API_KEY } });
         await transporter.sendMail({ from: senderEmail, to: recipientEmail, subject, text: message });
         await new Activity({ user_id: uid, activity: 'Mail Send Successfully' }).save();
         res.render('mailsuccess', { name, user_image });

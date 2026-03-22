@@ -1534,10 +1534,11 @@ exports.ser_view_user_send_mail = async (req, res) => {
     const { senderEmail, recipientEmail, subject, message } = req.body;
 
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp-relay.brevo.com',
+      port: 587,
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_API_KEY,
       },
     });
 
@@ -1668,10 +1669,11 @@ exports.ser_create_meeting = async (req, res) => {
 
 // Configure Nodemailer transporter
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp-relay.brevo.com',
+    port: 587,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_API_KEY
     }
 });
 

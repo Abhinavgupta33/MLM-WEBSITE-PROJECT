@@ -10,8 +10,9 @@ async function getUserCtx(uid) {
 }
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+    host: 'smtp-relay.brevo.com',
+    port: 587,
+    auth: { user: process.env.BREVO_USER, pass: process.env.BREVO_API_KEY }
 });
 
 // ─── Meeting page ─────────────────────────────────────────────────────────────
@@ -64,7 +65,7 @@ exports.ser_send_invite = async (req, res) => {
         const validEmails = recipients.filter(email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
         if (validEmails.length === 0) return res.status(400).json({ success: false, error: 'No valid email addresses' });
 
-        const mailOptions = { from: `"Meeting Scheduler" <${process.env.EMAIL_USER}>`, bcc: validEmails, subject, html: message };
+        const mailOptions = { from: `"Meeting Scheduler" <${process.env.BREVO_USER}>`, bcc: validEmails, subject, html: message };
         const info = await transporter.sendMail(mailOptions);
 
         if (meetingId) {
