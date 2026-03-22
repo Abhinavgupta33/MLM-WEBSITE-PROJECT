@@ -27,12 +27,12 @@
             font-family: 'Poppins', sans-serif;
             background-color: var(--light-bg);
             color: var(--text-dark);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            
+            
+            
+            min-
             position: relative;
-            overflow: hidden;
+            
             perspective: 1000px;
         }
         
@@ -124,7 +124,7 @@
             border-top: 5px solid var(--error-color);
             transform-style: preserve-3d;
             will-change: transform, opacity;
-            overflow: hidden;
+            
         }
         
         .container::after {
@@ -167,9 +167,9 @@
             width: 100px;
             height: 100px;
             margin: 0 auto 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            
+            
+            
             background: linear-gradient(135deg, rgba(211,47,47,0.1), rgba(244,67,54,0.15));
             border-radius: 50%;
             animation: pulse 2.5s infinite ease-in-out, float 4s infinite ease-in-out;
@@ -265,11 +265,11 @@
             font-weight: 600;
             transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
             display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            
+            
             min-width: 160px;
             position: relative;
-            overflow: hidden;
+            
             transform-style: preserve-3d;
             will-change: transform, box-shadow;
             background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
@@ -340,10 +340,25 @@
             }
         }
     </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
     <%- include("../utils/header")%> 
     <%- include("side")%>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
     
     <!-- Background elements -->
     <div class="security-wave"></div>
@@ -360,7 +375,8 @@
         </button>
     </div>
 
-  <%- include("../utils/footer"); %> 
+  </main>
+<%- include("../utils/footer"); %> 
     <script>
         // Create floating lock elements
         function createLockElements() {

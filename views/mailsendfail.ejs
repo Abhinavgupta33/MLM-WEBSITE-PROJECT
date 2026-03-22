@@ -28,11 +28,11 @@
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--light-bg);
-            display: flex;
+            
             flex-direction: column;
-            min-height: 100vh;
+            min-
             position: relative;
-            overflow: hidden;
+            
         }
         
         /* Floating Error Elements */
@@ -96,9 +96,9 @@
             margin: 0 auto;
             padding: 2rem;
             flex: 1;
-            display: flex;
+            
             flex-direction: column;
-            justify-content: center;
+            
             position: relative;
             z-index: 1;
         }
@@ -113,7 +113,7 @@
             opacity: 1;
             transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
             position: relative;
-            overflow: hidden;
+            
         }
         
         .error-card::before {
@@ -130,9 +130,9 @@
             width: 120px;
             height: 120px;
             margin: 0 auto 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            
+            
+            
             background: linear-gradient(135deg, rgba(244, 67, 54, 0.1), rgba(255, 134, 127, 0.1));
             border-radius: 50%;
             position: relative;
@@ -230,8 +230,8 @@
         }
         
         .action-buttons {
-            display: flex;
-            justify-content: center;
+            
+            
             gap: 1.5rem;
             flex-wrap: wrap;
             animation: fadeInUp 0.8s 0.8s both;
@@ -239,8 +239,8 @@
         
         .btn {
             display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            
+            
             padding: 1rem 2rem;
             border-radius: 8px;
             text-decoration: none;
@@ -248,7 +248,7 @@
             transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
             min-width: 180px;
             position: relative;
-            overflow: hidden;
+            
         }
         
         .btn i {
@@ -349,10 +349,25 @@
             }
         }
     </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
     <%- include("../utils/header")%> 
     <%- include("side")%>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
     
     <!-- Background elements will be added by JS -->
     <div class="error-wave" style="bottom: 0; left: 0;"></div>
@@ -392,7 +407,8 @@
         &copy; <span id="current-year"></span> Your Company Name. All rights reserved.
     </footer>
 
-  <%- include("../utils/footer"); %> 
+  </main>
+<%- include("../utils/footer"); %> 
     <script>
         // Create floating error background elements
         function createErrorElements() {

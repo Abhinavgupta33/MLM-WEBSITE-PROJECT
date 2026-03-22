@@ -11,10 +11,10 @@
             padding: 0;
             background: linear-gradient(135deg, #28a745, #218838);
             color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            
+            
+            
+            
             text-align: center;
         }
         .success-container {
@@ -60,15 +60,31 @@
             }
         }
     </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
     <%- include("../utils/header")%> 
     <%- include("side")%>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
     <div class="success-container">
         <h1>Success!</h1>
         <p>The product details have been updated successfully.</p>
         <button onclick="goBack()">Go Back</button>
     </div>
+</main>
 <%- include("../utils/footer"); %> 
   
     <script>

@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Dashboard with Responsive Sidebar</title>
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
+<style>
         :root {
             /* Color Scheme */
             --sidebar-bg: #ffffff;
@@ -19,7 +9,7 @@
             --sidebar-active-icon-color: #4361ee;
             --sidebar-border-color: #e2e8f0;
             --sidebar-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            
+
             /* Layout */
             --header-height: 70px;
             --sidebar-width: 280px;
@@ -28,7 +18,7 @@
             --sidebar-subitem-padding: 10px 15px 10px 45px;
             --sidebar-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
             --sidebar-footer-height: 120px;
-            
+
             /* Theme Colors */
             --primary-color: #4361ee;
             --primary-dark: #3a0ca3;
@@ -39,13 +29,13 @@
             --warning-color: #f59e0b;
             --danger-color: #ef4444;
             --info-color: #06b6d4;
-            
+
             /* Glass Morphism */
             --glass-effect: rgba(255, 255, 255, 0.7);
             --glass-border: rgba(255, 255, 255, 0.2);
             --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             --glass-blur: blur(8px);
-            
+
             /* Mobile */
             --mobile-sidebar-zindex: 1050;
             --mobile-overlay-bg: rgba(0, 0, 0, 0.5);
@@ -593,7 +583,7 @@
             margin: 0 12px;
             background-color: var(--sidebar-hover-bg);
             border-radius: 8px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
             opacity: 0;
             transform: translateY(-10px);
             transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, transform 0.3s ease;
@@ -1046,14 +1036,22 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(15deg); }
-            50% { transform: translateY(-5px) rotate(15deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(15deg);
+            }
+
+            50% {
+                transform: translateY(-5px) rotate(15deg);
+            }
         }
 
         @keyframes pulse {
@@ -1061,12 +1059,15 @@
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
                 transform: scale(1);
             }
+
             50% {
                 transform: scale(1.1);
             }
+
             70% {
                 box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
             }
+
             100% {
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
                 transform: scale(1);
@@ -1078,10 +1079,12 @@
                 transform: scale(1);
                 opacity: 0.15;
             }
+
             50% {
                 transform: scale(1.2);
                 opacity: 0.1;
             }
+
             100% {
                 transform: scale(1);
                 opacity: 0.15;
@@ -1092,6 +1095,7 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
@@ -1102,12 +1106,15 @@
                 transform: translateY(0) translateX(0);
                 opacity: 0;
             }
+
             10% {
                 opacity: 0.5;
             }
+
             90% {
                 opacity: 0.5;
             }
+
             100% {
                 transform: translateY(-100px) translateX(20px);
                 opacity: 0;
@@ -1132,7 +1139,7 @@
             margin-left: -10px;
             margin-top: -10px;
         }
-        
+
         @keyframes ripple {
             to {
                 transform: scale(10);
@@ -1150,17 +1157,18 @@
             .sidebar {
                 transform: translateX(0);
             }
-            
+
             #main {
                 margin-left: var(--sidebar-width);
             }
-            
+
             .mobile-menu-toggle {
                 display: none;
             }
         }
 
         @media (max-width: 1199px) {
+
             /* Tablet view - slightly smaller sidebar */
             :root {
                 --sidebar-width: 240px;
@@ -1168,38 +1176,40 @@
         }
 
         @media (max-width: 991px) {
+
             /* Mobile view - collapsed sidebar with toggle */
             :root {
                 --sidebar-width: 280px;
             }
-            
+
             .sidebar {
                 transform: translateX(-100%);
                 transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 width: var(--sidebar-width);
                 box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
             }
-            
+
             .sidebar.show {
                 transform: translateX(0);
             }
-            
+
             #main {
                 margin-left: 0;
             }
-            
+
             .mobile-menu-toggle {
                 display: flex;
             }
-            
+
             /* Blur main content when sidebar is open */
-            .sidebar.show ~ #main {
+            .sidebar.show~#main {
                 filter: blur(2px);
                 pointer-events: none;
             }
         }
 
         @media (max-width: 767px) {
+
             /* Small tablets */
             :root {
                 --sidebar-width: 260px;
@@ -1207,20 +1217,21 @@
         }
 
         @media (max-width: 575px) {
+
             /* Mobile devices */
             :root {
                 --sidebar-width: 85vw;
             }
-            
+
             .mobile-menu-toggle {
                 top: 10px;
                 left: 10px;
             }
-            
+
             #main {
                 padding: 15px;
             }
-            
+
             .sidebar-brand {
                 padding: 20px 15px;
             }
@@ -1236,11 +1247,127 @@
             .sidebar {
                 will-change: transform;
             }
-            
-            .sidebar.show ~ #main {
+
+            .sidebar.show~#main {
                 transition: filter 0.3s ease;
             }
         }
+
+        /* =============================================
+           GLOBAL RESPONSIVE ENHANCEMENTS
+           Covers all pages that include side.ejs
+        ============================================= */
+
+        /* Header padding fix for all inner pages */
+        #main {
+            padding-top: var(--header-height, 80px);
+        }
+
+        /* Desktop: sidebar always shown */
+        @media (min-width: 992px) {
+            #main {
+                padding-top: calc(var(--header-height, 80px) + 20px);
+            }
+        }
+
+        /* Tablet (768px - 991px) */
+        @media (max-width: 991px) {
+            #main {
+                margin-left: 0 !important;
+                padding: calc(var(--header-height, 80px) + 15px) 15px 15px 15px;
+            }
+
+            /* Make tables scrollable horizontally */
+            .table-responsive-auto,
+            table.table,
+            .datatable {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Ensure cards and containers don't overflow */
+            .card {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box;
+            }
+
+            /* Row gutters reduction */
+            .row { --bs-gutter-x: 0.75rem; }
+
+            /* Page title adjustments */
+            .pagetitle { padding: 0 5px; }
+
+            /* Section padding */
+            .section { padding: 10px 0; }
+        }
+
+        /* Mobile (≤ 576px) */
+        @media (max-width: 576px) {
+            #main {
+                padding: calc(var(--header-height, 80px) + 10px) 10px 10px 10px;
+            }
+
+            /* Stack all Bootstrap grid columns */
+            .col-md-4, .col-md-6, .col-md-3, .col-md-8, .col-lg-4, .col-lg-3, .col-lg-6, .col-lg-8 {
+                flex: 0 0 100%;
+                max-width: 100%;
+                width: 100%;
+            }
+
+            /* Full-width form controls */
+            .form-control, .form-select, input, select, textarea {
+                font-size: 16px !important; /* prevent zoom on iOS */
+            }
+
+            /* Responsive typography */
+            h1 { font-size: 1.5rem !important; }
+            h2 { font-size: 1.3rem !important; }
+            h3 { font-size: 1.1rem !important; }
+
+            /* Responsive buttons */
+            .btn { font-size: 0.875rem; padding: 0.4rem 0.8rem; }
+
+            /* Table text */
+            table td, table th { font-size: 0.8rem; white-space: nowrap; }
+
+            /* Card padding */
+            .card-body { padding: 0.875rem; }
+
+            /* Section padding */
+            .section { padding: 6px 0; }
+
+            /* Dashboard stat grid - force 2 col */
+            .row.g-3 > .col-xl-3,
+            .row.g-3 > .col-lg-3 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+
+            /* Quick actions - 2 col on mobile */
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px !important;
+            }
+        }
+
+        /* Extra small (≤ 380px) */
+        @media (max-width: 380px) {
+            #main { padding: calc(var(--header-height, 80px) + 8px) 8px 8px 8px; }
+            
+            /* Single column at very small screens */
+            .row.g-3 > .col-xl-3,
+            .row.g-3 > .col-lg-3 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
 
         /* Floating animation for sidebar elements */
         .floating {
@@ -1248,8 +1375,15 @@
         }
 
         @keyframes floating {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         /* Glow effect for active items */
@@ -1261,6 +1395,7 @@
             from {
                 box-shadow: 0 0 5px rgba(67, 97, 238, 0.5);
             }
+
             to {
                 box-shadow: 0 0 10px rgba(67, 97, 238, 0.8);
             }
@@ -1272,21 +1407,39 @@
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
         }
 
         /* Shimmer effect for loading states */
         .shimmer {
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
         }
 
         @keyframes shimmer {
-            0% {background-position: 200% 0;}
-            100% {background-position: -200% 0;}
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
 
         /* Spin animation for loading icons */
@@ -1295,19 +1448,34 @@
         }
 
         @keyframes spin {
-            0% {transform: rotate(0deg);}
-            100% {transform: rotate(360deg);}
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Slide in animation for mobile sidebar */
         @keyframes slideIn {
-            from {transform: translateX(-100%);}
-            to {transform: translateX(0);}
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
         }
 
         @keyframes slideOut {
-            from {transform: translateX(0);}
-            to {transform: translateX(-100%);}
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
         }
 
         /* Enhanced ripple effect */
@@ -1321,7 +1489,7 @@
             .nav-link {
                 padding: 14px 20px;
             }
-            
+
             .nav-content li a {
                 padding: 12px 15px 12px 45px;
             }
@@ -1547,17 +1715,16 @@
             transition: none !important;
         }
     </style>
-</head>
-<body class="dark-mode-transition">
+
 
     <!-- Mobile Menu Toggle Button -->
     <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle sidebar">
         <i class="bi bi-list"></i>
     </button>
-    
+
     <!-- Mobile Sidebar Overlay -->
     <div class="mobile-sidebar-overlay" id="mobileSidebarOverlay"></div>
-    
+
     <!-- ======= Premium Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
         <div class="sidebar-inner">
@@ -1565,8 +1732,8 @@
             <div class="sidebar-brand">
                 <div class="brand-logo">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="logo-svg">
-                        <path class="logo-path" d="M12 2L4 7v10l8 5 8-5V7l-8-5z" fill="currentColor"/>
-                        <path class="logo-accent" d="M12 12l-8-5v10l8 5v-10z" fill="currentColor"/>
+                        <path class="logo-path" d="M12 2L4 7v10l8 5 8-5V7l-8-5z" fill="currentColor" />
+                        <path class="logo-accent" d="M12 12l-8-5v10l8 5v-10z" fill="currentColor" />
                     </svg>
                     <span class="logo-badge">PRO</span>
                     <div class="particle-container"></div>
@@ -1673,7 +1840,8 @@
 
                 <!-- User Manager Nav with Floating Submenu -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-toggle="collapse" href="#user-manager-nav" aria-expanded="false" aria-controls="user-manager-nav">
+                    <a class="nav-link collapsed" data-bs-toggle="collapse" href="#user-manager-nav"
+                        aria-expanded="false" aria-controls="user-manager-nav">
                         <div class="nav-icon">
                             <i class="bi bi-people"></i>
                             <div class="icon-aura"></div>
@@ -1733,7 +1901,8 @@
 
                 <!-- Product Manager Nav -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-toggle="collapse" href="#product-manager-nav" aria-expanded="false" aria-controls="product-manager-nav">
+                    <a class="nav-link collapsed" data-bs-toggle="collapse" href="#product-manager-nav"
+                        aria-expanded="false" aria-controls="product-manager-nav">
                         <div class="nav-icon">
                             <i class="bi bi-box-seam"></i>
                             <div class="icon-aura"></div>
@@ -1793,7 +1962,8 @@
 
                 <!-- Mail Manager Nav -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-toggle="collapse" href="#mail-manager-nav" aria-expanded="false" aria-controls="mail-manager-nav">
+                    <a class="nav-link collapsed" data-bs-toggle="collapse" href="#mail-manager-nav"
+                        aria-expanded="false" aria-controls="mail-manager-nav">
                         <div class="nav-icon">
                             <i class="bi bi-envelope"></i>
                             <div class="icon-aura"></div>
@@ -1882,12 +2052,13 @@
                 </li>
                 <!-- End Settings Nav -->
             </ul>
-            
+
             <!-- Sidebar Footer with Enhanced Profile Card -->
             <div class="sidebar-footer">
                 <div class="user-profile">
                     <div class="profile-avatar">
-                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=4361ee&color=fff" alt="Admin User">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=4361ee&color=fff"
+                            alt="Admin User">
                         <div class="online-status"></div>
                         <div class="avatar-glow"></div>
                     </div>
@@ -1921,10 +2092,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Enhanced Dark mode toggle with smooth transition
-        document.getElementById('darkModeToggle').addEventListener('change', function() {
+        document.getElementById('darkModeToggle').addEventListener('change', function () {
             document.body.classList.add('transition-colors');
             document.body.classList.toggle('dark-mode');
-            
+
             // Update icon
             const icon = document.querySelector('.sidebar-theme-toggle i');
             if (this.checked) {
@@ -1934,10 +2105,10 @@
                 icon.classList.remove('bi-sun');
                 icon.classList.add('bi-moon');
             }
-            
+
             // Store preference in localStorage
             localStorage.setItem('darkMode', this.checked);
-            
+
             setTimeout(() => {
                 document.body.classList.remove('transition-colors');
             }, 500);
@@ -1956,27 +2127,27 @@
         const sidebar = document.getElementById('sidebar');
         const mobileSidebarOverlay = document.getElementById('mobileSidebarOverlay');
 
-        mobileMenuToggle.addEventListener('click', function() {
+        mobileMenuToggle.addEventListener('click', function () {
             this.classList.toggle('active');
             sidebar.classList.toggle('show');
             mobileSidebarOverlay.classList.toggle('show');
-            
+
             // Add ripple effect
             const ripple = document.createElement('span');
             ripple.classList.add('ripple-effect');
             this.appendChild(ripple);
-            
+
             // Position ripple at center
             ripple.style.left = '50%';
             ripple.style.top = '50%';
-            
+
             // Remove ripple after animation
             setTimeout(() => {
                 ripple.remove();
             }, 600);
         });
 
-        mobileSidebarOverlay.addEventListener('click', function() {
+        mobileSidebarOverlay.addEventListener('click', function () {
             mobileMenuToggle.classList.remove('active');
             sidebar.classList.remove('show');
             this.classList.remove('show');
@@ -1984,7 +2155,7 @@
 
         // Close sidebar when clicking on a nav link (for mobile)
         document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 // Don't close if it's a collapse toggle
                 if (this.getAttribute('data-bs-toggle') !== 'collapse') {
                     if (window.innerWidth < 992) {
@@ -1998,11 +2169,11 @@
 
         // Enhanced dropdown functionality for mobile
         document.querySelectorAll('.nav-link[data-bs-toggle="collapse"]').forEach(link => {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 if (window.innerWidth < 992) {
                     const target = document.querySelector(this.getAttribute('href'));
                     const isCollapsed = this.classList.contains('collapsed');
-                    
+
                     // Close all other open dropdowns
                     document.querySelectorAll('.nav-content.show').forEach(content => {
                         if (content !== target) {
@@ -2013,7 +2184,7 @@
                             }
                         }
                     });
-                    
+
                     // Toggle current dropdown
                     if (isCollapsed) {
                         this.classList.remove('collapsed');
@@ -2027,54 +2198,54 @@
         function createParticles() {
             const container = document.querySelector('.particle-container');
             const particleCount = 12;
-            
+
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
-                
+
                 // Random position around the logo
                 const angle = Math.random() * Math.PI * 2;
                 const distance = 15 + Math.random() * 15;
                 const x = 20 + Math.cos(angle) * distance;
                 const y = 20 + Math.sin(angle) * distance;
-                
+
                 particle.style.left = `${x}px`;
                 particle.style.top = `${y}px`;
-                
+
                 // Random size and delay
                 const size = 1 + Math.random() * 2;
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 particle.style.animationDelay = `${Math.random() * 4}s`;
-                
+
                 container.appendChild(particle);
             }
         }
 
         // Initialize particles when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             createParticles();
-            
+
             // Add ripple effect to all clickable elements
             document.querySelectorAll('.nav-link, .activity-item, .view-all-activities a, .sidebar-theme-toggle').forEach(element => {
-                element.addEventListener('click', function(e) {
+                element.addEventListener('click', function (e) {
                     // Don't add ripple to collapse toggles
                     if (this.getAttribute('data-bs-toggle') === 'collapse') return;
-                    
+
                     // Add ripple effect
                     const ripple = document.createElement('span');
                     ripple.classList.add('ripple-effect');
                     this.appendChild(ripple);
-                    
+
                     // Get click position
                     const rect = this.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
-                    
+
                     // Position ripple
                     ripple.style.left = `${x}px`;
                     ripple.style.top = `${y}px`;
-                    
+
                     // Remove ripple after animation
                     setTimeout(() => {
                         ripple.remove();
@@ -2084,47 +2255,47 @@
 
             // Add smooth hover effect to nav items
             document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('mouseenter', function() {
+                link.addEventListener('mouseenter', function () {
                     if (window.innerWidth >= 992) {
                         this.style.transform = 'translateX(4px)';
                     }
                 });
-                
-                link.addEventListener('mouseleave', function() {
+
+                link.addEventListener('mouseleave', function () {
                     this.style.transform = '';
                 });
             });
 
             // Add hover effect to theme toggle
             const themeToggle = document.querySelector('.sidebar-theme-toggle');
-            themeToggle.addEventListener('mouseenter', function() {
+            themeToggle.addEventListener('mouseenter', function () {
                 const ripple = this.querySelector('.theme-ripple');
                 ripple.style.transform = 'scale(1.5)';
                 ripple.style.opacity = '1';
             });
-            
-            themeToggle.addEventListener('mouseleave', function() {
+
+            themeToggle.addEventListener('mouseleave', function () {
                 const ripple = this.querySelector('.theme-ripple');
                 ripple.style.transform = 'scale(0)';
                 ripple.style.opacity = '0';
             });
-            
+
             // Handle window resize
             let resizeTimer;
-            window.addEventListener('resize', function() {
+            window.addEventListener('resize', function () {
                 document.body.classList.add('resize-animation-stopper');
                 clearTimeout(resizeTimer);
                 resizeTimer = setTimeout(() => {
                     document.body.classList.remove('resize-animation-stopper');
                 }, 400);
-                
+
                 if (window.innerWidth >= 992) {
                     sidebar.classList.remove('show');
                     mobileSidebarOverlay.classList.remove('show');
                     mobileMenuToggle.classList.remove('active');
                 }
             });
-            
+
             // Initialize tooltips
             const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -2136,4 +2307,5 @@
         document.head.insertAdjacentHTML('beforeend', '<style>.transition-colors { transition: background-color 0.5s ease, color 0.3s ease; }</style>');
     </script>
 </body>
+
 </html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Settings - ChainCore</title>
+  
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    .settings-card { border-radius: 15px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); border: none; overflow: hidden; }
+    .settings-header { background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%); padding: 2rem; color: white; display: flex; align-items: center; }
+    .settings-header i { font-size: 2.5rem; margin-right: 1.5rem; background: rgba(255,255,255,0.2); padding: 15px; border-radius: 50%; }
+    .settings-content { padding: 2rem; }
+    .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-bottom: 1px solid #f1f5f9; }
+    .setting-item:last-child { border-bottom: none; }
+    .setting-info h5 { margin: 0 0 5px 0; font-weight: 600; color: #1e293b; }
+    .setting-info p { margin: 0; color: #64748b; font-size: 0.9rem; }
+    .form-switch .form-check-input { width: 3em; height: 1.5em; cursor: pointer; }
+    .form-check-input:checked { background-color: #4361ee; border-color: #4361ee; }
+  </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
+</head>
+<body class="bg-light">
+  <%- include("../utils/header") %>
+  <%- include("side") %>
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Settings</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item active">Settings</li>
+        </ol>
+      </nav>
+    </div>
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-1">
+          <div class="card settings-card">
+            <div class="settings-header">
+              <i class="bi bi-gear-fill"></i>
+              <div>
+                <h2 class="mb-0 text-white">Preferences</h2>
+                <p class="mb-0 text-white opacity-75">Manage your account settings and preferences.</p>
+              </div>
+            </div>
+            <div class="settings-content">
+              
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Email Notifications</h5>
+                  <p>Receive daily summaries and important updates via email.</p>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" checked>
+                </div>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Two-Factor Authentication</h5>
+                  <p>Enhance your account security using 2FA.</p>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="tfaToggle">
+                </div>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Public Profile</h5>
+                  <p>Make your profile and activity visible to your downline.</p>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" checked>
+                </div>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h5>Marketing Campaigns</h5>
+                  <p>Opt-in to promotional materials and product offers.</p>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox">
+                </div>
+              </div>
+
+              <div class="mt-4 pt-4 text-end" style="border-top: 1px solid #f1f5f9;">
+                <button class="btn btn-light me-2 fw-semibold px-4 py-2 border">Reset Defaults</button>
+                <button class="btn btn-primary fw-semibold px-4 py-2" onclick="alert('Settings Saved Successfully!')" style="background:#4361ee;border-color:#4361ee;">Save Preferences</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <%- include("../utils/footer") %>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

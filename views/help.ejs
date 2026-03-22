@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Help Center - ChainCore</title>
+
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    .help-header {
+      background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: -50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .help-header h1 {
+      font-weight: 800;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .help-search-box {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .help-search-box input {
+      width: 100%;
+      padding: 1.25rem 1.5rem 1.25rem 3.5rem;
+      border-radius: 999px;
+      border: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      font-size: 1.1rem;
+      outline: none;
+    }
+
+    .help-search-box i {
+      position: absolute;
+      left: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.25rem;
+      color: #94a3b8;
+    }
+
+    .faq-container {
+      background: var(--global-surface-elevated);
+      padding: 4rem 2rem;
+      border-radius: 15px;
+      box-shadow: var(--global-shadow);
+      position: relative;
+      z-index: 2;
+      margin: 0 1rem;
+    }
+
+    .accordion-item {
+      border: none;
+      border-bottom: 1px solid #f1f5f9;
+      margin-bottom: 0.5rem;
+    }
+
+    .accordion-button {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--global-text);
+      background: transparent !important;
+      padding: 1.5rem 1rem;
+      box-shadow: none !important;
+    }
+
+    .accordion-button:not(.collapsed) {
+      color: var(--global-primary);
+    }
+
+    .accordion-body {
+      padding: 0 1rem 1.5rem 1rem;
+      color: var(--global-text-muted);
+      line-height: 1.6;
+    }
+
+    .help-topics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .topic-card {
+      padding: 2rem;
+      border-radius: 15px;
+      border: 1px solid var(--global-border);
+      background: var(--global-surface);
+      text-align: center;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .topic-card:hover {
+      border-color: var(--global-primary);
+      box-shadow: var(--global-shadow);
+      transform: translateY(-5px);
+    }
+
+    .topic-card i {
+      font-size: 2.5rem;
+      color: var(--global-primary);
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .topic-card h4 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--global-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .topic-card p {
+      color: var(--global-text-muted);
+      margin: 0;
+      font-size: 0.95rem;
+    }
+  </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
+</head>
+
+<body class="">
+  <%- include("../utils/header") %>
+    <%- include("side") %>
+
+      <main id="main" class="main">
+        <div class="pagetitle">
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Help Center</li>
+            </ol>
+          </nav>
+        </div>
+
+        <section class="section">
+          <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+
+              <div class="help-header">
+                <h1>How can we help you?</h1>
+                <p class="mb-4 fs-5 opacity-75">Search our knowledge base or browse categories below.</p>
+                <div class="help-search-box">
+                  <i class="bi bi-search"></i>
+                  <input type="text" placeholder="Search for articles, guides, or questions...">
+                </div>
+              </div>
+
+              <div class="faq-container">
+                <h3 class="fw-bold mb-4 text-center">Frequently Asked Questions</h3>
+
+                <div class="accordion" id="faqAccordion">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        How do I calculate my downline commission?
+                      </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                      <div class="accordion-body">
+                        Your downline commission is calculated automatically based on the hierarchical structure of your
+                        network. First-level referrals yield 25% of the entry package volume, and second-level referrals
+                        yield 12.5%. You can monitor the exact breakdowns in the 'Balance' tab.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#faq2">
+                        How long do withdrawals take to process?
+                      </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                      <div class="accordion-body">
+                        Standard withdrawals take between 24 to 48 hours to be processed by our finance team during
+                        business days. Crypto withdrawals are usually processed within 2 hours subject to blockchain
+                        confirmations.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#faq3">
+                        Can I change my sponsor or network placement?
+                      </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                      <div class="accordion-body">
+                        Network placements are permanent once a user registers to ensure the integrity of the referral
+                        tree. Placements can only be adjusted by system administrators in the event of documented
+                        technical errors within 24 hours of registration.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="help-topics">
+                  <div class="topic-card">
+                    <i class="bi bi-wallet2"></i>
+                    <h4>Billing & Payments</h4>
+                    <p>Withdrawals, deposits, and transaction histories.</p>
+                  </div>
+                  <div class="topic-card">
+                    <i class="bi bi-person-badge"></i>
+                    <h4>Account Management</h4>
+                    <p>Profiles, security, and preferences.</p>
+                  </div>
+                  <div class="topic-card">
+                    <i class="bi bi-diagram-3"></i>
+                    <h4>Network Growth</h4>
+                    <p>Referral links, downlines, and commissions.</p>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <%- include("../utils/footer") %>
+        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

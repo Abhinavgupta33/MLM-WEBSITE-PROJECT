@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Send Feedback - ChainCore</title>
+  
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    .feedback-card { border-radius: 15px; border: none; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); overflow: hidden; }
+    .feedback-header { background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%); padding: 3rem 2rem; color: white; text-align: center; }
+    .feedback-header h2 { font-weight: 800; font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .feedback-form-container { padding: 3rem; background: #fff; }
+    .emoji-rating { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; }
+    .emoji-btn { font-size: 2.5rem; background: transparent; border: none; filter: grayscale(100%); opacity: 0.5; transition: 0.3s; cursor: pointer; outline: none; }
+    .emoji-btn:hover, .emoji-btn.active { filter: grayscale(0%); opacity: 1; transform: scale(1.2); }
+    .form-control { border-radius: 10px; padding: 1rem; border: 1px solid #e2e8f0; background: #f8fafc; transition: 0.3s; }
+    .form-control:focus { background: #fff; border-color: #4361ee; box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1); }
+    .submit-btn { background: #4361ee; border: none; padding: 1rem; border-radius: 10px; font-weight: 600; font-size: 1.1rem; width: 100%; transition: 0.3s; }
+    .submit-btn:hover { background: #3a0ca3; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2); }
+  </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
+</head>
+<body class="bg-light">
+  <%- include("../utils/header") %>
+  <%- include("side") %>
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Feedback</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item active">Send Feedback</li>
+        </ol>
+      </nav>
+    </div>
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+          <div class="card feedback-card">
+            
+            <div class="feedback-header">
+              <h2>We value your feedback!</h2>
+              <p class="fs-5 opacity-75 mb-0">Help us improve the ChainCore platform.</p>
+            </div>
+
+            <div class="feedback-form-container">
+              <form action="/dashboard" method="GET" onsubmit="alert('Thank you for your feedback!');">
+                <div class="text-center mb-4">
+                  <h4 class="fw-bold text-dark mb-3">How was your experience?</h4>
+                  <div class="emoji-rating">
+                    <button type="button" class="emoji-btn" onclick="setActiveEmoji(this)">😞</button>
+                    <button type="button" class="emoji-btn" onclick="setActiveEmoji(this)">😐</button>
+                    <button type="button" class="emoji-btn active" onclick="setActiveEmoji(this)">😊</button>
+                    <button type="button" class="emoji-btn" onclick="setActiveEmoji(this)">🤩</button>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label fw-semibold text-dark">Category</label>
+                  <select class="form-select form-control">
+                    <option selected>Suggestion / Feature Request</option>
+                    <option>Bug Report</option>
+                    <option>Billing Issue</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label fw-semibold text-dark">Your Feedback</label>
+                  <textarea class="form-control" rows="5" placeholder="Tell us what you love, what to fix, or what we can add..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary submit-btn">Send Feedback <i class="bi bi-send-fill ms-2"></i></button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <%- include("../utils/footer") %>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function setActiveEmoji(btn) {
+      document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>

@@ -20,13 +20,13 @@
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      
+      
+      
+      min-
       background-color: var(--light);
       position: relative;
-      overflow: hidden;
+      
     }
     
     /* Animated background elements */
@@ -64,7 +64,7 @@
       opacity: 0;
       animation: container-appear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards;
       position: relative;
-      overflow: hidden;
+      
     }
     
     @keyframes container-appear {
@@ -159,11 +159,11 @@
       cursor: pointer;
       transition: all 0.3s ease;
       display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      
+      
       gap: 10px;
       position: relative;
-      overflow: hidden;
+      
       box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
     }
     
@@ -200,10 +200,25 @@
       100% { transform: scale(20, 20); opacity: 0; }
     }
   </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
   <%- include("../utils/header")%> 
   <%- include("side")%>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
   
   <!-- Animated shards will be added by JavaScript -->
   
@@ -220,6 +235,7 @@
       <i class="fas fa-home"></i> Return to Homepage
     </button>
   </div>
+</main>
 <%- include("../utils/footer"); %> 
   
   <script>

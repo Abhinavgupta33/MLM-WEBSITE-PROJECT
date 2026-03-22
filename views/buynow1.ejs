@@ -39,8 +39,8 @@
       font-family: 'Poppins', sans-serif;
       background-color: #f8fafc;
       color: var(--text-dark);
-      min-height: 100vh;
-      display: flex;
+      min-
+      
       flex-direction: column;
     }
 
@@ -108,7 +108,7 @@
 
     /* Main Layout */
     .checkout-container {
-      display: flex;
+      
       flex-direction: column;
       max-width: 1200px;
       margin: 0 auto;
@@ -142,13 +142,13 @@
       font-size: 1.5rem;
       margin-bottom: 1.5rem;
       color: var(--primary-color);
-      display: flex;
-      align-items: center;
+      
+      
       gap: 0.5rem;
     }
 
     .cart-item {
-      display: flex;
+      
       gap: 1rem;
       padding: 1rem;
       margin-bottom: 1rem;
@@ -167,7 +167,7 @@
       width: 100px;
       height: 100px;
       border-radius: 8px;
-      overflow: hidden;
+      
       flex-shrink: 0;
     }
 
@@ -193,7 +193,7 @@
     }
 
     .product-meta {
-      display: flex;
+      
       gap: 1rem;
       color: var(--text-light);
       font-size: 0.9rem;
@@ -206,7 +206,7 @@
     }
 
     .total-row {
-      display: flex;
+      
       justify-content: space-between;
       margin-bottom: 0.5rem;
     }
@@ -233,8 +233,8 @@
       font-size: 1.5rem;
       margin-bottom: 1.5rem;
       color: var(--primary-color);
-      display: flex;
-      align-items: center;
+      
+      
       gap: 0.5rem;
     }
 
@@ -264,7 +264,7 @@
     }
 
     .btn-group {
-      display: flex;
+      
       gap: 1rem;
       margin-top: 1.5rem;
       flex-wrap: wrap;
@@ -275,8 +275,8 @@
       border-radius: 8px;
       font-weight: 600;
       display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      
+      
       gap: 0.5rem;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -309,9 +309,9 @@
     }
 
     .security-badge {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      
+      
+      
       gap: 0.5rem;
       margin-top: 1.5rem;
       color: var(--text-light);
@@ -335,7 +335,7 @@
     @media (max-width: 992px) {
       .sidebar {
         width: 0;
-        overflow: hidden;
+        
       }
       
       .main-content {
@@ -381,6 +381,20 @@
       animation: fadeIn 0.5s ease forwards;
     }
   </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
   
@@ -389,6 +403,7 @@
   
   <!-- Sidebar -->
   <%- include("side")%>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
     
   <!-- Main Content -->
   <div class="main-content">
@@ -479,7 +494,8 @@
   </div>
 
   <!-- Footer -->
-  <%- include("../utils/footer"); %>  
+  </main>
+<%- include("../utils/footer"); %>  
 
   <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
   "dependencies": {
     "abhikelib": "^1.0.0",
     "body-parser": "^2.2.0",

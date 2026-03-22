@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Team Members - ChainCore</title>
+  
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    .team-card { border-radius: 15px; border: none; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); transition: 0.3s; padding: 2rem; text-align: center; background: #fff; height: 100%; position: relative; overflow: hidden; }
+    .team-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(67, 97, 238, 0.15); }
+    .team-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 100px; background: linear-gradient(135deg, rgba(67,97,238,0.1) 0%, rgba(58,12,163,0.1) 100%); z-index: 0; }
+    .team-avatar { width: 100px; height: 100px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); object-fit: cover; position: relative; z-index: 1; margin: 0 auto 1rem auto; margin-top: 2rem; }
+    .team-name { font-size: 1.25rem; font-weight: 700; color: #1e293b; margin-bottom: 0.25rem; }
+    .team-role { font-size: 0.9rem; color: #4361ee; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+    .team-stats { display: flex; justify-content: space-around; padding: 1.5rem 0; border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; margin-bottom: 1.5rem; }
+    .stat-box h5 { margin: 0; font-weight: 700; color: #1e293b; font-size: 1.2rem; }
+    .stat-box span { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+    .team-actions { display: flex; gap: 0.5rem; justify-content: center; }
+    .team-btn { flex: 1; padding: 0.5rem; border-radius: 8px; font-weight: 600; transition: 0.3s; }
+  </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
+</head>
+<body class="bg-light">
+  <%- include("../utils/header") %>
+  <%- include("side") %>
+
+  <main id="main" class="main">
+    <div class="pagetitle d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1>Team Network</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Team Members</li>
+          </ol>
+        </nav>
+      </div>
+      <div>
+        <button class="btn btn-primary fw-semibold px-4 rounded-pill" style="background:#4361ee;"><i class="bi bi-person-plus-fill me-2"></i> Invite Member</button>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="row g-4">
+        
+        <!-- Member 1 -->
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="team-card">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="team-avatar">
+            <h4 class="team-name">Sarah Johnson</h4>
+            <div class="team-role">Diamond Director</div>
+            <div class="team-stats">
+              <div class="stat-box"><h5>1,204</h5><span>Network</span></div>
+              <div class="stat-box"><h5>$45k</h5><span>Sales</span></div>
+            </div>
+            <div class="team-actions">
+              <button class="btn btn-outline-primary team-btn"><i class="bi bi-chat-text me-1"></i> Message</button>
+              <button class="btn btn-light team-btn"><i class="bi bi-graph-up me-1"></i> View</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Member 2 -->
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="team-card">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="team-avatar">
+            <h4 class="team-name">Michael Chen</h4>
+            <div class="team-role">Gold Executive</div>
+            <div class="team-stats">
+              <div class="stat-box"><h5>845</h5><span>Network</span></div>
+              <div class="stat-box"><h5>$28k</h5><span>Sales</span></div>
+            </div>
+            <div class="team-actions">
+              <button class="btn btn-outline-primary team-btn"><i class="bi bi-chat-text me-1"></i> Message</button>
+              <button class="btn btn-light team-btn"><i class="bi bi-graph-up me-1"></i> View</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Member 3 -->
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="team-card">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="team-avatar">
+            <h4 class="team-name">Emma Wilson</h4>
+            <div class="team-role">Silver Associate</div>
+            <div class="team-stats">
+              <div class="stat-box"><h5>342</h5><span>Network</span></div>
+              <div class="stat-box"><h5>$12k</h5><span>Sales</span></div>
+            </div>
+            <div class="team-actions">
+              <button class="btn btn-outline-primary team-btn"><i class="bi bi-chat-text me-1"></i> Message</button>
+              <button class="btn btn-light team-btn"><i class="bi bi-graph-up me-1"></i> View</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Member 4 -->
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="team-card">
+            <img src="https://randomuser.me/api/portraits/men/75.jpg" class="team-avatar">
+            <h4 class="team-name">James Carter</h4>
+            <div class="team-role">Bronze Partner</div>
+            <div class="team-stats">
+              <div class="stat-box"><h5>120</h5><span>Network</span></div>
+              <div class="stat-box"><h5>$4k</h5><span>Sales</span></div>
+            </div>
+            <div class="team-actions">
+              <button class="btn btn-outline-primary team-btn"><i class="bi bi-chat-text me-1"></i> Message</button>
+              <button class="btn btn-light team-btn"><i class="bi bi-graph-up me-1"></i> View</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+  
+  <%- include("../utils/footer") %>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

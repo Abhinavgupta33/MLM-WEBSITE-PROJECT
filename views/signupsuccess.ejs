@@ -1,527 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Created Successfully</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>NexusSphere | Identity Verified | Welcome Aboard</title>
+
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
     <style>
         :root {
-            --primary-color: #3498db;
-            --success-color: #4CAF50;
-            --text-color: #2c3e50;
-            --secondary-text: #7f8c8d;
-            --light-bg: #f5f7fa;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --box-glow: rgba(76, 175, 80, 0.2);
+            --primary: #10b981;
+            --primary-glow: rgba(16, 185, 129, 0.4);
+            --bg-dark: #050a15;
+            --text-main: #eef2ff;
+            --glass-bg: rgba(10, 15, 12, 0.85);
+            --glass-border: rgba(16, 185, 129, 0.2);
+            --glass-shadow: rgba(0, 0, 0, 0.8);
+            --transition-elite: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            color: var(--text-color);
+            justify-content: center;
             overflow: hidden;
-            position: relative;
-            background: linear-gradient(135deg, var(--light-bg) 0%, #e4e8eb 100%);
         }
-        
-        /* Enhanced Animated Background Elements */
-        .bg-element {
-            position: absolute;
-            z-index: -1;
-            opacity: 0.08;
-            animation: float 25s infinite linear;
-            filter: blur(1px);
+
+        #constellationCanvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.5;
         }
-        
-        .bg-circle {
-            border-radius: 50%;
-            background: var(--primary-color);
+        .glow-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.1), transparent 60%);
+            filter: blur(80px);
         }
-        
-        .bg-triangle {
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            background: var(--success-color);
-        }
-        
-        .bg-square {
-            background: var(--primary-color);
-            transform: rotate(45deg);
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translateY(0) rotate(0deg) translateX(0);
-            }
-            50% {
-                transform: translateY(-100px) rotate(180deg) translateX(50px);
-            }
-            100% {
-                transform: translateY(0) rotate(360deg) translateX(0);
-            }
-        }
-        
-        /* Enhanced Success Card with Glass Morphism */
-        .success-container {
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 24px;
-            box-shadow: 0 15px 50px var(--shadow-color),
-                        0 0 0 1px rgba(255, 255, 255, 0.3) inset,
-                        0 0 30px var(--box-glow);
-            padding: 50px 40px;
-            text-align: center;
-            max-width: 520px;
-            width: 90%;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            transform: scale(0.95);
-            animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-        
-        .success-container:hover {
-            transform: scale(0.97) translateY(-5px);
-            box-shadow: 0 20px 60px var(--shadow-color),
-                        0 0 0 1px rgba(255, 255, 255, 0.4) inset,
-                        0 0 40px var(--box-glow);
-        }
-        
-        .success-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(76, 175, 80, 0.15) 0%, rgba(76, 175, 80, 0) 70%);
-            animation: pulse 6s ease-in-out infinite;
-            z-index: -1;
-        }
-        
-        .success-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
-            z-index: -1;
-            border-radius: inherit;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(0.8); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 0.2; }
-        }
-        
-        /* Enhanced Checkmark Animation */
-        .checkmark-container {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 25px;
-            perspective: 1000px;
-        }
-        
-        .checkmark-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(76, 175, 80, 0.05) 100%);
-            border-radius: 50%;
-            animation: scaleIn 0.8s ease-out forwards;
-            box-shadow: 0 0 0 10px rgba(76, 175, 80, 0.05),
-                        0 0 0 20px rgba(76, 175, 80, 0.03);
-        }
-        
-        .checkmark {
-            position: relative;
-            color: var(--success-color);
-            font-size: 60px;
-            line-height: 100px;
-            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-            text-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+
+        .container { width: 100%; max-width: 520px; padding: 1.5rem; z-index: 100; }
+
+        .success-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 4rem 3rem;
+            box-shadow: 0 40px 100px var(--glass-shadow);
             transform-style: preserve-3d;
+            perspective: 1200px;
+            position: relative;
+            text-align: center;
         }
-        
-        @keyframes scaleIn {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+
+        .icon-wrap { margin-bottom: 2rem; position: relative; }
+        .check-icon {
+            font-size: 5.5rem;
+            background: linear-gradient(135deg, var(--primary), #059669);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            filter: drop-shadow(0 0 25px var(--primary-glow));
         }
-        
-        /* Text Styles */
+
         h1 {
-            color: var(--text-color);
-            margin-bottom: 18px;
-            font-weight: 700;
-            font-size: 28px;
-            animation: fadeIn 0.8s ease-out 0.2s backwards;
-            position: relative;
-            display: inline-block;
+            font-size: 2.2rem; font-weight: 800; letter-spacing: -1px;
+            background: linear-gradient(135deg, #fff, #a7f3d0);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            margin-bottom: 1.2rem;
         }
-        
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--success-color));
-            border-radius: 3px;
-            animation: expand 0.8s ease-out 0.4s backwards;
-        }
-        
-        @keyframes expand {
-            0% { width: 0; opacity: 0; }
-            100% { width: 60px; opacity: 1; }
-        }
-        
-        p {
-            color: var(--secondary-text);
-            margin-bottom: 30px;
-            line-height: 1.6;
-            font-size: 16px;
-            animation: fadeIn 0.8s ease-out 0.4s backwards;
-        }
-        
-        /* Enhanced Button */
-        .btn {
-            background: linear-gradient(135deg, var(--primary-color) 0%, #2980b9 100%);
-            color: white;
-            border: none;
-            padding: 14px 32px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
+        p { color: #94a3b8; font-size: 1rem; line-height: 1.7; margin-bottom: 2.5rem; }
+
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), #065f46);
+            color: white; border: none; border-radius: 20px; padding: 1.3rem;
+            font-size: 1.1rem; font-weight: 700; cursor: pointer;
+            transition: var(--transition-elite);
+            display: flex; align-items: center; justify-content: center; gap: 1rem;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-            animation: fadeIn 0.8s ease-out 0.6s backwards;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px var(--primary-glow);
+            text-transform: uppercase; letter-spacing: 2px;
         }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
+        .btn-login:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(16, 185, 129, 0.6);
+            filter: brightness(1.1);
         }
-        
-        .btn:hover::before {
-            left: 100%;
+
+        .countdown-bar {
+            margin-top: 2rem; color: #4b5563; font-size: 0.9rem; font-weight: 600;
         }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        #seconds { color: var(--primary); font-weight: 800; }
+
+        .confetti-piece {
+            position: absolute; width: 8px; height: 8px; background: var(--primary);
+            border-radius: 2px; opacity: 0; z-index: -1;
         }
-        
-        .btn:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
+        @media (max-width: 767px) {
+            body { height: auto; min-height: 100vh; overflow-y: auto; padding: 1.5rem 0; }
+            .container { max-width: 100%; padding: 1rem; }
+            .success-card { border-radius: 28px; }
         }
-        
-        .btn i {
-            margin-right: 10px;
-            transition: transform 0.3s ease;
-        }
-        
-        .btn:hover i {
-            transform: translateX(3px);
-        }
-        
-        /* Links and Countdown */
-        .login-link {
-            margin-top: 25px;
-            font-size: 14px;
-            animation: fadeIn 0.8s ease-out 0.8s backwards;
-        }
-        
-        .login-link a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .login-link a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary-color), var(--success-color));
-            transition: width 0.3s ease;
-            border-radius: 1px;
-        }
-        
-        .login-link a:hover::after {
-            width: 100%;
-        }
-        
-        .countdown {
-            margin-top: 20px;
-            color: var(--secondary-text);
-            font-size: 14px;
-            animation: fadeIn 0.8s ease-out 1s backwards;
-        }
-        
-        /* Enhanced Confetti Animation */
-        .confetti {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            opacity: 0;
-            z-index: -1;
-            animation: confettiFall 5s ease-in-out infinite;
-            filter: drop-shadow(0 0 5px rgba(0,0,0,0.1));
-        }
-        
-        @keyframes confettiFall {
-            0% {
-                transform: translateY(-100px) rotate(0deg) scale(0.5);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg) scale(1);
-                opacity: 0;
-            }
-        }
-        
-        /* Floating Particles with More Variety */
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            animation: floatParticle 15s infinite linear;
-            z-index: -1;
-            filter: blur(0.5px);
-        }
-        
-        @keyframes floatParticle {
-            0%, 100% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-            25% {
-                transform: translate(50px, -30px) rotate(90deg);
-            }
-            50% {
-                transform: translate(0, -60px) rotate(180deg);
-            }
-            75% {
-                transform: translate(-50px, -30px) rotate(270deg);
-            }
-        }
-        
-        /* New Background Grid Animation */
-        .grid-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            opacity: 0.03;
-            background-image: 
-                linear-gradient(rgba(52, 152, 219, 0.5) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(52, 152, 219, 0.5) 1px, transparent 1px);
-            background-size: 40px 40px;
-            animation: gridMove 60s linear infinite;
-        }
-        
-        @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 1000px 1000px; }
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 600px) {
-            .success-container {
-                padding: 30px 20px;
-                border-radius: 18px;
-            }
-            
-            h1 {
-                font-size: 24px;
-            }
-            
-            p {
-                font-size: 15px;
-            }
-            
-            .btn {
-                padding: 12px 24px;
-                font-size: 15px;
-            }
-            
-            .checkmark-container {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .checkmark {
-                font-size: 50px;
-                line-height: 80px;
-            }
+        @media (max-width: 480px) {
+            .success-card { padding: 2.5rem 1.2rem; border-radius: 22px; }
+            h1 { font-size: 1.6rem; }
+            .check-icon { font-size: 3.5rem; }
+            .btn-login { font-size: 1rem; padding: 1rem; }
         }
     </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
+
 <body>
-    <!-- Background Grid Animation -->
-    <div class="grid-bg"></div>
-    
-    <!-- Enhanced Animated background elements -->
-    <div class="bg-element bg-circle" style="width: 300px; height: 300px; top: -150px; left: -150px; animation-duration: 30s;"></div>
-    <div class="bg-element bg-triangle" style="width: 200px; height: 200px; bottom: -100px; right: -100px; animation-duration: 25s; animation-delay: 5s;"></div>
-    <div class="bg-element bg-square" style="width: 150px; height: 150px; top: 30%; right: 20%; animation-duration: 35s; animation-delay: 10s;"></div>
-    <div class="bg-element bg-circle" style="width: 250px; height: 250px; bottom: 10%; left: 20%; animation-duration: 40s; animation-delay: 15s;"></div>
-    
-    <!-- Floating particles -->
-    <div id="particles-container"></div>
-    
-    <!-- Confetti elements -->
-    <div id="confetti-container"></div>
-    
-    <!-- Enhanced Success content container -->
-    <div class="success-container">
-        <div class="checkmark-container">
-            <div class="checkmark-bg"></div>
-            <div class="checkmark">✓</div>
-        </div>
-        <h1>Account Created Successfully!</h1>
-        <p>Thank you for signing up. Your account has been successfully created. A verification email has been sent to your registered email address. Please verify your email to complete the registration process.</p>
-        
-        <a href="/" class="btn">
-            <i class="fas fa-sign-in-alt"></i> Go to Login Page
-        </a>
-        
-        <div class="countdown">You will be automatically redirected in <span id="countdown">10</span> seconds...</div>
-        
-        <div class="login-link">
-            Didn't receive verification email? <a href="#">Resend Email</a>
+    <canvas id="constellationCanvas"></canvas>
+    <div class="glow-overlay"></div>
+
+    <div class="container">
+        <div class="success-card" id="tiltCard">
+            <div class="icon-wrap" id="magIcon">
+                <i class="fas fa-check-circle check-icon"></i>
+            </div>
+            <h1>Registry Complete</h1>
+            <p>Welcome to NexusSphere Elite. Your identity has been successfully encrypted and broadcast to the network.</p>
+
+            <a href="/" class="btn-login" id="loginBtn">
+                <i class="fas fa-portal-enter"></i> Enter Portal
+            </a>
+
+            <div class="countdown-bar">
+                Neural bypass active. Automatic redirection in <span id="seconds">10</span> seconds...
+            </div>
         </div>
     </div>
 
     <script>
-        // Countdown and redirect function
-        function startCountdown() {
-            let seconds = 10;
-            const countdownElement = document.getElementById('countdown');
-            
-            const countdownInterval = setInterval(() => {
-                seconds--;
-                countdownElement.textContent = seconds;
-                
-                if (seconds <= 0) {
-                    clearInterval(countdownInterval);
-                    window.location.href = "/"; // Redirect to home page
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('constellationCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: null, y: null, radius: 150 };
+            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
+            window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1; this.baseX = this.x; this.baseY = this.y;
+                    this.density = (Math.random() * 30) + 1;
+                }
+                draw() { ctx.fillStyle = 'rgba(16, 185, 129, 0.4)'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+                update() {
+                    let dx = mouse.x - this.x; let dy = mouse.y - this.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < mouse.radius) {
+                        let force = (mouse.radius - dist) / mouse.radius;
+                        this.x -= (dx/dist) * force * this.density;
+                        this.y -= (dy/dist) * force * this.density;
+                    } else {
+                        this.x -= (this.x - this.baseX) / 10; this.y -= (this.y - this.baseY) / 10;
+                    }
+                }
+            }
+            function init() { for(let i=0; i<80; i++) particles.push(new Particle()); }
+            function animate() {
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                particles.forEach(p => { p.draw(); p.update(); });
+                connect(); requestAnimationFrame(animate);
+            }
+            function connect() {
+                for(let a=0; a<particles.length; a++) {
+                    for(let b=a; b<particles.length; b++) {
+                        let dist = Math.sqrt(Math.pow(particles[a].x - particles[b].x, 2) + Math.pow(particles[a].y - particles[b].y, 2));
+                        if(dist < 120) {
+                            ctx.strokeStyle = `rgba(16,185,129,${(1 - dist/120) * 0.1})`;
+                            ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(particles[b].x, particles[b].y); ctx.stroke();
+                        }
+                    }
+                }
+            }
+            init(); animate();
+
+            const card = document.getElementById('tiltCard');
+            card.addEventListener('mousemove', (e) => {
+                const r = card.getBoundingClientRect();
+                const x = (e.clientX - r.left)/r.width - 0.5;
+                const y = (e.clientY - r.top)/r.height - 0.5;
+                gsap.to(card, { rotateX: -y * 10, rotateY: x * 10, duration: 0.5 });
+            });
+            card.addEventListener('mouseleave', () => gsap.to(card, { rotateX: 0, rotateY: 0, duration: 1, ease: 'elastic.out' }));
+
+            const targets = [
+                { el: document.getElementById('magIcon'), s: 0.3 },
+                { el: document.getElementById('loginBtn'), s: 0.15 }
+            ];
+            document.addEventListener('mousemove', (e) => {
+                targets.forEach(t => {
+                    const r = t.el.getBoundingClientRect();
+                    const dx = e.clientX - (r.left + r.width/2);
+                    const dy = e.clientY - (r.top + r.height/2);
+                    if(Math.sqrt(dx*dx + dy*dy) < 150) {
+                        gsap.to(t.el, { x: dx*t.s, y: dy*t.s, duration: 0.6 });
+                    } else { gsap.to(t.el, { x: 0, y: 0, duration: 1 }); }
+                });
+            });
+
+            // Countdown Logic
+            let secondsLeft = 10;
+            const secSpan = document.getElementById('seconds');
+            const timer = setInterval(() => {
+                secondsLeft--;
+                secSpan.innerText = secondsLeft;
+                if(secondsLeft <= 0) {
+                    clearInterval(timer);
+                    window.location.href = '/';
                 }
             }, 1000);
-        }
-        
-        // Create enhanced confetti elements
-        function createConfetti() {
-            const container = document.getElementById('confetti-container');
-            const colors = ['#4CAF50', '#3498db', '#f1c40f', '#e74c3c', '#9b59b6'];
-            
-            for (let i = 0; i < 120; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.animationDelay = Math.random() * 5 + 's';
-                confetti.style.animationDuration = 3 + Math.random() * 7 + 's';
-                
-                // Random shapes
-                const shapeType = Math.floor(Math.random() * 3);
-                if (shapeType === 0) {
-                    confetti.style.borderRadius = '50%';
-                } else if (shapeType === 1) {
-                    confetti.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
-                    confetti.style.borderRadius = '20%';
-                } else {
-                    confetti.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
-                }
-                
-                // Random size
-                const size = 5 + Math.random() * 15;
-                confetti.style.width = size + 'px';
-                confetti.style.height = size + 'px';
-                
-                container.appendChild(confetti);
+
+            // Celebration Confetti
+            for(let i=0; i<30; i++) {
+                const p = document.createElement('div');
+                p.className = 'confetti-piece';
+                document.body.appendChild(p);
+                gsap.set(p, { x: window.innerWidth/2, y: window.innerHeight/2, scale: Math.random() });
+                gsap.to(p, {
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    opacity: 1, duration: 2, ease: 'power4.out',
+                    rotation: Math.random() * 360,
+                    delay: 0.2
+                });
+                gsap.to(p, { y: '+=100', opacity: 0, duration: 3, delay: 2 });
             }
-        }
-        
-        // Create floating particles with more variety
-        function createParticles() {
-            const container = document.getElementById('particles-container');
-            const colors = ['rgba(76, 175, 80, 0.3)', 'rgba(52, 152, 219, 0.3)', 'rgba(241, 196, 15, 0.3)'];
-            
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.top = Math.random() * 100 + 'vh';
-                
-                // Random size and shape
-                if (Math.random() > 0.5) {
-                    const size = 5 + Math.random() * 20;
-                    particle.style.width = size + 'px';
-                    particle.style.height = size + 'px';
-                    particle.style.borderRadius = '50%';
-                } else {
-                    particle.style.width = (3 + Math.random() * 5) + 'px';
-                    particle.style.height = (20 + Math.random() * 30) + 'px';
-                    particle.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
-                }
-                
-                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.opacity = 0.1 + Math.random() * 0.3;
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = 10 + Math.random() * 20 + 's';
-                
-                container.appendChild(particle);
-            }
-        }
-        
-        // Start animations when the page loads
-        window.onload = function() {
-            startCountdown();
-            createConfetti();
-            createParticles();
-            
-            // Add slight delay to checkmark animation for better effect
-            setTimeout(() => {
-                document.querySelector('.checkmark').style.animation = 'bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
-            }, 300);
-        };
+
+            gsap.from(card, { scale: 0.5, opacity: 0, duration: 1.5, ease: 'expo.out' });
+        });
     </script>
 </body>
 </html>

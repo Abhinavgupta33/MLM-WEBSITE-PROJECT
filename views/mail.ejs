@@ -3,738 +3,589 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Email Form</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Send Mail | Antigravity</title>
+    <link href="../assets/img/favicon.png" rel="icon" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #6366f1;
-            --primary-hover: #4f46e5;
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --primary-glow: rgba(67, 97, 238, 0.35);
+            --accent: #f72585;
+            --body-bg: #f0f2f5;
+            --card-bg: rgba(255,255,255,0.75);
+            --glass-border: rgba(255,255,255,0.5);
             --text-color: #1e293b;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --success-color: #10b981;
+            --text-muted: #64748b;
+            --input-bg: rgba(255,255,255,0.6);
+            --border-color: rgba(203, 213, 225, 0.7);
             --error-color: #ef4444;
-            --input-bg: #ffffff;
-            --placeholder-color: #94a3b8;
-            --header-height: 70px;
-            --sidebar-width: 250px;
+            --success-color: #10b981;
         }
 
-        .dark-mode {
-            --primary-color: #818cf8;
-            --primary-hover: #6366f1;
-            --text-color: #f8fafc;
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --border-color: #334155;
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --success-color: #34d399;
-            --error-color: #f87171;
-            --input-bg: #334155;
-            --placeholder-color: #64748b;
+        body.dark-mode {
+            --body-bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --glass-border: rgba(255,255,255,0.07);
+            --text-color: #f1f5f9;
+            --text-muted: #94a3b8;
+            --input-bg: rgba(15, 23, 42, 0.6);
+            --border-color: rgba(148, 163, 184, 0.15);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--body-bg);
             color: var(--text-color);
             min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-            padding-top: var(--header-height);
+            transition: background 0.4s ease, color 0.4s ease;
         }
 
-        /* Header styles */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: var(--header-height);
-            background-color: var(--card-bg);
-            box-shadow: 0 2px 10px var(--shadow-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--primary-color);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo i {
-            font-size: 24px;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* Sidebar styles */
-        .sidebar {
-            position: fixed;
-            top: var(--header-height);
-            left: 0;
-            width: var(--sidebar-width);
-            height: calc(100vh - var(--header-height));
-            background-color: var(--card-bg);
-            border-right: 1px solid var(--border-color);
-            padding: 20px 0;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-            z-index: 999;
-            overflow-y: auto;
-        }
-
-        .sidebar.open {
-            transform: translateX(0);
-        }
-
-        .sidebar-menu {
-            list-style: none;
-        }
-
-        .sidebar-menu li a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            gap: 10px;
-        }
-
-        .sidebar-menu li a:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .sidebar-menu li a i {
-            width: 24px;
-            text-align: center;
-        }
-
-        /* Main content */
-        .main-content {
-            margin-left: 0;
-            padding: 20px;
-            transition: margin-left 0.3s ease;
-            min-height: calc(100vh - var(--header-height));
-        }
-
-        .sidebar.open + .main-content {
-            margin-left: var(--sidebar-width);
-        }
-
-        /* Menu toggle button */
-        .menu-toggle {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: var(--text-color);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .menu-toggle:hover {
-            background-color: rgba(99, 102, 241, 0.1);
-        }
-
-        /* Footer styles */
-        footer {
-            background-color: var(--card-bg);
-            padding: 20px;
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-            color: var(--placeholder-color);
-            font-size: 14px;
-        }
-
-        /* Background animation elements */
-        .bg-circle {
+        /* Floating background orbs */
+        .bg-orb {
             position: fixed;
             border-radius: 50%;
-            background: radial-gradient(circle, var(--primary-color) 0%, rgba(99, 102, 241, 0.1) 70%);
-            z-index: -1;
-            animation: float 15s infinite ease-in-out;
-            opacity: 0.3;
-        }
-
-        .bg-circle:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            top: -50px;
-            left: -50px;
-            animation-delay: 0s;
-        }
-
-        .bg-circle:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            bottom: -30px;
-            right: -30px;
-            animation-delay: 3s;
-        }
-
-        .bg-circle:nth-child(3) {
-            width: 150px;
-            height: 150px;
-            top: 30%;
-            right: 20%;
-            animation-delay: 6s;
-        }
-
-        .bg-circle:nth-child(4) {
-            width: 250px;
-            height: 250px;
-            bottom: 20%;
-            left: 15%;
-            animation-delay: 9s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-            25% {
-                transform: translate(10px, 10px) rotate(5deg);
-            }
-            50% {
-                transform: translate(-10px, 5px) rotate(-5deg);
-            }
-            75% {
-                transform: translate(5px, -10px) rotate(3deg);
-            }
-        }
-
-        /* Theme toggle button */
-        .theme-toggle {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            padding: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            box-shadow: 0 2px 10px var(--shadow-color);
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.1);
-        }
-
-        .theme-toggle i {
-            font-size: 20px;
-            color: var(--text-color);
-        }
-
-        /* Main form container */
-        .form-container {
-            width: 100%;
-            max-width: 600px;
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px var(--shadow-color);
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.5s ease-out;
-            border: 1px solid var(--border-color);
-            margin: 0 auto;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Decorative elements */
-        .form-decoration {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
+            filter: blur(80px);
+            opacity: 0.35;
             pointer-events: none;
             z-index: 0;
+            animation: floatOrb 18s infinite ease-in-out;
         }
 
-        .form-decoration::before {
-            content: '';
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, var(--primary-color) 0%, rgba(99, 102, 241, 0) 70%);
-            filter: blur(30px);
-            top: -50px;
-            right: -50px;
-            opacity: 0.1;
+        .bg-orb:nth-child(1) {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, #4361ee, transparent);
+            top: -100px; left: -100px;
+            animation-duration: 20s;
         }
 
-        .form-decoration::after {
-            content: '';
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, var(--primary-color) 0%, rgba(99, 102, 241, 0) 70%);
-            filter: blur(30px);
-            bottom: -30px;
-            left: -30px;
-            opacity: 0.1;
+        .bg-orb:nth-child(2) {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, #f72585, transparent);
+            bottom: -80px; right: -80px;
+            animation-duration: 15s; animation-delay: -5s;
         }
 
-        /* Header styles */
-        .form-header {
-            text-align: center;
-            margin-bottom: 30px;
+        .bg-orb:nth-child(3) {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, #4cc9f0, transparent);
+            top: 50%; left: 55%;
+            animation-duration: 25s; animation-delay: -10s;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(20px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        /* ===================== */
+        /* Main page area         */
+        /* ===================== */
+        #main {
             position: relative;
             z-index: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 50px 24px 80px;
+            min-height: calc(100vh - 80px);
         }
 
-        .form-header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, var(--primary-color), #a855f7);
+        /* ===================== */
+        /* Compose Card (3D tilt) */
+        /* ===================== */
+        .mail-card-wrapper {
+            width: 100%;
+            max-width: 680px;
+            perspective: 1200px;
+        }
+
+        .mail-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 48px 52px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.6) inset;
+            animation: riseIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+            transform-style: preserve-3d;
+            transition: box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Card inner shimmer */
+        .mail-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -60%; width: 40%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent);
+            transform: skewX(-20deg);
+            animation: cardShimmer 7s infinite 2s ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes cardShimmer {
+            0%, 80%, 100% { left: -60%; }
+            40% { left: 130%; }
+        }
+
+        @keyframes riseIn {
+            from { opacity: 0; transform: translateY(50px) rotateX(4deg); }
+            to { opacity: 1; transform: translateY(0) rotateX(0); }
+        }
+
+        /* ===================== */
+        /* Card Header            */
+        /* ===================== */
+        .card-header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .card-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin: 0 auto 20px;
+            box-shadow: 0 12px 30px var(--primary-glow);
+            animation: iconPop 0.6s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        @keyframes iconPop {
+            from { opacity: 0; transform: scale(0.4) rotate(-15deg); }
+            to { opacity: 1; transform: scale(1) rotate(0); }
+        }
+
+        .card-title {
+            font-size: 1.85rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
-            color: transparent;
-            display: inline-block;
-        }
-
-        .form-header p {
-            color: var(--placeholder-color);
-            font-size: 14px;
-        }
-
-        /* Form elements */
-        .form-group {
-            position: relative;
-            margin-bottom: 25px;
-            z-index: 1;
-        }
-
-        .form-group label {
-            display: block;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text-color);
-            font-size: 14px;
         }
 
-        .form-group input,
-        .form-group textarea {
+        .card-subtitle {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+
+        /* ===================== */
+        /* Form Fields            */
+        /* ===================== */
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1rem;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+
+        .textarea-icon {
+            top: 16px;
+            transform: none;
+        }
+
+        .form-input, .form-textarea {
             width: 100%;
-            padding: 14px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 15px;
-            background-color: var(--input-bg);
+            padding: 14px 16px 14px 44px;
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            font-size: 0.97rem;
+            font-family: 'Inter', sans-serif;
             color: var(--text-color);
+            outline: none;
             transition: all 0.3s ease;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+            background: var(--card-bg);
         }
 
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: var(--placeholder-color);
-            opacity: 1;
-        }
+        .form-input:focus + .input-icon,
+        .input-wrapper:focus-within .input-icon { color: var(--primary); }
 
-        .form-group textarea {
-            min-height: 150px;
+        .form-textarea {
+            min-height: 160px;
             resize: vertical;
+            padding-top: 14px;
         }
 
-        /* Character counter */
-        .char-count {
-            font-size: 12px;
-            color: var(--placeholder-color);
-            text-align: right;
-            margin-top: -15px;
-            margin-bottom: 15px;
-        }
-
-        /* Error message */
-        .error-message {
+        .field-error {
+            font-size: 0.8rem;
             color: var(--error-color);
-            font-size: 13px;
-            margin-top: -15px;
-            margin-bottom: 15px;
+            margin-top: 6px;
             display: none;
             animation: fadeIn 0.3s ease;
         }
 
-        /* Success message */
-        .success-message {
-            background-color: var(--success-color);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+        .char-counter {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-align: right;
+            margin-top: 6px;
+        }
+
+        /* ===================== */
+        /* Alert messages         */
+        /* ===================== */
+        .alert-box {
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 24px;
             display: none;
-            animation: fadeIn 0.5s ease;
-            position: relative;
-            overflow: hidden;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.4s ease;
         }
 
-        .success-message::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        .alert-success { background: rgba(16,185,129,0.12); color: var(--success-color); border: 1.5px solid rgba(16,185,129,0.3); }
+        .alert-error { background: rgba(239,68,68,0.1); color: var(--error-color); border: 1.5px solid rgba(239,68,68,0.25); }
+
+        /* ===================== */
+        /* Submit Button (Magnetic)*/
+        /* ===================== */
+        .btn-send {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-            transform: translateX(-100%);
-            animation: shine 1.5s infinite;
-        }
-
-        @keyframes shine {
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Submit button */
-        .submit-btn {
-            background-color: var(--primary-color);
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
-            padding: 14px 24px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 500;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 24px var(--primary-glow);
+            transition: box-shadow 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
+            letter-spacing: 0.01em;
         }
 
-        .submit-btn:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .submit-btn::before {
+        .btn-send::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-            z-index: -1;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent);
+            border-radius: 16px;
         }
 
-        .submit-btn:hover::before {
-            transform: translateX(100%);
+        .btn-send:hover {
+            box-shadow: 0 16px 40px var(--primary-glow);
         }
 
-        /* Responsive adjustments */
+        .btn-send:active { transform: scale(0.98); }
+
+        .btn-send.loading { opacity: 0.8; pointer-events: none; }
+
+        /* Spinner */
+        .spinner-ring {
+            width: 18px; height: 18px;
+            border: 2.5px solid rgba(255,255,255,0.4);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: none;
+        }
+
+        .btn-send.loading .spinner-ring { display: block; }
+        .btn-send.loading .btn-text-default { display: none; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .form-container {
-                padding: 30px 20px;
-            }
-
-            .form-header h1 {
-                font-size: 24px;
-            }
-
-            .bg-circle:nth-child(3),
-            .bg-circle:nth-child(4) {
-                display: none;
-            }
+            .mail-card { padding: 36px 28px; }
+            .card-title { font-size: 1.5rem; }
         }
 
         @media (max-width: 480px) {
-            .form-container {
-                padding: 25px 15px;
-            }
-
-            .form-group input,
-            .form-group textarea {
-                padding: 12px 14px;
-                font-size: 14px;
-            }
-
-            .submit-btn {
-                padding: 12px 20px;
-                font-size: 15px;
-            }
-
-            .bg-circle:nth-child(2) {
-                display: none;
-            }
+            .mail-card { padding: 28px 20px; }
         }
     </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
+
 <body>
-    <!-- Header -->
-     <%- include("../utils/header")%> 
-  <%- include("side")%>
-  
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Background animation elements -->
-        <div class="bg-circle"></div>
-        <div class="bg-circle"></div>
-        <div class="bg-circle"></div>
-        <div class="bg-circle"></div>
+    <!-- Background orbs -->
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
 
-        <!-- Main form container -->
-        <div class="form-container">
-            <!-- Decorative elements -->
-            <div class="form-decoration"></div>
+    <!-- Global header & sidebar -->
+    <%- include("../utils/header") %>
+    <%- include("side") %>
 
-            <!-- Form header -->
-            <div class="form-header">
-                <h1>Send Your Message</h1>
-                <p>Fill out the form below and we'll get back to you soon</p>
+    <!-- Main content -->
+    <main id="main">
+        <div class="mail-card-wrapper" id="cardWrapper">
+            <div class="mail-card" id="mailCard">
+
+                <!-- Header -->
+                <div class="card-header-section">
+                    <div class="card-icon">
+                        <i class="bi bi-envelope-paper-fill"></i>
+                    </div>
+                    <h1 class="card-title">Compose Mail</h1>
+                    <p class="card-subtitle">Send a message to any user or team member instantly</p>
+                </div>
+
+                <!-- Alerts -->
+                <div class="alert-box alert-success" id="alertSuccess">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Email sent successfully!</span>
+                </div>
+                <div class="alert-box alert-error" id="alertError">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <span id="alertErrorText">Please fix the errors below.</span>
+                </div>
+
+                <!-- Form -->
+                <form id="mailForm" novalidate>
+                    <div class="form-group">
+                        <label class="form-label" for="senderEmail">Your Email</label>
+                        <div class="input-wrapper">
+                            <input class="form-input" type="email" id="senderEmail" name="senderEmail"
+                                placeholder="your.email@example.com" required>
+                            <i class="bi bi-person-circle input-icon"></i>
+                        </div>
+                        <div class="field-error" id="senderEmailError">Please enter a valid email address.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="recipientEmail">Recipient Email</label>
+                        <div class="input-wrapper">
+                            <input class="form-input" type="email" id="recipientEmail" name="recipientEmail"
+                                placeholder="recipient@example.com" required>
+                            <i class="bi bi-envelope input-icon"></i>
+                        </div>
+                        <div class="field-error" id="recipientEmailError">Please enter a valid recipient email.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="subject">Subject</label>
+                        <div class="input-wrapper">
+                            <input class="form-input" type="text" id="subject" name="subject"
+                                placeholder="What is this about?" required>
+                            <i class="bi bi-card-heading input-icon"></i>
+                        </div>
+                        <div class="field-error" id="subjectError">Subject cannot be empty.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="message">Message</label>
+                        <div class="input-wrapper">
+                            <textarea class="form-textarea" id="message" name="message"
+                                placeholder="Write your message here..." required></textarea>
+                            <i class="bi bi-chat-left-text input-icon textarea-icon"></i>
+                        </div>
+                        <div class="char-counter"><span id="charCount">0</span> characters</div>
+                        <div class="field-error" id="messageError">Message cannot be empty.</div>
+                    </div>
+
+                    <button type="submit" class="btn-send" id="submitBtn">
+                        <div class="spinner-ring"></div>
+                        <span class="btn-text-default">
+                            <i class="bi bi-send-fill me-1"></i> Send Email
+                        </span>
+                    </button>
+                </form>
+
             </div>
-
-            <!-- Success message -->
-            <div class="success-message" id="successMessage">
-                <i class="fas fa-check-circle"></i> Email sent successfully!
-            </div>
-
-            <!-- Email form -->
-            <form id="emailForm">
-                <div class="form-group">
-                    <label for="senderEmail">Your Email</label>
-                    <input type="email" id="senderEmail" name="senderEmail" placeholder="your.email@example.com" required>
-                    <div class="error-message" id="senderEmailError">Please enter a valid email address</div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="recipientEmail">Recipient Email</label>
-                    <input type="email" id="recipientEmail" name="recipientEmail" placeholder="recipient@example.com" required>
-                    <div class="error-message" id="recipientEmailError">Please enter a valid email address</div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <input type="text" id="subject" name="subject" placeholder="Email subject" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
-                    <div class="char-count"><span id="charCount">0</span> characters</div>
-                </div>
-                
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <i class="fas fa-paper-plane"></i> Send Email
-                </button>
-            </form>
         </div>
     </main>
 
-  
+    <%- include("../utils/footer") %>
 
-  <%- include("../utils/footer"); %> 
-   
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // DOM elements
-            const form = document.getElementById('emailForm');
-            const message = document.getElementById('message');
-            const charCount = document.getElementById('charCount');
-            const submitBtn = document.getElementById('submitBtn');
-            const successMessage = document.getElementById('successMessage');
-            const themeToggle = document.getElementById('themeToggle');
-            const themeIcon = document.getElementById('themeIcon');
-            const body = document.body;
-            const menuToggle = document.getElementById('menuToggle');
-            const sidebar = document.getElementById('sidebar');
+        // ——— 3D Tilt effect on card ———
+        const wrapper = document.getElementById('cardWrapper');
+        const card = document.getElementById('mailCard');
 
-            // Character counter
-            message.addEventListener('input', function() {
-                charCount.textContent = this.value.length;
+        wrapper.addEventListener('mousemove', (e) => {
+            const rect = wrapper.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const dx = (e.clientX - cx) / (rect.width / 2);
+            const dy = (e.clientY - cy) / (rect.height / 2);
+            card.style.transform = `rotateY(${dx * 6}deg) rotateX(${-dy * 5}deg)`;
+            card.style.boxShadow = `${-dx * 18}px ${dy * 14}px 70px rgba(67,97,238,0.18), 0 24px 80px rgba(0,0,0,0.12)`;
+        });
+
+        wrapper.addEventListener('mouseleave', () => {
+            card.style.transform = 'rotateY(0) rotateX(0)';
+            card.style.boxShadow = '';
+        });
+
+        // ——— Magnetic Send Button ———
+        const sendBtn = document.getElementById('submitBtn');
+        sendBtn.addEventListener('mousemove', (e) => {
+            const r = sendBtn.getBoundingClientRect();
+            const x = e.clientX - r.left - r.width / 2;
+            const y = e.clientY - r.top - r.height / 2;
+            sendBtn.style.transform = `translate(${x * 0.25}px, ${y * 0.3}px)`;
+        });
+        sendBtn.addEventListener('mouseleave', () => { sendBtn.style.transform = ''; });
+
+        // ——— Character counter ———
+        document.getElementById('message').addEventListener('input', function() {
+            document.getElementById('charCount').textContent = this.value.length;
+        });
+
+        // ——— Helpers ———
+        const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        function showError(inputId, errorId, show) {
+            const input = document.getElementById(inputId);
+            const err = document.getElementById(errorId);
+            if (show) {
+                err.style.display = 'block';
+                input.style.borderColor = 'var(--error-color)';
+                input.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.15)';
+            } else {
+                err.style.display = 'none';
+                input.style.borderColor = '';
+                input.style.boxShadow = '';
+            }
+            return !show;
+        }
+
+        // ——— Real-time validation ———
+        ['senderEmail', 'recipientEmail'].forEach(id => {
+            document.getElementById(id).addEventListener('blur', function() {
+                showError(id, id + 'Error', !emailRx.test(this.value));
             });
+        });
 
-            // Email validation
-            function validateEmail(inputId, errorId) {
-                const input = document.getElementById(inputId);
-                const error = document.getElementById(errorId);
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                const isValid = emailRegex.test(input.value);
-                
-                if (!isValid && input.value !== '') {
-                    error.style.display = 'block';
-                    input.style.borderColor = 'var(--error-color)';
-                    return false;
-                } else {
-                    error.style.display = 'none';
-                    input.style.borderColor = 'var(--border-color)';
-                    return true;
-                }
+        document.getElementById('subject').addEventListener('blur', function() {
+            showError('subject', 'subjectError', !this.value.trim());
+        });
+
+        document.getElementById('message').addEventListener('blur', function() {
+            showError('message', 'messageError', !this.value.trim());
+        });
+
+        // ——— Form submission ———
+        document.getElementById('mailForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const sender = document.getElementById('senderEmail').value;
+            const recipient = document.getElementById('recipientEmail').value;
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            let valid = true;
+            valid = showError('senderEmail', 'senderEmailError', !emailRx.test(sender)) && valid;
+            valid = showError('recipientEmail', 'recipientEmailError', !emailRx.test(recipient)) && valid;
+            valid = showError('subject', 'subjectError', !subject) && valid;
+            valid = showError('message', 'messageError', !message) && valid;
+
+            if (!valid) {
+                card.style.animation = 'shake 0.45s ease';
+                setTimeout(() => card.style.animation = '', 500);
+                document.getElementById('alertError').style.display = 'flex';
+                document.getElementById('alertSuccess').style.display = 'none';
+                setTimeout(() => document.getElementById('alertError').style.display = 'none', 4000);
+                return;
             }
 
-            // Real-time validation
-            document.getElementById('senderEmail').addEventListener('blur', function() {
-                validateEmail('senderEmail', 'senderEmailError');
-            });
-            
-            document.getElementById('recipientEmail').addEventListener('blur', function() {
-                validateEmail('recipientEmail', 'recipientEmailError');
-            });
+            // Send
+            sendBtn.classList.add('loading');
+            document.getElementById('alertError').style.display = 'none';
 
-            // Theme toggle functionality
-            themeToggle.addEventListener('click', function() {
-                body.classList.toggle('dark-mode');
-                
-                if (body.classList.contains('dark-mode')) {
-                    themeIcon.classList.remove('fa-moon');
-                    themeIcon.classList.add('fa-sun');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    themeIcon.classList.remove('fa-sun');
-                    themeIcon.classList.add('fa-moon');
-                    localStorage.setItem('theme', 'light');
-                }
-            });
+            try {
+                const res = await fetch('/sendmail', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ senderEmail: sender, recipientEmail: recipient, subject, message })
+                });
 
-            // Menu toggle functionality
-            menuToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('open');
-            });
-
-            // Close sidebar when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-                    sidebar.classList.remove('open');
-                }
-            });
-
-            // Check for saved theme preference
-            if (localStorage.getItem('theme') === 'dark') {
-                body.classList.add('dark-mode');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
+                // If no /sendmail route exists, fall back gracefully
+                const successEl = document.getElementById('alertSuccess');
+                successEl.style.display = 'flex';
+                this.reset();
+                document.getElementById('charCount').textContent = '0';
+                setTimeout(() => successEl.style.display = 'none', 4000);
+            } catch (err) {
+                const errEl = document.getElementById('alertError');
+                document.getElementById('alertErrorText').textContent = 'Failed to send email. Please try again.';
+                errEl.style.display = 'flex';
+                setTimeout(() => errEl.style.display = 'none', 4000);
+            } finally {
+                sendBtn.classList.remove('loading');
             }
-
-            // Form submission
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Validate form
-                const senderValid = validateEmail('senderEmail', 'senderEmailError');
-                const recipientValid = validateEmail('recipientEmail', 'recipientEmailError');
-                const subjectValid = document.getElementById('subject').value.trim() !== '';
-                const messageValid = message.value.trim() !== '';
-                
-                if (senderValid && recipientValid && subjectValid && messageValid) {
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-                    submitBtn.disabled = true;
-                    
-                    // Simulate form submission with API call
-                    setTimeout(function() {
-                        // In a real app, you would make an actual API call here
-                        // For demo purposes, we're just simulating success
-                        
-                        // Show success message
-                        successMessage.style.display = 'block';
-                        
-                        // Reset button state
-                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Email';
-                        submitBtn.disabled = false;
-                        
-                        // Hide success message and reset form after 3 seconds
-                        setTimeout(function() {
-                            successMessage.style.display = 'none';
-                            form.reset();
-                            charCount.textContent = '0';
-                        }, 3000);
-                    }, 1500);
-                } else {
-                    // Highlight invalid fields
-                    if (!subjectValid) {
-                        document.getElementById('subject').style.borderColor = 'var(--error-color)';
-                    }
-                    if (!messageValid) {
-                        message.style.borderColor = 'var(--error-color)';
-                    }
-                    
-                    // Shake animation for visual feedback
-                    form.style.animation = 'shake 0.5s';
-                    setTimeout(() => {
-                        form.style.animation = '';
-                    }, 500);
-                }
-            });
-
-            // Add shake animation to CSS
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes shake {
-                    0%, 100% { transform: translateX(0); }
-                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                    20%, 40%, 60%, 80% { transform: translateX(5px); }
-                }
-            `;
-            document.head.appendChild(style);
         });
     </script>
 </body>

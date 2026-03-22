@@ -22,26 +22,33 @@
     />
    
     <style>
-      /* Custom styles to prevent overlap */
       #main {
-        margin-left: 280px; /* Match sidebar width */
-        padding-top: 60px; /* Match header height */
+        margin-left: var(--sidebar-width, 280px);
+        padding-top: calc(var(--header-height, 80px) + 20px);
         transition: all 0.3s;
       }
       
-      .pagetitle {
-        padding-left: 20px;
-      }
+      .pagetitle { padding-left: 20px; }
       
       .filter-container {
-        margin-left: 20px;
-        margin-right: 20px;
+        margin: 0 15px;
+      }
+
+      /* Table horizontal scroll */
+      .card[style*="overflow-x"] { overflow-x: auto !important; }
+      table.table { min-width: 900px; }
+      
+      @media (max-width: 991px) {
+        #main { margin-left: 0 !important; padding-top: calc(var(--header-height, 80px) + 15px); }
+        .filter-container { margin: 0 10px; }
       }
       
-      @media (max-width: 992px) {
-        #main {
-          margin-left: 80px;
-        }
+      @media (max-width: 576px) {
+        .pagetitle { padding-left: 10px; }
+        .filter-container { margin: 0 5px; }
+        .filter-container .col-md-4 { flex: 0 0 100%; max-width: 100%; margin-bottom: 10px; }
+        table td, table th { font-size: 0.75rem; padding: 6px 4px; }
+        .btn { font-size: 0.75rem; padding: 4px 6px; }
       }
     </style>
 
@@ -50,7 +57,21 @@
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"
     ></script>
-  </head>
+  
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
+</head>
 
   <body>
     <%- include("../utils/header")%> 

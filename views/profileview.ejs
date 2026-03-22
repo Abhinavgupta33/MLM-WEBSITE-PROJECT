@@ -23,13 +23,13 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            
+            
+            
+            min-
             color: var(--dark);
             position: relative;
-            overflow: hidden;
+            
             background-color: #f5f7fa;
         }
         
@@ -96,9 +96,9 @@
         }
         
         .user-info {
-            display: flex;
+            
             justify-content: space-between;
-            align-items: center;
+            
             margin-bottom: 15px;
             padding: 12px 10px;
             border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -144,7 +144,7 @@
             font-weight: 500;
             transition: var(--transition);
             position: relative;
-            overflow: hidden;
+            
             box-shadow: 0 4px 12px rgba(52,152,219,0.3);
         }
         
@@ -271,10 +271,25 @@
             }
         }
     </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
     <%- include("../utils/header")%> 
     <%- include("side")%>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
     
     <!-- Background elements -->
     <div id="particles"></div>
@@ -331,6 +346,7 @@
             </div>
         </div>
     </form>
+</main>
 <%- include("../utils/footer"); %> 
   
     <script>

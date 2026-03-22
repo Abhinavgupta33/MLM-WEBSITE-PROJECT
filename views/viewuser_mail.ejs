@@ -20,10 +20,10 @@
         body {
             font-family: 'Roboto', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            
+            
+            
+            min-
             margin: 0;
             padding: 20px;
             position: relative;
@@ -52,7 +52,7 @@
             width: 100%;
             max-width: 600px;
             position: relative;
-            overflow: hidden;
+            
             transition: transform 0.3s ease;
         }
         
@@ -117,12 +117,12 @@
             cursor: pointer;
             width: 100%;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            
+            
+            
             gap: 10px;
             position: relative;
-            overflow: hidden;
+            
         }
         
         button:hover {
@@ -175,7 +175,7 @@
             margin-bottom: 25px;
             display: none;
             animation: fadeIn 0.5s;
-            align-items: center;
+            
             gap: 10px;
         }
         
@@ -219,10 +219,25 @@
             border-color: var(--success) !important;
         }
     </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
     <%- include("../utils/header")%> 
     <%- include("side")%>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
     
     <!-- Background elements -->
     <div class="bg-element" style="width: 200px; height: 200px; top: -50px; left: -50px; animation-delay: 0s;"></div>
@@ -264,6 +279,7 @@
             <i class="fas fa-paper-plane"></i> Send Email
         </button>
     </form>
+</main>
 <%- include("../utils/footer"); %> 
   
     <script>

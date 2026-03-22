@@ -1,1768 +1,600 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Alumni Connect | Sign Up</title>
-  
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    /* CSS Variables for Theming */
-    :root {
-      --primary: #4361ee;
-      --primary-light: #4895ef;
-      --primary-lighter: #4cc9f0;
-      --primary-lightest: #e0fbfc;
-      --primary-dark: #3a0ca3;
-      --primary-darker: #3f37c9;
-      --secondary: #7209b7;
-      --secondary-light: #b5179e;
-      --accent: #f72585;
-      --accent-light: #ff70a6;
-      --success: #4cc9f0;
-      --success-light: #80ffdb;
-      --warning: #f8961e;
-      --danger: #f94144;
-      --white: #ffffff;
-      --light-gray: #f8f9fa;
-      --lighter-gray: #f1f3f5;
-      --medium-gray: #e9ecef;
-      --text-gray: #6c757d;
-      --dark-gray: #495057;
-      --darker-gray: #212529;
-      --black: #000000;
-      --border-radius: 12px;
-      --border-radius-md: 8px;
-      --border-radius-sm: 4px;
-      --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      --box-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-      --box-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-      --box-shadow-xl: 0 15px 25px rgba(0, 0, 0, 0.1);
-      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      --transition-fast: all 0.15s ease;
-      --background: #ffffff;
-      --card-bg: #ffffff;
-      --glass-bg: rgba(255, 255, 255, 0.95);
-      --glass-border: rgba(255, 255, 255, 0.3);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>NexusSphere | Identity Verification | Elite Residency</title>
 
-    /* Base Styles */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    html {
-      scroll-behavior: smooth;
-    }
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 16px;
-      position: relative;
-      overflow-x: hidden;
-      color: var(--darker-gray);
-      background-color: var(--background);
-      line-height: 1.6;
-      font-weight: 400;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      touch-action: manipulation;
-    }
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.5);
+            --secondary: #a855f7;
+            --secondary-glow: rgba(168, 85, 247, 0.5);
+            --bg-dark: #050a15;
+            --text-main: #eef2ff;
+            --glass-bg: rgba(10, 18, 35, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: rgba(0, 0, 0, 0.5);
+            --transition-elite: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --error: #ef4444;
+            --success: #10b981;
+        }
 
-    /* Optimized Bubble Background Animation */
-    .bubble-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-      will-change: transform;
-      transform: translate3d(0,0,0);
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .bubble {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(67,97,238,0.15) 0%, rgba(67,97,238,0) 70%);
-      filter: blur(20px);
-      animation: float-bubble linear infinite;
-      opacity: 0.6;
-      will-change: transform;
-      transform: translate3d(0,0,0);
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 2.5rem 1rem;
+            cursor: default;
+        }
 
-    @keyframes float-bubble {
-      0% {
-        transform: translateY(0) translateX(0);
+        /* 1. Liquid Background Engine */
+        #constellationCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        .glow-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.15), transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.15), transparent 50%);
+            filter: blur(60px);
+        }
+
+        /* 2. Elite Registration Wrapper */
+        .register-container {
+            width: 100%;
+            max-width: 960px;
+            z-index: 100;
+        }
+
+        .hero-section { text-align: center; margin-bottom: 2.5rem; }
+        .hero-section h1 { 
+            font-size: 2.8rem; font-weight: 800; letter-spacing: -1.5px;
+            background: linear-gradient(135deg, white, #94a3b8);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .hero-section p { color: #64748b; font-size: 1.1rem; font-weight: 500; }
+
+        .register-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            box-shadow: 0 40px 100px var(--glass-shadow);
+            transform-style: preserve-3d;
+            perspective: 1200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Glass Shimmer swipe */
+        .register-card::before {
+            content: ''; position: absolute; top: -150%; left: -150%; width: 300%; height: 300%;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.03) 50%, transparent);
+            transform: rotate(45deg); animation: shimmer 12s infinite linear; pointer-events: none;
+        }
+        @keyframes shimmer { 0% { transform: translate(-30%, -30%) rotate(45deg); } 100% { transform: translate(30%, 30%) rotate(45deg); } }
+
+        /* Stepper Indicators */
+        .steps-nav {
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .step-item {
+            display: flex; align-items: center; gap: 1rem;
+            opacity: 0.3; transition: var(--transition-elite);
+            font-weight: 600; font-size: 0.9rem; letter-spacing: 0.5px;
+        }
+        .step-item.active { opacity: 1; color: var(--primary); }
+        .step-item.completed { opacity: 0.7; color: var(--success); }
+
+        .step-id {
+            width: 38px; height: 38px;
+            border: 2px solid currentColor;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 1rem;
+            transition: var(--transition-elite);
+        }
+        .step-item.active .step-id { background: var(--primary); border-color: var(--primary); color: white; box-shadow: 0 0 20px var(--primary-glow); transform: scale(1.1); }
+        .step-item.completed .step-id { background: var(--success); border-color: var(--success); color: white; }
+
+        .step-divider { flex: 1; height: 1px; background: rgba(255, 255, 255, 0.05); margin: 0 1.5rem; position: relative; }
+        .step-divider-fill { position: absolute; height: 100%; top: 0; left: 0; width: 0%; background: var(--primary); transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        /* Form Logic */
+        .form-content { padding: 4rem; position: relative; }
+        .form-step { display: none; transform-origin: top center; }
+        .form-step.active-step { display: block; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        .full-width { grid-column: span 2; }
+
+        .form-group { margin-bottom: 0.5rem; }
+        .form-group label { display: block; margin-bottom: 0.75rem; font-size: 0.85rem; color: #475569; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        .input-wrapper i { position: absolute; left: 1.5rem; color: #475569; font-size: 1.1rem; transition: var(--transition-elite); z-index: 2; }
+
+        input, select, textarea {
+            width: 100%; background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px; padding: 1.25rem 1.25rem 1.25rem 3.5rem;
+            color: white; font-family: inherit; font-size: 1rem; transition: var(--transition-elite); outline: none;
+        }
+        input:focus { border-color: var(--primary); background: rgba(255, 255, 255, 0.05); box-shadow: 0 0 30px rgba(59, 130, 246, 0.15); }
+        input:focus + i { color: var(--primary); transform: scale(1.1); filter: drop-shadow(0 0 8px var(--primary-glow)); }
+
+        .error-line { height: 2px; width: 0%; background: var(--error); position: absolute; bottom: 0; left: 0; transition: width 0.3s; }
+        .input-wrapper.error .error-line { width: 100%; }
+
+        /* Password Strength */
+        .pw-strength-container { margin-top: 1rem; }
+        .pw-bars { display: flex; gap: 5px; height: 4px; border-radius: 2px; overflow: hidden; }
+        .pw-bar { flex: 1; background: rgba(255,255,255,0.05); transition: background 0.3s; }
+        .pw-label { font-size: 0.7rem; font-weight: 700; color: #475569; margin-top: 5px; text-transform: uppercase; }
+
+        /* File Upload Elite */
+        .drop-zone {
+            border: 2px dashed rgba(255,255,255,0.1); border-radius: 20px; padding: 3rem;
+            text-align: center; cursor: pointer; transition: var(--transition-elite);
+            background: rgba(255,255,255,0.01);
+        }
+        .drop-zone:hover { border-color: var(--primary); background: rgba(59, 130, 246, 0.03); transform: scale(0.99); }
+        .drop-zone i { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; filter: drop-shadow(0 0 10px var(--primary-glow)); }
+
+        /* Tier Selection Cards */
+        .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+        .tier-card {
+            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 25px; padding: 2rem 1.5rem; text-align: center; cursor: pointer; transition: var(--transition-elite);
+            transform-style: preserve-3d;
+        }
+        .tier-card.selected { border-color: var(--primary); background: rgba(59, 130, 246, 0.08); transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .tier-card i { font-size: 2rem; margin-bottom: 1rem; color: var(--primary); }
+        .tier-card h4 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .tier-card .price { font-size: 1.5rem; font-weight: 800; color: white; }
+
+        /* Buttons Elite */
+        .card-actions { display: flex; justify-content: space-between; gap: 1.5rem; margin-top: 3.5rem; }
+        .btn {
+            padding: 1.25rem 2.8rem; border-radius: 20px; font-weight: 700; font-family: inherit; font-size: 0.95rem;
+            cursor: pointer; transition: var(--transition-elite); display: flex; align-items: center; gap: 0.8rem;
+            letter-spacing: 1px;
+        }
+        .btn-mag { background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; color: white; box-shadow: 0 10px 30px rgba(59,130,246,0.3); }
+        .btn-mag:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(59,130,246,0.5); }
+        .btn-outline { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); color: white; }
+        .btn-outline:hover { background: rgba(255,255,255,0.05); border-color: white; }
+
+        .login-cta { text-align: center; margin-top: 2.5rem; font-size: 0.95rem; color: #64748b; font-weight: 500; }
+        .login-cta a { color: var(--primary); text-decoration: none; font-weight: 800; margin-left: 0.5rem; transition: 0.3s; }
+        .login-cta a:hover { color: white; text-shadow: 0 0 10px var(--primary-glow); }
+
+        /* Modal Elite */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
+            display: none; align-items: center; justify-content: center; z-index: 1000;
+        }
+        .modal-card {
+            background: var(--glass-bg); border-radius: 40px; border: 1px solid var(--glass-border); padding: 4rem;
+            text-align: center; max-width: 500px;
+        }
+        .modal-card i { font-size: 5rem; color: var(--success); margin-bottom: 2rem; filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.4)); }
+
+        @media (max-width: 768px) {
+            .form-grid, .tier-grid { grid-template-columns: 1fr; }
+            .steps-nav { flex-direction: column; gap: 1.5rem; padding: 2rem; }
+            .step-divider { display: none; }
+            .register-container { max-width: 100%; padding: 0 0.5rem; }
+            .hero-section h1 { font-size: 2rem; }
+            .register-card { border-radius: 28px; }
+        }
+        @media (max-width: 480px) {
+            body { padding: 1rem 0.5rem; }
+            .hero-section h1 { font-size: 1.6rem; }
+            .hero-section p { font-size: 0.9rem; }
+            .form-content { padding: 1.5rem 1.2rem; }
+            .steps-nav { padding: 1.5rem 1rem; gap: 1rem; }
+            .modal-card { max-width: 100%; padding: 2.5rem 1.5rem; border-radius: 28px; margin: 0 1rem; }
+            .btn { font-size: 0.9rem; padding: 1rem; }
+        }
+    </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
       }
-      50% {
-        transform: translateY(-50vh) translateX(20px);
-      }
-      100% {
-        transform: translateY(-100vh) translateX(0);
-      }
-    }
-
-    /* Optimized Particle Animation */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-      will-change: transform;
-      transform: translate3d(0,0,0);
-    }
-
-    .particle {
-      position: absolute;
-      background: rgba(67, 97, 238, 0.1);
-      border-radius: 50%;
-      animation: float-particle 15s infinite linear;
-      will-change: transform;
-      transform: translate3d(0,0,0);
-    }
-
-    @keyframes float-particle {
-      0% {
-        transform: translateY(100vh) translateX(0) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.5;
-      }
-      90% {
-        opacity: 0.5;
-      }
-      100% {
-        transform: translateY(-100px) translateX(100px) rotate(720deg);
-        opacity: 0;
-      }
-    }
-
-    /* Main Content Container */
-    .signup-container {
-      max-width: 1000px;
-      width: 100%;
-      margin: 1rem auto;
-      perspective: 1000px;
-      will-change: transform;
-      transform: translate3d(0,0,0);
-    }
-
-    .signup-card {
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow-xl);
-      background: var(--glass-bg);
-      overflow: hidden;
-      transition: var(--transition);
-      border: 1px solid var(--medium-gray);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      transform-style: preserve-3d;
-      animation: card-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-      will-change: transform;
-    }
-
-    @keyframes card-enter {
-      0% {
-        opacity: 0;
-        transform: translateY(40px) rotateX(10deg);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) rotateX(0);
-      }
-    }
-
-    /* Header Section */
-    .signup-header {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: var(--white);
-      padding: 2.5rem 1.5rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
-    }
-
-    .signup-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-      background-size: cover;
-      background-position: bottom;
-      animation: wave 15s linear infinite;
-      z-index: 1;
-      will-change: transform;
-    }
-
-    @keyframes wave {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    .signup-header h2 {
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      font-size: 2rem;
-      position: relative;
-      z-index: 2;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      animation: text-pop 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
-    .signup-header h2 i {
-      margin-right: 10px;
-      font-size: 1.8rem;
-      vertical-align: middle;
-    }
-
-    @keyframes text-pop {
-      0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.9);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .signup-header p {
-      font-weight: 300;
-      opacity: 0.9;
-      position: relative;
-      z-index: 2;
-      font-size: 1rem;
-      max-width: 600px;
-      margin: 0 auto;
-      animation: fade-in 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
-    @keyframes fade-in {
-      0% { opacity: 0; transform: translateY(10px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Form Styles */
-    .signup-body {
-      padding: 2rem 1.5rem;
-      position: relative;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .form-group {
-      flex: 1 1 100%;
-      min-width: 0;
-      position: relative;
-      animation: form-group-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-      will-change: transform, opacity;
-    }
-
-    /* Stagger animations for each form group */
-    .form-group:nth-child(1) { animation-delay: 0.1s; }
-    .form-group:nth-child(2) { animation-delay: 0.2s; }
-    .form-group:nth-child(3) { animation-delay: 0.3s; }
-    .form-group:nth-child(4) { animation-delay: 0.4s; }
-    .form-group:nth-child(5) { animation-delay: 0.5s; }
-    .form-group:nth-child(6) { animation-delay: 0.6s; }
-    .form-group:nth-child(7) { animation-delay: 0.7s; }
-    .form-group:nth-child(8) { animation-delay: 0.8s; }
-
-    @keyframes form-group-enter {
-      0% {
-        opacity: 0;
-        transform: translateY(15px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      color: var(--dark-gray);
-      transition: var(--transition-fast);
-      font-size: 0.9rem;
-    }
-
-    .input-container {
-      position: relative;
-      transition: var(--transition);
-      border-radius: var(--border-radius-sm);
-      background: var(--white);
-      box-shadow: var(--box-shadow);
-      border: 1px solid var(--medium-gray);
-      will-change: transform;
-    }
-
-    .input-container:hover {
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 3px var(--primary-lightest);
-    }
-
-    .input-container:focus-within {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-lightest);
-    }
-
-    .input-container::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: var(--transition-fast);
-      z-index: 2;
-    }
-
-    .form-group:focus-within .input-container::before {
-      transform: scaleX(1);
-    }
-
-    .form-control {
-      width: 100%;
-      height: 48px;
-      border-radius: var(--border-radius-sm);
-      border: none;
-      padding: 0 16px;
-      font-size: 0.95rem;
-      transition: var(--transition-fast);
-      background: transparent;
-      font-family: 'Poppins', sans-serif;
-      color: var(--darker-gray);
-      box-shadow: none;
-      -webkit-appearance: none;
-    }
-
-    .form-control:focus {
-      box-shadow: none;
-      outline: none;
-    }
-
-    /* Floating Label Animation */
-    .floating-label {
-      position: absolute;
-      top: 50%;
-      left: 16px;
-      transform: translateY(-50%);
-      color: var(--text-gray);
-      pointer-events: none;
-      transition: var(--transition);
-      background: transparent;
-      padding: 0 6px;
-      border-radius: 4px;
-      font-size: 0.95rem;
-      z-index: 1;
-      max-width: calc(100% - 32px);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .form-control:focus + .floating-label,
-    .form-control:not(:placeholder-shown) + .floating-label {
-      top: 0;
-      transform: translateY(-50%) scale(0.85);
-      color: var(--primary);
-      background: var(--white);
-    }
-
-    textarea.form-control {
-      height: 100px;
-      padding: 12px;
-      resize: vertical;
-    }
-
-    select.form-control {
-      appearance: none;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 1rem;
-    }
-
-    /* Input Icons */
-    .input-icon {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-gray);
-      transition: var(--transition-fast);
-      z-index: 2;
-      font-size: 0.95rem;
-    }
-
-    .form-control:focus ~ .input-icon {
-      color: var(--primary);
-    }
-
-    /* Password Toggle */
-    .password-toggle {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-gray);
-      cursor: pointer;
-      transition: var(--transition-fast);
-      z-index: 2;
-      font-size: 0.95rem;
-    }
-
-    .password-toggle:hover {
-      color: var(--primary);
-    }
-
-    /* Button Styles */
-    .btn {
-      border: none;
-      border-radius: var(--border-radius-sm);
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 0 20px;
-      height: 48px;
-      will-change: transform;
-      transform: translate3d(0,0,0);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
-    }
-
-    .btn-primary:hover {
-      background: linear-gradient(135deg, var(--primary-dark), var(--secondary-light));
-      box-shadow: 0 10px 15px rgba(67, 97, 238, 0.3);
-      transform: translateY(-2px);
-    }
-
-    .btn-primary:active {
-      transform: translateY(1px);
-      box-shadow: 0 2px 5px rgba(67, 97, 238, 0.2);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--primary);
-      border: 1px solid var(--primary);
-    }
-
-    .btn-outline:hover {
-      background: var(--primary-lightest);
-      box-shadow: 0 4px 6px rgba(67, 97, 238, 0.1);
-    }
-
-    .btn-lg {
-      height: 56px;
-      font-size: 1.1rem;
-      padding: 0 32px;
-    }
-
-    .btn-block {
-      width: 100%;
-    }
-
-    /* Link Styles */
-    .login-link {
-      text-align: center;
-      margin-top: 1.25rem;
-      color: var(--text-gray);
-      font-size: 0.9rem;
-    }
-
-    .login-link a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition-fast);
-      position: relative;
-    }
-
-    .login-link a::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--primary);
-      transition: var(--transition);
-    }
-
-    .login-link a:hover {
-      text-decoration: none;
-    }
-
-    .login-link a:hover::after {
-      width: 100%;
-    }
-
-    /* Input Validation States */
-    .form-group.success .form-control {
-      border-color: var(--success);
-    }
-
-    .form-group.error .form-control {
-      border-color: var(--danger);
-    }
-
-    .form-group .error-message {
-      color: var(--danger);
-      font-size: 0.8rem;
-      margin-top: 0.4rem;
-      display: none;
-    }
-
-    .form-group.error .error-message {
-      display: block;
-    }
-
-    /* Form Steps Indicator */
-    .form-steps {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 2rem;
-      position: relative;
-    }
-
-    .step {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--lighter-gray);
-      color: var(--text-gray);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      position: relative;
-      z-index: 2;
-      transition: var(--transition);
-      box-shadow: var(--box-shadow);
-      border: 2px solid var(--white);
-      font-size: 0.9rem;
-    }
-
-    .step.active {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: var(--white);
-      transform: scale(1.1);
-      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
-    }
-
-    .step.completed {
-      background: var(--success);
-      color: var(--white);
-      box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
-    }
-
-    .step-connector {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--lighter-gray);
-      z-index: 1;
-      transform: translateY(-50%);
-    }
-
-    .step-progress {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      z-index: 2;
-      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-      transform: translateY(-50%);
-    }
-
-    /* Password Strength Meter */
-    .password-strength {
-      margin-top: 0.4rem;
-      height: 4px;
-      background: var(--lighter-gray);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .strength-meter {
-      height: 100%;
-      width: 0;
-      transition: all 0.4s ease;
-    }
-
-    .strength-weak { background: var(--danger); width: 25%; }
-    .strength-medium { background: var(--warning); width: 50%; }
-    .strength-strong { background: var(--success); width: 75%; }
-    .strength-very-strong { background: var(--success); width: 100%; }
-
-    .strength-text {
-      font-size: 0.7rem;
-      color: var(--text-gray);
-      margin-top: 0.2rem;
-      text-align: right;
-    }
-
-    /* File Input Styling */
-    .file-input-container {
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-      width: 100%;
-    }
-
-    .file-input-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 0 12px;
-      height: 48px;
-      border-radius: var(--border-radius-sm);
-      background: var(--white);
-      color: var(--text-gray);
-      border: 1px dashed var(--medium-gray);
-      transition: var(--transition);
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    .file-input-button:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      background: var(--primary-lightest);
-    }
-
-    .file-input {
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-    }
-
-    .file-name {
-      margin-top: 0.4rem;
-      font-size: 0.8rem;
-      color: var(--text-gray);
-      display: none;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* Checkbox Styling */
-    .checkbox-container {
-      display: flex;
-      align-items: center;
-      margin-top: 1rem;
-    }
-
-    .checkbox-input {
-      position: absolute;
-      opacity: 0;
-      height: 0;
-      width: 0;
-    }
-
-    .checkbox-custom {
-      position: relative;
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      background: var(--white);
-      border: 1px solid var(--medium-gray);
-      border-radius: 4px;
-      margin-right: 8px;
-      transition: var(--transition-fast);
-      flex-shrink: 0;
-    }
-
-    .checkbox-input:checked ~ .checkbox-custom {
-      background: var(--primary);
-      border-color: var(--primary);
-    }
-
-    .checkbox-input:focus ~ .checkbox-custom {
-      box-shadow: 0 0 0 3px var(--primary-lightest);
-    }
-
-    .checkbox-custom::after {
-      content: '';
-      position: absolute;
-      display: none;
-      left: 6px;
-      top: 2px;
-      width: 4px;
-      height: 8px;
-      border: solid white;
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
-    }
-
-    .checkbox-input:checked ~ .checkbox-custom::after {
-      display: block;
-    }
-
-    .checkbox-label {
-      font-size: 0.9rem;
-      color: var(--dark-gray);
-      cursor: pointer;
-      line-height: 1.4;
-    }
-
-    .checkbox-label a {
-      color: var(--primary);
-      text-decoration: none;
-      transition: var(--transition-fast);
-    }
-
-    .checkbox-label a:hover {
-      text-decoration: underline;
-    }
-
-    /* Confetti Animation */
-    .confetti-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 100;
-    }
-
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      opacity: 0;
-      z-index: 10;
-      animation: confetti-fall 3s ease-in-out forwards;
-      will-change: transform, opacity;
-    }
-
-    @keyframes confetti-fall {
-      0% {
-        transform: translateY(-100px) rotate(0deg) scale(0);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(1000px) rotate(720deg) scale(1);
-        opacity: 0;
-      }
-    }
-
-    /* Success Animation */
-    .success-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255,255,255,0.95);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      pointer-events: none;
-      transition: var(--transition);
-    }
-
-    .success-animation.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .checkmark {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      display: block;
-      stroke-width: 4;
-      stroke: var(--success);
-      stroke-miterlimit: 10;
-      margin: 0 auto;
-      box-shadow: 0 0 0 rgba(76, 201, 240, 0.4);
-      animation: checkmark-fill 0.4s ease-in-out 0.4s forwards, checkmark-scale 0.3s ease-in-out 0.9s both;
-    }
-
-    .checkmark-circle {
-      stroke-dasharray: 166;
-      stroke-dashoffset: 166;
-      stroke-width: 4;
-      stroke-miterlimit: 10;
-      stroke: var(--success);
-      fill: none;
-      animation: checkmark-stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-    }
-
-    .checkmark-check {
-      transform-origin: 50% 50%;
-      stroke-dasharray: 48;
-      stroke-dashoffset: 48;
-      animation: checkmark-stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-    }
-
-    @keyframes checkmark-stroke {
-      100% {
-        stroke-dashoffset: 0;
-      }
-    }
-
-    @keyframes checkmark-scale {
-      0%, 100% {
-        transform: none;
-      }
-      50% {
-        transform: scale3d(1.1, 1.1, 1);
-      }
-    }
-
-    @keyframes checkmark-fill {
-      100% {
-        box-shadow: inset 0 0 0 100px rgba(76, 201, 240, 0);
-      }
-    }
-
-    .success-message {
-      text-align: center;
-      margin-top: 1.5rem;
-      animation: fade-in 0.6s 1.2s both;
-      padding: 0 1rem;
-    }
-
-    .success-message h3 {
-      font-size: 1.5rem;
-      color: var(--darker-gray);
-      margin-bottom: 0.75rem;
-    }
-
-    .success-message p {
-      color: var(--text-gray);
-      max-width: 300px;
-      margin: 0 auto;
-      font-size: 0.95rem;
-    }
-
-    /* Responsive Design */
-    @media (min-width: 576px) {
-      .signup-header {
-        padding: 2.5rem;
-      }
-      
-      .signup-body {
-        padding: 2rem;
-      }
-      
-      .signup-header h2 {
-        font-size: 2.25rem;
-      }
-      
-      .signup-header p {
-        font-size: 1.1rem;
-      }
-      
-      .form-row {
-        gap: 1.25rem;
-        margin-bottom: 1.25rem;
-      }
-      
-      .form-group {
-        flex: 1;
-        min-width: 200px;
-      }
-      
-      .form-control {
-        height: 52px;
-        padding: 0 18px;
-      }
-      
-      .floating-label {
-        left: 18px;
-      }
-      
-      .input-icon, .password-toggle {
-        right: 16px;
-      }
-      
-      .btn {
-        height: 52px;
-      }
-      
-      .file-input-button {
-        height: 52px;
-        padding: 0 16px;
-      }
-      
-      .step {
-        width: 36px;
-        height: 36px;
-      }
-    }
-
-    @media (min-width: 768px) {
-      body {
-        padding: 20px;
-      }
-      
-      .signup-header {
-        padding: 3rem;
-        clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
-      }
-      
-      .signup-body {
-        padding: 2.5rem;
-      }
-      
-      .signup-header h2 {
-        font-size: 2.5rem;
-      }
-      
-      .form-row {
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
-      }
-      
-      .form-control {
-        height: 56px;
-      }
-      
-      .btn {
-        height: 56px;
-      }
-      
-      .file-input-button {
-        height: 56px;
-      }
-      
-      .success-message h3 {
-        font-size: 1.8rem;
-      }
-    }
-
-    @media (min-width: 992px) {
-      .signup-header {
-        padding: 3.5rem;
-      }
-      
-      .signup-header h2 {
-        font-size: 2.75rem;
-      }
-      
-      .signup-header p {
-        font-size: 1.25rem;
-      }
-    }
-
-    /* Performance Optimizations */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-  </style>
+    </script>
 </head>
+
 <body>
-  <!-- Optimized Bubble Background Animation -->
-  <div class="bubble-background" id="bubbleBackground"></div>
-  
-  <!-- Optimized Particle Animation -->
-  <div class="particles" id="particles"></div>
-  
-  <!-- Main Content -->
-  <div class="signup-container">
-    <div class="signup-card">
-      <!-- Header Section -->
-      <div class="signup-header">
-        <h2><i class="fas fa-graduation-cap"></i> Alumni Connect</h2>
-        <p>Join our global network of alumni and stay connected with your alma mater</p>
-      </div>
+    <canvas id="constellationCanvas"></canvas>
+    <div class="glow-overlay"></div>
 
-      <!-- Form Section -->
-      <div class="signup-body">
-        <!-- Form Steps Indicator -->
-        <div class="form-steps">
-          <div class="step-connector"></div>
-          <div class="step-progress" id="stepProgress"></div>
-          <div class="step active" data-step="1">1</div>
-          <div class="step" data-step="2">2</div>
-          <div class="step" data-step="3">3</div>
+    <div class="register-container">
+        <div class="hero-section">
+            <h1 id="magTitle">Nexus <span style="background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent;">Sphere</span></h1>
+            <p>Initiate your elite residency protocol.</p>
         </div>
 
-        <form id="signupForm" action="/signup" method="post">
-          <!-- Step 1: Personal Information -->
-          <div class="form-step" data-step="1">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="yourName">Full Name</label>
-                <div class="input-container">
-                  <input type="text" id="yourName" name="Name" class="form-control" required placeholder="John Doe">
-                  <span class="floating-label">Full Name</span>
+        <div class="register-card" id="tiltCard">
+            <!-- Navigation -->
+            <div class="steps-nav">
+                <div class="step-item active" data-step="1">
+                    <div class="step-id">01</div>
+                    <span>Persona</span>
                 </div>
-                <div class="error-message">Please enter your full name</div>
-              </div>
-              <div class="form-group">
-                <label for="fatherName">Father's Name</label>
-                <div class="input-container">
-                  <input type="text" id="fatherName" name="FatherName" class="form-control" required placeholder="Father's Name">
-                  <span class="floating-label">Father's Name</span>
+                <div class="step-divider"><div class="step-divider-fill" id="fill1"></div></div>
+                <div class="step-item" data-step="2">
+                    <div class="step-id">02</div>
+                    <span>Identity</span>
                 </div>
-                <div class="error-message">Please enter father's name</div>
-              </div>
+                <div class="step-divider"><div class="step-divider-fill" id="fill2"></div></div>
+                <div class="step-item" data-step="3">
+                    <div class="step-id">03</div>
+                    <span>Tier</span>
+                </div>
             </div>
 
-            <div class="form-row">
-              <div class="form-group">
-                <label for="mobileNo">Mobile Number</label>
-                <div class="input-container">
-                  <input type="tel" id="mobileNo" name="MobileNo" class="form-control" required placeholder="+91 9876543210">
-                  <span class="floating-label">Mobile Number</span>
-                  <i class="fas fa-phone input-icon"></i>
-                </div>
-                <div class="error-message">Please enter a valid mobile number</div>
-              </div>
-              <div class="form-group">
-                <label for="dob">Date of Birth</label>
-                <div class="input-container">
-                  <input type="date" id="dob" name="Dob" class="form-control" required>
-                  <span class="floating-label">Date of Birth</span>
-                  <i class="fas fa-calendar-day input-icon"></i>
-                </div>
-                <div class="error-message">Please select your date of birth</div>
-              </div>
+            <div class="form-content">
+                <form id="eliteForm">
+                    <!-- Step 1 -->
+                    <div class="form-step active-step" data-step="1">
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label>Legal Full Name</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user-shield"></i>
+                                    <input type="text" id="fullName" placeholder="Ex: Alexander Nexus" required>
+                                    <div class="error-line"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Secured Line (Mobile)</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <input type="tel" id="mobile" placeholder="+1 (000) 000-0000" required>
+                                    <div class="error-line"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Birth Date</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-calendar-day"></i>
+                                    <input type="date" id="dob" required>
+                                    <div class="error-line"></div>
+                                </div>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Elite Communication (Email)</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-satellite-dish"></i>
+                                    <input type="email" id="email" placeholder="resident@sphere.com" required>
+                                    <div class="error-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <div style="flex:1"></div>
+                            <button type="button" class="btn btn-mag next-btn" data-target="2">Next Protocol <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="form-step" data-step="2">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Resident ID (Username)</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-id-badge"></i>
+                                    <input type="text" id="username" placeholder="nexus_res_01" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Referral Matrix Code</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-code-branch"></i>
+                                    <input type="text" id="referral" placeholder="NXS-ROOT-0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Master Key (Password)</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="password" placeholder="••••••••" required>
+                                </div>
+                                <div class="pw-strength-container">
+                                    <div class="pw-bars"><div class="pw-bar" id="b1"></div><div class="pw-bar" id="b2"></div><div class="pw-bar" id="b3"></div><div class="pw-bar" id="b4"></div></div>
+                                    <p class="pw-label" id="pwText">Strength: Null</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Master Key</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-shield-check"></i>
+                                    <input type="password" id="confirmPassword" placeholder="••••••••" required>
+                                </div>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Biometric Profile (Photo)</label>
+                                <div class="drop-zone" id="dropZone">
+                                    <i class="fas fa-portrait"></i>
+                                    <h4>Profile Identity Upload</h4>
+                                    <p>Click to capture or drag-n-drop residency portrait</p>
+                                    <input type="file" id="profileImg" accept="image/*" style="display: none;">
+                                    <div id="fileInfo" style="margin-top: 1rem; color: var(--success); font-weight: 700; display: none;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button type="button" class="btn btn-outline prev-btn" data-target="1"><i class="fas fa-chevron-left"></i> Previous</button>
+                            <button type="button" class="btn btn-mag next-btn" data-target="3">Final Step <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="form-step" data-step="3">
+                        <h4 style="margin-bottom: 2rem; text-align: center; color: var(--primary); letter-spacing: 2px;">SELECT YOUR MEMBERSHIP LEVEL</h4>
+                        <div class="tier-grid">
+                            <div class="tier-card" data-tier="Basic" data-val="0">
+                                <i class="fas fa-paper-plane"></i>
+                                <h4>Initiate</h4>
+                                <p class="price">$0</p>
+                            </div>
+                            <div class="tier-card selected" data-tier="Premium" data-val="99">
+                                <i class="fas fa-gem"></i>
+                                <h4>Resident</h4>
+                                <p class="price">$99</p>
+                            </div>
+                            <div class="tier-card" data-tier="Elite" data-val="499">
+                                <i class="fas fa-crown"></i>
+                                <h4>Founder</h4>
+                                <p class="price">$499</p>
+                            </div>
+                        </div>
+                        <div class="form-group full-width" style="display:flex; gap:1.5rem; background: rgba(255,255,255,0.02); padding: 2rem; border-radius: 20px; border: 1px solid var(--glass-border);">
+                            <input type="checkbox" id="terms" style="width: 25px; height: 25px; cursor: pointer; flex-shrink: 0;">
+                            <p style="font-size: 0.85rem; line-height: 1.6;">I certify my commitment to the NexusSphere Protocol and agree to the decentralized dividend distribution policy outlined in the Sphere Charter.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button type="button" class="btn btn-outline prev-btn" data-target="2"><i class="fas fa-chevron-left"></i> Previous</button>
+                            <button type="submit" class="btn btn-mag" id="finalizeBtn">Finalize Protocols <i class="fas fa-check-double"></i></button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="email">Email Address</label>
-                <div class="input-container">
-                  <input type="email" id="email" name="Email" class="form-control" required placeholder="your@email.com">
-                  <span class="floating-label">Email Address</span>
-                  <i class="fas fa-envelope input-icon"></i>
-                </div>
-                <div class="error-message">Please enter a valid email address</div>
-              </div>
-              <div class="form-group">
-                <label for="gender">Gender</label>
-                <div class="input-container">
-                  <select id="gender" name="Gender" class="form-control" required>
-                    <option value="" disabled selected>Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                    <option value="Prefer not to say">Prefer not to say</option>
-                  </select>
-                  <span class="floating-label">Gender</span>
-                </div>
-                <div class="error-message">Please select your gender</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="address">Residential Address</label>
-              <div class="input-container">
-                <textarea id="address" name="ResidentialAddress" class="form-control" rows="3" required placeholder="Your complete address"></textarea>
-                <span class="floating-label">Residential Address</span>
-              </div>
-              <div class="error-message">Please enter your address</div>
-            </div>
-
-            <button type="button" class="btn btn-primary btn-block next-step" data-next="2">
-              <i class="fas fa-arrow-right"></i> Next: Account Details
-            </button>
-          </div>
-
-          <!-- Step 2: Account Information -->
-          <div class="form-step" data-step="2" style="display: none;">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="batchYear">Batch Year</label>
-                <div class="input-container">
-                  <input type="number" id="batchYear" name="BatchYear" class="form-control" required placeholder="e.g. 2015">
-                  <span class="floating-label">Batch Year</span>
-                </div>
-                <div class="error-message">Please enter your graduation year</div>
-              </div>
-              <div class="form-group">
-                <label for="degree">Degree</label>
-                <div class="input-container">
-                  <input type="text" id="degree" name="Degree" class="form-control" required placeholder="e.g. B.Tech Computer Science">
-                  <span class="floating-label">Degree</span>
-                </div>
-                <div class="error-message">Please enter your degree</div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="username">Username</label>
-                <div class="input-container">
-                  <input type="text" id="username" name="Username" class="form-control" required placeholder="john_doe">
-                  <span class="floating-label">Username</span>
-                  <i class="fas fa-user input-icon"></i>
-                </div>
-                <div class="error-message">Please choose a username</div>
-              </div>
-              <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-container">
-                  <input type="password" id="password" name="Password" class="form-control" required placeholder="••••••••">
-                  <span class="floating-label">Password</span>
-                  <i class="fas fa-lock input-icon"></i>
-                  <i class="fas fa-eye password-toggle" id="togglePassword"></i>
-                </div>
-                <div class="password-strength">
-                  <div class="strength-meter" id="strengthMeter"></div>
-                </div>
-                <div class="strength-text" id="strengthText">Password strength</div>
-                <div class="error-message">Password must be at least 8 characters</div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
-                <div class="input-container">
-                  <input type="password" id="confirmPassword" name="ConfirmPassword" class="form-control" required placeholder="••••••••">
-                  <span class="floating-label">Confirm Password</span>
-                  <i class="fas fa-lock input-icon"></i>
-                </div>
-                <div class="error-message">Passwords do not match</div>
-              </div>
-              <div class="form-group">
-                <label for="profilePhoto">Profile Photo</label>
-                <div class="file-input-container">
-                  <div class="file-input-button" id="fileInputButton">
-                    <i class="fas fa-camera"></i>
-                    <span>Choose a photo</span>
-                  </div>
-                  <input type="file" id="profilePhoto" name="ProfilePhoto" class="file-input" accept="image/*">
-                  <div class="file-name" id="fileName"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <button type="button" class="btn btn-outline prev-step" data-prev="1">
-                <i class="fas fa-arrow-left"></i> Back
-              </button>
-              <button type="button" class="btn btn-primary next-step" data-next="3">
-                <i class="fas fa-arrow-right"></i> Next: Payment
-              </button>
-            </div>
-          </div>
-
-          <!-- Step 3: Payment Information -->
-          <div class="form-step" data-step="3" style="display: none;">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="membershipType">Membership Type</label>
-                <div class="input-container">
-                  <select id="membershipType" name="MembershipType" class="form-control" required>
-                    <option value="" disabled selected>Select Membership</option>
-                    <option value="Basic">Basic (Free)</option>
-                    <option value="Premium">Premium ($50/year)</option>
-                    <option value="Lifetime">Lifetime ($200)</option>
-                  </select>
-                  <span class="floating-label">Membership Type</span>
-                </div>
-                <div class="error-message">Please select membership type</div>
-              </div>
-              <div class="form-group">
-                <label for="amount">Amount</label>
-                <div class="input-container">
-                  <input type="number" id="amount" name="Amount" class="form-control" required placeholder="0.00" readonly>
-                  <span class="floating-label">Amount</span>
-                  <i class="fas fa-dollar-sign input-icon"></i>
-                </div>
-                <div class="error-message">Please enter a valid amount</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="paymentMethod">Payment Method</label>
-              <div class="input-container">
-                <select id="paymentMethod" name="PaymentMethod" class="form-control" required>
-                  <option value="" disabled selected>Select Payment Method</option>
-                  <option value="Credit Card">Credit Card</option>
-                  <option value="Debit Card">Debit Card</option>
-                  <option value="PayPal">PayPal</option>
-                  <option value="Bank Transfer">Bank Transfer</option>
-                </select>
-                <span class="floating-label">Payment Method</span>
-              </div>
-              <div class="error-message">Please select payment method</div>
-            </div>
-
-            <div class="checkbox-container">
-              <input type="checkbox" id="termsAgreement" name="TermsAgreement" class="checkbox-input" required>
-              <label for="termsAgreement" class="checkbox-custom"></label>
-              <label for="termsAgreement" class="checkbox-label">
-                I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>
-              </label>
-              <div class="error-message">You must agree to the terms</div>
-            </div>
-
-            <div class="form-row">
-              <button type="button" class="btn btn-outline prev-step" data-prev="2">
-                <i class="fas fa-arrow-left"></i> Back
-              </button>
-              <button type="submit" class="btn btn-primary" id="submitForm">
-                <i class="fas fa-user-plus"></i> Complete Registration
-              </button>
-            </div>
-          </div>
-        </form>
-
-        <div class="login-link">
-          Already have an account? <a href="/">Sign in</a>
         </div>
-      </div>
+
+        <div class="login-cta">
+            Identity already matched? <a href="/login">Return to Terminal</a>
+        </div>
     </div>
-  </div>
 
-  <!-- Confetti Container -->
-  <div class="confetti-container" id="confettiContainer"></div>
-
-  <!-- Success Animation -->
-  <div class="success-animation" id="successAnimation">
-    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-      <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-      <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-    </svg>
-    <div class="success-message">
-      <h3>Registration Successful!</h3>
-      <p>Welcome to our alumni community. You'll receive a confirmation email shortly.</p>
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-card">
+            <i class="fas fa-check-circle"></i>
+            <h2>Residency Confirmed</h2>
+            <p>Your protocols have been verified. Welcome to the NexusSphere. Your access keys have been generated.</p>
+            <button class="btn btn-mag" style="margin: 2.5rem auto 0;" onclick="window.location.href='/login'">Enter Terminal</button>
+        </div>
     </div>
-  </div>
 
-  <script>
-    // DOM Elements
-    const signupForm = document.getElementById('signupForm');
-    const steps = document.querySelectorAll('.form-step');
-    const stepButtons = document.querySelectorAll('.next-step, .prev-step');
-    const stepProgress = document.getElementById('stepProgress');
-    const passwordInput = document.getElementById('password');
-    const togglePassword = document.getElementById('togglePassword');
-    const strengthMeter = document.getElementById('strengthMeter');
-    const strengthText = document.getElementById('strengthText');
-    const confettiContainer = document.getElementById('confettiContainer');
-    const successAnimation = document.getElementById('successAnimation');
-    const fileInputButton = document.getElementById('fileInputButton');
-    const fileInput = document.getElementById('profilePhoto');
-    const fileName = document.getElementById('fileName');
-    const membershipType = document.getElementById('membershipType');
-    const amountInput = document.getElementById('amount');
-    const particlesContainer = document.getElementById('particles');
-    const bubbleBackground = document.getElementById('bubbleBackground');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+             /* 1. Liquid Background Engine */
+             const canvas = document.getElementById('constellationCanvas');
+             const ctx = canvas.getContext('2d');
+             let particles = [];
+             let mouse = { x: null, y: null, radius: 150 };
+             function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+             window.addEventListener('resize', resize); resize();
+             window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
 
-    // Performance optimization variables
-    let lastAnimationTime = 0;
-    const animationInterval = 3000; // 3 seconds between animations
-    const maxBubbles = 8;
-    const maxParticles = 15;
+             class Particle {
+                 constructor() {
+                     this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+                     this.size = Math.random() * 2 + 1; this.baseX = this.x; this.baseY = this.y;
+                     this.density = (Math.random() * 30) + 1;
+                 }
+                 draw() {
+                     ctx.fillStyle = 'rgba(238, 242, 255, 0.6)'; ctx.beginPath();
+                     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+                 }
+                 update() {
+                     let dx = mouse.x - this.x; let dy = mouse.y - this.y;
+                     let distance = Math.sqrt(dx * dx + dy * dy);
+                     if (distance < mouse.radius) {
+                         let force = (mouse.radius - distance) / mouse.radius;
+                         this.x -= (dx / distance) * force * this.density;
+                         this.y -= (dy / distance) * force * this.density;
+                     } else {
+                         this.x -= (this.x - this.baseX) / 10;
+                         this.y -= (this.y - this.baseY) / 10;
+                     }
+                 }
+             }
+             function init() { particles = []; for(let i=0; i<150; i++) particles.push(new Particle()); }
+             function animate() {
+                 ctx.clearRect(0,0,canvas.width,canvas.height);
+                 particles.forEach(p => { p.draw(); p.update(); });
+                 connect(); requestAnimationFrame(animate);
+             }
+             function connect() {
+                 for(let a=0; a<particles.length; a++) {
+                     for(let b=a; b<particles.length; b++) {
+                         let dx = particles[a].x - particles[b].x;
+                         let dy = particles[a].y - particles[b].y;
+                         let dist = Math.sqrt(dx*dx + dy*dy);
+                         if(dist < 100) {
+                             ctx.strokeStyle = `rgba(59,130,246,${(1 - dist/100) * 0.15})`;
+                             ctx.lineWidth = 1; ctx.beginPath();
+                             ctx.moveTo(particles[a].x, particles[a].y);
+                             ctx.lineTo(particles[b].x, particles[b].y); ctx.stroke();
+                         }
+                     }
+                 }
+             }
+             init(); animate();
 
-    // Create bubbles for background (optimized)
-    function createBubbles(count = 5) {
-      const now = Date.now();
-      if (now - lastAnimationTime < animationInterval) return;
-      lastAnimationTime = now;
-      
-      const colors = [
-        'rgba(67, 97, 238, 0.15)',
-        'rgba(114, 9, 183, 0.15)',
-        'rgba(72, 149, 239, 0.15)',
-        'rgba(247, 37, 133, 0.1)'
-      ];
-      
-      // Remove old bubbles if too many
-      const existingBubbles = bubbleBackground.querySelectorAll('.bubble');
-      if (existingBubbles.length > maxBubbles) {
-        existingBubbles[0].remove();
-      }
-      
-      for (let i = 0; i < count; i++) {
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble';
-        
-        // Random properties
-        const size = Math.random() * 200 + 80;
-        const left = Math.random() * 100;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const duration = Math.random() * 20 + 15;
-        const delay = Math.random() * 5;
-        
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        bubble.style.left = `${left}%`;
-        bubble.style.backgroundColor = color;
-        bubble.style.animationDuration = `${duration}s`;
-        bubble.style.animationDelay = `${delay}s`;
-        bubble.style.opacity = Math.random() * 0.5 + 0.3;
-        bubble.style.bottom = `-${size}px`;
-        
-        bubbleBackground.appendChild(bubble);
-        
-        // Remove after animation
-        setTimeout(() => {
-          if (bubble.parentNode) {
-            bubble.remove();
-          }
-        }, (duration + delay) * 1000);
-      }
-    }
+             /* 2. Multi-Step Morphing Engine */
+             let currentStep = 1;
+             const form = document.querySelector('.register-card');
+             const steps = document.querySelectorAll('.form-step');
+             const indicators = document.querySelectorAll('.step-item');
+             const fills = [document.getElementById('fill1'), document.getElementById('fill2')];
 
-    // Create particles for background (optimized)
-    function createParticles(count = 8) {
-      const now = Date.now();
-      if (now - lastAnimationTime < animationInterval) return;
-      
-      const colors = ['rgba(67, 97, 238, 0.1)', 'rgba(114, 9, 183, 0.1)', 'rgba(72, 149, 239, 0.1)'];
-      
-      // Remove old particles if too many
-      const existingParticles = particlesContainer.querySelectorAll('.particle');
-      if (existingParticles.length > maxParticles) {
-        existingParticles[0].remove();
-      }
-      
-      for (let i = 0; i < count; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        
-        // Random properties
-        const size = Math.random() * 15 + 5;
-        const left = Math.random() * 100;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const delay = Math.random() * 5;
-        const duration = Math.random() * 10 + 10;
-        
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${left}%`;
-        particle.style.backgroundColor = color;
-        particle.style.animationDelay = `${delay}s`;
-        particle.style.animationDuration = `${duration}s`;
-        
-        particlesContainer.appendChild(particle);
-        
-        // Remove after animation
-        setTimeout(() => {
-          if (particle.parentNode) {
-            particle.remove();
-          }
-        }, (duration + delay) * 1000);
-      }
-    }
+             function switchStep(next) {
+                 const currentEl = document.querySelector(`.form-step[data-step="${currentStep}"]`);
+                 const nextEl = document.querySelector(`.form-step[data-step="${next}"]`);
+                 
+                 // GSAP Timeline for Elite Transitions
+                 const tl = gsap.timeline();
+                 tl.to(currentEl, { opacity: 0, scale: 0.95, y: -20, duration: 0.5, ease: "power4.in", onComplete: () => currentEl.classList.remove('active-step') });
+                 tl.fromTo(nextEl, { opacity: 0, scale: 1.05, y: 20 }, { 
+                     opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "expo.out", 
+                     onStart: () => {
+                         nextEl.classList.add('active-step');
+                         currentStep = next;
+                         updateIndicators();
+                     }
+                 }, "-=0.2");
+             }
 
-    // Create confetti effect (optimized)
-    function createConfetti(count = 100) {
-      const colors = ['#4361ee', '#4895ef', '#4cc9f0', '#3a0ca3', '#7209b7'];
-      const shapes = ['circle', 'rect', 'triangle'];
-      
-      // Clear existing confetti
-      confettiContainer.innerHTML = '';
-      
-      for (let i = 0; i < count; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        
-        // Random properties
-        const size = Math.random() * 10 + 5;
-        const left = Math.random() * 100;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const delay = Math.random() * 1.5;
-        const duration = Math.random() * 2 + 1.5;
-        const shape = shapes[Math.floor(Math.random() * shapes.length)];
-        
-        confetti.style.width = `${size}px`;
-        confetti.style.height = `${size}px`;
-        confetti.style.left = `${left}%`;
-        confetti.style.backgroundColor = color;
-        confetti.style.animationDelay = `${delay}s`;
-        confetti.style.animationDuration = `${duration}s`;
-        
-        // Apply different shapes
-        if (shape === 'circle') {
-          confetti.style.borderRadius = '50%';
-        } else if (shape === 'triangle') {
-          confetti.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
-        }
-        
-        confettiContainer.appendChild(confetti);
-        
-        // Remove after animation
-        setTimeout(() => {
-          if (confetti.parentNode) {
-            confetti.remove();
-          }
-        }, (duration + delay) * 1000);
-      }
-    }
+             function updateIndicators() {
+                 indicators.forEach((ind, i) => {
+                     ind.classList.toggle('active', i+1 === currentStep);
+                     ind.classList.toggle('completed', i+1 < currentStep);
+                 });
+                 if(fills[0]) fills[0].style.width = currentStep > 1 ? '100%' : '0%';
+                 if(fills[1]) fills[1].style.width = currentStep > 2 ? '100%' : '0%';
+             }
 
-    // Check password strength
-    function checkPasswordStrength(password) {
-      let strength = 0;
-      
-      // Length check
-      if (password.length >= 8) strength++;
-      if (password.length >= 12) strength++;
-      
-      // Character variety
-      if (/[A-Z]/.test(password)) strength++;
-      if (/[0-9]/.test(password)) strength++;
-      if (/[^A-Za-z0-9]/.test(password)) strength++;
-      
-      return strength;
-    }
+             document.querySelectorAll('.next-btn').forEach(btn => btn.addEventListener('click', () => {
+                 if(validateStep(currentStep)) switchStep(parseInt(btn.dataset.target));
+             }));
+             document.querySelectorAll('.prev-btn').forEach(btn => btn.addEventListener('click', () => switchStep(parseInt(btn.dataset.target))));
 
-    // Update password strength meter
-    function updateStrengthMeter(password) {
-      const strength = checkPasswordStrength(password);
-      
-      strengthMeter.className = 'strength-meter';
-      strengthText.textContent = 'Password strength';
-      
-      if (password.length === 0) {
-        strengthMeter.style.width = '0';
-        return;
-      }
-      
-      switch(strength) {
-        case 0:
-        case 1:
-          strengthMeter.classList.add('strength-weak');
-          strengthText.textContent = 'Weak';
-          strengthText.style.color = 'var(--danger)';
-          break;
-        case 2:
-        case 3:
-          strengthMeter.classList.add('strength-medium');
-          strengthText.textContent = 'Medium';
-          strengthText.style.color = 'var(--warning)';
-          break;
-        case 4:
-          strengthMeter.classList.add('strength-strong');
-          strengthText.textContent = 'Strong';
-          strengthText.style.color = 'var(--success)';
-          break;
-        case 5:
-          strengthMeter.classList.add('strength-very-strong');
-          strengthText.textContent = 'Very Strong';
-          strengthText.style.color = 'var(--success)';
-          break;
-      }
-    }
+             function validateStep(s) {
+                const div = document.querySelector(`.form-step[data-step="${s}"]`);
+                const req = div.querySelectorAll('input[required]');
+                let valid = true;
+                req.forEach(i => {
+                    if(!i.value.trim()) { i.closest('.input-wrapper').classList.add('error'); valid = false; }
+                    else { i.closest('.input-wrapper').classList.remove('error'); }
+                });
+                return valid;
+             }
 
-    // Toggle password visibility
-    function togglePasswordVisibility() {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-      togglePassword.classList.toggle('fa-eye');
-      togglePassword.classList.toggle('fa-eye-slash');
-    }
+             /* 3. 3D Card Tilt + Magnetic Physics */
+             const card = document.getElementById('tiltCard');
+             card.addEventListener('mousemove', (e) => {
+                 const r = card.getBoundingClientRect();
+                 const x = (e.clientX - r.left)/r.width - 0.5;
+                 const y = (e.clientY - r.top)/r.height - 0.5;
+                 gsap.to(card, { rotateX: -y * 8, rotateY: x * 8, duration: 0.5, ease: 'power2.out' });
+             });
+             card.addEventListener('mouseleave', () => gsap.to(card, { rotateX: 0, rotateY: 0, duration: 1, ease: 'elastic.out' }));
 
-    // Handle file input changes
-    function handleFileInputChange(e) {
-      const file = e.target.files[0];
-      if (file) {
-        fileName.textContent = file.name;
-        fileName.style.display = 'block';
-        fileInputButton.innerHTML = `<i class="fas fa-check"></i> <span>Photo selected</span>`;
-        fileInputButton.style.color = 'var(--success)';
-        fileInputButton.style.borderColor = 'var(--success)';
-      } else {
-        fileName.style.display = 'none';
-        fileInputButton.innerHTML = `<i class="fas fa-camera"></i> <span>Choose a photo</span>`;
-        fileInputButton.style.color = '';
-        fileInputButton.style.borderColor = '';
-      }
-    }
+             const magTargets = [
+                 { el: document.getElementById('magTitle'), s: 0.2 },
+                 { el: document.getElementById('finalizeBtn'), s: 0.15 }
+             ];
+             document.addEventListener('mousemove', (e) => {
+                 magTargets.forEach(m => {
+                     if(!m.el) return;
+                     const r = m.el.getBoundingClientRect();
+                     const dx = e.clientX - (r.left + r.width/2);
+                     const dy = e.clientY - (r.top + r.height/2);
+                     if(Math.sqrt(dx*dx + dy*dy) < 150) {
+                         gsap.to(m.el, { x: dx*m.s, y: dy*m.s, duration: 0.6 });
+                     } else { gsap.to(m.el, { x: 0, y: 0, duration: 1 }); }
+                 });
+             });
 
-    // Update amount based on membership type
-    function updateAmount() {
-      switch(membershipType.value) {
-        case 'Basic':
-          amountInput.value = '0';
-          break;
-        case 'Premium':
-          amountInput.value = '50';
-          break;
-        case 'Lifetime':
-          amountInput.value = '200';
-          break;
-        default:
-          amountInput.value = '';
-      }
-    }
+             /* 4. Password Engine */
+             document.getElementById('password').addEventListener('input', (e) => {
+                 const v = e.target.value;
+                 let s = 0; if(v.length>8) s++; if(/[A-Z]/.test(v)) s++; if(/[0-9]/.test(v)) s++; if(/[^A-Za-z0-9]/.test(v)) s++;
+                 const labels = ["Unsafe","Weak","Medium","Strong","Elite"];
+                 const colors = ["#475569","#ef4444","#f59e0b","#3b82f6","#10b981"];
+                 document.getElementById('pwText').innerText = "Security: " + labels[s];
+                 document.getElementById('pwText').style.color = colors[s];
+                 for(let i=1; i<=4; i++) {
+                     document.getElementById('b'+i).style.background = i <= s ? colors[s] : "rgba(255,255,255,0.05)";
+                 }
+             });
 
-    // Validate form step
-    function validateStep(step) {
-      let isValid = true;
-      const inputs = document.querySelectorAll(`.form-step[data-step="${step}"] .form-control[required]`);
-      
-      inputs.forEach(input => {
-        const group = input.closest('.form-group');
-        
-        if (!input.value.trim()) {
-          group.classList.add('error');
-          isValid = false;
-        } else {
-          group.classList.remove('error');
-          
-          // Special validation for email
-          if (input.type === 'email') {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(input.value.trim())) {
-              group.classList.add('error');
-              isValid = false;
-            }
-          }
-          
-          // Special validation for password
-          if (input.id === 'password' && input.value.length < 8) {
-            group.classList.add('error');
-            isValid = false;
-          }
-          
-          // Special validation for confirm password
-          if (input.id === 'confirmPassword' && input.value !== passwordInput.value) {
-            group.classList.add('error');
-            isValid = false;
-          }
-        }
-      });
-      
-      return isValid;
-    }
+             /* 5. Tier Multiplier */
+             document.querySelectorAll('.tier-card').forEach(c => c.addEventListener('click', () => {
+                 document.querySelectorAll('.tier-card').forEach(t => t.classList.remove('selected'));
+                 c.classList.add('selected');
+             }));
 
-    // Navigate between form steps
-    function navigateToStep(step) {
-      // Hide all steps
-      steps.forEach(s => s.style.display = 'none');
-      
-      // Show current step
-      document.querySelector(`.form-step[data-step="${step}"]`).style.display = 'block';
-      
-      // Update step indicators
-      document.querySelectorAll('.step').forEach((s, i) => {
-        if (parseInt(s.dataset.step) < step) {
-          s.classList.remove('active');
-          s.classList.add('completed');
-        } else if (parseInt(s.dataset.step) === step) {
-          s.classList.add('active');
-          s.classList.remove('completed');
-        } else {
-          s.classList.remove('active', 'completed');
-        }
-      });
-      
-      // Update progress bar
-      const progress = ((step - 1) / (steps.length - 1)) * 100;
-      stepProgress.style.width = `${progress}%`;
-      
-      // Scroll to top of form
-      signupForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
+             /* 6. Form Finalization */
+             document.getElementById('eliteForm').addEventListener('submit', (e) => {
+                 e.preventDefault();
+                 if(!document.getElementById('terms').checked) return;
+                 const btn = document.getElementById('finalizeBtn');
+                 btn.innerHTML = '<i class="fas fa-satellite-dish fa-spin"></i> Synchronizing...';
+                 btn.disabled = true;
+                 setTimeout(() => {
+                     document.getElementById('successModal').style.display = 'flex';
+                     gsap.from('.modal-card', { scale: 0.8, opacity: 0, duration: 0.5, ease: 'back.out' });
+                 }, 2500);
+             });
 
-    // Form submission handler
-    function handleFormSubmit(e) {
-      e.preventDefault();
-      
-      // Validate final step
-      if (!validateStep('3')) {
-        return;
-      }
-      
-      // Check terms agreement
-      const termsCheckbox = document.getElementById('termsAgreement');
-      if (!termsCheckbox.checked) {
-        termsCheckbox.closest('.checkbox-container').classList.add('error');
-        return;
-      } else {
-        termsCheckbox.closest('.checkbox-container').classList.remove('error');
-      }
-      
-      // Show loading state
-      const submitButton = e.target.querySelector('button[type="submit"]');
-      const originalContent = submitButton.innerHTML;
-      
-      submitButton.disabled = true;
-      submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-      
-      // Simulate form processing
-      setTimeout(() => {
-        // Show success state
-        successAnimation.classList.add('active');
-        
-        // Create confetti celebration
-        createConfetti(100);
-        
-        // Reset form after animation
-        setTimeout(() => {
-          // Reset form
-          signupForm.reset();
-          navigateToStep('1');
-          submitButton.disabled = false;
-          submitButton.innerHTML = originalContent;
-          fileName.style.display = 'none';
-          fileInputButton.innerHTML = `<i class="fas fa-camera"></i> <span>Choose a photo</span>`;
-          fileInputButton.style.color = '';
-          fileInputButton.style.borderColor = '';
-          
-          // Hide success animation after delay
-          setTimeout(() => {
-            successAnimation.classList.remove('active');
-          }, 3000);
-        }, 3000);
-      }, 1500);
-    }
-
-    // Initialize event listeners
-    function initEventListeners() {
-      // Password toggle
-      togglePassword.addEventListener('click', togglePasswordVisibility);
-      
-      // Password strength meter
-      passwordInput.addEventListener('input', (e) => {
-        updateStrengthMeter(e.target.value);
-      });
-      
-      // File input change
-      fileInput.addEventListener('change', handleFileInputChange);
-      
-      // Membership type change
-      membershipType.addEventListener('change', updateAmount);
-      
-      // Form step navigation
-      stepButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-          const currentStep = button.closest('.form-step').dataset.step;
-          const targetStep = button.classList.contains('next-step') ? 
-            button.dataset.next : button.dataset.prev;
-          
-          if (button.classList.contains('next-step') && !validateStep(currentStep)) {
-            return;
-          }
-          
-          navigateToStep(targetStep);
+             /* 7. File Zone */
+             const dz = document.getElementById('dropZone');
+             const fi = document.getElementById('profileImg');
+             dz.addEventListener('click', () => fi.click());
+             fi.addEventListener('change', (e) => {
+                 if(e.target.files[0]) {
+                     document.getElementById('fileInfo').innerText = "Confirmed: " + e.target.files[0].name;
+                     document.getElementById('fileInfo').style.display = "block";
+                 }
+             });
         });
-      });
-      
-      // Form submission
-      signupForm.addEventListener('submit', handleFormSubmit);
-      
-      // Input animations
-      document.querySelectorAll('.form-control').forEach(input => {
-        // Check if input has value on page load
-        if (input.value) {
-          const label = input.nextElementSibling;
-          label.style.top = '0';
-          label.style.transform = 'translateY(-50%) scale(0.85)';
-          label.style.color = 'var(--primary)';
-        }
-        
-        input.addEventListener('focus', () => {
-          const label = input.nextElementSibling;
-          label.style.top = '0';
-          label.style.transform = 'translateY(-50%) scale(0.85)';
-          label.style.color = 'var(--primary)';
-        });
-        
-        input.addEventListener('blur', () => {
-          if (!input.value) {
-            const label = input.nextElementSibling;
-            label.style.top = '50%';
-            label.style.transform = 'translateY(-50%)';
-            label.style.color = 'var(--text-gray)';
-          }
-        });
-      });
-    }
-
-    // Initialize everything when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      initEventListeners();
-      navigateToStep('1');
-      updateAmount(); // Initialize amount field
-      
-      // Start animations with delays
-      setTimeout(() => {
-        createBubbles(3);
-        createParticles(5);
-        
-        // Continue animations at intervals
-        setInterval(() => {
-          createBubbles(2);
-          createParticles(3);
-        }, 4000);
-      }, 1000);
-    });
-
-    // Optimize for mobile touch events
-    document.addEventListener('touchstart', function() {}, {passive: true});
-    document.addEventListener('touchmove', function(e) {
-      // Prevent scrolling when interacting with form elements
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
-        e.preventDefault();
-      }
-    }, {passive: false});
-  </script>
+    </script>
 </body>
 </html>

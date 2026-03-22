@@ -1,0 +1,21 @@
+{
+  "name": "NexusSphere Elite",
+  "short_name": "NexusSphere",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050a15",
+  "theme_color": "#3b82f6",
+  "description": "Elite MLM Network Platform",
+  "icons": [
+    {
+      "src": "/logo/site_logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo/site_logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

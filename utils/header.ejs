@@ -1,45 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    /* Immediate theme application to prevent white flash (FOUC) */
+    (function () {
+      const savedMode = localStorage.getItem('darkMode');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedMode === 'true' || (savedMode === null && prefersDark)) {
+        document.documentElement.classList.add('dark-mode');
+        document.body && document.body.classList.add('dark-mode');
+      }
+    })();
+  </script>
   <title>Enhanced Premium Header Component</title>
   <style>
-    /* Modern CSS Reset with Smooth Scrolling */
+    /* Global Theme Tokens - Used by all pages */
     :root {
       --header-height: 80px;
       --header-scrolled-height: 70px;
-      --header-bg: rgba(255, 255, 255, 0.98);
+      --global-bg: #f8fafc;
+      --global-surface: rgba(255, 255, 255, 0.98);
+      --global-surface-elevated: #ffffff;
+      --global-text: #1e293b;
+      --global-text-muted: #64748b;
+      --global-border: rgba(226, 232, 240, 0.8);
+      --global-primary: #4361ee;
+      --global-accent: #f72585;
+      --global-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+
+      --header-bg: var(--global-surface);
       --header-scrolled-bg: rgba(255, 255, 255, 0.96);
-      --header-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+      --header-shadow: var(--global-shadow);
       --header-scrolled-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-      --primary-color: #4361ee;
+      --primary-color: var(--global-primary);
       --primary-dark: #3a0ca3;
       --primary-light: #4895ef;
       --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-      --text-color: #1e293b;
-      --text-muted: #64748b;
+      --text-color: var(--global-text);
+      --text-muted: var(--global-text-muted);
       --glass-effect: backdrop-filter: blur(12px);
       --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       --transition-elastic: all 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6);
       --sidebar-width: 280px;
-      --notification-count: 4;
-      --cart-count: 3;
       
+      /* Dynamic Badge Counts with fallback to hardcoded if needed */
+      --notification-count: "<%= typeof notifications !== 'undefined' ? notifications.length : 4 %>";
+      --cart-count: "<%= typeof cartTotalQuantity !== 'undefined' ? cartTotalQuantity : 3 %>";
+      --message-count: "<%= typeof messages !== 'undefined' ? messages.length : 2 %>";
+
       /* Enhanced colors */
       --success-color: #10b981;
       --warning-color: #f59e0b;
       --danger-color: #ef4444;
       --info-color: #3b82f6;
-      
-      /* Dark mode variables */
-      --dark-bg: #0f172a;
-      --dark-bg-light: #1e293b;
-      --dark-text: #f8fafc;
-      --dark-muted: #94a3b8;
-      --dark-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-      
+
       /* New dropdown variables */
       --dropdown-border-radius: 16px;
       --dropdown-item-padding: 14px 20px;
@@ -47,14 +65,14 @@
       --dropdown-divider-color: rgba(226, 232, 240, 0.3);
       --dropdown-hover-bg: rgba(241, 245, 249, 0.2);
       --dropdown-active-bg: rgba(67, 97, 238, 0.1);
-      
+
       /* Enhanced shadows */
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
       --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
       --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      
+
       /* New z-index hierarchy */
       --z-header: 1000;
       --z-dropdown: 1001;
@@ -62,39 +80,56 @@
       --z-context-menu: 1003;
       --z-modal: 1004;
     }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    }
-    
-    html {
-      scroll-behavior: smooth;
-    }
 
-    body {
-      transition: background-color 0.5s ease, color 0.5s ease;
-      background-color: #f8fafc;
-      color: var(--text-color);
-      line-height: 1.5;
-    }
+    /* Global Dark Mode Overrides */
+    body.dark-mode,
+    html.dark-mode body {
+      --global-bg: #0f172a;
+      --global-surface: rgba(30, 41, 59, 0.8);
+      --global-surface-elevated: #1e293b;
+      --global-text: #f8fafc;
+      --global-text-muted: #94a3b8;
+      --global-border: rgba(148, 163, 184, 0.1);
+      --global-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 
-    /* Dark mode styles */
-    body.dark-mode {
-      background-color: var(--dark-bg);
-      color: var(--dark-text);
-      
-      --header-bg: rgba(15, 23, 42, 0.98);
+      --header-bg: var(--global-surface);
       --header-scrolled-bg: rgba(15, 23, 42, 0.96);
-      --header-shadow: var(--dark-shadow);
+      --header-shadow: var(--global-shadow);
       --header-scrolled-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
-      --text-color: var(--dark-text);
-      --text-muted: var(--dark-muted);
+      --text-color: var(--global-text);
+      --text-muted: var(--global-text-muted);
       --dropdown-divider-color: rgba(100, 116, 139, 0.3);
       --dropdown-hover-bg: rgba(30, 41, 59, 0.3);
       --dropdown-active-bg: rgba(67, 97, 238, 0.2);
+
+      background-color: var(--global-bg) !important;
+      color: var(--global-text) !important;
+    }
+
+    /* Broad Dark Mode overrides for all pages */
+    body.dark-mode .container,
+    body.dark-mode .form-container,
+    body.dark-mode .card,
+    body.dark-mode .content-wrapper,
+    body.dark-mode .table,
+    body.dark-mode .modal-content {
+      background: var(--global-surface) !important;
+      color: var(--global-text) !important;
+      border-color: var(--global-border) !important;
+      box-shadow: var(--global-shadow) !important;
+    }
+
+    body.dark-mode input,
+    body.dark-mode select,
+    body.dark-mode textarea {
+      background: var(--global-surface-elevated) !important;
+      color: var(--global-text) !important;
+      border-color: var(--global-border) !important;
+    }
+
+    body.dark-mode label,
+    body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4, body.dark-mode h5, body.dark-mode h6 {
+      color: var(--global-text) !important;
     }
 
     /* Header Styles with Glass Morphism */
@@ -179,7 +214,7 @@
       padding-bottom: 0.25rem;
       text-shadow: 0 2px 4px rgba(67, 97, 238, 0.1);
     }
-    
+
     .logo-text::after {
       content: '';
       position: absolute;
@@ -190,7 +225,7 @@
       background: var(--primary-gradient);
       transition: width 0.4s ease-out;
     }
-    
+
     .logo:hover .logo-text::after {
       width: 100%;
     }
@@ -336,7 +371,7 @@
       transition: var(--transition-smooth);
       white-space: nowrap;
     }
-    
+
     .profile-btn:hover .profile-name {
       color: var(--primary-dark);
     }
@@ -348,7 +383,7 @@
       position: relative;
       z-index: var(--z-dropdown);
     }
-    
+
     .dropdown-menu {
       position: absolute;
       right: 0;
@@ -532,7 +567,7 @@
     .dark-mode .notification-icon {
       background: rgba(30, 41, 59, 0.7);
     }
-    
+
     .notification-item:hover .notification-icon {
       transform: scale(1.1);
       background: rgba(236, 253, 245, 0.7);
@@ -571,7 +606,7 @@
       align-items: center;
       gap: 4px;
     }
-    
+
     .notification-time::before {
       content: '';
       display: inline-block;
@@ -619,7 +654,7 @@
       overflow: hidden;
       background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(58, 12, 163, 0.1) 100%);
     }
-    
+
     .profile-dropdown-header::before {
       content: '';
       position: absolute;
@@ -640,7 +675,7 @@
       transition: var(--transition-smooth);
       box-shadow: var(--shadow-md);
     }
-    
+
     .dropdown:hover .profile-dropdown-img {
       transform: scale(1.05) rotate(5deg);
     }
@@ -785,24 +820,24 @@
         --header-height: 80px;
         --header-scrolled-height: 65px;
       }
-      
+
       .logo-text {
         display: none;
       }
-      
+
       .profile-name {
         display: none;
       }
-      
+
       .action-btn {
         width: 2.5rem;
         height: 2.5rem;
       }
-      
+
       .profile-btn {
         padding: 0.5rem;
       }
-      
+
       .dropdown-menu {
         min-width: 280px;
         right: -10px;
@@ -815,17 +850,17 @@
         right: 20px;
         left: auto;
       }
-      
+
       .dropdown-menu::before {
         right: 30px;
       }
-      
+
       .notification-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
       }
-      
+
       .view-all-btn {
         width: 100%;
         justify-content: center;
@@ -834,33 +869,75 @@
 
     /* Animation Keyframes - Enhanced */
     @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-      100% { transform: scale(1); }
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
-    
+
     @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
-      100% { transform: translateY(0px); }
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
     }
-    
+
     @keyframes tilt {
-      0% { transform: rotate(0deg); }
-      25% { transform: rotate(5deg); }
-      75% { transform: rotate(-5deg); }
-      100% { transform: rotate(0deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      25% {
+        transform: rotate(5deg);
+      }
+
+      75% {
+        transform: rotate(-5deg);
+      }
+
+      100% {
+        transform: rotate(0deg);
+      }
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @keyframes glow {
-      0% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(67, 97, 238, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
+      0% {
+        box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(67, 97, 238, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(67, 97, 238, 0);
+      }
     }
 
     @keyframes shimmer {
@@ -877,45 +954,99 @@
     }
 
     @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
 
     @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
     }
 
     @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-5px); }
-      40%, 80% { transform: translateX(5px); }
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20%,
+      60% {
+        transform: translateX(-5px);
+      }
+
+      40%,
+      80% {
+        transform: translateX(5px);
+      }
     }
 
     @keyframes wave {
-      0% { transform: rotate(0deg); }
-      10% { transform: rotate(14deg); }
-      20% { transform: rotate(-8deg); }
-      30% { transform: rotate(14deg); }
-      40% { transform: rotate(-4deg); }
-      50% { transform: rotate(10deg); }
-      60% { transform: rotate(0deg); }
-      100% { transform: rotate(0deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      10% {
+        transform: rotate(14deg);
+      }
+
+      20% {
+        transform: rotate(-8deg);
+      }
+
+      30% {
+        transform: rotate(14deg);
+      }
+
+      40% {
+        transform: rotate(-4deg);
+      }
+
+      50% {
+        transform: rotate(10deg);
+      }
+
+      60% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(0deg);
+      }
     }
 
     .pulse {
       animation: pulse 1.5s infinite;
     }
-    
+
     .float {
       animation: float 3s ease-in-out infinite;
     }
-    
+
     .tilt {
       animation: tilt 6s ease-in-out infinite;
     }
@@ -960,27 +1091,70 @@
       background: rgba(67, 97, 238, 0.4);
     }
 
-    /* Main content styles to prevent overlap */
-    main {
-      margin-top: var(--header-height);
-      margin-left: var(--sidebar-width);
-      padding: 2rem;
-      min-height: calc(100vh - var(--header-height));
-      transition: var(--transition-smooth);
+    /* ─────────────────────────────────────────────────── */
+    /* GLOBAL LAYOUT — Fixed header + sidebar offset       */
+    /* Applies to ALL pages via this single shared header  */
+    /* ─────────────────────────────────────────────────── */
+
+    /* Primary: any <main> tag gets proper top offset and flex-grows to push footer down */
+    body {
+      display: flex !important;
+      flex-direction: column !important;
+      min-height: 100vh !important;
+      margin: 0;
+      overflow-x: hidden; /* Prevent horizontal scrollbars globally */
     }
 
-    /* Adjust for collapsed sidebar */
+    /* ─── Global Content Layout ───────────────────────────── */
+    /* Enforce top padding on all main content wrappers to prevent header overlap */
+    main, #main, .main, .main-content, .main-container, .content-wrapper, .view-product-wrapper {
+      flex: 1 0 auto;
+      margin-top: 0 !important;
+      padding-top: calc(var(--header-height, 80px) + 30px) !important;
+      padding-bottom: 60px;
+      margin-left: var(--sidebar-width, 280px);
+      transition: margin-left var(--transition-smooth), padding-top var(--transition-smooth);
+      box-sizing: border-box;
+      min-height: calc(100vh - var(--header-height, 80px));
+      position: relative;
+      background-color: transparent !important;
+    }
+
+    /* Prevent double-nesting of margins (e.g. dashboard has #main > .main-content) */
+    main .main-content, #main .main-content, .main .main-content, .main-container .main-content, .view-product-wrapper .main-content {
+      margin-left: 0 !important;
+      padding-top: 0 !important;
+    }
+
+    /* Standard responsive logic for the offset */
     @media (max-width: 992px) {
-      main {
-        margin-left: 80px;
+      main, #main, .main, .main-content, .main-container, .content-wrapper { 
+        margin-left: 80px; 
       }
     }
 
-    /* Adjust for mobile */
     @media (max-width: 768px) {
-      main {
+      main, #main, .main, .main-content, .main-container, .content-wrapper {
         margin-left: 0;
+        padding-top: calc(var(--header-height, 80px) + 20px) !important;
       }
+    }
+
+    /* ─── Footer global layout & left offset (matches sidebar) ── */
+    .custom-global-footer {
+      flex-shrink: 0;
+      margin-top: auto !important;
+      margin-left: var(--sidebar-width, 280px);
+      width: auto !important; /* Allow it to fit with the margin */
+      overflow-x: hidden;
+    }
+
+    @media (max-width: 992px) {
+      .custom-global-footer { margin-left: 80px; }
+    }
+
+    @media (max-width: 768px) {
+      .custom-global-footer { margin-left: 0; }
     }
 
     /* Custom scrollbar for dropdowns */
@@ -1283,35 +1457,68 @@
       box-shadow: var(--shadow-md);
     }
   </style>
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-  <!-- Inter Font -->
+  <!-- Vendor CSS Files -->
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+  <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
+  <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <!-- Font Awesome for additional icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <!-- AOS Animation -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
-<body>
+
+<body class="dark-mode-transition">
   <!-- Premium Header Component -->
   <header class="header">
     <a href="/dashboard" class="logo">
       <img src="/logo/site_logo.png" alt="ChainCore Logo" class="logo-img float">
       <span class="logo-text">ChainCore</span>
     </a>
-    
+
     <nav class="header-nav">
       <!-- Dark Mode Toggle -->
       <button class="action-btn dark-mode-toggle" aria-label="Toggle dark mode">
         <i class="bi bi-sun"></i>
         <i class="bi bi-moon"></i>
       </button>
-      
+
       <!-- Notifications -->
       <div class="dropdown">
         <button class="action-btn notification-btn" aria-label="Notifications">
           <i class="bi bi-bell"></i>
-          <span class="action-badge notification pulse">4</span>
+          <span class="action-badge notification pulse">
+            <%= typeof notifications !== 'undefined' ? notifications.length : 4 %>
+          </span>
         </button>
-        
+
         <div class="dropdown-menu notification-dropdown">
           <div class="notification-header">
             <h3 class="notification-title">Notifications</h3>
@@ -1320,7 +1527,7 @@
               <i class="bi bi-arrow-right"></i>
             </a>
           </div>
-          
+
           <div class="notification-list">
             <div class="notification-item unread fade-in" style="animation-delay: 0.1s">
               <div class="notification-icon">
@@ -1328,7 +1535,8 @@
               </div>
               <div class="notification-content">
                 <h4 class="notification-title">System Alert</h4>
-                <p class="notification-text">Server maintenance scheduled for tonight at 2:00 AM. Please save your work before this time.</p>
+                <p class="notification-text">Server maintenance scheduled for tonight at 2:00 AM. Please save your work
+                  before this time.</p>
                 <p class="notification-time">30 min. ago</p>
                 <div class="notification-actions">
                   <button class="notification-action-btn">Dismiss</button>
@@ -1336,14 +1544,15 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="notification-item unread fade-in" style="animation-delay: 0.2s">
               <div class="notification-icon">
                 <i class="bi bi-x-circle" style="color: var(--danger-color)"></i>
               </div>
               <div class="notification-content">
                 <h4 class="notification-title">Failed Login Attempt</h4>
-                <p class="notification-text">Unsuccessful login attempt from unknown IP address (192.168.1.45) detected.</p>
+                <p class="notification-text">Unsuccessful login attempt from unknown IP address (192.168.1.45) detected.
+                </p>
                 <p class="notification-time">1 hr. ago</p>
                 <div class="notification-actions">
                   <button class="notification-action-btn">Dismiss</button>
@@ -1351,7 +1560,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="notification-item fade-in" style="animation-delay: 0.3s">
               <div class="notification-icon">
                 <i class="bi bi-check-circle" style="color: var(--success-color)"></i>
@@ -1362,7 +1571,7 @@
                 <p class="notification-time">2 hrs. ago</p>
               </div>
             </div>
-            
+
             <div class="notification-item fade-in" style="animation-delay: 0.4s">
               <div class="notification-icon">
                 <i class="bi bi-person-plus" style="color: var(--primary-color)"></i>
@@ -1373,7 +1582,7 @@
                 <p class="notification-time">5 hrs. ago</p>
               </div>
             </div>
-            
+
             <div class="notification-item fade-in" style="animation-delay: 0.5s">
               <div class="notification-icon">
                 <i class="bi bi-cloud-arrow-down" style="color: var(--info-color)"></i>
@@ -1385,26 +1594,30 @@
               </div>
             </div>
           </div>
-          
+
           <div class="dropdown-footer">
             <span>You have 2 unread notifications</span>
           </div>
         </div>
       </div>
-      
+
       <!-- Shopping Cart -->
       <a href="/shopping" class="action-btn cart-btn" aria-label="Shopping cart">
         <i class="bi bi-cart3"></i>
-        <span class="action-badge cart pulse">3</span>
+        <span class="action-badge cart pulse" id="global-cart-badge">
+          <%= typeof cartTotalQuantity !=='undefined' ? cartTotalQuantity : 0 %>
+        </span>
       </a>
-      
+
       <!-- Messages Dropdown -->
       <div class="dropdown">
         <button class="action-btn messages-btn" aria-label="Messages">
           <i class="bi bi-chat-left-text"></i>
-          <span class="action-badge message pulse">2</span>
+          <span class="action-badge message pulse">
+            <%= typeof messages !== 'undefined' ? messages.length : 2 %>
+          </span>
         </button>
-        
+
         <div class="dropdown-menu messages-dropdown">
           <div class="notification-header">
             <h3 class="notification-title">Messages</h3>
@@ -1413,15 +1626,16 @@
               <i class="bi bi-arrow-right"></i>
             </a>
           </div>
-          
+
           <div class="dropdown-search">
             <input type="text" placeholder="Search messages...">
             <i class="bi bi-search"></i>
           </div>
-          
+
           <div class="notification-list">
             <a href="/messages/1" class="dropdown-item fade-in" style="animation-delay: 0.1s">
-              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="profile-img" width="40" height="40">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="profile-img" width="40"
+                height="40">
               <div>
                 <h4>Sarah Johnson <span class="status-indicator status-online"></span></h4>
                 <p class="notification-text">Hey, can you review the latest design...</p>
@@ -1429,20 +1643,22 @@
               </div>
               <span class="badge">2</span>
             </a>
-            
+
             <a href="/messages/2" class="dropdown-item fade-in" style="animation-delay: 0.15s">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="profile-img" width="40" height="40">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="profile-img" width="40"
+                height="40">
               <div>
                 <h4>Michael Chen <span class="status-indicator status-away"></span></h4>
                 <p class="notification-text">The API documentation is ready for...</p>
                 <p class="notification-time">1 hr ago</p>
               </div>
             </a>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <a href="/messages/3" class="dropdown-item fade-in" style="animation-delay: 0.2s">
-              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" class="profile-img" width="40" height="40">
+              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" class="profile-img" width="40"
+                height="40">
               <div>
                 <h4>Emma Wilson <span class="status-indicator status-offline"></span></h4>
                 <p class="notification-text">Meeting rescheduled to tomorrow at...</p>
@@ -1450,7 +1666,7 @@
               </div>
             </a>
           </div>
-          
+
           <div class="dropdown-footer">
             <button class="view-all-btn" style="width: 100%">
               <i class="bi bi-plus"></i> New Message
@@ -1458,61 +1674,61 @@
           </div>
         </div>
       </div>
-      
+
       <!-- User Profile -->
       <div class="dropdown">
         <button class="profile-btn profile-dropdown-btn">
-          <img src="<%=user_image %>" alt="Profile" class="profile-img">
-          <span class="profile-name">Admin</span>
+          <img src="<%= typeof user_image !== 'undefined' ? user_image : 'https://github.com/mdo.png' %>" alt="Profile" class="profile-img">
+          <span class="profile-name"><%= typeof name !== 'undefined' ? name : 'Admin' %></span>
         </button>
-        
+
         <div class="dropdown-menu profile-dropdown">
           <div class="profile-dropdown-header">
-            <img src="<%=user_image %>" alt="Profile" class="profile-dropdown-img tilt">
-            <h3 class="profile-dropdown-name">Admin User</h3>
+            <img src="<%= typeof user_image !== 'undefined' ? user_image : 'https://github.com/mdo.png' %>" alt="Profile" class="profile-dropdown-img tilt">
+            <h3 class="profile-dropdown-name"><%= typeof name !== 'undefined' ? name : 'Admin User' %></h3>
             <p class="profile-dropdown-role">Administrator</p>
-            
+
             <div class="progress-bar">
               <div class="progress-fill" style="width: 75%"></div>
             </div>
             <p class="notification-time">Profile completeness: 75%</p>
           </div>
-          
+
           <div class="dropdown-list">
             <a href="/admininfo" class="dropdown-item fade-in" style="animation-delay: 0.1s">
               <i class="bi bi-person"></i>
               <span>My Profile</span>
             </a>
-            
+
             <a href="/change_pass_page" class="dropdown-item fade-in" style="animation-delay: 0.15s">
               <i class="bi bi-shield-lock"></i>
               <span>Change Password</span>
             </a>
-            
+
             <a href="/settings" class="dropdown-item fade-in" style="animation-delay: 0.2s">
               <i class="bi bi-gear"></i>
               <span>Settings</span>
             </a>
-            
+
             <a href="/team" class="dropdown-item fade-in" style="animation-delay: 0.25s">
               <i class="bi bi-people"></i>
               <span>Team Members</span>
             </a>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <a href="/help" class="dropdown-item fade-in" style="animation-delay: 0.3s">
               <i class="bi bi-question-circle"></i>
               <span>Help Center</span>
             </a>
-            
+
             <a href="/feedback" class="dropdown-item fade-in" style="animation-delay: 0.35s">
               <i class="bi bi-chat-square-text"></i>
               <span>Send Feedback</span>
             </a>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <a href="/logout" class="dropdown-item fade-in" style="animation-delay: 0.4s">
               <i class="bi bi-box-arrow-right"></i>
               <span>Sign Out</span>
@@ -1544,31 +1760,31 @@
     </div>
   </div>
 
-    <script>
+  <script>
     // Enhanced Header scroll effect with parallax
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
       const header = document.querySelector('.header');
       const scrollPosition = window.scrollY;
-      
+
       header.classList.toggle('scrolled', scrollPosition > 10);
-      
+
       // Parallax effect on logo
       const logo = document.querySelector('.logo-img');
       if (logo) {
         logo.style.transform = `translateY(${Math.min(scrollPosition * 0.2, 10)}px) rotateY(${Math.min(scrollPosition * 0.5, 15)}deg)`;
       }
     });
-    
+
     // Dynamic notification count with enhanced animation
-    setInterval(function() {
+    setInterval(function () {
       const badge = document.querySelector('.action-badge.notification');
       if (badge && Math.random() > 0.7) {
         const count = parseInt(badge.textContent);
         const newCount = Math.max(0, Math.min(99, count + (Math.random() > 0.5 ? 1 : -1)));
-        
+
         // Add animation class
         badge.classList.add('pulse');
-        
+
         // Change color based on count
         if (newCount > 5) {
           badge.style.background = 'linear-gradient(135deg, var(--danger-color) 0%, #f97316 100%)';
@@ -1577,61 +1793,61 @@
         } else {
           badge.style.background = 'var(--primary-gradient)';
         }
-        
+
         setTimeout(() => {
           badge.textContent = newCount;
           setTimeout(() => badge.classList.remove('pulse'), 500);
         }, 300);
       }
     }, 8000);
-    
+
     // Enhanced cart badge animation on hover
     const cartBtn = document.querySelector('.cart-btn');
     if (cartBtn) {
-      cartBtn.addEventListener('mouseenter', function() {
+      cartBtn.addEventListener('mouseenter', function () {
         const badge = this.querySelector('.action-badge');
         badge.classList.add('pulse');
-        
+
         // Add floating items animation
         const cartIcon = this.querySelector('i');
         cartIcon.style.transform = 'translateY(-3px) rotate(-10deg)';
-        
+
         // Add glow effect
         this.classList.add('glow');
       });
-      
-      cartBtn.addEventListener('mouseleave', function() {
+
+      cartBtn.addEventListener('mouseleave', function () {
         const badge = this.querySelector('.action-badge');
         badge.classList.remove('pulse');
-        
+
         const cartIcon = this.querySelector('i');
         cartIcon.style.transform = '';
-        
+
         // Remove glow effect
         this.classList.remove('glow');
       });
     }
-    
+
     // Enhanced dropdown transitions with delay and staggered animations
     document.querySelectorAll('.dropdown').forEach(dropdown => {
       let timeout;
       let isAnimating = false;
-      
-      dropdown.addEventListener('mouseenter', function() {
+
+      dropdown.addEventListener('mouseenter', function () {
         clearTimeout(timeout);
         if (isAnimating) return;
-        
+
         isAnimating = true;
         const menu = this.querySelector('.dropdown-menu');
         menu.style.display = 'block';
         menu.style.opacity = '0';
         menu.style.transform = 'translateY(10px) scale(0.95)';
-        
+
         // Add loading spinner for messages dropdown
         if (this.querySelector('.messages-dropdown')) {
           const list = this.querySelector('.notification-list');
           list.innerHTML = `<div style="padding: 20px; text-align: center;"><div class="spinner"></div><p style="margin-top: 10px; color: var(--text-muted);">Loading messages...</p></div>`;
-          
+
           // Simulate loading messages
           setTimeout(() => {
             if (list) {
@@ -1666,84 +1882,84 @@
             }
           }, 800);
         }
-        
+
         setTimeout(() => {
           menu.style.opacity = '1';
           menu.style.transform = 'translateY(0) scale(1)';
-          
+
           // Animate dropdown items sequentially
           const items = menu.querySelectorAll('.fade-in');
           items.forEach((item, index) => {
             item.style.animationDelay = `${index * 0.05}s`;
           });
-          
+
           isAnimating = false;
         }, 10);
       });
-      
-      dropdown.addEventListener('mouseleave', function() {
+
+      dropdown.addEventListener('mouseleave', function () {
         const menu = this.querySelector('.dropdown-menu');
         menu.style.opacity = '0';
         menu.style.transform = 'translateY(10px) scale(0.95)';
-        
+
         timeout = setTimeout(() => {
           menu.style.display = 'none';
         }, 300);
       });
     });
-    
+
     // Add ripple effect to buttons
     document.querySelectorAll('.action-btn, .profile-btn, .view-all-btn, .dropdown-item, .notification-action-btn, .card-button').forEach(button => {
-      button.addEventListener('click', function(e) {
+      button.addEventListener('click', function (e) {
         // Remove any existing ripple
         const existingRipple = this.querySelector('.ripple-effect');
         if (existingRipple) {
           existingRipple.remove();
         }
-        
+
         const rect = this.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         const ripple = document.createElement('span');
         ripple.className = 'ripple-effect';
         ripple.style.left = `${x}px`;
         ripple.style.top = `${y}px`;
-        
+
         this.appendChild(ripple);
-        
+
         setTimeout(() => {
           ripple.remove();
         }, 600);
       });
     });
-    
+
     // Add subtle hover effect to all interactive elements
     document.querySelectorAll('a, button, .dropdown-item, .notification-item, .card').forEach(element => {
-      element.addEventListener('mouseenter', function() {
+      element.addEventListener('mouseenter', function () {
         this.style.transform = 'translateY(-1px)';
       });
-      
-      element.addEventListener('mouseleave', function() {
+
+      element.addEventListener('mouseleave', function () {
         this.style.transform = '';
       });
     });
-    
+
     // Initialize animations when page loads
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Add initial animation to header
       const header = document.querySelector('.header');
       if (header) {
         header.style.opacity = '0';
         header.style.transform = 'translateY(-20px)';
-        
+
         setTimeout(() => {
           header.style.transition = 'opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
           header.style.opacity = '1';
           header.style.transform = 'translateY(0)';
         }, 100);
       }
-      
+
       // Add animation to logo text
       const logoText = document.querySelector('.logo-text');
       if (logoText) {
@@ -1751,7 +1967,7 @@
           logoText.style.animation = 'fadeIn 0.8s ease-out forwards';
         }, 300);
       }
-      
+
       // Initialize profile completeness progress
       const progressFill = document.querySelector('.progress-fill');
       if (progressFill) {
@@ -1762,38 +1978,41 @@
     });
 
     // Enhanced Dark Mode Toggle
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const darkModeToggle = document.querySelector('.dark-mode-toggle');
-      
+
       // Check for saved preference or system preference
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const savedMode = localStorage.getItem('darkMode');
-      
+
       if (savedMode === 'true' || (savedMode === null && prefersDark)) {
         document.body.classList.add('dark-mode');
       }
-      
+
       // Set initial icon state
       updateDarkModeIcon();
-      
+
       // Toggle dark mode
-      darkModeToggle.addEventListener('click', function() {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+      darkModeToggle.addEventListener('click', function () {
+        const isDark = document.documentElement.classList.toggle('dark-mode');
+        // Also toggle on body for older themes if needed
+        document.body.classList.toggle('dark-mode', isDark);
+
+        localStorage.setItem('darkMode', isDark);
         updateDarkModeIcon();
-        
+
         // Add animation to toggle button
         this.classList.add('rotate');
         setTimeout(() => {
           this.classList.remove('rotate');
         }, 500);
       });
-      
+
       function updateDarkModeIcon() {
         const sunIcon = darkModeToggle.querySelector('.bi-sun');
         const moonIcon = darkModeToggle.querySelector('.bi-moon');
-        
-        if (document.body.classList.contains('dark-mode')) {
+
+        if (document.documentElement.classList.contains('dark-mode')) {
           sunIcon.style.opacity = '0';
           sunIcon.style.transform = 'rotate(-90deg)';
           moonIcon.style.opacity = '1';
@@ -1805,7 +2024,7 @@
           moonIcon.style.transform = 'rotate(90deg)';
         }
       }
-      
+
       // Listen for system color scheme changes
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
         if (localStorage.getItem('darkMode') === null) {
@@ -1818,67 +2037,67 @@
         }
       });
     });
-    
+
     // Context menu functionality
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const contextMenu = document.getElementById('contextMenu');
-      
-      document.addEventListener('contextmenu', function(e) {
+
+      document.addEventListener('contextmenu', function (e) {
         e.preventDefault();
-        
+
         // Position the context menu
         let x = e.clientX;
         let y = e.clientY;
-        
+
         // Adjust position if near window edges
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
         const menuWidth = contextMenu.offsetWidth;
         const menuHeight = contextMenu.offsetHeight;
-        
+
         if (x + menuWidth > windowWidth) {
           x = windowWidth - menuWidth - 5;
         }
-        
+
         if (y + menuHeight > windowHeight) {
           y = windowHeight - menuHeight - 5;
         }
-        
+
         contextMenu.style.left = `${x}px`;
         contextMenu.style.top = `${y}px`;
         contextMenu.classList.add('visible');
       });
-      
+
       // Close context menu when clicking elsewhere
-      document.addEventListener('click', function() {
+      document.addEventListener('click', function () {
         contextMenu.classList.remove('visible');
       });
-      
+
       // Prevent closing when clicking inside menu
-      contextMenu.addEventListener('click', function(e) {
+      contextMenu.addEventListener('click', function (e) {
         e.stopPropagation();
       });
     });
-    
+
     // Notification item click handler
     document.querySelectorAll('.notification-item').forEach(item => {
-      item.addEventListener('click', function(e) {
+      item.addEventListener('click', function (e) {
         if (!e.target.classList.contains('notification-action-btn')) {
           // Mark as read
           this.classList.remove('unread');
-          
+
           // Show tooltip
           const tooltip = document.createElement('div');
           tooltip.className = 'tooltip';
           tooltip.textContent = 'Notification marked as read';
           document.body.appendChild(tooltip);
-          
+
           // Position tooltip
           const rect = this.getBoundingClientRect();
           tooltip.style.left = `${rect.left + rect.width / 2 - tooltip.offsetWidth / 2}px`;
           tooltip.style.top = `${rect.top - tooltip.offsetHeight - 10}px`;
           tooltip.style.opacity = '1';
-          
+
           // Remove tooltip after delay
           setTimeout(() => {
             tooltip.style.opacity = '0';
@@ -1887,15 +2106,15 @@
         }
       });
     });
-    
+
     // Profile dropdown item click handler
     document.querySelectorAll('.profile-dropdown .dropdown-item').forEach(item => {
-      item.addEventListener('click', function() {
+      item.addEventListener('click', function () {
         // Add active class and remove from siblings
         this.classList.add('active');
         const siblings = Array.from(this.parentNode.children).filter(child => child !== this);
         siblings.forEach(sibling => sibling.classList.remove('active'));
-        
+
         // Add loading effect
         const icon = this.querySelector('i');
         if (icon) {
@@ -1904,13 +2123,13 @@
         }
       });
     });
-    
+
     // Search functionality for messages dropdown
     document.querySelectorAll('.dropdown-search input').forEach(input => {
-      input.addEventListener('input', function() {
+      input.addEventListener('input', function () {
         const searchTerm = this.value.toLowerCase();
         const items = this.closest('.dropdown-menu').querySelectorAll('.dropdown-item');
-        
+
         items.forEach(item => {
           const text = item.textContent.toLowerCase();
           if (text.includes(searchTerm)) {
@@ -1921,18 +2140,18 @@
         });
       });
     });
-    
+
     // Avatar hover effect
     document.querySelectorAll('.profile-img').forEach(avatar => {
-      avatar.addEventListener('mouseenter', function() {
+      avatar.addEventListener('mouseenter', function () {
         this.classList.add('wave');
       });
-      
-      avatar.addEventListener('mouseleave', function() {
+
+      avatar.addEventListener('mouseleave', function () {
         this.classList.remove('wave');
       });
     });
-    
+
     // Simulate unread notifications
     setTimeout(() => {
       const notificationItems = document.querySelectorAll('.notification-item.unread');
@@ -1943,7 +2162,7 @@
         }, 500);
       }
     }, 3000);
-    
+
     // Simulate new message arrival
     setInterval(() => {
       if (Math.random() > 0.7) {
@@ -1951,7 +2170,7 @@
         if (messagesBtn) {
           messagesBtn.classList.add('shake');
           setTimeout(() => messagesBtn.classList.remove('shake'), 500);
-          
+
           const badge = messagesBtn.querySelector('.action-badge');
           if (badge) {
             const count = parseInt(badge.textContent) + 1;
@@ -1963,5 +2182,3 @@
       }
     }, 15000);
   </script>
-</body>
-</html>

@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Product</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <style>
+<%- include("../utils/header") %>
+<%- include("side") %>
+<style>
+/* Local addproduct styles */
     :root {
       --primary-color: #4361ee;
       --secondary-color: #3f37c9;
@@ -19,28 +15,42 @@
       --bubble-color-3: #4cc9f0;
       --bubble-color-4: #4361ee;
       --bubble-color-5: #3f37c9;
+      --bg-color: #f5f7fa;
+      --form-bg: rgba(255, 255, 255, 0.95);
+      --input-bg: rgba(248, 249, 250, 0.7);
     }
-    
+
+    body.dark-mode {
+      --text-color: #f8f9fa;
+      --light-gray: #1e1e1e;
+      --border-color: #444;
+      --bg-color: #121212;
+      --form-bg: rgba(30, 30, 30, 0.95);
+      --input-bg: rgba(45, 45, 45, 0.7);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-    
+
     body {
       font-family: 'Roboto', sans-serif;
-      background-color: #f5f7fa;
+      background-color: var(--bg-color);
       color: var(--text-color);
       line-height: 1.6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      
+      
+      
+      min-
       padding: 20px;
+      padding-top: max(20px, var(--header-height, 100px));
       position: relative;
-      overflow: hidden;
+      
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
-    
+
     /* Enhanced Bubble Background Animation */
     .bubbles-container {
       position: fixed;
@@ -49,9 +59,9 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      overflow: hidden;
+      
     }
-    
+
     .bubble {
       position: absolute;
       border-radius: 50%;
@@ -59,46 +69,48 @@
       opacity: 0.6;
       animation: float 15s infinite ease-in-out;
     }
-    
+
     @keyframes float {
       0% {
         transform: translateY(0) rotate(0deg);
         opacity: 0.6;
       }
+
       50% {
         transform: translateY(-20vh) rotate(180deg);
         opacity: 0.9;
       }
+
       100% {
         transform: translateY(0) rotate(360deg);
         opacity: 0.6;
       }
     }
-    
+
     /* Form Container Styles */
     .form-container {
-      background: rgba(255, 255, 255, 0.95);
+      background: var(--form-bg);
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       width: 100%;
       max-width: 520px;
       padding: 2.5rem;
       position: relative;
-      overflow: hidden;
+      
       backdrop-filter: blur(8px);
       animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
       transform: translateY(20px);
       opacity: 0;
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    
+
     @keyframes fadeInUp {
       to {
         transform: translateY(0);
         opacity: 1;
       }
     }
-    
+
     .form-container::before {
       content: '';
       position: absolute;
@@ -108,7 +120,7 @@
       height: 6px;
       background: linear-gradient(90deg, var(--primary-color), var(--success-color));
     }
-    
+
     .form-container::after {
       content: '';
       position: absolute;
@@ -116,14 +128,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        135deg,
-        rgba(67, 97, 238, 0.03) 0%,
-        rgba(76, 201, 240, 0.03) 100%
-      );
+      background: linear-gradient(135deg,
+          rgba(67, 97, 238, 0.03) 0%,
+          rgba(76, 201, 240, 0.03) 100%);
       z-index: -1;
     }
-    
+
     .form-container h2 {
       text-align: center;
       margin-bottom: 1.75rem;
@@ -132,29 +142,46 @@
       font-size: 1.75rem;
       position: relative;
     }
-    
+
     .form-group {
       margin-bottom: 1.25rem;
       position: relative;
       animation: fadeIn 0.6s ease-out forwards;
       opacity: 0;
     }
-    
+
     /* Staggered animations for form groups */
-    .form-group:nth-child(1) { animation-delay: 0.2s; }
-    .form-group:nth-child(2) { animation-delay: 0.3s; }
-    .form-group:nth-child(3) { animation-delay: 0.4s; }
-    .form-group:nth-child(4) { animation-delay: 0.5s; }
-    .form-group:nth-child(5) { animation-delay: 0.6s; }
-    .form-group:nth-child(6) { animation-delay: 0.7s; }
-    
+    .form-group:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    .form-group:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .form-group:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .form-group:nth-child(4) {
+      animation-delay: 0.5s;
+    }
+
+    .form-group:nth-child(5) {
+      animation-delay: 0.6s;
+    }
+
+    .form-group:nth-child(6) {
+      animation-delay: 0.7s;
+    }
+
     @keyframes fadeIn {
       to {
         opacity: 1;
-      transform: translateY(0);
+        transform: translateY(0);
       }
     }
-    
+
     label {
       display: block;
       margin-bottom: 0.5rem;
@@ -162,12 +189,12 @@
       color: var(--text-color);
       font-size: 0.95rem;
     }
-    
+
     .required::after {
       content: ' *';
       color: var(--error-color);
     }
-    
+
     input[type="text"],
     input[type="number"],
     input[type="file"],
@@ -179,14 +206,15 @@
       border-radius: 8px;
       font-size: 0.95rem;
       transition: all 0.3s ease;
-      background-color: rgba(248, 249, 250, 0.7);
+      background-color: var(--input-bg);
+      color: var(--text-color);
     }
-    
+
     textarea {
       min-height: 120px;
       resize: vertical;
     }
-    
+
     input[type="text"]:focus,
     input[type="number"]:focus,
     textarea:focus,
@@ -194,9 +222,9 @@
       outline: none;
       border-color: var(--primary-color);
       box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-      background-color: white;
+      background-color: var(--form-bg);
     }
-    
+
     select {
       appearance: none;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -204,7 +232,7 @@
       background-position: right 1rem center;
       background-size: 1rem;
     }
-    
+
     .submit-btn {
       width: 100%;
       padding: 0.85rem;
@@ -220,11 +248,11 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       position: relative;
-      overflow: hidden;
+      
       animation: fadeIn 0.8s ease-out 0.8s forwards;
       opacity: 0;
     }
-    
+
     .submit-btn::before {
       content: '';
       position: absolute;
@@ -232,44 +260,42 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-      );
+      background: linear-gradient(90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent);
       transition: 0.5s;
     }
-    
+
     .submit-btn:hover {
       background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
     }
-    
+
     .submit-btn:hover::before {
       left: 100%;
     }
-    
+
     .submit-btn:active {
       transform: translateY(0);
     }
-    
+
     #imagePreview {
       margin: 1rem 0;
       text-align: center;
       border: 1px dashed var(--border-color);
       border-radius: 8px;
       padding: 1rem;
-      background-color: rgba(248, 249, 250, 0.5);
+      background-color: var(--input-bg);
       transition: all 0.3s ease;
     }
-    
+
     #imagePreview:hover {
       border-color: var(--primary-color);
-      background-color: rgba(248, 249, 250, 0.8);
+      background-color: var(--input-bg);
     }
-    
+
     #imagePreview img {
       max-width: 100%;
       max-height: 200px;
@@ -277,18 +303,18 @@
       object-fit: contain;
       transition: transform 0.3s ease;
     }
-    
+
     #imagePreview img:hover {
       transform: scale(1.02);
     }
-    
+
     .file-input-container {
       position: relative;
-      overflow: hidden;
+      
       display: inline-block;
       width: 100%;
     }
-    
+
     .file-input-container input[type="file"] {
       position: absolute;
       left: 0;
@@ -298,199 +324,215 @@
       height: 100%;
       cursor: pointer;
     }
-    
+
     .file-input-label {
       display: block;
       padding: 0.75rem 1rem;
-      background-color: rgba(248, 249, 250, 0.7);
+      background-color: var(--input-bg);
       border: 1px solid var(--border-color);
       border-radius: 8px;
       text-align: center;
       cursor: pointer;
       transition: all 0.3s ease;
     }
-    
+
     .file-input-label:hover {
-      background-color: rgba(233, 236, 239, 0.8);
       border-color: var(--primary-color);
     }
-    
+
     .file-input-text {
       display: block;
       font-size: 0.85rem;
       color: #6c757d;
       margin-top: 0.5rem;
     }
-    
+
     @media (max-width: 576px) {
       .form-container {
         padding: 1.75rem 1.5rem;
       }
-      
+
       .form-container h2 {
         font-size: 1.5rem;
       }
     }
   </style>
-</head>
-<body>
-     <%- include("../utils/header")%> 
-    <%- include("side")%>
-  <!-- Enhanced Bubble Background -->
-  <div class="bubbles-container" id="bubblesContainer"></div>
-  
-  <div class="form-container">
-    <h2>Add New Product</h2>
-    <form action="/addproduct1" method="post" enctype="multipart/form-data" onsubmit="return validateProductForm()">
-      <div class="form-group">
-        <label for="productName" class="required">Product Name</label>
-        <input type="text" id="productName" name="productName" placeholder="Enter product name">
-      </div>
-      
-      <div class="form-group">
-        <label for="productDescription" class="required">Product Description</label>
-        <textarea id="productDescription" name="productDescription" placeholder="Enter detailed product description"></textarea>
-      </div>
-      
-      <div class="form-group">
-        <label for="productPrice" class="required">Price</label>
-        <input type="number" id="productPrice" name="productPrice" placeholder="0.00" min="0" step="0.01">
-      </div>
-      
-      <div class="form-group">
-        <label for="productCategory" class="required">Category</label>
-        <select id="productCategory" name="productCategory">
-          <option value="" disabled selected>Select a category</option>
-          <option value="electronics">Electronics</option>
-          <option value="fashion">Fashion</option>
-          <option value="home">Home</option>
-          <option value="beauty">Beauty</option>
-          <option value="sports">Sports</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="productStock" class="required">Stock Quantity</label>
-        <input type="number" id="productStock" name="productStock" placeholder="0" min="0">
-      </div>
-      
-      <div class="form-group">
-        <label for="productImage">Product Image</label>
-        <div class="file-input-container">
-          <input type="file" id="productImage" name="productImage" accept="image/*" onchange="previewImage()">
-          <label for="productImage" class="file-input-label">Choose an image file</label>
-          <span class="file-input-text">JPEG, PNG or GIF (Max 5MB)</span>
-        </div>
-        <div id="imagePreview"></div>
-      </div>
-      
-      <button type="submit" class="submit-btn">Add Product</button>
-    </form>
-  </div>
 
-  <%- include("../utils/footer"); %> 
-  <script>
-    // Enhanced bubble creation with better animation
-    document.addEventListener('DOMContentLoaded', function() {
-      const bubblesContainer = document.getElementById('bubblesContainer');
-      const particleCount = 30;
-      
-      for (let i = 0; i < particleCount; i++) {
-        const bubble = document.createElement('div');
-        bubble.classList.add('bubble');
-        
-        // Random size between 5px and 15px
-        const size = Math.random() * 10 + 5;
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        
-        // Random position
-        bubble.style.left = `${Math.random() * 100}vw`;
-        bubble.style.top = `${Math.random() * 100}vh`;
-        
-        // Random color from gradient
-        const hue = Math.random() * 60 + 220; // Blue/purple range
-        bubble.style.background = `hsla(${hue}, 80%, 60%, ${Math.random() * 0.4 + 0.3})`;
-        
-        // Random animation duration and delay
-        const duration = Math.random() * 10 + 10;
-        const delay = Math.random() * 5;
-        bubble.style.animation = `float ${duration}s ${delay}s infinite ease-in-out`;
-        
-        bubblesContainer.appendChild(bubble);
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
       }
-    });
-    
-    function validateProductForm() {
-      const name = document.getElementById('productName').value.trim();
-      const description = document.getElementById('productDescription').value.trim();
-      const price = document.getElementById('productPrice').value;
-      const category = document.getElementById('productCategory').value;
-      const stock = document.getElementById('productStock').value;
-      const fileInput = document.getElementById('productImage');
-      
-      // Basic validation
-      if (!name) {
-        alert("Please enter a product name.");
-        return false;
-      }
-      
-      if (!description) {
-        alert("Please enter a product description.");
-        return false;
-      }
-      
-      if (!price || parseFloat(price) <= 0) {
-        alert("Please enter a valid price greater than 0.");
-        return false;
-      }
-      
-      if (!category) {
-        alert("Please select a product category.");
-        return false;
-      }
-      
-      if (!stock || parseInt(stock) < 0) {
-        alert("Please enter a valid stock quantity (0 or more).");
-        return false;
-      }
-      
-      // Optional file validation
-      if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        
-        if (!validTypes.includes(file.type)) {
-          alert("Please upload a valid image file (JPEG, PNG, or GIF).");
-          return false;
-        }
-        
-        if (file.size > maxSize) {
-          alert("Image file size must be less than 5MB.");
-          return false;
-        }
-      }
-      
-      return true;
-    }
-    
-    function previewImage() {
-      const fileInput = document.getElementById('productImage');
-      const previewContainer = document.getElementById('imagePreview');
-      
-      if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        
-        reader.onload = function(e) {
-          previewContainer.innerHTML = `<img src="${e.target.result}" alt="Product Preview">`;
-        }
-        
-        reader.readAsDataURL(fileInput.files[0]);
-      } else {
-        previewContainer.innerHTML = '';
-      }
-    }
-  </script>
+    </script>
+</head>
+
+<body>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
+      <!-- Enhanced Bubble Background -->
+      <div class="bubbles-container" id="bubblesContainer"></div>
+
+      <div class="form-container">
+        <h2>Add New Product</h2>
+        <form action="/addproduct1" method="post" enctype="multipart/form-data" onsubmit="return validateProductForm()">
+          <div class="form-group">
+            <label for="productName" class="required">Product Name</label>
+            <input type="text" id="productName" name="productName" placeholder="Enter product name">
+          </div>
+
+          <div class="form-group">
+            <label for="productDescription" class="required">Product Description</label>
+            <textarea id="productDescription" name="productDescription"
+              placeholder="Enter detailed product description"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="productPrice" class="required">Price</label>
+            <input type="number" id="productPrice" name="productPrice" placeholder="0.00" min="0" step="0.01">
+          </div>
+
+          <div class="form-group">
+            <label for="productCategory" class="required">Category</label>
+            <select id="productCategory" name="productCategory">
+              <option value="" disabled selected>Select a category</option>
+              <option value="electronics">Electronics</option>
+              <option value="fashion">Fashion</option>
+              <option value="home">Home</option>
+              <option value="beauty">Beauty</option>
+              <option value="sports">Sports</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="productStock" class="required">Stock Quantity</label>
+            <input type="number" id="productStock" name="productStock" placeholder="0" min="0">
+          </div>
+
+          <div class="form-group">
+            <label for="productImage">Product Image</label>
+            <div class="file-input-container">
+              <input type="file" id="productImage" name="productImage" accept="image/*" onchange="previewImage()">
+              <label for="productImage" class="file-input-label">Choose an image file</label>
+              <span class="file-input-text">JPEG, PNG or GIF (Max 5MB)</span>
+            </div>
+            <div id="imagePreview"></div>
+          </div>
+
+          <button type="submit" class="submit-btn">Add Product</button>
+        </form>
+      </div>
+
+      </main>
+<%- include("../utils/footer"); %>
+        <script>
+          // Enhanced bubble creation with better animation
+          document.addEventListener('DOMContentLoaded', function () {
+            const bubblesContainer = document.getElementById('bubblesContainer');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+              const bubble = document.createElement('div');
+              bubble.classList.add('bubble');
+
+              // Random size between 5px and 15px
+              const size = Math.random() * 10 + 5;
+              bubble.style.width = `${size}px`;
+              bubble.style.height = `${size}px`;
+
+              // Random position
+              bubble.style.left = `${Math.random() * 100}vw`;
+              bubble.style.top = `${Math.random() * 100}vh`;
+
+              // Random color from gradient
+              const hue = Math.random() * 60 + 220; // Blue/purple range
+              bubble.style.background = `hsla(${hue}, 80%, 60%, ${Math.random() * 0.4 + 0.3})`;
+
+              // Random animation duration and delay
+              const duration = Math.random() * 10 + 10;
+              const delay = Math.random() * 5;
+              bubble.style.animation = `float ${duration}s ${delay}s infinite ease-in-out`;
+
+              bubblesContainer.appendChild(bubble);
+            }
+          });
+
+          function validateProductForm() {
+            const name = document.getElementById('productName').value.trim();
+            const description = document.getElementById('productDescription').value.trim();
+            const price = document.getElementById('productPrice').value;
+            const category = document.getElementById('productCategory').value;
+            const stock = document.getElementById('productStock').value;
+            const fileInput = document.getElementById('productImage');
+
+            // Basic validation
+            if (!name) {
+              alert("Please enter a product name.");
+              return false;
+            }
+
+            if (!description) {
+              alert("Please enter a product description.");
+              return false;
+            }
+
+            if (!price || parseFloat(price) <= 0) {
+              alert("Please enter a valid price greater than 0.");
+              return false;
+            }
+
+            if (!category) {
+              alert("Please select a product category.");
+              return false;
+            }
+
+            if (!stock || parseInt(stock) < 0) {
+              alert("Please enter a valid stock quantity (0 or more).");
+              return false;
+            }
+
+            // Optional file validation
+            if (fileInput.files.length > 0) {
+              const file = fileInput.files[0];
+              const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+              const maxSize = 5 * 1024 * 1024; // 5MB
+
+              if (!validTypes.includes(file.type)) {
+                alert("Please upload a valid image file (JPEG, PNG, or GIF).");
+                return false;
+              }
+
+              if (file.size > maxSize) {
+                alert("Image file size must be less than 5MB.");
+                return false;
+              }
+            }
+
+            return true;
+          }
+
+          function previewImage() {
+            const fileInput = document.getElementById('productImage');
+            const previewContainer = document.getElementById('imagePreview');
+
+            if (fileInput.files && fileInput.files[0]) {
+              const reader = new FileReader();
+
+              reader.onload = function (e) {
+                previewContainer.innerHTML = `<img src="${e.target.result}" alt="Product Preview">`;
+              }
+
+              reader.readAsDataURL(fileInput.files[0]);
+            } else {
+              previewContainer.innerHTML = '';
+            }
+          }
+        </script>
 </body>
+
 </html>

@@ -885,6 +885,20 @@
             opacity: 0.1;
         }
     </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
     <!-- Advanced background elements -->
@@ -1388,3 +1402,4 @@ Request ID: 7a3b5c8d-9e0f-4a1b-8c2d-6e3f4a5b6c7d
     </script>
 </body>
 </html>
+<%- include('../utils/footer') %>

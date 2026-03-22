@@ -35,14 +35,14 @@
             font-family: 'Poppins', sans-serif;
             background-color: #f5f7fb;
             color: var(--dark);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            
+            
+            
+            min-
             margin: 0;
             padding: 20px;
             position: relative;
-            overflow: hidden;
+            
         }
         
         /* Animated gradient background */
@@ -91,7 +91,7 @@
             max-width: 600px;
             width: 100%;
             position: relative;
-            overflow: hidden;
+            
             animation: card-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
             border: 1px solid rgba(255,255,255,0.2);
         }
@@ -105,9 +105,9 @@
             width: 120px;
             height: 120px;
             margin: 0 auto 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            
+            
+            
             position: relative;
         }
         
@@ -172,13 +172,13 @@
             border: none;
             transition: var(--transition);
             display: inline-flex;
-            align-items: center;
+            
             gap: 10px;
             text-decoration: none;
             box-shadow: var(--shadow-sm);
             animation: fadeInUp 0.6s 0.5s both;
             position: relative;
-            overflow: hidden;
+            
             font-size: 1.05rem;
         }
         
@@ -236,7 +236,7 @@
             background: var(--success-light);
             border-radius: 2px;
             margin-top: 30px;
-            overflow: hidden;
+            
             animation: fadeInUp 0.6s 0.6s both;
         }
         
@@ -308,10 +308,25 @@
             }
         }
     </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
     <%- include("../utils/header")%> 
     <%- include("side")%>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
     
     <!-- Animated background elements -->
     <div class="bg-gradient"></div>
@@ -333,6 +348,7 @@
             <div class="progress"></div>
         </div>
     </div>
+</main>
 <%- include("../utils/footer"); %> 
   
     <script>

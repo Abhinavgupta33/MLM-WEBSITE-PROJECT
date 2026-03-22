@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Notifications - ChainCore</title>
+  
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    .notif-card { border-radius: 15px; border: none; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .notif-header { padding: 1.5rem 2rem; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+    .notif-list { padding: 0; margin: 0; list-style: none; }
+    .notif-item { padding: 1.5rem 2rem; border-bottom: 1px solid #f1f5f9; display: flex; gap: 1.5rem; transition: background 0.3s; }
+    .notif-item:hover { background: #f8fafc; cursor: pointer; }
+    .notif-item.unread { background: rgba(67, 97, 238, 0.04); }
+    .notif-icon { flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; }
+    .notif-icon.system { background: #f59e0b; }
+    .notif-icon.alert { background: #ef4444; }
+    .notif-icon.success { background: #10b981; }
+    .notif-icon.info { background: #4361ee; }
+    .notif-content { flex: 1; }
+    .notif-title { margin: 0 0 5px 0; font-weight: 600; color: #1e293b; font-size: 1.1rem; }
+    .notif-text { margin: 0 0 8px 0; color: #64748b; font-size: 0.95rem; line-height: 1.5; }
+    .notif-meta { font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 0.5rem; }
+  </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
+</head>
+<body class="bg-light">
+  <%- include("../utils/header") %>
+  <%- include("side") %>
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Notifications</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item active">Notifications</li>
+        </ol>
+      </nav>
+    </div>
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-9 offset-lg-1">
+          <div class="card notif-card">
+            <div class="notif-header">
+              <h5 class="card-title m-0 p-0 fw-bold fs-4">All Notifications</h5>
+              <button class="btn btn-sm btn-outline-primary fw-semibold rounded-pill px-3">Mark all as read</button>
+            </div>
+            <ul class="notif-list">
+              <li class="notif-item unread">
+                <div class="notif-icon system"><i class="bi bi-gear"></i></div>
+                <div class="notif-content">
+                  <h4 class="notif-title">System Maintenance</h4>
+                  <p class="notif-text">Scheduled maintenance will occur tonight at 02:00 AM UTC. Expect up to 15 minutes of downtime.</p>
+                  <div class="notif-meta"><i class="bi bi-clock"></i> 30 minutes ago</div>
+                </div>
+              </li>
+              <li class="notif-item unread">
+                <div class="notif-icon alert"><i class="bi bi-exclamation-triangle"></i></div>
+                <div class="notif-content">
+                  <h4 class="notif-title">Login Attempt Blocked</h4>
+                  <p class="notif-text">We blocked a suspicious login attempt from an unrecognized device in Moscow, Russia.</p>
+                  <div class="notif-meta"><i class="bi bi-clock"></i> 2 hours ago</div>
+                </div>
+              </li>
+              <li class="notif-item">
+                <div class="notif-icon success"><i class="bi bi-check2-circle"></i></div>
+                <div class="notif-content">
+                  <h4 class="notif-title">Withdrawal Processed</h4>
+                  <p class="notif-text">Your withdrawal request of $500.00 has been successfully deposited into your account.</p>
+                  <div class="notif-meta"><i class="bi bi-clock"></i> 1 day ago</div>
+                </div>
+              </li>
+              <li class="notif-item">
+                <div class="notif-icon info"><i class="bi bi-person-plus"></i></div>
+                <div class="notif-content">
+                  <h4 class="notif-title">New Downline Member</h4>
+                  <p class="notif-text">Congratulations! Emily Davis has joined your network using your referral link.</p>
+                  <div class="notif-meta"><i class="bi bi-clock"></i> 2 days ago</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <%- include("../utils/footer") %>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

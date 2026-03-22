@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Withdrawal Page</title>
+<%- include("../utils/header")%> 
+<%- include("side")%>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
       position: relative;
       background-color: #f8f9fa;
       color: #333;
@@ -302,7 +293,31 @@
       0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
       100% { transform: translate(var(--tx), var(--ty)) rotate(360deg); opacity: 0; }
     }
+    /* Responsive layout */
+    @media (max-width: 576px) {
+      .withdraw-container {
+        max-width: 100% !important;
+        padding: 20px 14px !important;
+        margin: 0 10px;
+      }
+      .withdraw-container h2 { font-size: 1.2rem; }
+      .withdraw-container button { font-size: 1rem; padding: 10px; }
+    }
   </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
   <!-- Bank-themed background elements -->
@@ -315,8 +330,7 @@
   <div class="money-transfer" style="top: 40%; left: 25%;"></div>
   <div class="money-transfer" style="bottom: 35%; right: 25%;"></div>
 
-  <%- include("../utils/header")%> 
-  <%- include("side")%>
+  <main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px);">
   <form action="/withdraw1" method="post">
     <div class="withdraw-container">
       <h2>Withdraw Funds</h2>
@@ -335,6 +349,7 @@
       </form>
     </div>
   </form>
+  </main>
   <%- include("../utils/footer"); %> 
   
   <script>
@@ -454,5 +469,3 @@
       }, 1500);
     }
   </script>
-</body>
-</html>

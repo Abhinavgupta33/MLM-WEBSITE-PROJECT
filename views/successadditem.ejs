@@ -10,10 +10,10 @@
       background: linear-gradient(to bottom right, #f0f8ff, #add8e6);
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      
+      
+      
+      
     }
 
     .success-container {
@@ -101,15 +101,31 @@
       }
     }
   </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
   <%- include("../utils/header")%> 
   <%- include("side")%>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
   <div class="success-container">
     <h1>Item Added Successfully!</h1>
     <p>Your product has been added to the inventory. You can now return to the dashboard.</p>
     <button onclick="redirectToDashboard()">Go to Dashboard</button>
   </div>
+</main>
 <%- include("../utils/footer"); %> 
   
   <script>

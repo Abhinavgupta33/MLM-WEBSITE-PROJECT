@@ -38,29 +38,29 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      min-height: 100vh;
+      min-
       background-color: var(--bg-color);
       color: var(--text-color);
-      display: flex;
+      
       flex-direction: column;
       position: relative;
       overflow-x: hidden;
     }
 
     .content-wrapper {
-      display: flex;
+      
       flex: 1;
       padding-top: 60px; /* For header */
     }
 
     main {
       flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      
+      
+      
       padding: 20px;
       position: relative;
-      overflow: hidden;
+      
     }
 
     /* Background animation elements */
@@ -97,7 +97,7 @@
       width: 90%;
       z-index: 10;
       position: relative;
-      overflow: hidden;
+      
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       margin: 20px;
     }
@@ -144,7 +144,7 @@
       font-weight: 500;
       letter-spacing: 0.5px;
       position: relative;
-      overflow: hidden;
+      
     }
 
     .unblocked-container button:hover {
@@ -198,9 +198,9 @@
       height: 100%;
       border-radius: 50%;
       background: var(--success-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      
+      
+      
       animation: scaleIn 0.5s ease-out;
     }
 
@@ -293,12 +293,27 @@
       }
     }
   </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
   <%- include("../utils/header")%> 
   
   <div class="content-wrapper">
     <%- include("side")%>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
     
     <main>
       <!-- Background animation circles -->
@@ -320,7 +335,8 @@
     </main>
   </div>
 
-  <%- include("../utils/footer")%>
+  </main>
+<%- include("../utils/footer")%>
 <%- include("../utils/footer"); %> 
   
   <script>

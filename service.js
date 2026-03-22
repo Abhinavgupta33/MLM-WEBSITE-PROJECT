@@ -1297,7 +1297,7 @@ exports.ser_confirm_purchase = async(req,res) => {
       
       
       let rec =await  new recentactivity({
-        user_id:uId,
+        user_id:uid,
         activity:depositdetail,
         activity_detail:depositdone
 
@@ -1338,12 +1338,12 @@ exports.ser_confirm_purchase1 = async(req,res) => {
    
       await tble.updateOne({user_id:uid},{amount:new_amount});
 
-        let data1 = await tble2.findOne({product_no:name});
+        let data1 = await tble2.findOne({product_name:name});
         let previous_quantity = data1.product_quantity;
         let new_quantity = parseInt(previous_quantity)- parseInt(quantity1)
         console.log(new_quantity)
-        await tble2.updateOne({product_no:name},{product_quantity:new_quantity})
-      let data2 = await tble2.findOne({product_no:name});
+        await tble2.updateOne({product_name:name},{product_quantity:new_quantity})
+      let data2 = await tble2.findOne({product_name:name});
     res.render("successpurchase1",{data2,quantity1,abhi});
     }
     else{

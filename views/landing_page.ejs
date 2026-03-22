@@ -1,0 +1,2507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>NexusSphere | Next-Gen MLM + E-Commerce Ecosystem</title>
+
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* 
+           NexusSphere Premium Landing Page Styles
+           Design System: SaaS / Modern Startup
+        */
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #a855f7;
+            --accent: #ec489a;
+            --bg-light: #f8fafc;
+            --bg-light-rgb: 248, 250, 252;
+            --bg-dark: #0a0f1c;
+            --bg-dark-rgb: 10, 15, 28;
+            --text-light: #1e293b;
+            --text-dark: #eef2ff;
+            --primary-rgb: 59, 130, 246;
+            --glass-bg: rgba(255, 255, 255, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shadow: rgba(0, 0, 0, 0.08);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark {
+            --bg-light: #0a0f1c;
+            --bg-light-rgb: 10, 15, 28;
+            --text-light: #eef2ff;
+            --glass-bg: rgba(15, 25, 45, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            transition: background 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Elements */
+        .bg-blobs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--primary), transparent 70%);
+            filter: blur(80px);
+            opacity: 0.15;
+            border-radius: 50%;
+            animation: move 20s infinite alternate;
+        }
+
+        .blob-2 {
+            background: radial-gradient(circle, var(--secondary), transparent 70%);
+            width: 500px;
+            height: 500px;
+            right: -100px;
+            top: -100px;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            background: radial-gradient(circle, var(--accent), transparent 70%);
+            width: 400px;
+            height: 400px;
+            left: 20%;
+            bottom: -100px;
+            animation-delay: -10s;
+        }
+
+        @keyframes move {
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(100px, 100px);
+            }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3 {
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px var(--glass-shadow);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 2.5rem 0;
+        }
+
+        body { cursor: default; }
+
+        /* Interactive Node Sandbox */
+        .sandbox-container {
+            width: 100%;
+            height: 500px;
+            background: rgba(var(--bg-dark-rgb), 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            margin-top: 3rem;
+            backdrop-filter: blur(10px);
+        }
+        .sandbox-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .network-line {
+            stroke: var(--primary);
+            stroke-width: 2;
+            opacity: 0.5;
+            stroke-dasharray: 5, 5;
+            animation: dash 20s linear infinite;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: -1000; }
+        }
+        .net-node {
+            position: absolute;
+            width: 50px; height: 50px;
+            background: var(--glass-bg);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center; justify-content: center;
+            color: white; font-weight: bold;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            cursor: grab;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+        .net-node:active { cursor: grabbing; border-color: white; }
+        .net-node.root-node {
+            width: 70px; height: 70px;
+            background: var(--primary);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 4rem);
+            max-width: 1300px;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            border-radius: 35px;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            top: 0.5rem;
+            height: 60px;
+            background: rgba(var(--bg-light-rgb, 255, 255, 255), 0.7);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            opacity: 0.8;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .theme-toggle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: rgba(var(--primary-rgb, 59, 130, 246), 0.1);
+            color: var(--primary);
+            border: none;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(30deg);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            min-height: 100vh;
+            padding-top: 5rem;
+        }
+
+        .hero-content {
+            flex: 1.2;
+        }
+
+        .hero-tagline {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .hero-visual {
+            flex: 0.8;
+            position: relative;
+        }
+
+        .hero-card {
+            border-radius: 30px;
+            padding: 1rem;
+            position: relative;
+            z-index: 10;
+            transform: perspective(1000px) rotateY(-10deg) rotateX(5deg);
+            transition: var(--transition);
+        }
+
+        .hero-card:hover {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+        }
+
+        .hero-card img {
+            width: 100%;
+            border-radius: 20px;
+            display: block;
+        }
+
+        .floating-element {
+            position: absolute;
+            padding: 1.5rem;
+            border-radius: 20px;
+            z-index: 20;
+            animation: float 4s infinite ease-in-out;
+        }
+
+        .f-1 {
+            top: 10%;
+            left: -15%;
+            animation-delay: 0s;
+        }
+
+        .f-2 {
+            bottom: 10%;
+            right: -10%;
+            animation-delay: -2s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Stats Section */
+        .stats {
+            background: rgba(59, 130, 246, 0.03);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-weight: 700;
+            opacity: 0.7;
+            font-size: 1rem;
+        }
+
+        /* Features Section */
+        .features-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .search-container {
+            margin-top: 2rem;
+            position: relative;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3rem;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            background: rgba(var(--bg-light-rgb, 255, 255, 255), 0.1);
+            color: var(--text-light);
+            outline: none;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            padding: 3rem 2rem;
+            border-radius: 30px;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: rgba(59, 130, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-icon {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        /* About/Detail Section */
+        .about {
+            position: relative;
+        }
+
+        .about-grid {
+            display: flex;
+            align-items: center;
+            gap: 5rem;
+        }
+
+        .about-img {
+            flex: 1;
+        }
+
+        .about-content {
+            flex: 1;
+        }
+
+        .check-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .check-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+
+        .check-list i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 6rem 0 3rem;
+            background: rgba(var(--bg-light-rgb, 255, 255, 255), 0.5);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-logo {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-desc {
+            opacity: 0.7;
+            margin-bottom: 2rem;
+            max-width: 300px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .social-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: inherit;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .newsletter h4 {
+            margin-bottom: 1.5rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            background: white;
+            padding: 5px;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+        }
+
+        body.dark .newsletter-form {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0 1rem;
+            color: inherit;
+            outline: none;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            opacity: 0.6;
+            font-size: 0.85rem;
+        }
+
+        /* Dashboard Mockup */
+        .mock-dashboard {
+            background: rgba(15, 25, 45, 0.8);
+            border-radius: 30px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+            transition: var(--transition);
+        }
+        .mock-dashboard:hover { transform: perspective(1000px) rotateY(0deg) rotateX(0deg); }
+        .mock-header { display: flex; justify-content: space-between; margin-bottom: 2rem; }
+        .mock-title { font-weight: 700; color: white; font-size: 1.2rem; }
+        .mock-chart { height: 180px; display: flex; align-items: flex-end; gap: 15px; }
+        .mock-bar { 
+            flex: 1; 
+            background: linear-gradient(to top, var(--primary), var(--secondary)); 
+            border-radius: 8px 8px 0 0;
+            opacity: 0;
+            transform: scaleY(0);
+            transform-origin: bottom;
+        }
+
+        /* Roadmap Section */
+        .roadmap-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 4rem auto 0;
+            padding-left: 2.5rem;
+            border-left: 2px solid rgba(59, 130, 246, 0.3);
+        }
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 3.5rem;
+            padding: 2rem;
+            border-radius: 20px;
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -3.15rem;
+            top: 2rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+            transition: transform 0.3s;
+        }
+        .roadmap-item:hover::before {
+            transform: scale(1.4);
+        }
+        .roadmap-date { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 0.5rem; letter-spacing: 1px; text-transform: uppercase; }
+        .roadmap-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.8rem; }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            z-index: 2000;
+            transition: width 0.1s ease;
+        }
+
+        /* Pricing Section */
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .pricing-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .toggle-label {
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .toggle-label.active {
+            color: var(--primary);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--glass-border);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(30px);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            padding: 3rem 2rem;
+            border-radius: 30px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 1.5rem 0;
+            display: block;
+        }
+
+        .price span {
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.7;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0 3rem;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            opacity: 0.8;
+        }
+
+        .pricing-features i {
+            color: var(--primary);
+        }
+
+        /* FAQ Section */
+        .faq-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .faq-item {
+            border-radius: 20px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-question {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .faq-icon {
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: rgba(var(--primary-rgb), 0.03);
+        }
+
+        .faq-answer p {
+            padding: 0 2rem 1.5rem;
+            opacity: 0.8;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .contact-info h2 {
+            margin-bottom: 2rem;
+        }
+
+        .contact-details {
+            margin: 3rem 0;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .method-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .contact-form-wrapper {
+            padding: 3rem;
+            border-radius: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: inherit;
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Toast/Notification */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 10000;
+        }
+
+        .toast {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            border: none;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .back-to-top.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        @media (max-width: 1200px) {
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .navbar {
+                width: 100%;
+                border-radius: 0;
+                top: 0;
+                left: 0;
+                transform: none;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 10rem;
+            }
+
+            .hero-content p {
+                margin: 1rem auto 3rem;
+            }
+
+            .hero-btns {
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid {
+                flex-direction: column;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+
+        /* Profit Calculator */
+        .calculator-card {
+            max-width: 600px;
+            margin: 3rem auto 0;
+            padding: 2.5rem;
+            border-radius: 30px;
+        }
+        .calc-slider {
+            width: 100%;
+            height: 6px;
+            background: var(--glass-border);
+            border-radius: 10px;
+            outline: none;
+            -webkit-appearance: none;
+            margin: 1.5rem 0;
+        }
+        .calc-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--primary);
+        }
+        .calc-result {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-top: 1rem;
+        }
+
+        /* Activity Feed */
+        .activity-feed {
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .activity-toast {
+            background: rgba(var(--bg-dark-rgb), 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 0.8rem 1.2rem;
+            border-radius: 15px;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(200px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            color: white;
+            font-size: 0.85rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .activity-toast.show { transform: translateX(0); opacity: 1; }
+        .activity-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 800; }
+
+        /* Support Chat */
+        .chat-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 10001;
+        }
+        .chat-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+            transition: var(--transition);
+        }
+        .chat-btn:hover { transform: scale(1.1) rotate(10deg); }
+        .chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 320px;
+            height: 400px;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: var(--transition);
+        }
+        .chat-window.open { transform: scale(1); }
+        .chat-header { background: var(--primary); color: white; padding: 1.2rem; font-weight: 700; display: flex; justify-content: space-between; }
+        .chat-body { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8rem; background: rgba(var(--bg-light-rgb), 0.9); }
+        .chat-msg { padding: 0.7rem 1rem; border-radius: 15px; font-size: 0.85rem; max-width: 85%; }
+        .msg-bot { background: white; align-self: flex-start; border-bottom-left-radius: 3px; }
+        .msg-user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 3px; }
+        .chat-input { padding: 1rem; display: flex; gap: 0.5rem; background: white; border-top: 1px solid var(--glass-border); }
+        .chat-input input { flex: 1; border: none; outline: none; font-size: 0.85rem; }
+
+        /* Parallax Headers */
+        .reveal h2 {
+            display: inline-block;
+        }
+
+        /* Language Dropdown */
+        .lang-switcher {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+        .lang-dropdown {
+            position: absolute;
+            top: 150%;
+            right: -20px;
+            background: var(--bg-light);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .lang-switcher:hover .lang-dropdown {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .lang-dropdown span {
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .lang-dropdown span:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        /* Mouse Glow Background */
+        .glow-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+        }
+
+        /* Testimonials Slider */
+        .testimonials {
+            overflow: hidden;
+        }
+        .testimonials-track {
+            display: flex;
+            gap: 2rem;
+            width: max-content;
+            padding: 1rem 2rem;
+        }
+        .testimonial-card {
+            width: 350px;
+            padding: 2.5rem;
+            border-radius: 30px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+        .testimonial-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .quote { font-size: 1.1rem; font-style: italic; margin-bottom: 1.5rem; opacity: 0.9; }
+        .t-user { display: flex; align-items: center; gap: 1rem; }
+        .t-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--primary); }
+        .t-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        .t-info strong { display: block; }
+        .t-info span { font-size: 0.85rem; opacity: 0.7; }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="glow-bg" id="glowBg"></div>
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="scroll-progress"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar glass">
+        <a href="#" class="logo">
+            <i class="fas fa-network-wired"></i>
+            <span>NexusSphere</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <i class="fas fa-globe"></i> EN
+                <div class="lang-dropdown shadow">
+                    <span>English (EN)</span>
+                    <span>Español (ES)</span>
+                    <span>Français (FR)</span>
+                    <span>German (DE)</span>
+                </div>
+            </div>
+            <a href="/login" class="btn btn-outline">Login</a>
+            <a href="/signup_page" class="btn btn-primary">Get Started</a>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <div class="hero-tagline">
+                    <i class="fas fa-sparkles"></i>
+                    <span>Evolving the Future of Networking</span>
+                </div>
+                <h1 class="gradient-text">Scale Networks. Elevate Commerce.</h1>
+                <p>NexusSphere combines a powerful MLM hierarchy engine with a premium e-commerce ecosystem, secure
+                    digital wallets, and hybrid meeting solutions.</p>
+                <div class="hero-btns">
+                    <a href="/signup_page" class="btn btn-primary">
+                        Start Growing <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#features" class="btn btn-outline">
+                        Explore Features
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card glass">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
+                        alt="NexusSphere Dashboard">
+                </div>
+                <div class="floating-element f-1 glass">
+                    <i class="fas fa-chart-line" style="color: var(--primary)"></i>
+                    <span>+124% Growth</span>
+                </div>
+                <div class="floating-element f-2 glass">
+                    <i class="fas fa-wallet" style="color: var(--secondary)"></i>
+                    <span>Secure Wallet</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats reveal" id="stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="25000" data-suffix="+">0</span>
+                    <span class="stat-label">Active Entrepreneurs</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="150" data-suffix="+">0</span>
+                    <span class="stat-label">MLM Networks</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="10" data-suffix="M+">0</span>
+                    <span class="stat-label">Transactions</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="45" data-suffix="+">0</span>
+                    <span class="stat-label">Countries Support</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <div class="features-header reveal">
+                <h2 class="gradient-text">Technological Pillars</h2>
+                <p>Built with enterprise-grade security and a user-first philosophy to ensure your network scales
+                    without limits.</p>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="featureSearch" class="search-input" placeholder="Search features (e.g. Wallet, MLM)...">
+                </div>
+            </div>
+            <div class="features-grid">
+                <!-- MLM Engine -->
+                <div class="feature-card glass reveal">
+                    <div class="feature-icon"><i class="fas fa-project-diagram"></i></div>
+                    <h3>Hierarchy Engine</h3>
+                    <p>Advanced recursive parent-child linking with unlimited depth, real-time status monitoring, and
+                        genealogy visualization.</p>
+                    <div class="feature-details">✓ Binary & Matrix Plans • ✓ Auto-Payouts</div>
+                </div>
+                <!-- E-Commerce -->
+                <div class="feature-card glass reveal">
+                    <div class="feature-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <h3>E-Commerce Suite</h3>
+                    <p>Modern shopping experience with stock guard prevention, Cloudinary media delivery, and
+                        intelligent cart logic.</p>
+                    <div class="feature-details">✓ Inventory CRUD • ✓ Secure Checkout</div>
+                </div>
+                <!-- Wallet -->
+                <div class="feature-card glass reveal">
+                    <div class="feature-icon"><i class="fas fa-wallet"></i></div>
+                    <h3>Digital Wallet</h3>
+                    <p>Enterprise-grade security with JWT auth, OTP verification, withdrawal workflows, and full audit
+                        trails.</p>
+                    <div class="feature-details">✓ Persistent Balances • ✓ Fraud Prevention</div>
+                </div>
+                <!-- Meetings -->
+                <div class="feature-card glass reveal">
+                    <div class="feature-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h3>Hybrid Meetings</h3>
+                    <p>Seamlessly integrate Zoom, Teams, and Google Meet with offline geolocation tracking for hybrid
+                        events.</p>
+                    <div class="feature-details">✓ Geo-Navigation • ✓ Automated Invites</div>
+                </div>
+                <!-- UI/UX -->
+                <div class="feature-card glass reveal">
+                    <div class="feature-icon"><i class="fas fa-palette"></i></div>
+                    <h3>Modern Design</h3>
+                    <p>Stunning glassmorphic interface with real-time dark/light mode sync and high-performance
+                        micro-interactions.</p>
+                    <div class="feature-details">✓ Responsive Grid • ✓ GSAP Animations</div>
+                </div>
+                <!-- Security -->
+                <div class="feature-card glass reveal">
+                    <div class="feature-icon"><i class="fas fa-shield-check"></i></div>
+                    <h3>Security First</h3>
+                    <p>Bank-grade encryption, JWT protected routes, and comprehensive activity logging for absolute
+                        transparency.</p>
+                    <div class="feature-details">✓ Role Control • ✓ Audit Logs</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About / Detailed Section -->
+        <section class="about reveal" id="about">
+            <div class="about-grid">
+                <div class="about-img">
+                    <div class="mock-dashboard">
+                        <div class="mock-header">
+                            <span class="mock-title">Network Growth</span>
+                            <span style="color: #10b981; font-weight: 600; background: rgba(16, 185, 129, 0.1); padding: 0.3rem 0.8rem; border-radius: 20px;"><i class="fas fa-arrow-up"></i> 124%</span>
+                        </div>
+                        <div class="mock-chart">
+                            <div class="mock-bar" style="height: 35%"></div>
+                            <div class="mock-bar" style="height: 55%"></div>
+                            <div class="mock-bar" style="height: 45%"></div>
+                            <div class="mock-bar" style="height: 75%"></div>
+                            <div class="mock-bar" style="height: 65%"></div>
+                            <div class="mock-bar" style="height: 95%"></div>
+                            <div class="mock-bar" style="height: 85%"></div>
+                            <div class="mock-bar" style="height: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <h2 class="gradient-text">A Unified Ecosystem</h2>
+                    <p>NexusSphere isn't just a platform; it's a integrated infrastructure where networking meets
+                        commerce. Our technology bridges the gap between digital asset management and real-world
+                        transactions.</p>
+                    
+                    <!-- Profit Calculator -->
+                    <div class="calculator-card glass">
+                        <h4 style="margin-bottom: 0.5rem;">Profit Estimator</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">Slide to see potential monthly network earnings.</p>
+                        <input type="range" min="100" max="100000" value="5000" class="calc-slider" id="profitRange">
+                        <div style="display: flex; justify-content: space-between; font-weight: 700;">
+                            <span>Network Volume</span>
+                            <span id="volumeVal">$5,000</span>
+                        </div>
+                        <div class="calc-result" id="profitResult">$750</div>
+                        <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">*Estimate based on standard MLM commissions.</p>
+                    </div>
+
+                    <ul class="check-list" style="margin-top: 2rem;">
+                        <li><i class="fas fa-check-circle"></i> Automatic Commission Distribution</li>
+                        <li><i class="fas fa-check-circle"></i> Real-time Network Visualization</li>
+                        <li><i class="fas fa-check-circle"></i> Multi-vendor E-commerce Support</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced Fraud Prevention Layer</li>
+                    </ul>
+                    <a href="/signup_page" class="btn btn-primary" style="margin-top: 2rem;">Explore the Hub</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Node Sandbox -->
+        <section class="sandbox reveal" id="sandbox">
+            <div class="features-header">
+                <h2 class="gradient-text">Network Simulator</h2>
+                <p>Click anywhere inside the grid to spawn downline nodes. Drag them around to visualize your expanding network matrix in real-time.</p>
+            </div>
+            <div class="sandbox-container shadow glass" id="sandboxContainer">
+                <svg class="sandbox-svg" id="sandboxSvg"></svg>
+                <div class="net-node root-node" id="rootNode" style="left: 50%; top: 50%;">You</div>
+            </div>
+        </section>
+
+        <!-- Roadmap Section -->
+        <section class="roadmap reveal" id="roadmap">
+            <div class="features-header">
+                <h2 class="gradient-text">Ecosystem Roadmap</h2>
+                <p>Our vision for the future of decentralized multi-level growth.</p>
+            </div>
+            <div class="roadmap-timeline">
+                <div class="roadmap-item glass r-item">
+                    <div class="roadmap-date">Q3 2026</div>
+                    <div class="roadmap-title">Advanced AI Fraud Detection</div>
+                    <p>Implementing neural networks to predict and prevent complex structure manipulation and ensure ecosystem integrity.</p>
+                </div>
+                <div class="roadmap-item glass r-item">
+                    <div class="roadmap-date">Q4 2026</div>
+                    <div class="roadmap-title">Global Fiat Gateways</div>
+                    <p>Seamlessly convert wallet balances to 50+ local fiat currencies instantly with auto-routing.</p>
+                </div>
+                <div class="roadmap-item glass r-item">
+                    <div class="roadmap-date">Q1 2027</div>
+                    <div class="roadmap-title">VR Networking Hubs</div>
+                    <p>Take hybrid meetings to the next level with fully immersive 3D networking spaces for top leaders.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing reveal" id="pricing">
+            <div class="pricing-header">
+                <h2 class="gradient-text">Simple, Transparent Pricing</h2>
+                <div class="pricing-toggle">
+                    <span class="toggle-label active">Monthly</span>
+                    <label class="switch">
+                        <input type="checkbox" id="pricingSwitch">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label">Annual <span style="color: var(--primary); font-size: 0.8rem;">(Save
+                            20%)</span></span>
+                </div>
+            </div>
+            <div class="pricing-grid">
+                <!-- Basic -->
+                <div class="pricing-card glass reveal">
+                    <h3>Starter</h3>
+                    <span class="price">$<span class="val" data-monthly="0"
+                            data-annual="0">0</span><span>/mo</span></span>
+                    <p>Perfect for individual entrepreneurs starting their journey.</p>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Basic MLM Hierarchy</li>
+                        <li><i class="fas fa-check"></i> Up to 100 Members</li>
+                        <li><i class="fas fa-check"></i> Digital Wallet Access</li>
+                        <li><i class="fas fa-times" style="color: #64748b;"></i> Advance Analytics</li>
+                    </ul>
+                    <a href="/signup_page" class="btn btn-outline" style="width: 100%; justify-content: center;">Get
+                        Started</a>
+                </div>
+                <!-- Pro -->
+                <div class="pricing-card glass featured reveal">
+                    <div class="badge">Most Popular</div>
+                    <h3>Professional</h3>
+                    <span class="price">$<span class="val" data-monthly="29"
+                            data-annual="24">29</span><span>/mo</span></span>
+                    <p>Complete suite for rapidly growing networking hubs.</p>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Full Ecosystem Integration</li>
+                        <li><i class="fas fa-check"></i> Unlimited Members</li>
+                        <li><i class="fas fa-check"></i> Hybrid Meetings Integration</li>
+                        <li><i class="fas fa-check"></i> Custom Domain Support</li>
+                    </ul>
+                    <a href="/signup_page" class="btn btn-primary" style="width: 100%; justify-content: center;">Go
+                        Pro</a>
+                </div>
+                <!-- Enterprise -->
+                <div class="pricing-card glass reveal">
+                    <h3>Enterprise</h3>
+                    <span class="price">$<span class="val" data-monthly="99"
+                            data-annual="79">99</span><span>/mo</span></span>
+                    <p>Customized solutions for large-scale global networks.</p>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Whitelabel Solutions</li>
+                        <li><i class="fas fa-check"></i> Dedicated Account Manager</li>
+                        <li><i class="fas fa-check"></i> Advance Fraud AI</li>
+                        <li><i class="fas fa-check"></i> API Infrastructure</li>
+                    </ul>
+                    <a href="/signup_page" class="btn btn-outline" style="width: 100%; justify-content: center;">Contact
+                        Sales</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials reveal" id="reviews">
+            <div class="features-header">
+                <h2 class="gradient-text">Trusted Globally</h2>
+                <p>See why top network marketers choose our ecosystem.</p>
+            </div>
+            <div class="testimonials-track" id="tTrack">
+                <!-- Card 1 -->
+                <div class="testimonial-card">
+                    <div class="quote">"NexusSphere completely revolutionized how we handle commission payouts. Our network grew by 300% in six months!"</div>
+                    <div class="t-user">
+                        <div class="t-avatar"><img src="https://i.pravatar.cc/100?img=1" alt="User"></div>
+                        <div class="t-info">
+                            <strong>Elena Rodriguez</strong>
+                            <span>Global Director</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="testimonial-card">
+                    <div class="quote">"The hybrid meeting integration with offline geo-tracking is something I've never seen before. Truly next-level."</div>
+                    <div class="t-user">
+                        <div class="t-avatar"><img src="https://i.pravatar.cc/100?img=2" alt="User"></div>
+                        <div class="t-info">
+                            <strong>James Chen</strong>
+                            <span>E-Com Founder</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="testimonial-card">
+                    <div class="quote">"Zero fraud issues since we migrated. The enterprise-grade security and digital wallet are flawless."</div>
+                    <div class="t-user">
+                        <div class="t-avatar"><img src="https://i.pravatar.cc/100?img=3" alt="User"></div>
+                        <div class="t-info">
+                            <strong>Sarah Williams</strong>
+                            <span>Chief Security Officer</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="testimonial-card">
+                    <div class="quote">"Our custom product integration into the NexusStore was seamless. We practically don't need a dev team anymore."</div>
+                    <div class="t-user">
+                        <div class="t-avatar"><img src="https://i.pravatar.cc/100?img=4" alt="User"></div>
+                        <div class="t-info">
+                            <strong>Michael O'Connor</strong>
+                            <span>Retail Partner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq reveal" id="faq">
+            <div class="features-header">
+                <h2 class="gradient-text">Frequently Asked Questions</h2>
+                <p>Everything you need to know about the NexusSphere ecosystem and networking engine.</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item glass reveal">
+                    <div class="faq-question">
+                        <span>How does the MLM commission system work?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our engine automatically calculates commissions based on your specific plan (Binary, Matrix,
+                            etc.) into real-time persistent balances in the digital wallet.</p>
+                    </div>
+                </div>
+                <div class="faq-item glass reveal">
+                    <div class="faq-question">
+                        <span>Can I integrate my own E-commerce products?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, NexusSphere provides a full inventory CRUD system with Cloudinary support, allowing you
+                            to list products and link them to your network's PV earnings.</p>
+                    </div>
+                </div>
+                <div class="faq-item glass reveal">
+                    <div class="faq-question">
+                        <span>What security measures are in place?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We use JWT-based authentication, bank-grade encryption for wallets, and enterprise activity
+                            logs to track every transaction and hierarchy change.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact reveal" id="contact">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2 class="gradient-text">Let's Build the Future</h2>
+                    <p>Have questions about scaling your network? Our team of experts is ready to help you deploy the
+                        ultimate ecosystem.</p>
+                    <div class="contact-details">
+                        <div class="contact-method">
+                            <div class="method-icon"><i class="fas fa-envelope"></i></div>
+                            <div>
+                                <strong>Email Us</strong>
+                                <p>hello@nexussphere.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="method-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div>
+                                <strong>Visit Office</strong>
+                                <p>Innovation Hub, Cyber City, Global</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper glass">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" placeholder="john@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>How can we help?</label>
+                            <textarea rows="4" placeholder="Tell us about your network..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                            Send Message <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="reveal">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <a href="#" class="logo footer-logo">
+                        <i class="fas fa-network-wired"></i>
+                        <span>NexusSphere</span>
+                    </a>
+                    <p class="footer-desc">The next-generation ecosystem for network marketers and e-commerce
+                        entrepreneurs.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#about">Ecosystem</a></li>
+                        <li><a href="#stats">Success</a></li>
+                        <li><a href="#">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="newsletter">
+                    <h4>Stay Updated</h4>
+                    <p style="opacity: 0.7; margin-bottom: 1.5rem; font-size: 0.9rem;">Join our newsletter for the
+                        latest updates in networking technology.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address">
+                        <button type="button" class="btn btn-primary"
+                            style="padding: 0.6rem 1.2rem; font-size: 0.8rem;">Join</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 NexusSphere Ecosystem. All rights reserved.</p>
+                <div style="display: flex; gap: 2rem;">
+                    <a href="#" style="color: inherit; text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: inherit; text-decoration: none;">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Activity Feed -->
+    <div class="activity-feed" id="activityFeed"></div>
+
+    <!-- Support Chat -->
+    <div class="chat-widget">
+        <div class="chat-btn" id="chatBtn">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-window shadow glass" id="chatWindow">
+            <div class="chat-header">
+                <span>NexusSphere Support</span>
+                <i class="fas fa-times" style="cursor: pointer;" id="closeChat"></i>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="chat-msg msg-bot shadow-sm">Hello! How can I help you scale your network today?</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Type a message..." id="chatInput">
+                <i class="fas fa-paper-plane" style="color: var(--primary); cursor: pointer;" id="sendChat"></i>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Back to Top -->
+    <button class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        /* 
+           NexusSphere Premium Landing Page Scripts
+           Interactivity & Animations
+        */
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Navbar Scroll Effect
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // 2. Particles Background
+            function createParticles() {
+                const container = document.getElementById('particles');
+                if (!container) return;
+
+                const particleCount = 40;
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+
+                    const size = Math.random() * 5 + 2;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const delay = Math.random() * 20;
+                    const duration = Math.random() * 20 + 10;
+
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${posX}%`;
+                    particle.style.top = `${posY}%`;
+
+                    gsap.to(particle, {
+                        y: '-100vh',
+                        x: 'random(-50, 50)',
+                        opacity: 0,
+                        duration: duration,
+                        delay: -delay,
+                        repeat: -1,
+                        ease: 'none'
+                    });
+
+                    container.appendChild(particle);
+                }
+            }
+            createParticles();
+
+            // 3. Scroll Reveal Animation (Intersection Observer)
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+
+                        // If it's a stats card, trigger counter
+                        const counters = entry.target.querySelectorAll('.stat-number');
+                        counters.forEach(counter => {
+                            animateCounter(counter);
+                        });
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // 4. Animated Counters
+            function animateCounter(el) {
+                const target = parseInt(el.getAttribute('data-target'));
+                const count = { val: 0 };
+                gsap.to(count, {
+                    val: target,
+                    duration: 2,
+                    ease: "power2.out",
+                    onUpdate: function () {
+                        el.innerText = Math.floor(count.val).toLocaleString() + (el.getAttribute('data-suffix') || '');
+                    }
+                });
+            }
+
+            // 5. Theme Toggle Logic
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+            const icon = themeToggle.querySelector('i');
+
+            // Check saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark');
+                const isDark = body.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+                if (isDark) {
+                    icon.classList.replace('fa-moon', 'fa-sun');
+                } else {
+                    icon.classList.replace('fa-sun', 'fa-moon');
+                }
+
+                // GSAP transition for background
+                gsap.fromTo(body, { opacity: 0.8 }, { opacity: 1, duration: 0.3 });
+            });
+
+            // 6. Smooth Scroll for Nav Links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        const headerOffset = 80;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // 7. Hero Mouse Parallax
+            const heroVisual = document.querySelector('.hero-visual');
+            if (heroVisual) {
+                heroVisual.addEventListener('mousemove', (e) => {
+                    const { clientX, clientY } = e;
+                    const { innerWidth, innerHeight } = window;
+                    const xPos = (clientX / innerWidth - 0.5) * 40;
+                    const yPos = (clientY / innerHeight - 0.5) * 40;
+
+                    gsap.to('.hero-card', {
+                        rotationY: xPos,
+                        rotationX: -yPos,
+                        duration: 1,
+                        ease: 'power2.out'
+                    });
+
+                    gsap.to('.f-1', { x: xPos * 0.5, y: yPos * 0.5, duration: 1 });
+                    gsap.to('.f-2', { x: -xPos * 0.5, y: -yPos * 0.5, duration: 1 });
+                });
+            }
+
+            // 8. CTA Hover Effects & Magnetic Buttons
+            const glowBtns = document.querySelectorAll('.btn-primary, .btn-outline');
+            glowBtns.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    btn.style.setProperty('--x', `${x}px`);
+                    btn.style.setProperty('--y', `${y}px`);
+
+                    // Magnetic effect
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const deltaX = (x - centerX) * 0.2;
+                    const deltaY = (y - centerY) * 0.2;
+
+                    gsap.to(btn, {
+                        x: deltaX,
+                        y: deltaY,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+                });
+            });
+
+            // 9. Pricing Toggle
+            const pricingSwitch = document.getElementById('pricingSwitch');
+            if (pricingSwitch) {
+                pricingSwitch.addEventListener('change', (e) => {
+                    const isAnnual = e.target.checked;
+                    const prices = document.querySelectorAll('.price span.val');
+                    const toggleLabels = document.querySelectorAll('.toggle-label');
+
+                    toggleLabels.forEach(label => label.classList.toggle('active'));
+
+                    prices.forEach(price => {
+                        const monthly = price.getAttribute('data-monthly');
+                        const annual = price.getAttribute('data-annual');
+
+                        gsap.to(price, {
+                            opacity: 0,
+                            y: -10,
+                            duration: 0.2,
+                            onComplete: () => {
+                                price.innerText = isAnnual ? annual : monthly;
+                                gsap.to(price, { opacity: 1, y: 0, duration: 0.2 });
+                            }
+                        });
+                    });
+                });
+            }
+
+            // 10. FAQ Accordions
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+
+                    // Close others
+                    faqItems.forEach(other => other.classList.remove('active'));
+
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // 11. Scroll Progress Bar
+            const progressLine = document.querySelector('.scroll-progress');
+            window.addEventListener('scroll', () => {
+                const h = document.documentElement;
+                const b = document.body;
+                const st = 'scrollTop';
+                const sh = 'scrollHeight';
+                const percent = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+                if (progressLine) progressLine.style.width = percent + '%';
+            });
+
+            // 12. Contact Form Mockup
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const btn = contactForm.querySelector('button');
+                    const originalText = btn.innerHTML;
+
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                    btn.disabled = true;
+
+                    setTimeout(() => {
+                        showToast('Message sent successfully! We will contact you soon.');
+                        contactForm.reset();
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }, 1500);
+                });
+            }
+
+            // 13. Toast Notification
+            function showToast(message) {
+                let container = document.querySelector('.toast-container');
+                if (!container) {
+                    container = document.createElement('div');
+                    container.className = 'toast-container';
+                    document.body.appendChild(container);
+                }
+
+                const toast = document.createElement('div');
+                toast.className = 'toast glass';
+                toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+                container.appendChild(toast);
+
+                setTimeout(() => toast.classList.add('show'), 100);
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 400);
+                }, 4000);
+            }
+
+            // 14. Back to Top Button
+            const backToTop = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
+            });
+
+            if (backToTop) {
+                backToTop.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // 15. Live Search for Features
+            const featureSearch = document.getElementById('featureSearch');
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            if (featureSearch) {
+                featureSearch.addEventListener('keyup', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    featureCards.forEach(card => {
+                        const text = card.innerText.toLowerCase();
+                        if (text.includes(term)) {
+                            card.style.display = 'block';
+                            gsap.to(card, { opacity: 1, scale: 1, duration: 0.3 });
+                        } else {
+                            gsap.to(card, { opacity: 0, scale: 0.9, duration: 0.3, onComplete: () => card.style.display = 'none' });
+                        }
+                    });
+                });
+            }
+
+            // 16. Custom Cursor (Removed - Replaced by Physics Cursor at the bottom)
+
+            // 17. Dashboard & Roadmap Animations via ScrollTrigger
+            ScrollTrigger.batch('.mock-bar', {
+                onEnter: batch => gsap.to(batch, { scaleY: 1, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'back.out(1.7)' }),
+                start: "top 85%"
+            });
+
+            ScrollTrigger.batch('.r-item', {
+                onEnter: batch => gsap.to(batch, { x: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: 'power2.out' }),
+                start: "top 85%"
+            });
+
+            // 18. Profit Calculator Logic
+            const profitRange = document.getElementById('profitRange');
+            const volumeVal = document.getElementById('volumeVal');
+            const profitResult = document.getElementById('profitResult');
+            
+            if (profitRange) {
+                profitRange.addEventListener('input', (e) => {
+                    const val = parseInt(e.target.value);
+                    volumeVal.innerText = '$' + val.toLocaleString();
+                    const profit = Math.floor(val * 0.15); // 15% commission mock
+                    animateValue(profitResult, parseInt(profitResult.innerText.replace('$', '').replace(',', '')), profit, '$');
+                });
+            }
+
+            function animateValue(el, start, end, prefix = '') {
+                const obj = { val: start };
+                gsap.to(obj, {
+                    val: end,
+                    duration: 0.5,
+                    ease: "power2.out",
+                    onUpdate: () => {
+                        el.innerText = prefix + Math.floor(obj.val).toLocaleString();
+                    }
+                });
+            }
+
+            // 19. Live Activity Feed Mockup
+            const activities = [
+                { user: 'Sarah K.', action: 'just joined from London', avatar: 'S' },
+                { user: 'Mike R.', action: 'earned $2,400 in commissions', avatar: 'M' },
+                { user: 'Nexus Team', action: 'launched VR Networking hub', avatar: 'N' },
+                { user: 'David W.', action: 'reached Diamond level', avatar: 'D' }
+            ];
+            
+            setInterval(() => {
+                const activity = activities[Math.floor(Math.random() * activities.length)];
+                showActivity(activity);
+            }, 8000);
+
+            function showActivity(act) {
+                const feed = document.getElementById('activityFeed');
+                if (!feed) return;
+                
+                const toast = document.createElement('div');
+                toast.className = 'activity-toast shadow';
+                toast.innerHTML = `
+                    <div class="activity-avatar">${act.avatar}</div>
+                    <div><strong>${act.user}</strong> ${act.action}</div>
+                `;
+                feed.appendChild(toast);
+                
+                setTimeout(() => toast.classList.add('show'), 100);
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 600);
+                }, 4000);
+            }
+
+            // 20. Support Chat Logic
+            const chatBtn = document.getElementById('chatBtn');
+            const chatWindow = document.getElementById('chatWindow');
+            const closeChat = document.getElementById('closeChat');
+            const chatInput = document.getElementById('chatInput');
+            const sendChat = document.getElementById('sendChat');
+            const chatBody = document.getElementById('chatBody');
+
+            if (chatBtn) {
+                chatBtn.addEventListener('click', () => chatWindow.classList.toggle('open'));
+                closeChat.addEventListener('click', () => chatWindow.classList.remove('open'));
+                
+                sendChat.addEventListener('click', sendMessage);
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') sendMessage();
+                });
+            }
+
+            function sendMessage() {
+                const text = chatInput.value.trim();
+                if (!text) return;
+                
+                const userMsg = document.createElement('div');
+                userMsg.className = 'chat-msg msg-user shadow-sm';
+                userMsg.innerText = text;
+                chatBody.appendChild(userMsg);
+                chatInput.value = '';
+                chatBody.scrollTop = chatBody.scrollHeight;
+                
+                setTimeout(() => {
+                    const botMsg = document.createElement('div');
+                    botMsg.className = 'chat-msg msg-bot shadow-sm';
+                    botMsg.innerText = "Thanks! A Nexus analyst will be with you shortly.";
+                    chatBody.appendChild(botMsg);
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                }, 1000);
+            }
+
+            // 21. 3D Hover Tilt for All Cards
+            const tiltCards = document.querySelectorAll('.feature-card, .pricing-card, .faq-item, .roadmap-item, .calculator-card');
+            tiltCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const xPercent = (x / rect.width - 0.5) * 20;
+                    const yPercent = (y / rect.height - 0.5) * 20;
+                    
+                    gsap.to(card, {
+                        rotateX: -yPercent,
+                        rotateY: xPercent,
+                        duration: 0.5,
+                        ease: 'power2.out',
+                        transformPerspective: 1000
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, { rotateX: 0, rotateY: 0, duration: 1, ease: 'elastic.out(1, 0.3)' });
+                });
+            });
+
+            // 22. Scroll-linked Parallax Headers
+            gsap.utils.toArray('.reveal h2').forEach(header => {
+                gsap.to(header, {
+                    scrollTrigger: {
+                        trigger: header,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: 1
+                    },
+                    y: -30,
+                    opacity: 0.8
+                });
+            });
+            // 23. Dynamic Mouse Glow Background
+            const glowBg = document.getElementById('glowBg');
+            if (glowBg && !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                document.addEventListener('mousemove', (e) => {
+                    const x = (e.clientX / window.innerWidth) * 100;
+                    const y = (e.clientY / window.innerHeight) * 100;
+                    glowBg.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(59, 130, 246, 0.08) 0%, transparent 40%)`;
+                });
+            }
+
+            // 24. Testimonials Auto-scroll / Drag mockup
+            const tTrack = document.getElementById('tTrack');
+            if (tTrack) {
+                gsap.to(tTrack, {
+                    x: "-50%",
+                    duration: 20,
+                    ease: "none",
+                    repeat: -1,
+                    yoyo: true
+                });
+            }
+
+
+            // 26. Interactive Node Sandbox
+            const sandbox = document.getElementById('sandboxContainer');
+            const svg = document.getElementById('sandboxSvg');
+            const rootNode = document.getElementById('rootNode');
+            
+            if (sandbox) {
+                let nodesCount = 1;
+                const nodes = [{ el: rootNode, x: sandbox.offsetWidth/2, y: sandbox.offsetHeight/2, lines: [] }];
+                
+                // Keep root center accurate on window resize
+                window.addEventListener('resize', () => {
+                   if(!rootNode) return;
+                   nodes[0].x = sandbox.offsetWidth/2;
+                   nodes[0].y = sandbox.offsetHeight/2;
+                   updateLines();
+                });
+
+                sandbox.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('net-node')) return; // Don't spawn if clicking existing node
+                    nodesCount++;
+                    
+                    const rect = sandbox.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    // Create Node
+                    const nodeEl = document.createElement('div');
+                    nodeEl.className = 'net-node';
+                    nodeEl.innerHTML = nodesCount;
+                    nodeEl.style.left = x + 'px';
+                    nodeEl.style.top = y + 'px';
+                    
+                    // Spawn animation
+                    gsap.from(nodeEl, { scale: 0, opacity: 0, duration: 0.5, ease: 'back.out(2)' });
+                    
+                    sandbox.appendChild(nodeEl);
+                    
+                    // Create Line from Root to Node
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('class', 'network-line');
+                    svg.appendChild(line);
+                    
+                    const nodeObj = { el: nodeEl, x, y };
+                    nodes.push(nodeObj);
+                    
+                    // Link to root
+                    nodes[0].lines.push({ to: nodeObj, lineEl: line });
+                    updateLines();
+                    makeDraggable(nodeObj);
+                });
+                
+                function updateLines() {
+                    nodes.forEach(node => {
+                        if (node.lines) {
+                            node.lines.forEach(link => {
+                                link.lineEl.setAttribute('x1', node.x);
+                                link.lineEl.setAttribute('y1', node.y);
+                                link.lineEl.setAttribute('x2', link.to.x);
+                                link.lineEl.setAttribute('y2', link.to.y);
+                            });
+                        }
+                    });
+                }
+                
+                function makeDraggable(nodeObj) {
+                    let isDragging = false;
+                    nodeObj.el.addEventListener('mousedown', (e) => {
+                        isDragging = true;
+                        nodeObj.el.style.zIndex = 10;
+                    });
+                    document.addEventListener('mousemove', (e) => {
+                        if (!isDragging) return;
+                        const rect = sandbox.getBoundingClientRect();
+                        let x = e.clientX - rect.left;
+                        let y = e.clientY - rect.top;
+                        
+                        // Constrain to sandbox
+                        x = Math.max(25, Math.min(x, rect.width - 25));
+                        y = Math.max(25, Math.min(y, rect.height - 25));
+                        
+                        nodeObj.x = x;
+                        nodeObj.y = y;
+                        nodeObj.el.style.left = x + 'px';
+                        nodeObj.el.style.top = y + 'px';
+                        updateLines();
+                    });
+                    document.addEventListener('mouseup', () => {
+                        isDragging = false;
+                        nodeObj.el.style.zIndex = 2;
+                    });
+                }
+                
+                // Initialize Root Draggable
+                makeDraggable(nodes[0]);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -17,12 +17,12 @@
             font-family: 'Arial', sans-serif;
             background-color: var(--background);
             color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            
+            
+            
+            
             margin: 0;
-            overflow: hidden;
+            
             position: relative;
         }
 
@@ -163,7 +163,7 @@
             font-weight: 600;
             transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
+            
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
@@ -216,10 +216,25 @@
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- PWA Setup -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="/logo/site_logo.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
     <%- include("../utils/header")%> 
     <%- include("side")%>
+<main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px); flex-direction: column;">
     
     <!-- Background coins -->
     <div id="coinsBackground"></div>
@@ -237,6 +252,7 @@
             <i class="fas fa-tachometer-alt" style="margin-right: 8px;"></i> Go to Dashboard
         </button>
     </div>
+</main>
 <%- include("../utils/footer"); %> 
   
     <script>
