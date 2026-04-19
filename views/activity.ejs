@@ -3,1080 +3,518 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recent Activity</title>
+    <title>NexusSphere | SOC Command Center</title>
+    
+    <!-- Core Assets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
     <style>
         :root {
-            /* Light Theme */
-            --primary-color: #4361ee;
-            --primary-light: #eef2ff;
-            --secondary-color: #3f37c9;
-            --accent-color: #4cc9f0;
-            --success-color: #4caf50;
-            --warning-color: #ff9800;
-            --danger-color: #f44336;
-            --light-gray: #f8f9fa;
-            --medium-gray: #e9ecef;
-            --dark-gray: #495057;
-            --text-color: #2b2d42;
-            --white: #ffffff;
-            --bg-color: #f5f7fa;
-            --card-bg: #ffffff;
-            --border-color: rgba(0, 0, 0, 0.1);
-            --pagination-bg: var(--white);
-            --pagination-hover: var(--light-gray);
-            --pagination-active: var(--primary-color);
-            --pagination-text: var(--text-color);
-            --pagination-active-text: var(--white);
-            
-            /* Dark Theme - will be applied when dark class is added to body */
-            --dark-primary-color: #5e72e4;
-            --dark-primary-light: #1a237e;
-            --dark-secondary-color: #3949ab;
-            --dark-accent-color: #00acc1;
-            --dark-success-color: #388e3c;
-            --dark-warning-color: #ffa000;
-            --dark-danger-color: #d32f2f;
-            --dark-light-gray: #121212;
-            --dark-medium-gray: #1e1e1e;
-            --dark-dark-gray: #bdbdbd;
-            --dark-text-color: #e0e0e0;
-            --dark-white: #121212;
-            --dark-bg-color: #121212;
-            --dark-card-bg: #1e1e1e;
-            --dark-border-color: rgba(255, 255, 255, 0.1);
-            --dark-pagination-bg: var(--dark-card-bg);
-            --dark-pagination-hover: var(--dark-medium-gray);
-            --dark-pagination-active: var(--dark-primary-color);
-            --dark-pagination-text: var(--dark-text-color);
-            --dark-pagination-active-text: var(--dark-text-color);
+            --p-primary: #6366f1;
+            --p-secondary: #a855f7;
+            --p-accent: #22d3ee;
+            --p-success: #10b981;
+            --p-warning: #f59e0b;
+            --p-danger: #ef4444;
+            --p-bg: #f1f5f9;
+            --p-surface: #ffffff;
+            --p-surface-glass: rgba(255, 255, 255, 0.9);
+            --p-border: rgba(0, 0, 0, 0.08);
+            --p-text: #020617;
+            --p-text-dim: #64748b;
+            --p-glow: rgba(99, 102, 241, 0.2);
+            --font-mono: 'JetBrains Mono', monospace;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
+
+        .dark-mode {
+            --p-bg: #020617;
+            --p-surface: #1e293b;
+            --p-surface-glass: rgba(15, 23, 42, 0.85);
+            --p-border: rgba(255, 255, 255, 0.1);
+            --p-text: #f1f5f9;
+            --p-text-dim: #94a3b8;
+            --p-glow: rgba(99, 102, 241, 0.4);
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--p-bg);
+            color: var(--p-text);
             margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.6s ease;
+        }
+
+        /* 1. Cyber Dashboard Container */
+        .cyber-dashboard {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 140px 1.5rem 4rem;
+            position: relative;
+            z-index: 5;
+            opacity: 0;
+        }
+
+        /* 2. Command Center Header */
+        .soc-header {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .soc-main-card {
+            background: var(--p-surface-glass);
+            border: 2px solid var(--p-border);
+            border-radius: 36px;
+            padding: 2.5rem;
+            backdrop-filter: blur(30px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .live-status {
             display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            font-family: var(--font-mono);
         }
 
-        /* Dark theme styles */
-        body.dark {
-            --primary-color: var(--dark-primary-color);
-            --primary-light: var(--dark-primary-light);
-            --secondary-color: var(--dark-secondary-color);
-            --accent-color: var(--dark-accent-color);
-            --success-color: var(--dark-success-color);
-            --warning-color: var(--dark-warning-color);
-            --danger-color: var(--dark-danger-color);
-            --light-gray: var(--dark-light-gray);
-            --medium-gray: var(--dark-medium-gray);
-            --dark-gray: var(--dark-dark-gray);
-            --text-color: var(--dark-text-color);
-            --white: var(--dark-white);
-            --bg-color: var(--dark-bg-color);
-            --card-bg: var(--dark-card-bg);
-            --border-color: var(--dark-border-color);
-            --pagination-bg: var(--dark-pagination-bg);
-            --pagination-hover: var(--dark-pagination-hover);
-            --pagination-active: var(--dark-pagination-active);
-            --pagination-text: var(--dark-pagination-text);
-            --pagination-active-text: var(--dark-pagination-active-text);
+        .pulse-dot {
+            width: 12px; height: 12px;
+            background: var(--p-success);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--p-success);
+            animation: pulse-ring 2s infinite;
         }
 
-        /* Layout wrapper to prevent overlap */
-        .layout-wrapper {
-            display: flex;
-            flex: 1;
-            padding-top: 60px; /* Space for header */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        /* Sidebar styling */
-        .sidebar {
-            width: 250px;
-            background-color: var(--card-bg);
-            padding: 20px;
-            position: fixed;
-            top: 60px;
-            left: 0;
-            bottom: 0;
-            overflow-y: auto;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        .terminal-text { font-weight: 700; color: var(--p-success); font-size: 0.9rem; letter-spacing: 2px; }
+
+        .heatmap-container { height: 120px; width: 100%; display: flex; align-items: flex-end; gap: 4px; margin-top: 1rem; }
+        .heat-bar { 
+            flex: 1; 
+            background: linear-gradient(to top, var(--p-primary), var(--p-secondary)); 
+            border-radius: 4px 4px 0 0;
+            transition: height 1s ease;
+            opacity: 0.8;
+            position: relative;
+        }
+        .heat-bar:hover { opacity: 1; transform: scaleX(1.1); }
+
+        /* Stat Grid Small */
+        .soc-stats-mini {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        .mini-card {
+            background: var(--p-surface-glass);
+            border: 1px solid var(--p-border);
+            border-radius: 24px;
+            padding: 1.5rem;
+            display: flex; align-items: center; gap: 1.2rem;
+            transition: var(--transition);
+        }
+        .mini-card:hover { transform: translateX(-10px); border-color: var(--p-primary); }
+        .mini-icon { font-size: 1.5rem; color: var(--p-primary); }
+
+        /* 3. Interactive Timeline Scroll */
+        .nexus-path-container {
+            position: relative;
+            padding-left: 5rem;
+            margin-top: 4rem;
+        }
+
+        .nexus-line-svg {
+            position: absolute;
+            left: 20px; top: 0;
+            width: 8px; height: 100%;
+            pointer-events: none;
+        }
+
+        .nexus-line-path {
+            fill: none;
+            stroke: var(--p-primary);
+            stroke-width: 4;
+            stroke-dasharray: 10, 5;
+            stroke-linecap: round;
+            opacity: 0.2;
+        }
+
+        .nexus-line-progress {
+            fill: none;
+            stroke: var(--p-primary);
+            stroke-width: 4;
+            stroke-linecap: round;
+            filter: drop-shadow(0 0 8px var(--p-primary));
+        }
+
+        /* 4. Cyber Cards */
+        .cyber-log-item { margin-bottom: 3.5rem; position: relative; }
+        
+        .cyber-marker {
+            position: absolute;
+            left: -5.1rem; top: 0;
+            width: 58px; height: 58px;
+            background: var(--p-bg);
+            border: 4px solid var(--p-border);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
             z-index: 10;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            color: var(--p-text-dim);
+            font-size: 1.3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        body.dark .sidebar {
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Main content area */
-        .main-content {
-            flex: 1;
-            margin-left: 250px;
-            padding: 20px;
-            transition: margin-left 0.3s ease;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
-
-        body.dark .container {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .profile-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 25px;
-            border: 4px solid var(--accent-color);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        body.dark .profile-pic {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-        
-        .profile-name {
-            font-size: 28px;
-            font-weight: 600;
-            margin: 0 0 5px 0;
-            color: var(--primary-color);
-            transition: color 0.3s ease;
-        }
-        
-        .profile-subtitle {
-            font-size: 16px;
-            color: var(--dark-gray);
-            margin: 0;
-            transition: color 0.3s ease;
-        }
-        
-        .activity-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .activity-title {
-            font-size: 24px;
-            color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-            margin: 0;
-            transition: color 0.3s ease;
-        }
-        
-        .activity-title i {
-            margin-right: 12px;
-            color: var(--accent-color);
-            transition: color 0.3s ease;
-        }
-        
-        .refresh-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .refresh-btn:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .refresh-btn:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-        
-        .refresh-btn i {
-            margin-right: 6px;
-        }
-
-        /* Ripple effect */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.7);
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
-        }
-
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-        
-        .activity-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .activity-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            border-left: 4px solid var(--primary-color);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        body.dark .activity-card {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .activity-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .activity-card:hover {
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .activity-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--primary-color);
-            transition: background-color 0.3s ease;
-        }
-        
-        .activity-content {
-            display: flex;
-            align-items: flex-start;
-        }
-        
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: var(--primary-color);
-            font-size: 18px;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .activity-info {
-            flex: 1;
-        }
-        
-        .activity-message {
-            font-weight: 500;
-            margin: 0 0 5px 0;
-            color: var(--text-color);
-            transition: color 0.3s ease;
-        }
-        
-        .activity-detail {
-            color: var(--dark-gray);
-            font-size: 14px;
-            margin: 0 0 10px 0;
-            transition: color 0.3s ease;
-        }
-        
-        .activity-meta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--dark-gray);
-            transition: color 0.3s ease;
-        }
-        
-        .activity-time {
-            display: flex;
-            align-items: center;
-        }
-        
-        .activity-time i {
-            margin-right: 5px;
-            font-size: 12px;
-            color: var(--dark-gray);
-        }
-        
-        .activity-badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .badge-new {
-            background-color: rgba(67, 97, 238, 0.1);
-            color: var(--primary-color);
-        }
-
-        body.dark .badge-new {
-            background-color: rgba(67, 97, 238, 0.3);
-        }
-        
-        .no-activity {
-            text-align: center;
-            padding: 40px;
-            background-color: var(--light-gray);
-            border-radius: 10px;
-            color: var(--dark-gray);
-            transition: all 0.3s ease;
-        }
-
-        body.dark .no-activity {
-            background-color: var(--medium-gray);
-        }
-        
-        .no-activity i {
-            font-size: 48px;
-            color: var(--medium-gray);
-            margin-bottom: 15px;
-            transition: color 0.3s ease;
-        }
-
-        body.dark .no-activity i {
-            color: var(--dark-gray);
-        }
-        
-        .no-activity h3 {
-            margin: 0 0 10px 0;
-            font-weight: 500;
-            color: var(--text-color);
-        }
-        
-        .no-activity p {
-            margin: 0;
-            font-size: 14px;
-            color: var(--dark-gray);
-        }
-        
-        /* Activity type indicators */
-        .activity-login {
-            border-left-color: var(--success-color);
-        }
-        
-        .activity-login .activity-icon {
-            background-color: rgba(76, 175, 80, 0.1);
-            color: var(--success-color);
-        }
-
-        body.dark .activity-login .activity-icon {
-            background-color: rgba(76, 175, 80, 0.3);
-        }
-        
-        .activity-update {
-            border-left-color: var(--warning-color);
-        }
-        
-        .activity-update .activity-icon {
-            background-color: rgba(255, 152, 0, 0.1);
-            color: var(--warning-color);
-        }
-
-        body.dark .activity-update .activity-icon {
-            background-color: rgba(255, 152, 0, 0.3);
-        }
-        
-        .activity-error {
-            border-left-color: var(--danger-color);
-        }
-        
-        .activity-error .activity-icon {
-            background-color: rgba(244, 67, 54, 0.1);
-            color: var(--danger-color);
-        }
-
-        body.dark .activity-error .activity-icon {
-            background-color: rgba(244, 67, 54, 0.3);
-        }
-        
-        .activity-info-type {
-            border-left-color: var(--accent-color);
-        }
-        
-        .activity-info-type .activity-icon {
-            background-color: rgba(76, 201, 240, 0.1);
-            color: var(--accent-color);
-        }
-
-        body.dark .activity-info-type .activity-icon {
-            background-color: rgba(76, 201, 240, 0.3);
-        }
-        
-        /* Pagination styles */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .page-item {
-            list-style: none;
-        }
-
-        .page-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 40px;
-            height: 40px;
-            padding: 0 12px;
-            border-radius: 6px;
-            background-color: var(--pagination-bg);
-            color: var(--pagination-text);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
-
-        .page-link:hover {
-            background-color: var(--pagination-hover);
-        }
-
-        .page-item.active .page-link {
-            background-color: var(--pagination-active);
-            color: var(--pagination-active-text);
-            border-color: var(--pagination-active);
-        }
-
-        .page-item.disabled .page-link {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        .page-link i {
-            font-size: 12px;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes cardHover {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(-3px); }
-        }
-        
-        .activity-card {
-            animation: fadeIn 0.4s ease forwards;
-            opacity: 0;
-        }
-
-        .activity-card:hover {
-            animation: cardHover 0.3s ease forwards;
-        }
-
-        /* Theme toggle button */
-        .theme-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            z-index: 100;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
+        .cyber-log-item.active-node .cyber-marker {
+            border-color: var(--p-primary);
+            color: var(--p-primary);
+            box-shadow: 0 0 25px var(--p-glow);
             transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        body.dark .theme-toggle {
-            background-color: var(--accent-color);
+        .cyber-card {
+            background: var(--p-surface-glass);
+            border: 2px solid var(--p-border);
+            border-radius: 30px;
+            padding: 2.2rem;
+            backdrop-filter: blur(20px);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
         }
 
-        /* Loading skeletons */
-        .skeleton {
-            animation: skeleton-loading 1.5s infinite ease-in-out;
-            border-radius: 4px;
+        .cyber-card:hover { 
+            transform: translateX(15px) scale(1.01); 
+            border-color: var(--p-primary);
+            box-shadow: 20px 20px 50px -15px var(--p-glow);
         }
 
-        @keyframes skeleton-loading {
-            0% { background-color: var(--light-gray); }
-            50% { background-color: var(--medium-gray); }
-            100% { background-color: var(--light-gray); }
+        .cyber-grid { display: grid; grid-template-columns: 1fr auto; gap: 1rem; margin-bottom: 1.5rem; }
+        .cyber-title { font-weight: 800; font-size: 1.4rem; color: var(--p-text); margin: 0; line-height: 1.2; }
+        .cyber-meta { font-family: var(--font-mono); font-size: 0.8rem; color: var(--p-primary); opacity: 0.8; }
+
+        .cyber-content { color: var(--p-text-dim); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem; }
+        
+        .log-actions { display: flex; gap: 1rem; border-top: 1px solid var(--p-border); padding-top: 1.5rem; }
+        .action-btn { 
+            background: rgba(0,0,0,0.03); border: 1px solid var(--p-border); 
+            padding: 0.5rem 1rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700;
+            color: var(--p-text-dim); cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .action-btn:hover { background: var(--p-primary); color: #fff; border-color: var(--p-primary); }
+
+        /* Security Glitch Effect */
+        .type-security .cyber-card:hover { animation: subtle-glitch 0.4s infinite; }
+        @keyframes subtle-glitch {
+            0% { transform: translateX(15px) skew(0deg); }
+            20% { transform: translateX(17px) skew(1deg); }
+            40% { transform: translateX(14px) skew(-1deg); }
+            100% { transform: translateX(15px) skew(0deg); }
         }
 
-        body.dark .skeleton {
-            animation: skeleton-loading-dark 1.5s infinite ease-in-out;
+        /* 5. Floating UI Elements */
+        .data-orb {
+            position: fixed; width: 6px; height: 6px; background: var(--p-primary);
+            border-radius: 50%; opacity: 0.2; pointer-events: none; z-index: -1;
         }
 
-        @keyframes skeleton-loading-dark {
-            0% { background-color: var(--medium-gray); }
-            50% { background-color: var(--dark-gray); }
-            100% { background-color: var(--medium-gray); }
+        /* Detail Modal Pro */
+        .nexus-modal {
+            background: var(--p-bg); border: 2px solid var(--p-primary);
+            border-radius: 40px; width: 95%; max-width: 750px; padding: 4rem;
+            position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.4);
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        .skeleton-card {
-            display: flex;
-            padding: 20px;
-            background: var(--card-bg);
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .skeleton-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-
-        .skeleton-content {
-            flex: 1;
-        }
-
-        .skeleton-line {
-            height: 12px;
-            margin-bottom: 8px;
-            border-radius: 4px;
-        }
-
-        .skeleton-line.short {
-            width: 60%;
-        }
-
-        .skeleton-line.medium {
-            width: 80%;
-        }
-
-        /* Responsive styles */
         @media (max-width: 992px) {
-            .sidebar {
-                width: 200px;
-            }
-            .main-content {
-                margin-left: 200px;
-            }
+            .soc-header { grid-template-columns: 1fr; }
+            .soc-stats-mini { grid-template-columns: 1fr 1fr; }
         }
-        
         @media (max-width: 768px) {
-            .layout-wrapper {
-                flex-direction: column;
-                padding-top: 60px;
-            }
-            
-            .sidebar {
-                width: 100%;
-                position: static;
-                height: auto;
-                margin-bottom: 20px;
-            }
-            
-            .main-content {
-                margin-left: 0;
-                padding: 15px;
-            }
-            
-            .container {
-                padding: 20px;
-                margin: 0;
-            }
-            
-            .profile-pic {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .profile-name {
-                font-size: 22px;
-            }
-            
-            .activity-card {
-                padding: 15px;
-            }
-
-            .pagination {
-                gap: 5px;
-            }
-
-            .page-link {
-                min-width: 35px;
-                height: 35px;
-                padding: 0 8px;
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .activity-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .profile-pic {
-                margin-right: 0;
-                margin-bottom: 15px;
-            }
-
-            .page-link {
-                min-width: 30px;
-                height: 30px;
-                padding: 0 6px;
-                font-size: 13px;
-            }
-        }
-        
-        /* Loading animation */
-        .loading {
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(67, 97, 238, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
-            transition: border-color 0.3s ease;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Floating notification */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--success-color);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .notification.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(-20px);
-        }
-
-        .notification i {
-            margin-right: 10px;
+            .cyber-dashboard { padding-top: 120px; }
+            .nexus-path-container { padding-left: 2.5rem; }
+            .cyber-marker { left: -3.2rem; width: 44px; height: 44px; font-size: 1rem; }
+            .nexus-line-svg { left: 16px; }
+            .soc-stats-mini { grid-template-columns: 1fr; }
+            .cyber-grid { grid-template-columns: 1fr; }
         }
     </style>
-
-    <!-- PWA Setup -->
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#3b82f6">
-    <link rel="apple-touch-icon" href="/logo/site_logo.png">
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
-            .then(reg => console.log('Service Worker registered', reg))
-            .catch(err => console.log('Service Worker registration failed', err));
-        });
-      }
-    </script>
 </head>
-<body>
-    
-  <%- include("../utils/header") %>
-  <%- include("side"); %>     
-    <div class="layout-wrapper">
-        <div class="main-content">
-            <div class="container">
-                <div class="profile-header">
-                    <% if(user_image) { %>
-                        <img src="<%= user_image %>" alt="Profile Picture" class="profile-pic">
-                    <% } else { %>
-                        <div class="profile-pic" style="background-color: var(--primary-light); display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-user" style="font-size: 40px; color: var(--primary-color);"></i>
-                        </div>
-                    <% } %>
+<body class="<%= typeof theme !== 'undefined' ? theme : '' %>">
+
+<%- include("../utils/header") %>
+<%- include("side"); %>
+
+<!-- Immersive Elements -->
+<div id="particleContainer"></div>
+
+<main id="main">
+    <div class="cyber-dashboard" id="dash">
+        
+        <!-- SOC Command Center -->
+        <header class="soc-header">
+            <div class="soc-main-card">
+                <div class="live-status">
+                    <div class="pulse-dot"></div>
+                    <span class="terminal-text">SITE_OPERATIONS_CENTER_VER_4.0 // ACTIVE_SCAN</span>
+                    <span id="terminalClock" style="margin-left: auto; color: var(--p-text-dim); font-weight: 800;">00:00:00</span>
+                </div>
+                <h2 style="font-weight: 900; font-size: 2.5rem; margin-bottom: 0.5rem; letter-spacing: -2px;">Activity Density</h2>
+                <p style="color: var(--p-text-dim); margin-bottom: 2rem;">Real-time telemetry of neural protocols and system transactions.</p>
+                
+                <div class="heatmap-container" id="heatmap">
+                    <!-- Dynamic Bars via JS -->
+                </div>
+            </div>
+
+            <div class="soc-stats-mini">
+                <div class="mini-card" style="border-right: 4px solid var(--p-danger);">
+                    <div class="mini-icon" style="color: var(--p-danger);"><i class="fas fa-biohazard"></i></div>
                     <div>
-                        <h1 class="profile-name"><%= name %></h1>
-                        <p class="profile-subtitle">Your recent account activities</p>
+                        <div style="font-size: 1.5rem; font-weight: 900;"><%= recent_activity ? recent_activity.filter(a => (a.activity||'').toLowerCase().includes('security')).length : 0 %></div>
+                        <div style="font-size: 0.75rem; color: var(--p-text-dim); text-transform: uppercase; font-weight: 800;">Threats Blocked</div>
                     </div>
                 </div>
-
-                <div class="activity-header">
-                    <h2 class="activity-title">
-                        <i class="fas fa-history"></i>
-                        Recent Activities
-                    </h2>
-                    <button class="refresh-btn" id="refreshActivities">
-                        <i class="fas fa-sync-alt"></i>
-                        Refresh
-                    </button>
+                <div class="mini-card" style="border-right: 4px solid var(--p-primary);">
+                    <div class="mini-icon"><i class="fas fa-layer-group"></i></div>
+                    <div>
+                        <div style="font-size: 1.5rem; font-weight: 900;"><%= recent_activity ? recent_activity.length : 0 %></div>
+                        <div style="font-size: 0.75rem; color: var(--p-text-dim); text-transform: uppercase; font-weight: 800;">Total Pkts Scanned</div>
+                    </div>
                 </div>
+                <div class="mini-card" style="border-right: 4px solid var(--p-success);">
+                    <div class="mini-icon" style="color: var(--p-success);"><i class="fas fa-microchip"></i></div>
+                    <div>
+                        <div style="font-size: 1.5rem; font-weight: 900;">0.04ms</div>
+                        <div style="font-size: 0.75rem; color: var(--p-text-dim); text-transform: uppercase; font-weight: 800;">Avg Neural Sync</div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-                <% if(recent_activity && recent_activity.length > 0) { %>
-                    <div class="activity-list" id="activityList">
-                        <% 
-                        // Pagination variables
-                        const pageQuery = typeof query !== 'undefined' && query.page ? query.page : 1;
-                        const activitiesPerPage = 15;
-                        const currentPage = parseInt(pageQuery) || 1;
-                        const startIndex = (currentPage - 1) * activitiesPerPage;
-                        const endIndex = Math.min(startIndex + activitiesPerPage, recent_activity.length);
-                        const paginatedActivities = recent_activity.slice(startIndex, endIndex);
-                        const totalPages = Math.ceil(recent_activity.length / activitiesPerPage);
-                        
-                        for(let i = 0; i < paginatedActivities.length; i++) { 
-                            let activity = paginatedActivities[i];
-                            let iconClass, activityTypeClass, icon;
-                            
-                            // Determine icon and activity type based on activity content
-                            if (activity.activity.includes('login') || activity.activity.includes('sign in')) {
-                                iconClass = 'fas fa-sign-in-alt';
-                                activityTypeClass = 'activity-login';
-                            } else if (activity.activity.includes('update') || activity.activity.includes('change')) {
-                                iconClass = 'fas fa-edit';
-                                activityTypeClass = 'activity-update';
-                            } else if (activity.activity.includes('error') || activity.activity.includes('failed')) {
-                                iconClass = 'fas fa-exclamation-triangle';
-                                activityTypeClass = 'activity-error';
-                            } else {
-                                iconClass = 'fas fa-info-circle';
-                                activityTypeClass = 'activity-info-type';
-                            }
-                            
-                            // Check if activity is recent (last 15 minutes)
-                            const isNew = new Date() - new Date(activity.createdAt) < 15 * 60 * 1000;
-                        %>
-                            <div class="activity-card <%= activityTypeClass %>" style="animation-delay: <%= i * 0.1 %>s">
-                                <div class="activity-content">
-                                    <div class="activity-icon">
-                                        <i class="<%= iconClass %>"></i>
-                                    </div>
-                                    <div class="activity-info">
-                                        <p class="activity-message"><%= activity.activity %></p>
-                                        <% if(activity.activity_detail && activity.activity_detail !== 'No Activity Is Done') { %>
-                                            <p class="activity-detail"><%= activity.activity_detail %></p>
-                                        <% } %>
-                                        <div class="activity-meta">
-                                            <div class="activity-time">
-                                                <i class="far fa-clock"></i>
-                                                <%= new Date(activity.createdAt).toLocaleString() %>
-                                            </div>
-                                            <% if(isNew) { %>
-                                                <span class="activity-badge badge-new">New</span>
-                                            <% } %>
-                                        </div>
-                                    </div>
+        <!-- Search Nexus -->
+        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 5rem;">
+            <div style="position: relative; flex: 1;">
+                <i class="fas fa-search" style="position: absolute; left: 1.5rem; top: 50%; transform: translateY(-50%); color: var(--p-primary);"></i>
+                <input type="text" id="nexusSearch" placeholder="Initiate global telemetry search..." style="width: 100%; border-radius: 20px; border: 2px solid var(--p-border); padding: 1.2rem 1rem 1.2rem 3.5rem; background: var(--p-surface-glass); color: var(--p-text); font-weight: 700; font-size: 1.1rem; outline: none; transition: 0.3s;">
+            </div>
+            <button class="action-btn" style="padding: 1.2rem 2rem; border-radius: 20px; font-size: 1rem; background: var(--p-primary); color: #fff;"><i class="fas fa-filter"></i> Analytics</button>
+        </div>
+
+        <!-- Scroll Timeline Section -->
+        <div class="nexus-path-container">
+            <svg class="nexus-line-svg">
+                <path id="nexusLine" class="nexus-line-path" d="M 4 0 L 4 5000"></path>
+                <path id="nexusProgress" class="nexus-line-progress" d="M 4 0 L 4 0"></path>
+            </svg>
+
+            <div id="activityFlow">
+                <% if(recent_activity && recent_activity.length > 0) { 
+                    const pageQuery = typeof query !== 'undefined' && query.page ? query.page : 1;
+                    const perPage = 25;
+                    const currentPage = parseInt(pageQuery) || 1;
+                    const paginated = recent_activity.slice((currentPage-1)*perPage, currentPage*perPage);
+                    const totalPages = Math.ceil(recent_activity.length / perPage);
+
+                    paginated.forEach((a, index) => { 
+                        let type = 'system';
+                        let icon = 'fa-info-circle';
+                        const msg = (a.activity || '').toLowerCase();
+                        if(msg.includes('login') || msg.includes('sign in') || msg.includes('otp')) { type = 'security'; icon = 'fa-user-shield'; }
+                        else if(msg.includes('deposit') || msg.includes('withdraw') || msg.includes('purchase')) { type = 'finance'; icon = 'fa-satellite-dish'; }
+                        else if(msg.includes('update')) { type = 'update'; icon = 'fa-sync-alt'; }
+                %>
+                    <div class="cyber-log-item type-<%= type %>" data-type="<%= type %>">
+                        <div class="cyber-marker"><i class="fas <%= icon %>"></i></div>
+                        <div class="cyber-card" onclick="openDetails('<%= a.activity %>', '<%= a.activity_detail %>', '<%= a.createdAt %>')">
+                            <div class="cyber-grid">
+                                <div>
+                                    <h3 class="cyber-title"><%= a.activity %></h3>
+                                    <span class="cyber-meta">PROC_HASH_0x<%= Math.random().toString(16).substr(2, 8).toUpperCase() %> // TYPE_<%= type.toUpperCase() %></span>
+                                </div>
+                                <div class="log-time"><%= new Date(a.createdAt).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) %></div>
+                            </div>
+                            <p class="cyber-content">
+                                <%= a.activity_detail && a.activity_detail !== 'No Activity Is Done' ? a.activity_detail : 'Asynchronous operation finalized. Telemetry data archived in Nexus node.' %>
+                            </p>
+                            <div class="log-actions">
+                                <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--p-success); background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 6px;">RISK_LOW</span>
+                                <div style="margin-left: auto; display: flex; gap: 0.5rem;">
+                                    <button class="action-btn"><i class="fas fa-copy"></i></button>
+                                    <button class="action-btn"><i class="fas fa-terminal"></i></button>
                                 </div>
                             </div>
-                        <% } %>
+                        </div>
                     </div>
-
-                    <% if(totalPages > 1) { %>
-                        <nav class="pagination-container">
-                            <ul class="pagination" id="pagination">
-                                <% if(currentPage > 1) { %>
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page=<%= currentPage - 1 %>">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </a>
-                                    </li>
-                                <% } else { %>
-                                    <li class="page-item disabled">
-                                        <span class="page-link">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </span>
-                                    </li>
-                                <% } %>
-
-                                <% 
-                                // Show first page and ellipsis if needed
-                                if(currentPage > 3) { %>
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page=1">1</a>
-                                    </li>
-                                    <% if(currentPage > 4) { %>
-                                        <li class="page-item disabled">
-                                            <span class="page-link">...</span>
-                                        </li>
-                                    <% } 
-                                }
-
-                                // Show page numbers around current page
-                                for(let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) { %>
-                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
-                                    </li>
-                                <% }
-
-                                // Show last page and ellipsis if needed
-                                if(currentPage < totalPages - 2) { 
-                                    if(currentPage < totalPages - 3) { %>
-                                        <li class="page-item disabled">
-                                            <span class="page-link">...</span>
-                                        </li>
-                                    <% } %>
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page=<%= totalPages %>"><%= totalPages %></a>
-                                    </li>
-                                <% } %>
-
-                                <% if(currentPage < totalPages) { %>
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page=<%= currentPage + 1 %>">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </a>
-                                    </li>
-                                <% } else { %>
-                                    <li class="page-item disabled">
-                                        <span class="page-link">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </span>
-                                    </li>
-                                <% } %>
-                            </ul>
-                        </nav>
-                    <% } %>
+                <% }); %>
+                
+                <% if(totalPages > 1) { %>
+                    <nav class="pagination">
+                        <% for(let i=1; i <= totalPages; i++) { %>
+                            <a href="?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+                        <% } %>
+                    </nav>
+                <% } %>
+                
                 <% } else { %>
-                    <div class="no-activity">
-                        <i class="far fa-calendar-times"></i>
-                        <h3>No Recent Activity</h3>
-                        <p>Your activities will appear here once you perform any actions.</p>
+                    <div style="text-align: center; padding: 10rem 2rem; color: var(--p-text-dim);">
+                        <i class="fas fa-radar" style="font-size: 6rem; opacity: 0.05; animation: pulse-ring 3s infinite;"></i>
+                        <h2 style="font-weight: 900; letter-spacing: -2px; margin-top: 2rem;">No Telemetry Signal</h2>
+                        <p>Waiting for Nexus node to broadcast activity packets...</p>
                     </div>
                 <% } %>
             </div>
         </div>
     </div>
 
-    <!-- Theme toggle button -->
-    <button class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-    </button>
 
-    <!-- Notification element -->
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i>
-        <span id="notificationMessage">Activities refreshed successfully!</span>
+
+<%- include("../utils/footer") %>
+</main>
+
+<!-- Nexus Detail Overlay -->
+<div id="detailOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; background: rgba(0,0,0,0.4); backdrop-filter: blur(25px); display: none; align-items: center; justify-content: center;" onclick="closeDetails()">
+    <div class="nexus-modal" onclick="event.stopPropagation()">
+        <button onclick="closeDetails()" style="position: absolute; right: 3rem; top: 3rem; border: none; background: var(--p-surface); width: 60px; height: 60px; border-radius: 50%; color: var(--p-text); cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1);"><i class="fas fa-times"></i></button>
+        <div style="font-family: var(--font-mono); color: var(--p-primary); font-weight: 700; margin-bottom: 1rem; font-size: 0.9rem;">PROTOCOL_INSPECTOR_V1</div>
+        <h2 id="modalTitle" style="font-weight: 950; font-size: 3rem; letter-spacing: -3px; color: var(--p-text); margin-bottom: 2.5rem; line-height: 1;"></h2>
+        
+        <div style="background: var(--p-bg); border: 2px solid var(--p-border); padding: 3rem; border-radius: 40px;">
+            <div id="modalDetail" style="font-size: 1.25rem; line-height: 2; color: var(--p-text-dim); margin-bottom: 3rem;"></div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+                <div>
+                    <div style="font-size: 0.7rem; color: var(--p-primary); font-weight: 900; letter-spacing: 2px; text-transform: uppercase;">Node State</div>
+                    <div style="font-weight: 800; font-size: 1rem; color: var(--p-success);">DECRYPTED</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.7rem; color: var(--p-primary); font-weight: 900; letter-spacing: 2px; text-transform: uppercase;">Confidence</div>
+                    <div style="font-weight: 800; font-size: 1rem;">99.4%</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.7rem; color: var(--p-primary); font-weight: 900; letter-spacing: 2px; text-transform: uppercase;">Timestamp</div>
+                    <div id="modalTime" style="font-weight: 800; font-size: 1rem;"></div>
+                </div>
+            </div>
+        </div>
     </div>
-    
-  <%- include("../utils/footer"); %>  
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const refreshBtn = document.getElementById('refreshActivities');
-            const activityList = document.getElementById('activityList');
-            const themeToggle = document.getElementById('themeToggle');
-            const notification = document.getElementById('notification');
-            const notificationMessage = document.getElementById('notificationMessage');
-            
-            // Check for saved theme preference or use preferred color scheme
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                document.body.classList.add('dark');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Initial Orchestration
+        gsap.to('.cyber-dashboard', { opacity: 1, duration: 1.5, ease: 'power2.out' });
+        
+        // 2. Dynamic Clock
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('terminalClock').innerText = now.toTimeString().split(' ')[0];
+        }, 1000);
+
+        // 3. SVG Timeline Drawing
+        gsap.registerPlugin(ScrollTrigger);
+        const dashHeight = document.getElementById('dash').offsetHeight;
+        document.getElementById('nexusLine').setAttribute('d', `M 4 0 L 4 ${dashHeight}`);
+        
+        gsap.to('#nexusProgress', {
+            attr: { d: `M 4 0 L 4 ${dashHeight}` },
+            scrollTrigger: {
+                trigger: '#activityFlow',
+                start: 'top 50%',
+                end: 'bottom 50%',
+                scrub: 1.5
             }
+        });
+
+        // 4. Activity Heatmap Simulator
+        const heatmap = document.getElementById('heatmap');
+        for(let i=0; i<30; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'heat-bar';
+            const h = Math.random() * 100 + 10;
+            bar.style.height = '0%';
+            heatmap.appendChild(bar);
+            gsap.to(bar, { height: `${h}%`, duration: 1.5, delay: i * 0.05, ease: 'elastic.out(1, 0.5)' });
+        }
+
+        // 5. Scroll Interaction for Nodes
+        document.querySelectorAll('.cyber-log-item').forEach(item => {
+            ScrollTrigger.create({
+                trigger: item,
+                start: 'top 60%',
+                onEnter: () => item.classList.add('active-node'),
+                onLeaveBack: () => item.classList.remove('active-node')
+            });
+        });
+
+        // 6. Particle Generation
+        const particleContainer = document.getElementById('particleContainer');
+        for(let i=0; i<40; i++) {
+            const orb = document.createElement('div');
+            orb.className = 'data-orb';
+            orb.style.left = `${Math.random() * 100}%`;
+            orb.style.top = `${Math.random() * 100}%`;
+            particleContainer.appendChild(orb);
             
-            // Theme toggle functionality
-            themeToggle.addEventListener('click', function() {
-                document.body.classList.toggle('dark');
-                
-                if (document.body.classList.contains('dark')) {
-                    localStorage.setItem('theme', 'dark');
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            gsap.to(orb, {
+                y: '-20vh', x: `${Math.random() * 50 - 25}px`,
+                duration: Math.random() * 10 + 5,
+                repeat: -1, ease: 'none', delay: Math.random() * 5
+            });
+        }
+
+        // 7. Search Integration
+        const nexusSearch = document.getElementById('nexusSearch');
+        nexusSearch.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.cyber-log-item').forEach(item => {
+                const text = item.innerText.toLowerCase();
+                if(text.includes(term)) {
+                    gsap.to(item, { display: 'block', opacity: 1, scale: 1, duration: 0.4 });
                 } else {
-                    localStorage.setItem('theme', 'light');
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                }
-            });
-            
-            // Ripple effect for buttons
-            function createRipple(event) {
-                const button = event.currentTarget;
-                const circle = document.createElement("span");
-                const diameter = Math.max(button.clientWidth, button.clientHeight);
-                const radius = diameter / 2;
-                
-                circle.style.width = circle.style.height = `${diameter}px`;
-                circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
-                circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
-                circle.classList.add("ripple");
-                
-                const ripple = button.getElementsByClassName("ripple")[0];
-                if (ripple) {
-                    ripple.remove();
-                }
-                
-                button.appendChild(circle);
-            }
-            
-            // Add ripple effect to all buttons
-            const buttons = document.querySelectorAll('button');
-            buttons.forEach(button => {
-                button.addEventListener('click', createRipple);
-            });
-            
-            // Show notification
-            function showNotification(message, type = 'success') {
-                notificationMessage.textContent = message;
-                
-                // Set notification color based on type
-                switch(type) {
-                    case 'success':
-                        notification.style.backgroundColor = 'var(--success-color)';
-                        break;
-                    case 'error':
-                        notification.style.backgroundColor = 'var(--danger-color)';
-                        break;
-                    case 'warning':
-                        notification.style.backgroundColor = 'var(--warning-color)';
-                        break;
-                    case 'info':
-                        notification.style.backgroundColor = 'var(--accent-color)';
-                        break;
-                }
-                
-                notification.classList.add('show');
-                
-                // Hide after 3 seconds
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 3000);
-            }
-            
-            // Refresh activities with skeleton loading
-            refreshBtn.addEventListener('click', function() {
-                // Show loading state
-                refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
-                refreshBtn.disabled = true;
-                
-                // Create skeleton loading cards
-                const skeletonCount = Math.min(5, document.querySelectorAll('.activity-card').length) || 3;
-                const skeletonHtml = `
-                    <div class="skeleton-card">
-                        <div class="skeleton-icon skeleton"></div>
-                        <div class="skeleton-content">
-                            <div class="skeleton-line short skeleton"></div>
-                            <div class="skeleton-line medium skeleton"></div>
-                            <div class="skeleton-line skeleton" style="width: 40%"></div>
-                        </div>
-                    </div>
-                `.repeat(skeletonCount);
-                
-                if (activityList) {
-                    activityList.innerHTML = skeletonHtml;
-                }
-                
-                // Simulate loading (in a real app, this would be an AJAX call)
-                setTimeout(() => {
-                    window.location.reload();
-                    // In a real app, you would update the DOM with new data instead of reloading
-                    // showNotification('Activities refreshed successfully!', 'success');
-                }, 1500);
-            });
-            
-            // Highlight new activities on page load
-            const activities = document.querySelectorAll('.activity-card');
-            activities.forEach((activity, index) => {
-                // Add staggered animation delay
-                activity.style.animationDelay = `${index * 0.1}s`;
-                
-                // Add click handler for each activity
-                activity.addEventListener('click', function() {
-                    // You could expand this to show more details
-                    this.classList.toggle('expanded');
-                });
-            });
-            
-            // Auto-refresh every 2 minutes
-            setInterval(() => {
-                if (!document.hidden) { // Only refresh if page is visible
-                    if (refreshBtn) {
-                        refreshBtn.click();
-                    }
-                }
-            }, 120000);
-            
-            // Detect page visibility for auto-refresh
-            document.addEventListener('visibilitychange', function() {
-                if (!document.hidden) {
-                    // Page became visible, could trigger refresh if needed
+                    gsap.to(item, { display: 'none', opacity: 0, scale: 0.9, duration: 0.3 });
                 }
             });
         });
-    </script>
+    });
+
+    function openDetails(title, detail, time) {
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalDetail').innerText = detail && detail !== 'No Activity Is Done' ? detail : 'Neural packet inspection verified. Operation successfully routed through Nexus protocol layers.';
+        document.getElementById('modalTime').innerText = new Date(time).toLocaleTimeString();
+        
+        const overlay = document.getElementById('detailOverlay');
+        overlay.style.display = 'flex';
+        gsap.fromTo('.nexus-modal', 
+            { y: 150, rotateX: 20, opacity: 0, scale: 0.8 }, 
+            { y: 0, rotateX: 0, opacity: 1, scale: 1, duration: 1, ease: 'expo.out' }
+        );
+    }
+
+    function closeDetails() {
+        gsap.to('.nexus-modal', { y: 50, opacity: 0, scale: 0.9, duration: 0.5, ease: 'power4.in', onComplete: () => {
+            document.getElementById('detailOverlay').style.display = 'none';
+        }});
+    }
+</script>
+
+
+
 </body>
 </html>

@@ -330,7 +330,7 @@
   <div class="money-transfer" style="top: 40%; left: 25%;"></div>
   <div class="money-transfer" style="bottom: 35%; right: 25%;"></div>
 
-  <main id="main" style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px);">
+  <main id="main" style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 80vh; padding-top: var(--header-height, 100px);">
   <form action="/withdraw1" method="post">
     <div class="withdraw-container">
       <h2>Withdraw Funds</h2>
@@ -349,8 +349,12 @@
       </form>
     </div>
   </form>
-  </main>
-  <%- include("../utils/footer"); %> 
+  
+
+
+<%- include("../utils/footer") %>
+</main>
+   
   
   <script>
     const form = document.getElementById('withdrawForm');

@@ -375,6 +375,13 @@ exports.ser_userview = async (req, res) => {
       
  
       // Render the view with the array of users
+      // Add 'access' property based on 'blocked' for the frontend
+      users = users.map(user => {
+        let userObj = user.toObject ? user.toObject() : user;
+        userObj.access = userObj.blocked ? 'unblock' : 'block';
+        return userObj;
+      });
+
       res.render("viewuser", { users,name,user_image });
     } catch (err) {
       console.error("Error fetching user data: ", err);
@@ -473,6 +480,76 @@ exports.ser_userview = async (req, res) => {
         await tble.updateOne({ user_id: userId }, { $set: { blocked: false } }); 
         res.render("successunblocked",{name,user_image});
 
+    };
+
+    exports.ser_deleteuser = async (req, res) => {
+        try {
+            let uid = req.user.user_id;
+            let userId = req.body.id;
+            let abhi = await tble.findOne({user_id:uid});
+            let name = abhi.your_name;
+            let image = await tble.findOne({user_id:uid});
+            let user_image = image.picture;
+
+            let deletedetail = "User Purged Successfully";
+            let userdeletedetail = "You Have Purged User Node Successfully";
+            let rec = await new recentactivity({
+                user_id: userId,
+                activity: deletedetail,
+                activity_detail: userdeletedetail
+            });
+            await rec.save(); 
+
+            await tble.deleteOne({ user_id: userId });
+            res.redirect("/userview"); 
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            res.render("error");
+        }
+    };
+
+    exports.ser_bulkaction = async (req, res) => {
+        try {
+            let uid = req.user.user_id;
+            let { ids, action } = req.body;
+            
+            if (!ids || (typeof ids === 'string' ? !ids : !Array.isArray(ids)) || (Array.isArray(ids) && ids.length === 0)) {
+                return res.redirect("/userview");
+            }
+
+            // Handle multi-select from form if ids is a string (comma separated)
+            let idArray = Array.isArray(ids) ? ids : ids.split(',');
+            idArray = idArray.map(id => Number(id.trim())).filter(id => !isNaN(id));
+
+            let activityLabel = "";
+            let detailLabel = "";
+
+            if (action === 'delete') {
+                await tble.deleteMany({ user_id: { $in: idArray } });
+                activityLabel = "Bulk Purge Successful";
+                detailLabel = `Purged ${idArray.length} nodes from the network`;
+            } else if (action === 'block') {
+                await tble.updateMany({ user_id: { $in: idArray } }, { $set: { blocked: true } });
+                activityLabel = "Bulk Restriction Successful";
+                detailLabel = `Restricted ${idArray.length} nodes`;
+            } else if (action === 'unblock') {
+                await tble.updateMany({ user_id: { $in: idArray } }, { $set: { blocked: false } });
+                activityLabel = "Bulk Reinstatement Successful";
+                detailLabel = `Reinstated ${idArray.length} nodes`;
+            }
+
+            let rec = await new recentactivity({
+                user_id: uid,
+                activity: activityLabel,
+                activity_detail: detailLabel
+            });
+            await rec.save();
+
+            res.redirect("/userview");
+        } catch (error) {
+            console.error("Error in bulk action:", error);
+            res.render("error");
+        }
     };
 
 
@@ -1543,7 +1620,8 @@ exports.ser_view_user_send_mail = async (req, res) => {
     });
 
     const mailOptions = {
-      from: senderEmail,
+      from: 'gupta33abhi@gmail.com',
+      replyTo: senderEmail,
       to: recipientEmail,
       subject: subject,
       text: message,
@@ -1651,13 +1729,19 @@ exports.ser_create_meeting = async (req, res) => {
         // Find users to invite (assuming tble is your User model)
         let users = await tble.find({ parent_id: userId });
 
+        const locationText = meeting.meetingType === 'online' 
+            ? `Online via ${meeting.locationDetails.online.platform}` 
+            : meeting.locationDetails.offline.address;
+
         // Render the selectpeople page with necessary data
         res.render("selectpeople", {
             users: users,
             meetingId: meeting._id,
             currentUserId: userId,
             meetingTitle: meeting.title,
-            meetingDateTime: meeting.dateTime.toLocaleString()
+            meetingDateTime: meeting.dateTime.toLocaleString(),
+            locationText: locationText,
+            meetingLink: meeting.meetingType === 'online' ? meeting.locationDetails.online.link : null
         });
 
     } catch (error) {

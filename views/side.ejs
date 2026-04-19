@@ -20,15 +20,15 @@
             --sidebar-footer-height: 120px;
 
             /* Theme Colors */
-            --primary-color: #4361ee;
-            --primary-dark: #3a0ca3;
-            --primary-light: #4895ef;
-            --secondary-color: #f72585;
-            --accent-color: #4cc9f0;
-            --success-color: #38b000;
+            --primary-color: #6366f1;
+            --primary-dark: #4338ca;
+            --primary-light: #a5b4fc;
+            --secondary-color: #8b5cf6;
+            --accent-color: #ec4899;
+            --success-color: #10b981;
             --warning-color: #f59e0b;
             --danger-color: #ef4444;
-            --info-color: #06b6d4;
+            --info-color: #3b82f6;
 
             /* Glass Morphism */
             --glass-effect: rgba(255, 255, 255, 0.7);
@@ -241,6 +241,7 @@
             font-weight: 700;
             background: linear-gradient(to right, var(--primary-dark), var(--primary-color));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
             position: relative;
@@ -1998,6 +1999,34 @@
                     </ul>
                 </li>
                 <!-- End Mail Manager Nav -->
+                
+                <!-- Meeting Manager Nav -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-toggle="collapse" href="#meeting-manager-nav"
+                        aria-expanded="false" aria-controls="meeting-manager-nav">
+                        <div class="nav-icon">
+                            <i class="bi bi-calendar-event"></i>
+                            <div class="icon-aura"></div>
+                        </div>
+                        <span>Meeting Manager</span>
+                        <i class="bi bi-chevron-down ms-auto toggle-icon"></i>
+                        <div class="nav-link-wave"></div>
+                    </a>
+                    <ul id="meeting-manager-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="/meeting">
+                                <div class="nav-icon">
+                                    <i class="bi bi-calendar2-plus"></i>
+                                    <div class="icon-aura"></div>
+                                </div>
+                                <span>Schedule Meeting</span>
+                                <div class="subitem-wave"></div>
+                                <div class="subitem-trail"></div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End Meeting Manager Nav -->
 
                 <li class="nav-heading">
                     <span>Settings</span>

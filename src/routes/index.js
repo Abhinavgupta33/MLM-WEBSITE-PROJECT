@@ -4,6 +4,7 @@ const auth    = require('../middleware/auth');
 const ctrl    = require('../controllers/index');
 
 // ─── Public routes ────────────────────────────────────────────────────────────
+router.get('/test_src', (req, res) => res.send('src/routes/index.js is active'));
 router.get('/',                 ctrl.cont_landing);
 router.get('/login',            ctrl.cont_login);
 router.get('/signup_page',      ctrl.cont_signup_page);
@@ -27,6 +28,8 @@ router.post('/user_block',      auth, ctrl.cont_userblock);
 router.post('/user_unblock',    auth, ctrl.cont_userunblock);
 router.post('/user',            auth, ctrl.cont_userupdate);
 router.post('/updatehello',     auth, ctrl.cont_update);
+router.post('/delete_user',     auth, ctrl.cont_deleteuser);
+router.post('/bulk_action',     auth, ctrl.cont_bulkaction);
 router.get('/admininfo',        auth, ctrl.cont_admininfo);
 router.get('/logout',           auth, ctrl.cont_logout);
 router.get('/withdraw',         auth, ctrl.cont_withdraw);
@@ -66,5 +69,9 @@ router.get('/messages',         auth, ctrl.cont_messages);
 router.get('/team',             auth, ctrl.cont_team);
 router.get('/help',             auth, ctrl.cont_help);
 router.get('/feedback',         auth, ctrl.cont_feedback);
+
+// ─── Header API Routes ────────────────────────────────────────────────────────
+router.get('/api/search',        auth, ctrl.api_search);
+router.get('/api/notifications', auth, ctrl.api_notifications);
 
 module.exports = router;

@@ -81,6 +81,12 @@ exports.ser_userview = async (req, res) => {
         let uid = req.user.user_id;
         const { name, user_image } = await getUserCtx(uid);
         let users = await User.find({ parent_id: uid }, { _id: 0 });
+        // Add 'access' property based on 'blocked' for the frontend
+        users = users.map(u => {
+            let uObj = u.toObject ? u.toObject() : u;
+            uObj.access = uObj.blocked ? 'unblock' : 'block';
+            return uObj;
+        });
         res.render('viewuser', { users, name, user_image });
     } catch (err) {
         console.error('Error fetching user data:', err);
@@ -99,6 +105,30 @@ exports.ser_filter = async (req, res) => {
     if (req.body.filtermobile) filter.mobile_no   = req.body.filtermobile;
     let users = await User.find(filter);
     res.render('viewuser', { name, users, user_image });
+};
+
+// ─── Search API (for header) ──────────────────────────────────────────────────
+exports.ser_api_search = async (req, res) => {
+    try {
+        const query = req.query.q;
+        if (!query) return res.json({ success: true, results: [] });
+
+        const searchFilter = {
+            $or: [
+                { your_name: { $regex: query, $options: 'i' } },
+                { email: { $regex: query, $options: 'i' } }
+            ]
+        };
+
+        const results = await User.find(searchFilter)
+            .limit(10)
+            .select('user_id your_name email picture');
+
+        res.json({ success: true, results });
+    } catch (error) {
+        console.error('API Search error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
 };
 
 // ─── Block User ───────────────────────────────────────────────────────────────
@@ -142,6 +172,70 @@ exports.ser_update = async (req, res) => {
     let totalproduct = (await Product.find({})).length;
     await new Activity({ user_id: uid, activity: 'User Details Updated Successfully', activity_detail: 'You Have Updated User Detail Successfully' }).save();
     res.render('dashboard', { name, activeuser, totalproduct, user_image });
+};
+
+// ─── Delete User ─────────────────────────────────────────────────────────────
+exports.ser_deleteuser = async (req, res) => {
+    try {
+        let uid = req.user.user_id;
+        let userId = req.body.id;
+        const { name, user_image } = await getUserCtx(uid);
+
+        await new Activity({
+            user_id: uid,
+            activity: 'User Purged Successfully',
+            activity_detail: `Administrator purged node ID_${userId}`
+        }).save();
+
+        await User.deleteOne({ user_id: userId });
+        res.redirect('/userview');
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.render('error');
+    }
+};
+
+// ─── Bulk Action ─────────────────────────────────────────────────────────────
+exports.ser_bulkaction = async (req, res) => {
+    try {
+        let uid = req.user.user_id;
+        let { ids, action } = req.body;
+        
+        if (!ids || (typeof ids === 'string' ? !ids : !Array.isArray(ids)) || (Array.isArray(ids) && ids.length === 0)) {
+            return res.redirect('/userview');
+        }
+
+        let idArray = Array.isArray(ids) ? ids : ids.split(',');
+        idArray = idArray.map(id => Number(id.trim())).filter(id => !isNaN(id));
+
+        let activityLabel = "";
+        let detailLabel = "";
+
+        if (action === 'delete') {
+            await User.deleteMany({ user_id: { $in: idArray } });
+            activityLabel = "Bulk Purge Successful";
+            detailLabel = `Purged ${idArray.length} nodes from the network`;
+        } else if (action === 'block') {
+            await User.updateMany({ user_id: { $in: idArray } }, { $set: { blocked: true } });
+            activityLabel = "Bulk Restriction Successful";
+            detailLabel = `Restricted ${idArray.length} nodes`;
+        } else if (action === 'unblock') {
+            await User.updateMany({ user_id: { $in: idArray } }, { $set: { blocked: false } });
+            activityLabel = "Bulk Reinstatement Successful";
+            detailLabel = `Reinstated ${idArray.length} nodes`;
+        }
+
+        await new Activity({
+            user_id: uid,
+            activity: activityLabel,
+            activity_detail: detailLabel
+        }).save();
+
+        res.redirect('/userview');
+    } catch (error) {
+        console.error('Error in bulk action:', error);
+        res.render('error');
+    }
 };
 
 // ─── Additional Header Pages ──────────────────────────────────────────────────

@@ -446,7 +446,7 @@
     </style>
 
 
-    <main id="main" style="display: flex; justify-content: center; align-items: center;">
+    <main id="main" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
       <!-- Deposit-themed Background Elements -->
       <div id="depositBackground"></div>
 
@@ -477,7 +477,11 @@
           </form>
         </div>
       </form>
-    </main>
+    
+
+
+<%- include("../utils/footer") %>
+</main>
 
 
     <script>
@@ -686,7 +690,7 @@
       }
 
     </script>
-    <%- include("../utils/footer"); %>
+    
 
 
       

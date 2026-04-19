@@ -20,8 +20,22 @@ exports.ser_meeting = async (req, res) => {
     try {
         let uid = req.user.user_id;
         const { name, user_image } = await getUserCtx(uid);
-        res.render('meeting', { name, user_image });
-    } catch {
+        
+        // Fetch all meetings created by this user
+        const meetings = await Meeting.find({ createdBy: uid }).sort({ dateTime: -1 });
+        
+        // Calculate statistics
+        const now = new Date();
+        const stats = {
+            total: meetings.length,
+            upcoming: meetings.filter(m => m.dateTime > now && m.status === 'scheduled').length,
+            completed: meetings.filter(m => m.status === 'completed').length,
+            canceled: meetings.filter(m => m.status === 'canceled').length
+        };
+
+        res.render('meeting', { name, user_image, meetings, stats });
+    } catch (error) {
+        console.error('Error in ser_meeting:', error);
         res.render('error');
     }
 };
@@ -36,20 +50,50 @@ exports.ser_create_meeting = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Title, date/time, and category are required' });
         }
 
-        const meetingData = { title, dateTime: new Date(dateTime), meetingType: meetingMode, category: meetingCategory, description: description || '', createdBy: userId, status: 'scheduled' };
+        const meetingData = { 
+            title, 
+            dateTime: new Date(dateTime), 
+            meetingType: meetingMode || 'online', 
+            category: meetingCategory, 
+            description: description || '', 
+            createdBy: userId, 
+            status: 'scheduled' 
+        };
 
-        if (meetingMode === 'online') {
-            if (!meetingPlatform) return res.status(400).json({ success: false, message: 'Platform is required for online meetings' });
-            meetingData.locationDetails = { online: { platform: meetingPlatform, ...(meetingPlatform === 'other' && meetingLink ? { link: meetingLink } : {}) } };
+        if (meetingData.meetingType === 'online') {
+            meetingData.locationDetails = { 
+                online: { 
+                    platform: meetingPlatform || 'Generic', 
+                    link: meetingLink || '' 
+                } 
+            };
         } else {
-            if (!meetingAddress) return res.status(400).json({ success: false, message: 'Address is required for offline meetings' });
-            meetingData.locationDetails = { offline: { address: meetingAddress, coordinates: { type: 'Point', coordinates: [0, 0] } } };
+            meetingData.locationDetails = { 
+                offline: { 
+                    address: meetingAddress || 'TBD', 
+                    coordinates: { type: 'Point', coordinates: [0, 0] } 
+                } 
+            };
         }
 
         const meeting = new Meeting(meetingData);
         await meeting.save();
         let users = await User.find({ parent_id: userId });
-        res.render('selectpeople', { users, meetingId: meeting._id, currentUserId: userId, meetingTitle: meeting.title, meetingDateTime: meeting.dateTime.toLocaleString() });
+        
+        const locationText = meeting.meetingType === 'online' 
+            ? `Online via ${meeting.locationDetails.online.platform}` 
+            : (meeting.locationDetails.offline ? meeting.locationDetails.offline.address : 'Offline');
+
+        res.render('selectpeople', { 
+            users, 
+            meetingId: meeting._id, 
+            currentUserId: userId, 
+            meetingTitle: meeting.title, 
+            meetingDateTime: meeting.dateTime.toLocaleString(),
+            meetingType: meeting.meetingType,
+            locationText: locationText,
+            meetingLink: meeting.meetingType === 'online' ? meeting.locationDetails.online.link : null
+        });
     } catch (error) {
         console.error('Error creating meeting:', error);
         res.render('error', { message: 'Failed to create meeting' });
@@ -65,7 +109,7 @@ exports.ser_send_invite = async (req, res) => {
         const validEmails = recipients.filter(email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
         if (validEmails.length === 0) return res.status(400).json({ success: false, error: 'No valid email addresses' });
 
-        const mailOptions = { from: `"Meeting Scheduler" <${process.env.BREVO_USER}>`, bcc: validEmails, subject, html: message };
+        const mailOptions = { from: `"Meeting Scheduler" <gupta33abhi@gmail.com>`, bcc: validEmails, subject, html: message };
         const info = await transporter.sendMail(mailOptions);
 
         if (meetingId) {

@@ -33,6 +33,8 @@ exports.cont_userblock      = (req, res) => user.ser_blockuser(req, res);
 exports.cont_userunblock    = (req, res) => user.ser_unblockuser(req, res);
 exports.cont_userupdate     = (req, res) => user.ser_user(req, res);
 exports.cont_update         = (req, res) => user.ser_update(req, res);
+exports.cont_deleteuser     = (req, res) => user.ser_deleteuser(req, res);
+exports.cont_bulkaction     = (req, res) => user.ser_bulkaction(req, res);
 exports.cont_viewprofile    = (req, res) => wallet.ser_viewprofile(req, res);
 
 // ─── Product Controllers ──────────────────────────────────────────────────────
@@ -76,6 +78,10 @@ exports.cont_success_meeting_create= (req, res) => meeting.ser_success_meeting_c
 // ─── Activity Controllers ─────────────────────────────────────────────────────
 exports.cont_activity    = (req, res) => activity.ser_activity(req, res);
 exports.cont_leaderboard = (req, res) => activity.ser_leaderboard(req, res);
+
+// ─── API Controllers (for header) ─────────────────────────────────────────────
+exports.api_search        = (req, res) => user.ser_api_search(req, res);
+exports.api_notifications = (req, res) => activity.ser_api_notifications(req, res);
 
 // ─── Header Linked Pages Controllers ──────────────────────────────────────────
 exports.cont_settings       = (req, res) => user.ser_settings(req, res);

@@ -1,285 +1,444 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusSphere | Management Console</title>
+    
+    <!-- Core Assets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
-    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
-    <meta content="" name="description" />
-    <meta content="" name="keywords" />
-    <link href="../assets/img/favicon.png" rel="icon" />
-    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
-
-    <link href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet"
-    />
-
-    <link
-      href="../assets/vendor/bootstrap/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-   
     <style>
-      #main {
-        margin-left: var(--sidebar-width, 280px);
-        padding-top: calc(var(--header-height, 80px) + 20px);
-        transition: all 0.3s;
-      }
-      
-      .pagetitle { padding-left: 20px; }
-      
-      .filter-container {
-        margin: 0 15px;
-      }
+        :root {
+            --p-primary: #3b82f6;
+            --p-secondary: #8b5cf6;
+            --p-accent: #06b6d4;
+            --p-success: #10b981;
+            --p-warning: #f59e0b;
+            --p-danger: #ef4444;
+            --p-bg: #f8fafc;
+            --p-surface: #ffffff;
+            --p-surface-glass: rgba(255, 255, 255, 0.9);
+            --p-border: rgba(0, 0, 0, 0.08);
+            --p-text: #020617;
+            --p-text-dim: #64748b;
+            --p-glow: rgba(59, 130, 246, 0.15);
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            --header-height: 80px;
+            --sidebar-width: 280px;
+        }
 
-      /* Table horizontal scroll */
-      .card[style*="overflow-x"] { overflow-x: auto !important; }
-      table.table { min-width: 900px; }
-      
-      @media (max-width: 991px) {
-        #main { margin-left: 0 !important; padding-top: calc(var(--header-height, 80px) + 15px); }
-        .filter-container { margin: 0 10px; }
-      }
-      
-      @media (max-width: 576px) {
-        .pagetitle { padding-left: 10px; }
-        .filter-container { margin: 0 5px; }
-        .filter-container .col-md-4 { flex: 0 0 100%; max-width: 100%; margin-bottom: 10px; }
-        table td, table th { font-size: 0.75rem; padding: 6px 4px; }
-        .btn { font-size: 0.75rem; padding: 4px 6px; }
-      }
+        .dark-mode {
+            --p-bg: #020617;
+            --p-surface: #1e293b;
+            --p-surface-glass: rgba(15, 23, 42, 0.85);
+            --p-border: rgba(255, 255, 255, 0.12);
+            --p-text: #f1f5f9;
+            --p-text-dim: #94a3b8;
+            --p-glow: rgba(59, 130, 246, 0.3);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--p-bg);
+            color: var(--p-text);
+            margin: 0;
+            overflow-x: hidden;
+            transition: background-color 0.6s ease;
+        }
+
+        #main {
+            margin-left: var(--sidebar-width);
+            padding: calc(var(--header-height) + 2rem) 2rem 6rem;
+            transition: var(--transition);
+        }
+
+        @media (max-width: 991px) {
+            #main { margin-left: 0; padding: calc(var(--header-height) + 1.5rem) 1rem 5rem; }
+        }
+
+        /* 1. Command Stats Header */
+        .console-header {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card-glass {
+            background: var(--p-surface-glass);
+            border: 2px solid var(--p-border);
+            padding: 1.5rem 2rem;
+            border-radius: 28px;
+            backdrop-filter: blur(25px);
+            display: flex; align-items: center; gap: 1.5rem;
+            transition: var(--transition);
+        }
+        .stat-card-glass:hover { transform: translateY(-8px); border-color: var(--p-primary); box-shadow: 0 15px 30px var(--p-glow); }
+        .stat-icon { font-size: 2rem; color: var(--p-primary); background: rgba(var(--p-primary-rgb), 0.1); width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; }
+
+        /* 2. Intelligence Grid Control Bar */
+        .nexus-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-area { flex: 1; position: relative; max-width: 500px; }
+        .search-area i { position: absolute; left: 1.25rem; top: 50%; transform: translateY(-50%); color: var(--p-primary); font-size: 1.2rem; }
+        .search-area input {
+            width: 100%; border: 2px solid var(--p-border); background: var(--p-surface-glass);
+            padding: 1rem 1rem 1rem 3.5rem; border-radius: 20px;
+            font-family: inherit; font-weight: 700; color: var(--p-text); outline: none;
+            transition: var(--transition);
+        }
+        .search-area input:focus { border-color: var(--p-primary); box-shadow: 0 0 0 4px var(--p-glow); }
+
+        /* 3. Elite Data Grid System */
+        .grid-wrapper {
+            background: var(--p-surface-glass);
+            border: 2px solid var(--p-border);
+            border-radius: 36px;
+            overflow: hidden;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.06);
+            position: relative;
+        }
+
+        .nexus-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .nexus-table thead { background: rgba(0,0,0,0.02); border-bottom: 2px solid var(--p-border); }
+        .nexus-table th { padding: 1.5rem 1rem; font-size: 0.75rem; font-weight: 900; color: var(--p-text-dim); text-transform: uppercase; letter-spacing: 2px; }
+        .nexus-table td { padding: 1.25rem 1rem; vertical-align: middle; transition: 0.3s; }
+
+        /* Custom Checkbox */
+        .nexus-check {
+            width: 22px; height: 22px; border-radius: 6px; border: 2.5px solid var(--p-border);
+            cursor: pointer; position: relative; transition: 0.3s;
+        }
+        .nexus-check.checked { background: var(--p-primary); border-color: var(--p-primary); }
+        .nexus-check.checked::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: #fff; font-size: 0.8rem; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+
+        .nexus-row { border-bottom: 1px solid var(--p-border); cursor: pointer; position: relative; }
+        .nexus-row:hover { background: rgba(var(--p-primary-rgb), 0.03); }
+        .nexus-row.selected { background: rgba(var(--p-primary-rgb), 0.08); }
+
+        /* Identity Block */
+        .identity-cell { display: flex; align-items: center; gap: 1rem; }
+        .id-avatar { 
+            width: 48px; height: 48px; border-radius: 14px; 
+            background: linear-gradient(135deg, var(--p-primary), var(--p-secondary));
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 1.4rem; font-weight: 900;
+        }
+        .id-name { font-weight: 800; font-size: 1.05rem; display: block; }
+        .id-email { font-size: 0.8rem; color: var(--p-text-dim); font-weight: 500; font-family: 'JetBrains Mono'; }
+
+        /* Quick Intel Expansion */
+        .intel-expansion {
+            max-height: 0; overflow: hidden;
+            background: rgba(var(--p-primary-rgb), 0.02);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .intel-expansion.active { max-height: 400px; padding: 2rem; border-bottom: 1px solid var(--p-border); }
+        .intel-content { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+        .intel-item label { display: block; font-size: 0.65rem; font-weight: 900; color: var(--p-text-dim); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 1px; }
+        .intel-item span { font-weight: 800; font-size: 1.1rem; color: var(--p-text); }
+
+        /* Floating Bulk Bar */
+        .bulk-bar {
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--p-text); color: #fff; padding: 1rem 2.5rem;
+            border-radius: 24px; display: flex; align-items: center; gap: 2rem;
+            z-index: 1000; transition: var(--transition);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .bulk-bar.active { transform: translateX(-50%) translateY(0); }
+        .bulk-btn { background: none; border: none; color: #fff; font-weight: 800; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 1rem; border-radius: 12px; transition: 0.3s; }
+        .bulk-btn:hover { background: rgba(255,255,255,0.1); }
+        .bulk-btn.danger:hover { background: var(--p-danger); }
+
+        /* Theme Sync Logic */
+        .dark-mode .grid-wrapper { box-shadow: 0 40px 80px rgba(0,0,0,0.5); }
+        .dark-mode .nexus-table thead { background: rgba(255,255,255,0.03); }
+
+        /* Animation Keyframes */
+        .stagger-in { opacity: 0; transform: translateY(20px); }
     </style>
-
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.js"
-      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-      crossorigin="anonymous"
-    ></script>
-  
-    <!-- PWA Setup -->
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#3b82f6">
-    <link rel="apple-touch-icon" href="/logo/site_logo.png">
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
-            .then(reg => console.log('Service Worker registered', reg))
-            .catch(err => console.log('Service Worker registration failed', err));
-        });
-      }
-    </script>
 </head>
+<body class="<%= typeof theme !== 'undefined' ? theme : '' %>">
 
-  <body>
-    <%- include("../utils/header")%> 
-    <%- include("side")%>
+<%- include("../utils/header")%> 
+<%- include("side")%>
 
-    <main id="main" class="main">
-      <div class="pagetitle">
-        <h1>Data Tables</h1>
-        <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-            <li class="breadcrumb-item">Services</li>
-          </ol>
-        </nav>
-      </div>
-      <!-- End Page Title -->
-
-      <div class="filter-container">
-        <div class="card">
-          <div class="card-header">
-            <form
-              class="row g-3 needs-validation"
-              novalidate
-              action="/filteruser"
-              method="post"
-            >
-              <div class="col-md-4">
-                <label for="validationCustom01" class="form-label">Name</label>
-                <input type="text" class="form-control" id="validationCustom01"
-                value=""
-                name="filtername" placeholder="Search by Name">
-                <div class="valid-feedback">Looks good!</div>
-              </div>
-
-              <div class="col-md-4">
-                <label for="validationCustom02" class="form-label">Email</label>
-                <input type="text" class="form-control" id="validationCustom02"
-                value=""
-                name="filteremail" placeholder="Search by Email">
-                <div class="valid-feedback">Looks good!</div>
-              </div>
-
-              <div class="col-md-4">
-                <label for="validationCustom02" class="form-label">UserId</label>
-                <input type="text" class="form-control" id="validationCustom02"
-                value=""
-                name="filterId" placeholder="Search by UserId">
-                <div class="valid-feedback">Looks good!</div>
-              </div>
-
-              <div class="col-md-4">
-                <label for="validationCustom02" class="form-label"
-                  >Mobile No</label
-                >
-                <input type="text" class="form-control" id="validationCustom02"
-                value=""
-                name="filtermobile" placeholder="Search by Mobile Number">
-                <div class="valid-feedback">Looks good!</div>
-              </div>
-
-              <div class="col-md-4">
-                <label for="validationCustom02" class="form-label"
-                  >Brokrage</label
-                >
-                <input type="text" class="form-control" id="validationCustom02"
-                value=""
-                name="filterbrokrage" placeholder="Search by Brokrage">
-                <div class="valid-feedback">Looks good!</div>
-              </div>
-              <div class="col-md-4">
-                <label for="validationCustom02" class="form-label">Amounts</label>
-                <input type="text" class="form-control" id="validationCustom02"
-                value=""
-                name="filterpoints" placeholder="Search by Points">
-                <div class="valid-feedback">Looks good!</div>
-              </div>
-
-              <div class="col-md-4">
-                <label for="validationCustom02" class="form-label">Margin</label>
-                <input type="text" class="form-control" id="validationCustom02"
-                value=""
-                name="filtermargin" placeholder="Search by Margin">
-                <div class="valid-feedback">Looks good!</div>
-              </div>
-
-              <div class="col-md-4">
-                <label for="validationCustom02" class="form-label"
-                  >Actual_Amt</label
-                >
-                <input type="text" class="form-control" id="validationCustom02"
-                value=""
-                name="filteractual_data_amount" placeholder="Search by User_Amt">
-
-                <div class="valid-feedback">Looks good!</div>
-              </div>
-
-              <div class="col-12">
-                <button class="btn btn-primary" type="submit">Submit form</button>
-              </div>
-            </form>
-            <!-- End Custom Styled Validation -->
-          </div>
-        </div>
-      </div>
-
-      <section class="section">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card" style="overflow-x: scroll">
-              <div class="card-body">
-                <h5 class="card-title">Datatables</h5>
-                <!-- Table with stripped rows -->
-                <table class="table datatable">
-                    <tbody>
-                        <% users.forEach((user, index) => { %>
-                          <tr>
-                            <td><%= index + 1 %></td>
-                            <td><%= user.name %></td>
-                            <td><%= user.email %></td>
-                            <td><%= user.user_id %></td>
-                            <td><%= user.mobile %></td>
-                            <td><%= user.brokrage %></td>
-                            <td><%= user.amount %></td>
-                            <td><%= user.actual_amount %></td>
-                            <td><%= user.margin %></td>
-                            <td>
-                              <form class="filter" action="/user_block" method="post">
-                                <input type="hidden" name="id" value="<%= user.user_id %>" />
-                                <input type="hidden" name="access" value="<%= user.access %>" />
-                                <% if (user.access === "unblock") { %>
-                                  <input type="submit" class="btn btn-success" value="Unblock" />
-                                <% } else { %>
-                                  <input type="submit" class="btn btn-danger" value="Block" />
-                                <% } %>
-                              </form>
-                            </td>
-                            
-                            <td>
-                                <form class="filter" action="/user_unblock" method="post">
-                                  <input type="hidden" name="id" value="<%= user.user_id %>" />
-                                  <input type="submit" value="Unblock" class="btn btn-warning" />
-                                </form>
-                              </td>
-                            <td>
-                              <form class="filter" action="/user_mail" method="post">
-                                <input type="hidden" name="email" value="<%= user.email %>" />
-                                <input type="submit" value="Mail" class="btn btn-primary" />
-                              </form>
-                            </td>
-                            <td>
-                              <form class="filter" action="/user" method="post">
-                                <input type="hidden" name="id" value="<%= user.user_id %>" />
-                                <input type="submit" value="Update Profile" class="btn btn-info" />
-                              </form>
-                            </td>
-                            <td>
-                              <form
-                                class="filter"
-                                action="/delete_user"
-                                method="post"
-                                onsubmit="return confirmDelete();"
-                              >
-                                <input type="hidden" name="id" value="<%= user.user_id %>" />
-                                <input type="submit" value="Delete User" class="btn btn-dark" />
-                              </form>
-                            </td>
-                            <td>
-                              <form class="filter" action="/viewprofile" method="post">
-                                <input type="hidden" name="id" value="<%= user.email%>" />
-                                <input type="submit" value="View Profile" class="btn btn-info" />
-                              </form>
-                            </td>
-                          </tr>
-                        <% }); %>
-                      </tbody>
-                </table>
-                <!-- End Table with stripped rows -->
-              </div>
+<main id="main">
+    
+    <!-- Command Header -->
+    <div class="console-header">
+        <div class="stat-card-glass">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div>
+                <div style="font-size: 2rem; font-weight: 900; letter-spacing: -1.5px;"><%= users.length %></div>
+                <div style="font-size: 0.75rem; font-weight: 800; color: var(--p-text-dim); text-transform: uppercase;">Total Nodes</div>
             </div>
-          </div>
         </div>
-      </section>
-    </main>
-    <!-- End #main -->
+        <div class="stat-card-glass">
+            <div class="stat-icon" style="color: var(--p-success);"><i class="fas fa-shield-halved"></i></div>
+            <div>
+                <div style="font-size: 2rem; font-weight: 900; letter-spacing: -1.5px;"><%= users.filter(u => u.access !== 'unblock').length %></div>
+                <div style="font-size: 0.75rem; font-weight: 800; color: var(--p-text-dim); text-transform: uppercase;">Active Protocols</div>
+            </div>
+        </div>
+        <div class="stat-card-glass">
+            <div class="stat-icon" style="color: var(--p-warning);"><i class="fas fa-microchip"></i></div>
+            <div>
+                <div style="font-size: 2rem; font-weight: 900; letter-spacing: -1.5px;">99.4%</div>
+                <div style="font-size: 0.75rem; font-weight: 800; color: var(--p-text-dim); text-transform: uppercase;">Node Health</div>
+            </div>
+        </div>
+    </div>
 
-    <%- include("../utils/footer")%>
+    <!-- Nexus Intelligence Toolbar -->
+    <div class="nexus-toolbar">
+        <div class="search-area">
+            <i class="fas fa-fingerprint"></i>
+            <input type="text" id="nexusSearch" placeholder="Initiate global node scan...">
+        </div>
+        <div style="display: flex; gap: 1rem;">
+            <button class="stat-card-glass" style="padding: 1rem 1.5rem; font-weight: 800; font-size: 0.9rem;" onclick="location.reload()">
+                <i class="fas fa-sync-alt"></i> Refresh Telemetry
+            </button>
+        </div>
+    </div>
 
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
-    <script>
-      function confirmDelete() {
-        return confirm("Are you sure you want to delete this user?");
-      }
-    </script>
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.min.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <!-- Elite Data Grid -->
+    <div class="grid-wrapper">
+        <table class="nexus-table" id="nexusGrid">
+            <thead>
+                <tr>
+                    <th style="width: 50px; text-align: center;"><div class="nexus-check" id="selectAll"></div></th>
+                    <th>Node Identity</th>
+                    <th>Neural ID</th>
+                    <th>Capital Flow</th>
+                    <th>Margin Unit</th>
+                    <th style="text-align: right;">State Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(locals.users && users.length > 0) { %>
+                    <% users.forEach((user, index) => { %>
+                        <tr class="nexus-row stagger-in" data-search="<%= (user.name + user.email + user.user_id).toLowerCase() %>" id="row_<%= user.user_id %>">
+                            <td style="text-align: center;" onclick="event.stopPropagation()">
+                                <div class="nexus-check row-check" data-id="<%= user.user_id %>"></div>
+                            </td>
+                            <td onclick="toggleIntel('<%= user.user_id %>')">
+                                <div class="identity-cell">
+                                    <div class="id-avatar"><%= user.name ? user.name.charAt(0).toUpperCase() : 'U' %></div>
+                                    <div>
+                                        <span class="id-name"><%= user.name %></span>
+                                        <span class="id-email"><%= user.email %></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td onclick="toggleIntel('<%= user.user_id %>')">
+                                <span style="font-family: 'JetBrains Mono'; font-weight: 800; color: var(--p-primary);">ID_<%= user.user_id %></span>
+                            </td>
+                            <td onclick="toggleIntel('<%= user.user_id %>')">
+                                <div style="font-weight: 900; font-size: 1.1rem; color: var(--p-success);">₹<%= user.amount || '0.00' %></div>
+                                <div style="font-size: 0.7rem; font-weight: 800; color: var(--p-text-dim);">Neural: ₹<%= user.actual_amount || '0' %></div>
+                            </td>
+                            <td onclick="toggleIntel('<%= user.user_id %>')">
+                                <span style="font-weight: 900; font-family: 'JetBrains Mono';"><%= user.margin || '0.0%' %></span>
+                            </td>
+                            <td style="text-align: right;" onclick="event.stopPropagation()">
+                                <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                                    <form action="/viewprofile" method="post" style="display: contents;">
+                                        <input type="hidden" name="id" value="<%= user.email %>">
+                                        <button type="submit" style="background:none; border:none; cursor:pointer; color:var(--p-primary); font-size:1.2rem;" title="Inspect"><i class="fas fa-id-card"></i></button>
+                                    </form>
+                                    <form action="<%= user.access === 'unblock' ? '/user_unblock' : '/user_block' %>" method="post" style="display: contents;">
+                                        <input type="hidden" name="id" value="<%= user.user_id %>">
+                                        <button type="submit" style="background:none; border:none; cursor:pointer; color: <%= user.access === 'unblock' ? 'var(--p-success)' : 'var(--p-danger)' %>; font-size:1.2rem;" title="<%= user.access === 'unblock' ? 'Restore Access' : 'Restrict Access' %>">
+                                            <i class="fas <%= user.access === 'unblock' ? 'fa-unlock' : 'fa-lock' %>"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Intel Expansion Panel -->
+                        <tr id="intel_<%= user.user_id %>" class="intel-expansion">
+                            <td colspan="6">
+                                <div class="intel-content">
+                                    <div class="intel-item">
+                                        <label>Neural Address</label>
+                                        <span><%= user.address || 'Geo-Location Encrypted' %></span>
+                                    </div>
+                                    <div class="intel-item">
+                                        <label>Identity Hub</label>
+                                        <span>Father: <%= user.father_name || 'N/A' %></span>
+                                    </div>
+                                    <div class="intel-item">
+                                        <label>Node Entry</label>
+                                        <span><%= user.date || '01-01-2024' %></span>
+                                    </div>
+                                    <div class="intel-item">
+                                        <label>Action Node</label>
+                                        <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                                            <form action="/user" method="post" style="display: contents;">
+                                                <input type="hidden" name="id" value="<%= user.user_id %>">
+                                                <button type="submit" style="background: var(--p-primary); color: #fff; border:none; padding: 6px 12px; border-radius: 8px; font-weight: 800; cursor:pointer;">Update Profile</button>
+                                            </form>
+                                            <form action="/delete_user" method="post" onsubmit="return confirmDelete()" style="display: contents;">
+                                                <input type="hidden" name="id" value="<%= user.user_id %>">
+                                                <button type="submit" style="background: var(--p-danger); color: #fff; border:none; padding: 6px 12px; border-radius: 8px; font-weight: 800; cursor:pointer;">Purge Node</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-  </body>
+    <!-- Floating Bulk Hub -->
+    <div class="bulk-bar" id="bulkBar">
+        <span style="font-weight: 800; font-size: 0.9rem; border-right: 1px solid rgba(255,255,255,0.2); padding-right: 2rem;"><span id="selectCount">0</span> NODES SELECTED</span>
+        <button class="bulk-btn" onclick="bulkAction('block')"><i class="fas fa-lock"></i> Bulk Restrict</button>
+        <button class="bulk-btn" onclick="bulkAction('unblock')"><i class="fas fa-unlock"></i> Bulk Grant</button>
+        <button class="bulk-btn danger" onclick="bulkAction('delete')"><i class="fas fa-trash-alt"></i> Purge Multi-Nodes</button>
+        <button class="bulk-btn" style="opacity: 0.6; font-size: 0.8rem;" onclick="clearSelection()">Dismiss</button>
+    </div>
+
+    <!-- Hidden Bulk Form -->
+    <form id="bulkForm" action="/bulk_action" method="POST" style="display: none;">
+        <input type="hidden" name="ids" id="bulkIds">
+        <input type="hidden" name="action" id="bulkActionInput">
+    </form>
+
+
+
+
+<%- include("../utils/footer") %>
+</main>
+
+
+
+<script>
+    function toggleIntel(id) {
+        const panels = document.querySelectorAll('.intel-expansion');
+        const panel = document.getElementById('intel_' + id);
+        const isActive = panel.classList.contains('active');
+        
+        // Close others
+        panels.forEach(p => p.classList.remove('active'));
+        
+        if (!isActive) {
+            panel.classList.add('active');
+            gsap.from('#intel_' + id + ' .intel-item', {
+                opacity: 0, y: 10, duration: 0.4, stagger: 0.05, ease: 'power2.out'
+            });
+        }
+    }
+
+    // Bulk Handling
+    const selectedIds = new Set();
+    const bulkBar = document.getElementById('bulkBar');
+    const selectCount = document.getElementById('selectCount');
+
+    document.querySelectorAll('.row-check').forEach(check => {
+        check.addEventListener('click', (e) => {
+            const id = check.dataset.id;
+            check.classList.toggle('checked');
+            document.getElementById('row_' + id).classList.toggle('selected');
+            
+            if(check.classList.contains('checked')) selectedIds.add(id);
+            else selectedIds.delete(id);
+            
+            updateBulkBar();
+        });
+    });
+
+    document.getElementById('selectAll').addEventListener('click', function() {
+        this.classList.toggle('checked');
+        const isAll = this.classList.contains('checked');
+        document.querySelectorAll('.row-check').forEach(check => {
+            const id = check.dataset.id;
+            if(isAll) {
+                check.classList.add('checked');
+                document.getElementById('row_' + id).classList.add('selected');
+                selectedIds.add(id);
+            } else {
+                check.classList.remove('checked');
+                document.getElementById('row_' + id).classList.remove('selected');
+                selectedIds.clear();
+            }
+        });
+        updateBulkBar();
+    });
+
+    function updateBulkBar() {
+        selectCount.innerText = selectedIds.size;
+        if(selectedIds.size > 0) bulkBar.classList.add('active');
+        else bulkBar.classList.remove('active');
+    }
+
+    function clearSelection() {
+        selectedIds.clear();
+        document.querySelectorAll('.nexus-check').forEach(c => c.classList.remove('checked'));
+        document.querySelectorAll('.nexus-row').forEach(r => r.classList.remove('selected'));
+        updateBulkBar();
+    }
+
+    function bulkAction(type) {
+        if(selectedIds.size === 0) return;
+        
+        const actionMap = {
+            'block': 'Restrict Access',
+            'unblock': 'Grant Access',
+            'delete': 'PURGE NODES'
+        };
+
+        if(confirm(`Execute ${actionMap[type]} protocol on ${selectedIds.size} nodes?`)) {
+            document.getElementById('bulkIds').value = Array.from(selectedIds).join(',');
+            document.getElementById('bulkActionInput').value = type;
+            document.getElementById('bulkForm').submit();
+        }
+    }
+
+    function confirmDelete() {
+        return confirm("CRITICAL: Node purge sequence initiated. Proceed?");
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Entrance Cascade
+        gsap.to('.stagger-in', {
+            opacity: 1, y: 0, duration: 0.8, stagger: 0.05, ease: 'power2.out'
+        });
+
+        // Neural Scan Search
+        const nexusSearch = document.getElementById('nexusSearch');
+        nexusSearch.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.nexus-row').forEach(row => {
+                const searchData = row.dataset.search;
+                const intelRow = document.getElementById('intel_' + row.id.split('_')[1]);
+                if(searchData.includes(term)) {
+                    gsap.to(row, { display: 'table-row', opacity: 1, duration: 0.3 });
+                } else {
+                    gsap.to(row, { display: 'none', opacity: 0, duration: 0.2 });
+                    intelRow.classList.remove('active');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
 </html>

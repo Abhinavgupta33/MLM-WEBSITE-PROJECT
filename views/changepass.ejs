@@ -28,12 +28,6 @@
       href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
       rel="stylesheet"
     />
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet" />
-    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
-    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
-    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet" />
-
     <style>
       :root {
         --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -53,7 +47,6 @@
         --warning-color: #ff9800;
       }
 
-      /* Base styles */
       body {
         font-family: 'Poppins', sans-serif;
         background-color: var(--bg-light);
@@ -62,7 +55,6 @@
         overflow-x: hidden;
       }
       
-      /* Dark mode styles */
       body.dark-mode {
         background-color: var(--bg-dark);
         color: var(--text-dark);
@@ -71,7 +63,6 @@
       body.dark-mode .auth-card {
         background: var(--card-bg-dark);
         color: var(--text-dark);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
       }
       
       body.dark-mode .form-control {
@@ -79,27 +70,7 @@
         border-color: #444;
         color: var(--text-dark);
       }
-      
-      body.dark-mode .form-control:focus {
-        background-color: rgba(50, 50, 60, 0.8);
-        border-color: var(--primary-light);
-        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        color: var(--text-dark);
-      }
-      
-      body.dark-mode .bg-bubbles li {
-        background-color: var(--bubble-dark);
-      }
-      
-      body.dark-mode .password-strength {
-        background: rgba(50, 50, 60, 0.8);
-      }
-      
-      body.dark-mode .text-muted {
-        color: #adb5bd !important;
-      }
 
-      /* Background Animation */
       .bg-animation {
         position: fixed;
         top: 0;
@@ -107,113 +78,9 @@
         width: 100%;
         height: 100%;
         z-index: -1;
-        overflow: hidden;
         background: var(--primary-gradient);
       }
       
-      .bg-bubbles {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-      
-      .bg-bubbles li {
-        position: absolute;
-        list-style: none;
-        display: block;
-        width: 40px;
-        height: 40px;
-        background-color: var(--bubble-light);
-        bottom: -160px;
-        animation: square 25s infinite;
-        transition-timing-function: linear;
-        border-radius: 10px;
-        transition: background-color 0.5s ease;
-        opacity: 0.6;
-      }
-      
-      .bg-bubbles li:nth-child(1) {
-        left: 10%;
-      }
-      
-      .bg-bubbles li:nth-child(2) {
-        left: 20%;
-        width: 80px;
-        height: 80px;
-        animation-delay: 2s;
-        animation-duration: 17s;
-      }
-      
-      .bg-bubbles li:nth-child(3) {
-        left: 25%;
-        animation-delay: 4s;
-      }
-      
-      .bg-bubbles li:nth-child(4) {
-        left: 40%;
-        width: 60px;
-        height: 60px;
-        animation-duration: 22s;
-        background-color: rgba(255, 255, 255, 0.25);
-      }
-      
-      .bg-bubbles li:nth-child(5) {
-        left: 70%;
-      }
-      
-      .bg-bubbles li:nth-child(6) {
-        left: 80%;
-        width: 120px;
-        height: 120px;
-        animation-delay: 3s;
-        background-color: rgba(255, 255, 255, 0.2);
-      }
-      
-      .bg-bubbles li:nth-child(7) {
-        left: 32%;
-        width: 160px;
-        height: 160px;
-        animation-delay: 7s;
-      }
-      
-      .bg-bubbles li:nth-child(8) {
-        left: 55%;
-        width: 20px;
-        height: 20px;
-        animation-delay: 15s;
-        animation-duration: 40s;
-      }
-      
-      .bg-bubbles li:nth-child(9) {
-        left: 25%;
-        width: 10px;
-        height: 10px;
-        animation-delay: 2s;
-        animation-duration: 40s;
-        background-color: rgba(255, 255, 255, 0.3);
-      }
-      
-      .bg-bubbles li:nth-child(10) {
-        left: 90%;
-        width: 160px;
-        height: 160px;
-        animation-delay: 11s;
-      }
-      
-      @keyframes square {
-        0% {
-          transform: translateY(0) rotate(0deg);
-          opacity: 0.6;
-        }
-        100% {
-          transform: translateY(-1000px) rotate(720deg);
-          opacity: 0;
-        }
-      }
-      
-      /* Card Styling with Glass Morphism */
       .auth-card {
         border: none;
         border-radius: 15px;
@@ -221,83 +88,18 @@
         overflow: hidden;
         background: var(--card-bg-light);
         backdrop-filter: blur(10px);
-        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1);
-        animation: cardEntrance 0.8s ease-out forwards;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-      
-      @keyframes cardEntrance {
-        0% {
-          opacity: 0;
-          transform: perspective(1000px) rotateX(-10deg) translateY(20px) scale(0.95);
-        }
-        100% {
-          opacity: 1;
-          transform: perspective(1000px) rotateX(0deg) translateY(0) scale(1);
-        }
-      }
-      
-      .auth-card:hover {
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-        transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.01);
+        margin-top: 50px;
       }
       
       .auth-header {
         background: var(--primary-gradient);
         color: white;
-        padding: 1.8rem;
+        padding: 2rem;
         text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-      
-      .auth-header::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(
-          to bottom right,
-          rgba(255, 255, 255, 0.3) 0%,
-          rgba(255, 255, 255, 0) 60%
-        );
-        transform: rotate(30deg);
-        pointer-events: none;
-      }
-      
-      .auth-header h3 {
-        position: relative;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-      
-      .auth-header p {
-        position: relative;
-        opacity: 0.9;
-        font-size: 0.95rem;
       }
       
       .auth-body {
         padding: 2.5rem;
-      }
-      
-      .form-control {
-        border-radius: 8px;
-        padding: 12px 15px;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        transition: all 0.3s;
-        font-size: 0.95rem;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
-      }
-      
-      .form-control:focus {
-        border-color: var(--primary-light);
-        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25), 
-                    inset 0 1px 2px rgba(0, 0, 0, 0.1);
       }
       
       .btn-auth {
@@ -306,41 +108,9 @@
         border-radius: 8px;
         padding: 14px;
         font-weight: 600;
-        letter-spacing: 0.5px;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         color: white;
         text-transform: uppercase;
-        font-size: 0.9rem;
         box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        position: relative;
-        overflow: hidden;
-      }
-      
-      .btn-auth::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: 0.5s;
-      }
-      
-      .btn-auth:hover {
-        background: linear-gradient(135deg, #5a6fd1 0%, #6a4199 100%);
-        transform: translateY(-3px);
-        color: white;
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-      }
-      
-      .btn-auth:hover::before {
-        left: 100%;
       }
       
       .password-toggle {
@@ -351,27 +121,18 @@
         cursor: pointer;
         color: var(--primary-light);
         z-index: 5;
-        transition: all 0.3s;
-      }
-      
-      .password-toggle:hover {
-        color: var(--primary-dark);
-        transform: translateY(-50%) scale(1.1);
       }
       
       .input-group-password {
         position: relative;
       }
       
-      /* Password strength indicator */
       .password-strength {
         height: 6px;
         background: #f0f0f0;
         border-radius: 5px;
         margin-top: 8px;
         overflow: hidden;
-        transition: all 0.3s ease;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
       }
       
       .strength-bar {
@@ -380,201 +141,26 @@
         transition: width 0.4s ease, background 0.4s ease;
       }
       
-      /* Strength colors */
-      .strength-0 {
-        width: 20% !important;
-        background: var(--error-color) !important;
-      }
+      .strength-1 { width: 25%; background: var(--error-color); }
+      .strength-2 { width: 50%; background: var(--warning-color); }
+      .strength-4 { width: 100%; background: var(--success-color); }
       
-      .strength-1 {
-        width: 40% !important;
-        background: #ff6b6b !important;
-      }
-      
-      .strength-2 {
-        width: 60% !important;
-        background: var(--warning-color) !important;
-      }
-      
-      .strength-3 {
-        width: 80% !important;
-        background: #51cf66 !important;
-      }
-      
-      .strength-4 {
-        width: 100% !important;
-        background: var(--success-color) !important;
-      }
-      
-      /* Tooltip for password requirements */
-      .password-hint {
-        position: relative;
-        display: inline-block;
-        margin-left: 5px;
-        cursor: pointer;
-      }
-      
-      .password-hint .tooltip-text {
-        visibility: hidden;
-        width: 250px;
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 10px;
-        position: absolute;
-        z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        transform: translateX(-50%);
-        opacity: 0;
-        transition: opacity 0.3s;
-        font-size: 0.85rem;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      }
-      
-      .password-hint:hover .tooltip-text {
-        visibility: visible;
-        opacity: 1;
-      }
-      
-      /* Loading animation for submit button */
-      .btn-loading {
-        position: relative;
-        pointer-events: none;
-        color: transparent !important;
-      }
-      
-      .btn-loading:after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 20px;
-        height: 20px;
-        margin: -10px 0 0 -10px;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-top-color: white;
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-      }
-      
-      @keyframes spin {
-        to { transform: rotate(360deg); }
-      }
-      
-      /* Floating label effect */
-      .form-label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-        transition: all 0.3s;
-        color: var(--text-light);
-      }
-      
-      body.dark-mode .form-label {
-        color: var(--text-dark);
-      }
-      
-      /* Input focus label effect */
-      .form-control:focus + .form-label {
-        color: var(--primary-light);
-      }
-      
-      /* Success message animation */
-      .success-message {
+      .success-message, .error-message {
         position: fixed;
         top: 20px;
         right: 20px;
-        background: var(--success-color);
-        color: white;
         padding: 15px 25px;
         border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         z-index: 1000;
         transform: translateX(120%);
-        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      }
-      
-      .success-message.show {
-        transform: translateX(0);
-      }
-      
-      /* Error message */
-      .error-message {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--error-color);
+        transition: transform 0.5s;
         color: white;
-        padding: 15px 25px;
-        border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        transform: translateX(120%);
-        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
       
-      .error-message.show {
-        transform: translateX(0);
-      }
-      
-      /* Particle animation for header */
-      .particles {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: 0;
-      }
-      
-      .particle {
-        position: absolute;
-        width: 6px;
-        height: 6px;
-        background-color: rgba(255, 255, 255, 0.5);
-        border-radius: 50%;
-        animation: float 15s infinite linear;
-        opacity: 0;
-      }
-      
-      @keyframes float {
-        0% {
-          transform: translateY(0) translateX(0);
-          opacity: 0;
-        }
-        10% {
-          opacity: 1;
-        }
-        90% {
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(-100px) translateX(20px);
-          opacity: 0;
-        }
-      }
-      
-      /* Ripple effect on card */
-      .ripple {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.4);
-        transform: scale(0);
-        animation: ripple 1.5s ease-out;
-        pointer-events: none;
-      }
-      
-      @keyframes ripple {
-        to {
-          transform: scale(2);
-          opacity: 0;
-        }
-      }
-      
-      /* Theme toggle button */
+      .success-message { background: var(--success-color); }
+      .error-message { background: var(--error-color); }
+      .show { transform: translateX(0); }
+
       .theme-toggle {
         position: fixed;
         bottom: 30px;
@@ -584,538 +170,104 @@
         border-radius: 50%;
         background: var(--primary-gradient);
         color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        transition: all 0.3s ease;
         border: none;
-      }
-      
-      .theme-toggle:hover {
-        transform: scale(1.1);
-      }
-      
-      /* Floating animation */
-      @keyframes float-up-down {
-        0%, 100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-      
-      .floating {
-        animation: float-up-down 3s ease-in-out infinite;
-      }
-      
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        .auth-card {
-          margin-top: 1.5rem;
-          margin-bottom: 1.5rem;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .auth-body {
-          padding: 1.8rem;
-        }
-        
-        .bg-bubbles li {
-          width: 30px;
-          height: 30px;
-        }
-        
-        .bg-bubbles li:nth-child(2),
-        .bg-bubbles li:nth-child(4),
-        .bg-bubbles li:nth-child(6),
-        .bg-bubbles li:nth-child(7),
-        .bg-bubbles li:nth-child(10) {
-          width: 50px;
-          height: 50px;
-        }
-        
-        .auth-header {
-          padding: 1.5rem;
-        }
-        
-        .btn-auth {
-          padding: 12px;
-        }
-        
-        .theme-toggle {
-          bottom: 20px;
-          right: 20px;
-          width: 45px;
-          height: 45px;
-        }
-      }
-      
-      @media (max-width: 576px) {
-        .auth-body {
-          padding: 1.5rem;
-        }
-        
-        .auth-header {
-          padding: 1.2rem;
-        }
-        
-        .auth-header h3 {
-          font-size: 1.3rem;
-        }
-        
-        .form-control {
-          padding: 10px 12px;
-        }
-        
-        .success-message,
-        .error-message {
-          width: calc(100% - 40px);
-          right: 20px;
-          left: 20px;
-        }
+        cursor: pointer;
+        z-index: 1000;
       }
     </style>
-  
-    <!-- PWA Setup -->
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#3b82f6">
-    <link rel="apple-touch-icon" href="/logo/site_logo.png">
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
-            .then(reg => console.log('Service Worker registered', reg))
-            .catch(err => console.log('Service Worker registration failed', err));
-        });
-      }
-    </script>
-</head>
+  </head>
 
   <body>
-    <!-- Background Animation -->
-    <div class="bg-animation">
-      <ul class="bg-bubbles">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
-    </div>
+    <div class="bg-animation"></div>
+    <button class="theme-toggle" id="themeToggle"><i class="bi bi-moon-fill"></i></button>
 
-    <!-- Theme Toggle Button -->
-    <button class="theme-toggle floating" id="themeToggle">
-      <i class="bi bi-moon-fill" id="themeIcon"></i>
-    </button>
-
-    <main>
-      <div class="container">
-        <section
-          class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4"
-        >
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-lg-5 col-md-7">
-                <div class="auth-card card mb-3" id="authCard">
-                  <div class="auth-header">
-                    <div class="particles" id="particles"></div>
-                    <h3 class="card-title mb-0">Change Password</h3>
-                    <p class="mb-0">Secure your account with a new password</p>
-                  </div>
-                  <div class="auth-body card-body">
-                    <form
-                      class="row g-3 needs-validation"
-                      novalidate
-                      action="/change_pass"
-                      method="post"
-                      id="passwordForm"
-                    >
-                      <input type="hidden" name="id" value="">
-                      
-                      <div class="col-12">
-                        <label for="currentPassword" class="form-label">Current Password</label>
-                        <div class="input-group-password">
-                          <input
-                            type="password"
-                            name="oldpass"
-                            class="form-control"
-                            id="currentPassword"
-                            required
-                            placeholder="Enter your current password"
-                          />
-                          <i class="bi bi-eye-slash password-toggle" id="toggleCurrentPassword"></i>
-                        </div>
-                        <div class="invalid-feedback">
-                          Please enter your current password
-                        </div>
-                      </div>
-
-                      <div class="col-12">
-                        <label for="newPassword" class="form-label">
-                          New Password
-                          <span class="password-hint">
-                            <i class="bi bi-info-circle"></i>
-                            <span class="tooltip-text">
-                              Password must contain:<br>
-                              • At least 8 characters<br>
-                              • At least one number<br>
-                              • At least one special character<br>
-                              • At least one uppercase letter<br>
-                              • At least one lowercase letter
-                            </span>
-                          </span>
-                        </label>
-                        <div class="input-group-password">
-                          <input
-                            type="password"
-                            name="pass"
-                            class="form-control"
-                            id="newPassword"
-                            required
-                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                            placeholder="Create a new password"
-                            oninput="checkPasswordStrength(this.value)"
-                          />
-                          <i class="bi bi-eye-slash password-toggle" id="toggleNewPassword"></i>
-                        </div>
-                        <div class="password-strength">
-                          <div class="strength-bar" id="passwordStrength"></div>
-                        </div>
-                        <div class="invalid-feedback">
-                          Password must be at least 8 characters with uppercase, lowercase, number, and special character
-                        </div>
-                        <div id="passwordFeedback" class="small mt-1"></div>
-                      </div>
-                      
-                      <div class="col-12">
-                        <label for="confirmPassword" class="form-label">Confirm Password</label>
-                        <div class="input-group-password">
-                          <input
-                            type="password"
-                            name="conpass"
-                            class="form-control"
-                            id="confirmPassword"
-                            required
-                            placeholder="Confirm your new password"
-                            oninput="checkPasswordMatch()"
-                          />
-                          <i class="bi bi-eye-slash password-toggle" id="toggleConfirmPassword"></i>
-                        </div>
-                        <div class="invalid-feedback" id="confirmPasswordFeedback">
-                          Passwords must match
-                        </div>
-                      </div>
-                      
-                      <div class="col-12">
-                        <button class="btn btn-auth w-100" type="submit" id="submitBtn">
-                          Update Password
-                        </button>
-                      </div>
-                    </form>
+    <main class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+          <div class="auth-card card">
+            <div class="auth-header">
+              <h3>Change Password</h3>
+              <p>Secure your account with a new password</p>
+            </div>
+            <div class="auth-body card-body">
+              <form id="passwordForm" class="row g-3 needs-validation" novalidate action="/change_pass" method="POST">
+                <div class="col-12">
+                  <label class="form-label">Current Password</label>
+                  <div class="input-group-password">
+                    <input type="password" name="oldpass" class="form-control" id="currentPassword" required placeholder="Enter current password" />
+                    <i class="bi bi-eye-slash password-toggle" onclick="togglePass('currentPassword', this)"></i>
                   </div>
                 </div>
-              </div>
+
+                <div class="col-12">
+                  <label class="form-label">New Password (Min 6 chars)</label>
+                  <div class="input-group-password">
+                    <input type="password" name="pass" class="form-control" id="newPassword" required minlength="6" placeholder="New password" oninput="checkStrength(this.value)" />
+                    <i class="bi bi-eye-slash password-toggle" onclick="togglePass('newPassword', this)"></i>
+                  </div>
+                  <div class="password-strength"><div class="strength-bar" id="strengthBar"></div></div>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label">Confirm Password</label>
+                  <div class="input-group-password">
+                    <input type="password" name="conpass" class="form-control" id="confirmPassword" required placeholder="Confirm new password" />
+                    <i class="bi bi-eye-slash password-toggle" onclick="togglePass('confirmPassword', this)"></i>
+                  </div>
+                </div>
+
+                <div class="col-12 mt-4">
+                  <button class="btn btn-auth w-100" type="submit" id="submitBtn">Update Password</button>
+                </div>
+              </form>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </main>
-    
-    <!-- Success Message (hidden by default) -->
-    <div class="success-message" id="successMessage">
-      <i class="bi bi-check-circle-fill me-2"></i>
-      Password updated successfully!
-    </div>
-    
-    <!-- Error Message (hidden by default) -->
-    <div class="error-message" id="errorMessage">
-      <i class="bi bi-exclamation-triangle-fill me-2"></i>
-      <span id="errorText">Error updating password</span>
-    </div>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.min.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-    
-    <!-- Custom JS for this page -->
+    <div class="success-message" id="successMsg">Password updated successfully!</div>
+    <div class="error-message" id="errorMsg">Error updating password.</div>
+
     <script>
-      // Initialize dark mode from localStorage or system preference
-      function initializeDarkMode() {
-        const savedMode = localStorage.getItem('darkMode');
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        if (savedMode === 'enabled' || (!savedMode && systemPrefersDark)) {
-          enableDarkMode();
-        } else {
-          disableDarkMode();
-        }
+      function togglePass(id, el) {
+        const input = document.getElementById(id);
+        const isPass = input.type === 'password';
+        input.type = isPass ? 'text' : 'password';
+        el.className = isPass ? 'bi bi-eye password-toggle' : 'bi bi-eye-slash password-toggle';
       }
-      
-      // Enable dark mode
-      function enableDarkMode() {
-        document.body.classList.add('dark-mode');
-        localStorage.setItem('darkMode', 'enabled');
-        document.getElementById('themeIcon').classList.remove('bi-moon-fill');
-        document.getElementById('themeIcon').classList.add('bi-sun-fill');
+
+      function checkStrength(p) {
+        const bar = document.getElementById('strengthBar');
+        bar.className = 'strength-bar';
+        if (p.length === 0) return;
+        if (p.length < 6) bar.classList.add('strength-1');
+        else if (p.length < 10) bar.classList.add('strength-2');
+        else bar.classList.add('strength-4');
       }
-      
-      // Disable dark mode
-      function disableDarkMode() {
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('darkMode', 'disabled');
-        document.getElementById('themeIcon').classList.remove('bi-sun-fill');
-        document.getElementById('themeIcon').classList.add('bi-moon-fill');
-      }
-      
-      // Toggle dark mode
-      function toggleDarkMode() {
-        if (document.body.classList.contains('dark-mode')) {
-          disableDarkMode();
-        } else {
-          enableDarkMode();
-        }
+
+      document.getElementById('passwordForm').addEventListener('submit', (e) => {
+        const p1 = document.getElementById('newPassword').value;
+        const p2 = document.getElementById('confirmPassword').value;
         
-        // Update bubbles for dark mode
-        const bubbles = document.querySelectorAll('.bg-bubbles li');
-        bubbles.forEach(bubble => {
-          if (document.body.classList.contains('dark-mode')) {
-            bubble.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
-          } else {
-            bubble.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
-          }
-        });
-      }
-      
-      // Create particles for header
-      function createParticles() {
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 15;
-        
-        for (let i = 0; i < particleCount; i++) {
-          const particle = document.createElement('div');
-          particle.classList.add('particle');
-          
-          // Random position
-          particle.style.left = `${Math.random() * 100}%`;
-          particle.style.top = `${Math.random() * 100}%`;
-          
-          // Random size
-          const size = 2 + Math.random() * 4;
-          particle.style.width = `${size}px`;
-          particle.style.height = `${size}px`;
-          
-          // Random animation delay and duration
-          particle.style.animationDelay = `${Math.random() * 15}s`;
-          particle.style.animationDuration = `${10 + Math.random() * 10}s`;
-          
-          particlesContainer.appendChild(particle);
-        }
-      }
-      
-      // Ripple effect on card
-      function createRipple(event) {
-        const card = document.getElementById('authCard');
-        const ripple = document.createElement('span');
-        ripple.classList.add('ripple');
-        
-        // Position the ripple
-        const rect = card.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        
-        ripple.style.left = `${x}px`;
-        ripple.style.top = `${y}px`;
-        
-        card.appendChild(ripple);
-        
-        // Remove ripple after animation
-        setTimeout(() => {
-          ripple.remove();
-        }, 1500);
-      }
-      
-      // Show message (success or error)
-      function showMessage(type, text = '') {
-        const message = document.getElementById(`${type}Message`);
-        
-        if (text) {
-          if (type === 'error') {
-            document.getElementById('errorText').textContent = text;
-          }
-        }
-        
-        message.classList.add('show');
-        
-        // Hide after 3 seconds
-        setTimeout(() => {
-          message.classList.remove('show');
-        }, 3000);
-      }
-      
-      // Password strength checker
-      function checkPasswordStrength(password) {
-        const strengthBar = document.getElementById('passwordStrength');
-        const feedback = document.getElementById('passwordFeedback');
-        let strength = 0;
-        let messages = [];
-        
-        // Reset
-        strengthBar.className = 'strength-bar';
-        feedback.textContent = '';
-        feedback.className = 'small mt-1';
-        
-        // Length check
-        if (password.length >= 8) strength += 1;
-        if (password.length < 8) messages.push('At least 8 characters');
-        
-        // Contains numbers
-        if (password.match(/\d+/)) strength += 1;
-        else messages.push('At least one number');
-        
-        // Contains special characters
-        if (password.match(/[!@#$%^&*(),.?":{}|<>]/)) strength += 1;
-        else messages.push('At least one special character');
-        
-        // Contains both uppercase and lowercase
-        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 1;
-        else messages.push('At least one uppercase and lowercase letter');
-        
-        // Update strength bar
-        strengthBar.classList.add(`strength-${strength}`);
-        
-        // Provide feedback
-        if (messages.length > 0) {
-          feedback.textContent = 'Missing: ' + messages.join(', ');
-          feedback.classList.add('text-danger');
-        } else {
-          feedback.textContent = 'Strong password!';
-          feedback.classList.add('text-success');
-        }
-      }
-      
-      // Password match checker
-      function checkPasswordMatch() {
-        const newPass = document.getElementById('newPassword').value;
-        const confirmPass = document.getElementById('confirmPassword').value;
-        const feedback = document.getElementById('confirmPasswordFeedback');
-        
-        if (newPass && confirmPass && newPass !== confirmPass) {
-          feedback.textContent = "Passwords don't match";
-          document.getElementById('confirmPassword').classList.add('is-invalid');
-          return false;
-        } else {
-          feedback.textContent = "";
-          document.getElementById('confirmPassword').classList.remove('is-invalid');
-          return true;
-        }
-      }
-      
-      // Validate password requirements
-      function validatePassword(password) {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        return regex.test(password);
-      }
-      
-      // Initialize all functionality
-      document.addEventListener('DOMContentLoaded', function() {
-        initializeDarkMode();
-        createParticles();
-        
-        // Theme toggle button
-        document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
-        
-        // Add ripple effect to card
-        const card = document.getElementById('authCard');
-        card.addEventListener('click', createRipple);
-        
-        // Password toggle functionality
-        const togglePassword = (toggleId, inputId) => {
-          const toggle = document.getElementById(toggleId);
-          const input = document.getElementById(inputId);
-          
-          toggle.addEventListener('click', function() {
-            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-            input.setAttribute('type', type);
-            this.classList.toggle('bi-eye');
-            this.classList.toggle('bi-eye-slash');
-          });
-        };
-        
-        // Initialize all password toggles
-        togglePassword('toggleCurrentPassword', 'currentPassword');
-        togglePassword('toggleNewPassword', 'newPassword');
-        togglePassword('toggleConfirmPassword', 'confirmPassword');
-        
-        // Form validation
-        const form = document.getElementById('passwordForm');
-        form.addEventListener('submit', function(e) {
+        if (p1 !== p2) {
           e.preventDefault();
-          
-          const currentPass = document.getElementById('currentPassword').value;
-          const newPass = document.getElementById('newPassword').value;
-          const confirmPass = document.getElementById('confirmPassword').value;
-          
-          // Validate current password
-          if (!currentPass) {
-            document.getElementById('currentPassword').classList.add('is-invalid');
-            return;
-          } else {
-            document.getElementById('currentPassword').classList.remove('is-invalid');
-          }
-          
-          // Validate new password
-          if (!validatePassword(newPass)) {
-            document.getElementById('newPassword').classList.add('is-invalid');
-            return;
-          } else {
-            document.getElementById('newPassword').classList.remove('is-invalid');
-          }
-          
-          // Check password match
-          if (!checkPasswordMatch()) {
-            return;
-          }
-          
-          // Show loading state
-          const submitBtn = document.getElementById('submitBtn');
-          submitBtn.classList.add('btn-loading');
-          submitBtn.disabled = true;
-          
-          // Simulate form submission (replace with actual form submission)
-          setTimeout(() => {
-            // For demo purposes, we'll randomly show success or error
-            const isSuccess = Math.random() > 0.3; // 70% chance of success
-            
-            if (isSuccess) {
-              showMessage('success');
-              // Reset form
-              form.reset();
-              document.getElementById('passwordStrength').className = 'strength-bar';
-              document.getElementById('passwordFeedback').textContent = '';
-            } else {
-              showMessage('error', 'Failed to update password. Please try again.');
-            }
-            
-            // Reset button
-            submitBtn.classList.remove('btn-loading');
-            submitBtn.disabled = false;
-          }, 1500);
-        });
+          showToast('errorMsg', 'Passwords do not match');
+        }
+        // No e.preventDefault() here means it will continue to submit normally if passwords match
+      });
+
+      function showToast(id, msg) {
+        const el = document.getElementById(id);
+        if (msg) el.innerText = msg;
+        el.classList.add('show');
+        setTimeout(() => el.classList.remove('show'), 3000);
+      }
+
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        document.getElementById('themeToggle').innerHTML = isDark ? '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-fill"></i>';
       });
     </script>
   </body>

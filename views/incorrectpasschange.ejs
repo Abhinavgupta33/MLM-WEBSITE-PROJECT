@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusSphere | Password Change Error | Secure Portal</title>
+
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #ef4444;
+            --primary-glow: rgba(239, 68, 68, 0.4);
+            --bg-dark: #050a15;
+            --text-main: #eef2ff;
+            --glass-bg: rgba(15, 10, 10, 0.8);
+            --glass-border: rgba(239, 68, 68, 0.2);
+            --glass-shadow: rgba(0, 0, 0, 0.8);
+            --transition-elite: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #constellationCanvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.4;
+        }
+        .glow-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background: radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.1), transparent 60%);
+            filter: blur(80px);
+        }
+
+        .container { width: 100%; max-width: 420px; padding: 1.5rem; z-index: 100; }
+
+        .error-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 4rem 3rem;
+            box-shadow: 0 40px 100px var(--glass-shadow);
+            transform-style: preserve-3d;
+            perspective: 1200px;
+            position: relative;
+            text-align: center;
+        }
+
+        .icon-wrap { margin-bottom: 2rem; position: relative; }
+        .lock-icon {
+            font-size: 5rem;
+            background: linear-gradient(135deg, var(--primary), #b91c1c);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            filter: drop-shadow(0 0 20px var(--primary-glow));
+        }
+
+        h1 {
+            font-size: 2.2rem; font-weight: 800; letter-spacing: -1px;
+            background: linear-gradient(135deg, #fff, #fca5a5);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            margin-bottom: 1rem;
+        }
+        p { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 2.5rem; }
+
+        .btn-retry {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), #991b1b);
+            color: white; border: none; border-radius: 20px; padding: 1.2rem;
+            font-size: 1.1rem; font-weight: 700; cursor: pointer;
+            transition: var(--transition-elite);
+            display: flex; align-items: center; justify-content: center; gap: 1rem;
+            text-transform: uppercase; letter-spacing: 2px;
+            box-shadow: 0 15px 35px var(--primary-glow);
+            text-decoration: none;
+        }
+        .btn-retry:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(239, 68, 68, 0.6);
+            filter: brightness(1.1);
+        }
+
+        .alert-footer {
+            margin-top: 2rem; font-size: 0.85rem; color: #4b5563; font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="constellationCanvas"></canvas>
+    <div class="glow-overlay"></div>
+
+    <div class="container">
+        <div class="error-card" id="tiltCard">
+            <div class="icon-wrap" id="magIcon">
+                <i class="fas fa-shield-alt lock-icon"></i>
+            </div>
+            <h1>Incorrect Password</h1>
+            <p>The current password you entered is incorrect. <br>Please verify and try again.</p>
+
+            <a href="javascript:history.back()" class="btn-retry" id="retryBtn">
+                <i class="fas fa-undo-alt"></i> Try Again
+            </a>
+
+            <div class="alert-footer">
+                Security verification failed for NexusSphere Elite.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('constellationCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: null, y: null, radius: 150 };
+            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
+            window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1; this.baseX = this.x; this.baseY = this.y;
+                    this.density = (Math.random() * 30) + 1;
+                }
+                draw() { ctx.fillStyle = 'rgba(239, 68, 68, 0.4)'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+                update() {
+                    let dx = mouse.x - this.x; let dy = mouse.y - this.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < mouse.radius) {
+                        let force = (mouse.radius - dist) / mouse.radius;
+                        this.x -= (dx/dist) * force * this.density;
+                        this.y -= (dy/dist) * force * this.density;
+                    } else {
+                        this.x -= (this.x - this.baseX) / 10; this.y -= (this.y - this.baseY) / 10;
+                    }
+                }
+            }
+            function init() { for(let i=0; i<80; i++) particles.push(new Particle()); }
+            function animate() {
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                particles.forEach(p => { p.draw(); p.update(); });
+                connect(); requestAnimationFrame(animate);
+            }
+            function connect() {
+                for(let a=0; a<particles.length; a++) {
+                    for(let b=a; b<particles.length; b++) {
+                        let dist = Math.sqrt(Math.pow(particles[a].x - particles[b].x, 2) + Math.pow(particles[a].y - particles[b].y, 2));
+                        if(dist < 120) {
+                            ctx.strokeStyle = `rgba(239,68,68,${(1 - dist/120) * 0.1})`;
+                            ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(particles[b].x, particles[b].y); ctx.stroke();
+                        }
+                    }
+                }
+            }
+            init(); animate();
+
+            const card = document.getElementById('tiltCard');
+            card.addEventListener('mousemove', (e) => {
+                const r = card.getBoundingClientRect();
+                const x = (e.clientX - r.left)/r.width - 0.5;
+                const y = (e.clientY - r.top)/r.height - 0.5;
+                gsap.to(card, { rotateX: -y * 10, rotateY: x * 10, duration: 0.5 });
+            });
+            card.addEventListener('mouseleave', () => gsap.to(card, { rotateX: 0, rotateY: 0, duration: 1, ease: 'elastic.out' }));
+        });
+    </script>
+</body>
+</html>

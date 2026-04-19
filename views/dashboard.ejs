@@ -1,4 +1,12 @@
-<%- include("../utils/header") %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Dashboard - ChainCore</title>
+    <!-- include("../utils/header") moved to body -->
+</head>
+<body class="bg-light">
 <style>
       :root {
         --primary-color: #6366f1;
@@ -1064,6 +1072,7 @@
         animation: float-header 6s infinite ease-in-out;
       }
     </style>
+  <%- include("../utils/header") %>
   <%- include("side"); %>                                 
 
   
@@ -1077,7 +1086,7 @@
           <div class="pagetitle">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <h1 class="animate__animated animate__fadeIn">Premium Dashboard</h1>
+                <h1 class="animate__animated animate__fadeIn">Welcome back, <span class="gradient-text"><%= name %></span>!</h1>
                 <nav>
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -1107,7 +1116,7 @@
                 <div class="card dashboard-card hover-grow floating-card" data-aos="fade-up">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                      <h5 class="card-title mb-0">Total Users</h5>
+                      <h5 class="card-title mb-0">Total Products</h5>
                       <div class="dropdown">
                         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                           This Month
@@ -1125,7 +1134,7 @@
                         <i class="bi bi-people-fill"></i>
                       </div>
                       <div>
-                        <h2 class="mb-0">1,245</h2>
+                        <h2 class="mb-0"><%= totalproduct %></h2>
                         <div class="d-flex align-items-center">
                           <span class="text-success fw-bold me-2">+12.5%</span>
                           <span class="text-muted small">vs last month</span>
@@ -1137,7 +1146,7 @@
                     </div>
                     <div class="mt-3">
                       <div class="d-flex justify-content-between small mb-1">
-                        <span><span class="status-indicator status-active"></span> Active: 892</span>
+                        <span><span class="status-indicator status-active"></span> Active: <%= activeuser %></span>
                         <span><span class="status-indicator status-inactive"></span> Inactive: 203</span>
                         <span><span class="status-indicator status-pending"></span> Pending: 150</span>
                       </div>
@@ -1327,6 +1336,17 @@
                         </div>
                         <h6 class="quick-action-title">Send Email</h6>
                         <p class="quick-action-desc">Compose new messages</p>
+                        <button class="quick-action-btn">Action</button>
+                        </a>
+                      </div>
+
+                      <div class="quick-action-card">
+                        <a href="/meeting" class="text-decoration-none">
+                        <div class="quick-action-icon" style="background: linear-gradient(135deg, #6366f1, #818cf8);">
+                          <i class="bi bi-calendar2-plus-fill"></i>
+                        </div>
+                        <h6 class="quick-action-title">Schedule Meeting</h6>
+                        <p class="quick-action-desc">Organize new events</p>
                         <button class="quick-action-btn">Action</button>
                         </a>
                       </div>
@@ -1540,6 +1560,11 @@
                     <button class="btn btn-sm btn-outline-light next-month btn-effect">
                       <i class="bi bi-chevron-right"></i>
                     </button>
+                    <a href="/meeting" class="ms-2" title="Schedule Meeting">
+                      <button class="btn btn-sm btn-info btn-effect text-white">
+                        <i class="bi bi-plus-lg"></i>
+                      </button>
+                    </a>
                   </div>
                   <div class="card-body p-2">
                     <!-- Quick Stats -->
@@ -1743,11 +1768,13 @@
         </div>
       </div>
       <!-- End Main Content Column -->
-    </main>
     
-  <%- include("../utils/footer"); %> 
-    <!-- End #main -->
 
+
+    
+   
+    </main>
+    <!-- End #main -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
       <i class="bi bi-arrow-up-short"></i>
     </a>
@@ -1760,436 +1787,84 @@
     <script src="assets/vendor/quill/quill.min.js"></script>
     <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-
-    <!-- AOS Animation -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-    
-    <!-- Custom Dashboard JS -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // Initialize AOS animations with faster settings
         AOS.init({
-          duration: 600,
-          easing: 'ease-out-quart',
-          once: false,
-          mirror: true
+          duration: 1000,
+          easing: 'ease-in-out',
+          once: true,
+          mirror: false
         });
-        
-        // Enhanced particle background animation with more particles and faster movement
-        function createParticles() {
-          const particleContainer = document.getElementById('particleBackground');
-          const particleCount = window.innerWidth < 768 ? 50 : 100;
-          
-          // Clear existing particles
-          particleContainer.innerHTML = '';
-          
-          for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
+
+        // Calendar Logic
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        const monthYearElement = document.getElementById('calendar-month-year');
+        const calendarDaysElement = document.getElementById('calendar-days');
+
+        function renderCalendar(month, year) {
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
             
-            // Random size between 5px and 15px
-            const size = Math.random() * 10 + 5;
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
             
-            // Random position
-            const posX = Math.random() * 100;
-            const posY = Math.random() * 100;
+            monthYearElement.innerText = monthNames[month] + " " + year;
+            calendarDaysElement.innerHTML = '';
             
-            // Random animation duration between 5s and 15s
-            const duration = Math.random() * 10 + 5;
-            
-            // Random delay between 0s and 5s
-            const delay = Math.random() * 5;
-            
-            // Random z-index
-            const zIndex = Math.floor(Math.random() * 5);
-            
-            // Apply styles
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${posX}%`;
-            particle.style.top = `${posY}%`;
-            particle.style.animationDuration = `${duration}s`;
-            particle.style.animationDelay = `${delay}s`;
-            particle.style.zIndex = zIndex;
-            
-            // Add particle to container
-            particleContainer.appendChild(particle);
-          }
-        }
-        
-        // Initial particle creation
-        createParticles();
-        
-        // Recreate particles on window resize
-        window.addEventListener('resize', createParticles);
-        
-        // Initialize charts
-        const usersCtx = document.getElementById('usersChart').getContext('2d');
-        new Chart(usersCtx, {
-          type: 'line',
-          data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-              data: [850, 920, 1020, 1100, 1150, 1245],
-              borderColor: '#6366f1',
-              backgroundColor: 'rgba(99, 102, 241, 0.1)',
-              borderWidth: 2,
-              tension: 0.4,
-              fill: true
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              y: { beginAtZero: false, grid: { drawBorder: false } },
-              x: { grid: { display: false, drawBorder: false } }
-            }
-          }
-        });
-        
-        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-        new Chart(revenueCtx, {
-          type: 'bar',
-          data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-              data: [12000, 15000, 18000, 21000, 22000, 24589],
-              backgroundColor: 'rgba(16, 185, 129, 0.8)',
-              borderColor: 'rgba(16, 185, 129, 1)',
-              borderWidth: 0,
-              borderRadius: 6
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              y: { 
-                beginAtZero: false,
-                ticks: { callback: value => '$' + value.toLocaleString() }
-              },
-              x: { grid: { display: false, drawBorder: false } }
-            }
-          }
-        });
-        
-        // Calendar functionality
-        function generateCalendar(month, year) {
-          const calendarDays = document.getElementById('calendar-days');
-          const monthYearDisplay = document.getElementById('calendar-month-year');
-          
-          // Clear previous calendar
-          calendarDays.innerHTML = '';
-          
-          // Set month and year display
-          const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
-                            'July', 'August', 'September', 'October', 'November', 'December'];
-          monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
-          
-          // Get first day of month and total days
-          const firstDay = new Date(year, month, 1).getDay();
-          const daysInMonth = new Date(year, month + 1, 0).getDate();
-          
-          // Get days from previous month
-          const prevMonthDays = new Date(year, month, 0).getDate();
-          
-          // Create days from previous month
-          for (let i = firstDay - 1; i >= 0; i--) {
-            const dayElement = document.createElement('div');
-            dayElement.className = 'calendar-day empty-day';
-            dayElement.textContent = prevMonthDays - i;
-            calendarDays.appendChild(dayElement);
-          }
-          
-          // Create days for current month
-          const today = new Date();
-          const currentDate = today.getDate();
-          const currentMonth = today.getMonth();
-          const currentYear = today.getFullYear();
-          
-          // Sample events data - in a real app, this would come from your backend
-          const events = {
-            5: { type: 'meeting' },
-            12: { type: 'event' },
-            15: { type: 'reminder' },
-            19: { type: 'meeting' },
-            22: { type: 'event' },
-            27: { type: 'reminder' }
-          };
-          
-          for (let i = 1; i <= daysInMonth; i++) {
-            const dayElement = document.createElement('div');
-            dayElement.className = 'calendar-day';
-            dayElement.textContent = i;
-            
-            // Highlight current day
-            if (i === currentDate && month === currentMonth && year === currentYear) {
-              dayElement.classList.add('current');
+            // Empty days before first day
+            for (let i = 0; i < firstDay; i++) {
+                const div = document.createElement('div');
+                div.classList.add('calendar-day', 'empty-day');
+                calendarDaysElement.appendChild(div);
             }
             
-            // Add event indicator
-            if (events[i]) {
-              dayElement.classList.add('event-day');
-              
-              // Add tooltip with event info
-              dayElement.setAttribute('data-bs-toggle', 'tooltip');
-              dayElement.setAttribute('data-bs-placement', 'top');
-              dayElement.setAttribute('title', `${events[i].type.charAt(0).toUpperCase() + events[i].type.slice(1)} scheduled`);
+            // Days of the month
+            const today = new Date();
+            for (let i = 1; i <= daysInMonth; i++) {
+                const div = document.createElement('div');
+                div.classList.add('calendar-day');
+                div.innerText = i;
+                
+                if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    div.classList.add('current');
+                }
+                
+                // Randomly add event dots for demonstration
+                if (Math.random() > 0.8) {
+                    div.classList.add('event-day');
+                }
+                
+                calendarDaysElement.appendChild(div);
             }
-            
-            calendarDays.appendChild(dayElement);
-          }
-          
-          // Calculate days needed from next month
-          const totalCells = firstDay + daysInMonth;
-          const remainingCells = totalCells > 35 ? 42 - totalCells : 35 - totalCells;
-          
-          // Create days for next month
-          for (let i = 1; i <= remainingCells; i++) {
-            const dayElement = document.createElement('div');
-            dayElement.className = 'calendar-day empty-day';
-            dayElement.textContent = i;
-            calendarDays.appendChild(dayElement);
-          }
-          
-          // Initialize tooltips
-          const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-          tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-          });
         }
 
-        // Initialize calendar with current month
-        const currentDate = new Date();
-        let currentMonth = currentDate.getMonth();
-        let currentYear = currentDate.getFullYear();
-
-        generateCalendar(currentMonth, currentYear);
-
-        // Navigation between months
-        document.querySelector('.prev-month').addEventListener('click', function() {
-          currentMonth--;
-          if (currentMonth < 0) {
-            currentMonth = 11;
-            currentYear--;
-          }
-          generateCalendar(currentMonth, currentYear);
-        });
-
-        document.querySelector('.next-month').addEventListener('click', function() {
-          currentMonth++;
-          if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
-          }
-          generateCalendar(currentMonth, currentYear);
-        });
-
-        // Add event button
-        document.querySelector('.add-event-btn').addEventListener('click', function() {
-          // In a real app, this would open a modal to add an event
-          alert('Add event functionality would open a form here');
-        });
-        
-        // Task list functionality
-        document.querySelectorAll('.task-checkbox').forEach(checkbox => {
-          checkbox.addEventListener('change', function() {
-            const taskText = this.nextElementSibling;
-            if (this.checked) {
-              taskText.classList.add('task-completed');
-            } else {
-              taskText.classList.remove('task-completed');
+        document.querySelector('.prev-month').addEventListener('click', (e) => {
+            e.preventDefault();
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
             }
-          });
-        });
-        
-        // Animate progress bars on page load
-        document.querySelectorAll('.progress-fill').forEach(el => {
-          const width = el.style.width;
-          el.style.width = '0';
-          setTimeout(() => {
-            el.style.width = width;
-          }, 500);
-        });
-        
-        // Add hover effect to all cards
-        document.querySelectorAll('.dashboard-card').forEach(card => {
-          card.addEventListener('mouseenter', () => {
-            card.classList.add('shadow-lg');
-          });
-          card.addEventListener('mouseleave', () => {
-            card.classList.remove('shadow-lg');
-          });
-        });
-        
-        // Search functionality
-        const searchInput = document.querySelector('.search-bar input');
-        searchInput.addEventListener('input', function() {
-          const searchTerm = this.value.toLowerCase();
-          // You would implement actual search functionality here
-          console.log('Searching for:', searchTerm);
+            renderCalendar(currentMonth, currentYear);
         });
 
-        // Enhanced Reviews Carousel Functionality with faster auto-slide
-        const reviewsTrack = document.querySelector('.reviews-track');
-        const reviewCards = document.querySelectorAll('.review-card');
-        const reviewDots = document.querySelectorAll('.review-dot');
-        const prevBtn = document.querySelector('.review-prev');
-        const nextBtn = document.querySelector('.review-next');
-        
-        let currentIndex = 0;
-        const cardCount = reviewCards.length;
-        const cardWidth = 100; // 100% width for each card
-        
-        // Initialize carousel
-        function updateCarousel() {
-          reviewsTrack.style.transform = `translateX(-${currentIndex * cardWidth}%)`;
-          
-          // Update active dot
-          reviewDots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentIndex);
-          });
-        }
-        
-        // Auto slide every 3 seconds (faster than before)
-        let autoSlideInterval = setInterval(() => {
-          currentIndex = (currentIndex + 1) % cardCount;
-          updateCarousel();
-        }, 3000);
-        
-        // Reset auto slide timer on interaction
-        function resetAutoSlide() {
-          clearInterval(autoSlideInterval);
-          autoSlideInterval = setInterval(() => {
-            currentIndex = (currentIndex + 1) % cardCount;
-            updateCarousel();
-          }, 3000);
-        }
-        
-        // Next button
-        nextBtn.addEventListener('click', () => {
-          currentIndex = (currentIndex + 1) % cardCount;
-          updateCarousel();
-          resetAutoSlide();
-        });
-        
-        // Previous button
-        prevBtn.addEventListener('click', () => {
-          currentIndex = (currentIndex - 1 + cardCount) % cardCount;
-          updateCarousel();
-          resetAutoSlide();
-        });
-        
-        // Dot navigation
-        reviewDots.forEach((dot, index) => {
-          dot.addEventListener('click', () => {
-            currentIndex = index;
-            updateCarousel();
-            resetAutoSlide();
-          });
-        });
-        
-        // Swipe functionality for touch devices
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        reviewsTrack.addEventListener('touchstart', (e) => {
-          touchStartX = e.changedTouches[0].screenX;
-        }, {passive: true});
-        
-        reviewsTrack.addEventListener('touchend', (e) => {
-          touchEndX = e.changedTouches[0].screenX;
-          handleSwipe();
-          resetAutoSlide();
-        }, {passive: true});
-        
-        function handleSwipe() {
-          const difference = touchStartX - touchEndX;
-          if (difference > 50) {
-            // Swipe left - next
-            currentIndex = (currentIndex + 1) % cardCount;
-          } else if (difference < -50) {
-            // Swipe right - previous
-            currentIndex = (currentIndex - 1 + cardCount) % cardCount;
-          }
-          updateCarousel();
-        }
-
-        // Theme switch functionality
-        const themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) {
-          themeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-            
-            // Update icon
-            const icon = this.querySelector('i');
-            if (document.body.classList.contains('dark-mode')) {
-              icon.classList.remove('bi-moon-stars');
-              icon.classList.add('bi-sun');
-            } else {
-              icon.classList.remove('bi-sun');
-              icon.classList.add('bi-moon-stars');
+        document.querySelector('.next-month').addEventListener('click', (e) => {
+            e.preventDefault();
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
             }
-            
-            createParticles(); // Recreate particles with new theme settings
-          });
-
-          // Check for saved theme preference
-          if (localStorage.getItem('darkMode') === 'true') {
-            document.body.classList.add('dark-mode');
-            const icon = themeToggle.querySelector('i');
-            icon.classList.remove('bi-moon-stars');
-            icon.classList.add('bi-sun');
-          }
-        }
-        
-        // Add ripple effect to all buttons with btn-effect class
-        document.querySelectorAll('.btn-effect').forEach(button => {
-          button.addEventListener('click', function(e) {
-            const x = e.clientX - e.target.getBoundingClientRect().left;
-            const y = e.clientY - e.target.getBoundingClientRect().top;
-            
-            const ripple = document.createElement('span');
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-            ripple.classList.add('ripple-effect');
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-              ripple.remove();
-            }, 600);
-          });
+            renderCalendar(currentMonth, currentYear);
         });
-        
-        // Add floating animation to random cards
-        function addFloatingAnimation() {
-          const cards = document.querySelectorAll('.dashboard-card');
-          cards.forEach((card, index) => {
-            if (index % 2 === 0) { // Add to every other card
-              card.classList.add('floating-card');
-              // Randomize animation delay
-              card.style.animationDelay = `${index * 0.2}s`;
-            }
-          });
-        }
-        
-        addFloatingAnimation();
-        
-        // Add subtle animation to page title
-        const pageTitle = document.querySelector('.pagetitle h1');
-        if (pageTitle) {
-          pageTitle.style.animationDelay = '0.5s';
-        }
+
+        renderCalendar(currentMonth, currentYear);
       });
     </script>
-  </body>
+    <script src="assets/js/main.js"></script>
+    
+</body>
 </html>

@@ -102,24 +102,53 @@ exports.ser_change_pass_page = async (req, res) => {
 
 // ─── Change Password ──────────────────────────────────────────────────────────
 exports.ser_changepass = async (req, res) => {
-    let uid = req.user.user_id;
-    let abhi = await User.findOne({ user_id: uid });
-    let name = abhi.your_name;
-    let user_image = abhi.picture;
-    let a = req.body.oldpass;
-    let b = req.body.pass;
-    let c = req.body.conpass;
-
-    if (b == c) {
-        let data = await User.findOne({ user_id: uid });
-        if (a == data.password) {
-            await new Activity({ user_id: uid, activity: 'User Password Changed Successfully', activity_detail: 'You Have Successfully Changed Your Password' }).save();
-            await User.updateOne({ user_id: uid }, { password: c });
-            res.render('adminprofile', { name, user_image });
-        } else {
-            res.render('error');
+    try {
+        if (!req.user) return res.redirect('/login');
+        
+        // Fetch fresh user to be absolutely sure we have all fields (especially password)
+        const User = require('../models/User');
+        const abhi = await User.findOne({ user_id: req.user.user_id });
+        
+        if (!abhi) {
+            console.error('ChangePass Error: User not found in DB for ID:', req.user.user_id);
+            return res.render('error');
         }
-    } else {
+
+        let { oldpass, pass, conpass } = req.body;
+
+        // Trim input values to avoid whitespace issues
+        oldpass = oldpass ? String(oldpass).trim() : '';
+        pass = pass ? String(pass).trim() : '';
+        conpass = conpass ? String(conpass).trim() : '';
+        
+        const dbPass = abhi.password ? String(abhi.password).trim() : '';
+
+        console.log('--- Change Password Diagnostic ---');
+        console.log('User ID:', abhi.user_id);
+        console.log('Input Old Pass Length:', oldpass.length);
+        console.log('DB Pass Length:', dbPass.length);
+        console.log('Match Result:', oldpass === dbPass);
+        console.log('---------------------------------');
+
+        if (pass !== conpass) {
+            return res.render('incorrectpasschange');
+        }
+
+        if (oldpass !== dbPass) {
+            return res.render('incorrectpasschange');
+        }
+
+        await User.updateOne({ _id: abhi._id }, { $set: { password: pass } });
+        
+        await new Activity({ 
+            user_id: abhi.user_id, 
+            activity: 'User Password Changed Successfully', 
+            activity_detail: 'You Have Successfully Changed Your Password' 
+        }).save();
+
+        res.render('success');
+    } catch (error) {
+        console.error('Error changing password:', error);
         res.render('error');
     }
 };

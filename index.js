@@ -48,6 +48,8 @@ conDB();
 // ─── Routes ───────────────────────────────────────────────────────────────────
 app.use('/', routes);
 
+app.get('/test_root', (req, res) => res.send('Root index.js is active'));
+
 // ─── Special upload routes (require multer) ───────────────────────────────────
 app.post('/profile_edit', auth, upload.single('UserImage'), async (req, res) => {
     const uid      = req.user.user_id;
@@ -146,7 +148,7 @@ app.post('/send-mail', auth, async (req, res) => {
     try {
         const { senderEmail, recipientEmail, subject, message } = req.body;
         const transporter = nodemailer.createTransport({ host: 'smtp-relay.brevo.com', port: 587, auth: { user: process.env.BREVO_USER, pass: process.env.BREVO_API_KEY } });
-        await transporter.sendMail({ from: senderEmail, to: recipientEmail, subject, text: message });
+        await transporter.sendMail({ from: 'gupta33abhi@gmail.com', replyTo: senderEmail, to: recipientEmail, subject, text: message });
         await new Activity({ user_id: uid, activity: 'Mail Send Successfully' }).save();
         res.render('mailsuccess', { name, user_image });
     } catch {
